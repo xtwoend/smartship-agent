@@ -24,7 +24,7 @@ class ResendData
                     $message = Json::encode(Json::decode($row->message));
                     $send = $mqtt->publish(
                         $row->topic, 
-                        Json::encode(['data' => $message, 'timestamp' => $row->created_at]), 
+                        Json::encode(['data' => $message, 'timestamp' => $row->created_at->toAtomString()]), 
                         1);
                         
                     Logger::find($row->id)->update(['sync' => true]);
