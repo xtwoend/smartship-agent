@@ -1,6 +1,7 @@
 <?php
 namespace App\Task;
 
+use Carbon\Carbon;
 use App\Model\Logger;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Codec\Json;
@@ -22,9 +23,10 @@ class ResendData
             foreach ($data as $row) {
                 if($mqtt->isConnected()) {
                     $message = Json::encode(Json::decode($row->message));
+                    $time = Carbon::parse($row->createda_at);
                     $send = $mqtt->publish(
                         $row->topic, 
-                        Json::encode(['data' => $message, 'timestamp' => $row->created_at->toAtomString()]), 
+                        Json::encode(['data' => $message, 'timestamp' => $time->toAtomString()]), 
                         1);
                         
                     Logger::find($row->id)->update(['sync' => true]);
