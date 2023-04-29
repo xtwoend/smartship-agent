@@ -47,9 +47,10 @@ class MQTTReceiverListener implements ListenerInterface
         $mqtt = MQTT::connection('default')->instance();
         if($mqtt->isConnected()) {
             $message = Json::encode(Json::decode($data->message));
+            $time = Carbon::parse($data->created_at);
             $send = $mqtt->publish(
                 $data->topic, 
-                Json::encode(['data' => $message, 'timestamp' => $data->created_at]), 
+                Json::encode(['data' => $message, 'timestamp' => $time->toAtomString()]), 
                 1);
             $data->update(['sync' => true]);
         }
