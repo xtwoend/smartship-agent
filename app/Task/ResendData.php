@@ -23,7 +23,7 @@ class ResendData
             foreach ($data as $row) {
                 if($mqtt->isConnected()) {
                     $message = Json::encode(Json::decode($row->message));
-                    $time = Carbon::parse($row->createda_at);
+                    $time = Carbon::parse($row->created_at);
                     $send = $mqtt->publish(
                         $row->topic, 
                         Json::encode(['data' => $message, 'timestamp' => $time->toAtomString()]), 
