@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
+use Carbon\Carbon;
 use App\Model\Logger;
 use App\Event\MQTTReceived;
 use Hyperf\Utils\Codec\Json;
