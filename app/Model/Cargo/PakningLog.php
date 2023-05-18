@@ -30,7 +30,19 @@ class PakningLog extends Model
      * The attributes that should be cast to native types.
      */
     protected array $casts = [
-        'terminal_time' => 'datetime'
+        'terminal_time' => 'datetime',
+        'cargo_pump1_run' => 'booelan',
+        'cargo_pump1_alarm' => 'booelan',
+        'cargo_pump2_run' => 'booelan',
+        'cargo_pump2_alarm' => 'booelan',
+        'cargo_pump3_run' => 'booelan',
+        'cargo_pump3_alarm' => 'booelan',
+        'ballast_pump1_run' => 'booelan',
+        'ballast_pump1_alarm' => 'booelan',
+        'ballast_pump2_run' => 'booelan',
+        'ballast_pump2_alarm' => 'booelan',
+        'stripping_pump_run' => 'booelan',
+        'stripping_pump_alarm' => 'booelan',
     ];
 
     // create table cargo if not found table
