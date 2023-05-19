@@ -14,7 +14,7 @@ class CreateFleetsTable extends Migration
         Schema::create('fleets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('imo_number');
+            $table->string('imo_number')->nullable();
             $table->string('image')->nullable();
             $table->string('owner')->nullable();
             $table->string('ship_manager')->nullable();
