@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use Carbon\Carbon;
+use App\Model\Engine;
+use App\Model\Navigation;
+use App\Model\Cargo\Cargo;
 use Hyperf\DbConnection\Model\Model;
 
 /**

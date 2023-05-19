@@ -28,7 +28,7 @@ class MQTTEngineListener implements ListenerInterface
     {
         if($event instanceof MQTTReceived) {
             $data = $event->data;
-            $fleet = $event->device?->Fleet;
+            $fleet = $event->device?->fleet;
             
             if($fleet) {
                 if(key_exists('engine', $data)) {

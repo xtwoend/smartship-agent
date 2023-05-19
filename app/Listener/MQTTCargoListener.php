@@ -28,7 +28,7 @@ class MQTTCargoListener implements ListenerInterface
     {
         if($event instanceof MQTTReceived) {
             $data = $event->data;
-            $fleet = $event->device?->Fleet;
+            $fleet = $event->device?->fleet;
             $device = $event->device;
             
             if($fleet) {
