@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Model;
 
 use Carbon\Carbon;
-use App\Model\Vessel;
+use App\Model\Fleet;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
@@ -24,7 +24,7 @@ class Logger extends Model
      * The attributes that are mass assignable.
      */
     protected array $fillable = [
-        'vessel_id', 'terminal_time', 'group', 'data'
+        'fleet_id', 'terminal_time', 'group', 'data'
     ];
 
     /**
@@ -35,21 +35,21 @@ class Logger extends Model
         'terminal_time' => 'datetime:Y-m-d H:i:s'
     ];
 
-    public function vessel()
+    public function Fleet()
     {
-        return $this->belongsTo(Vessel::class, 'vessel_id');
+        return $this->belongsTo(Fleet::class, 'fleet_id');
     }
     
-    public static function table($vesselId, $date = null)
+    public static function table($fleetId, $date = null)
     {
         $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
         $model = new self;
-        $tableName = $model->getTable() . "_{$vesselId}_{$date}";
+        $tableName = $model->getTable() . "_{$fleetId}_{$date}";
         
         if(! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->uuid('id')->primary();
-                $table->unsignedBigInteger('vessel_id')->index();
+                $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->unique()->index();
                 $table->string('group')->index(); // vdr, ccr, ecr
                 $table->json('data')->nullable();

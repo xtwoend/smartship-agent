@@ -34,21 +34,21 @@ class NavigationLog extends Model
         'terminal_time' => 'datetime'
     ];
 
-    public function vessel()
+    public function Fleet()
     {
-        return $this->belongsTo(Vessel::class, 'vessel_id');
+        return $this->belongsTo(Fleet::class, 'fleet_id');
     }
     
-    public static function table($vesselId, $date = null)
+    public static function table($fleetId, $date = null)
     {
         $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
         $model = new self;
-        $tableName = $model->getTable() . "_{$vesselId}_{$date}";
+        $tableName = $model->getTable() . "_{$fleetId}_{$date}";
         
         if(! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->uuid('id')->primary();
-                $table->unsignedBigInteger('vessel_id')->index();
+                $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->unique()->index();
                 $table->float('wind_speed')->default(0);
                 $table->float('wind_direction')->default(0);

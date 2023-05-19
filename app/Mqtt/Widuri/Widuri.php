@@ -280,7 +280,7 @@ class Widuri
     protected function formatting(array $data): array
     {
         return [
-            "vessel_time" => \Carbon\Carbon::parse($data['_terminaltime'])->format('Y-m-d H:i:s'),
+            "Fleet_time" => \Carbon\Carbon::parse($data['_terminaltime'])->format('Y-m-d H:i:s'),
             "latitude" => $data['gps']['lat'],
             "longitude" => $data['gps']['lng'],
             "cog" => $data['cog']['cog'],

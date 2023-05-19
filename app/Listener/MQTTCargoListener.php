@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
-use App\Model\Vessel;
+use App\Model\Fleet;
 use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
@@ -28,15 +28,15 @@ class MQTTCargoListener implements ListenerInterface
     {
         if($event instanceof MQTTReceived) {
             $data = $event->data;
-            $vessel = $event->device?->vessel;
+            $fleet = $event->device?->Fleet;
             $device = $event->device;
             
-            if($vessel) {
+            if($fleet) {
                 if(key_exists('cargo', $data)) {
-                    // var_dump('cargo', $vessel->id);
+                    // var_dump('cargo', $fleet->id);
                     $model = $device->cargo_model;
                     if(class_exists($model)){
-                        $v = Vessel::find($vessel->id);
+                        $v = Fleet::find($fleet->id);
                         $v->setCargo($model, $data);
                     }
                 }

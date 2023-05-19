@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
-use App\Model\Vessel;
+use App\Model\Fleet;
 use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
@@ -28,12 +28,12 @@ class MQTTEngineListener implements ListenerInterface
     {
         if($event instanceof MQTTReceived) {
             $data = $event->data;
-            $vessel = $event->device?->vessel;
+            $fleet = $event->device?->Fleet;
             
-            if($vessel) {
+            if($fleet) {
                 if(key_exists('engine', $data)) {
-                    // var_dump('engine', $vessel->id);
-                    $v = Vessel::find($vessel->id);
+                    // var_dump('engine', $fleet->id);
+                    $v = Fleet::find($fleet->id);
                     $v->setEngine($data);
                 }
 

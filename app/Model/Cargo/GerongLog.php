@@ -46,16 +46,16 @@ class GerongLog extends Model
     ];
 
     // create table cargo if not found table
-    public static function table($vesselId, $date = null)
+    public static function table($fleetId, $date = null)
     {
         $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
         $model = new self;
-        $tableName = $model->getTable() . "_{$vesselId}_{$date}";
+        $tableName = $model->getTable() . "_{$fleetId}_{$date}";
         
         if(! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->unsignedBigInteger('vessel_id')->index();
+                $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
                 $table->float('tank_1_port', 10, 3)->default(0);
                 $table->float('tank_1_port_temp', 10, 3)->default(0);

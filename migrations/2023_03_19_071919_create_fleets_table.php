@@ -4,14 +4,14 @@ use Hyperf\Database\Schema\Schema;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Migrations\Migration;
 
-class CreateVesselsTable extends Migration
+class CreateFleetsTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('vessels', function (Blueprint $table) {
+        Schema::create('fleets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('imo_number');
@@ -37,6 +37,6 @@ class CreateVesselsTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vessels');
+        Schema::dropIfExists('fleets');
     }
 }

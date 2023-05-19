@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
-use App\Model\Vessel;
+use App\Model\Fleet;
 use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
@@ -28,12 +28,12 @@ class MQTTNavListener implements ListenerInterface
     {
         if($event instanceof MQTTReceived) {
             $data = $event->data;
-            $vessel = $event->device?->vessel;
+            $fleet = $event->device?->Fleet;
             
-            if($vessel) {
+            if($fleet) {
                 if(key_exists('nav', $data)) {
-                    // var_dump('nav', $vessel->id);
-                    $v = Vessel::find($vessel->id);
+                    // var_dump('nav', $fleet->id);
+                    $v = Fleet::find($fleet->id);
                     $v->setNav($data);
                 }
 

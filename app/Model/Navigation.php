@@ -22,7 +22,7 @@ class Navigation extends Model
      * The attributes that are mass assignable.
      */
     protected array $fillable = [
-        'vessel_id',
+        'fleet_id',
         'terminal_time',
         'wind_speed',
         'wind_direction',
@@ -52,7 +52,7 @@ class Navigation extends Model
     {
         $model = $event->getModel();
         $date = $model->terminal_time;
-        $last = NavigationLog::table($model->vessel_id, $date)->orderBy('terminal_time', 'desc')->first();
+        $last = NavigationLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
 
         // save interval 60 detik
@@ -60,9 +60,9 @@ class Navigation extends Model
             return;
         }
 
-        return NavigationLog::table($model->vessel_id, $date)->updateOrCreate([
-            'vessel_id' => $model->vessel_id,
+        return NavigationLog::table($model->fleet_id, $date)->updateOrCreate([
+            'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'vessel_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

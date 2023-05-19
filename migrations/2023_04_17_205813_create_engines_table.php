@@ -13,7 +13,7 @@ class CreateEnginesTable extends Migration
     {
         Schema::create('engines', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('vessel_id');
+            $table->unsignedBigInteger('fleet_id');
             $table->timestamp('terminal_time')->index();
             $table->float('control_air_inlet', 12, 6)->default(0);
             $table->float('me_ac_cw_inlet_cooler', 12, 6)->default(0);

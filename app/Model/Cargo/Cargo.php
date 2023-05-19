@@ -17,10 +17,10 @@ class Cargo extends Model
     protected ?string $connection = 'default';
     
     // create table cargo if not found table
-    public static function table($vesselId)
+    public static function table($fleetId)
     {
         $model = new self;
-        $tableName = $model->getTable() . "_{$vesselId}";
+        $tableName = $model->getTable() . "_{$fleetId}";
 
         return $model->setTable($tableName);
     }

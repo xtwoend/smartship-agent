@@ -13,7 +13,7 @@ class CreateDevicesTable extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('vessel_id');
+            $table->unsignedBigInteger('fleet_id');
             $table->string('name');
             $table->string('mqtt_server')->nullable();
             $table->string('topic')->nullable();

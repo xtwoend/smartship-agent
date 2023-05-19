@@ -13,7 +13,7 @@ class CreateNavigationTable extends Migration
     {
         Schema::create('navigations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('vessel_id');
+            $table->unsignedBigInteger('fleet_id');
             $table->timestamp('terminal_time')->index();
             $table->float('wind_speed')->default(0);
             $table->float('wind_direction')->default(0);

@@ -47,15 +47,15 @@ class Gerong extends Model
     ];
 
     // create table cargo if not found table
-    public static function table($vesselId)
+    public static function table($fleetId)
     {
         $model = new self;
-        $tableName = $model->getTable() . "_{$vesselId}";
+        $tableName = $model->getTable() . "_{$fleetId}";
         
         if(! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->unsignedBigInteger('vessel_id')->index();
+                $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
                 $table->float('tank_1_port', 10, 3)->default(0);
                 $table->float('tank_1_port_temp', 10, 3)->default(0);
@@ -153,7 +153,7 @@ class Gerong extends Model
     {
         $model = $event->getModel();
         $date = $model->terminal_time;
-        $last = GerongLog::table($model->vessel_id, $date)->orderBy('terminal_time', 'desc')->first();
+        $last = GerongLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
 
         // save interval 60 detik
@@ -161,9 +161,9 @@ class Gerong extends Model
             return;
         }
 
-        return GerongLog::table($model->vessel_id, $date)->updateOrCreate([
-            'vessel_id' => $model->vessel_id,
+        return GerongLog::table($model->fleet_id, $date)->updateOrCreate([
+            'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'vessel_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

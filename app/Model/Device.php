@@ -36,10 +36,10 @@ class Device extends Model
     }
 
     /**
-     * vessel
+     * Fleet
      */
-    public function vessel()
+    public function Fleet()
     {
-        return $this->belongsTo(Vessel::class, 'vessel_id');
+        return $this->belongsTo(Fleet::class, 'fleet_id');
     }
 }
