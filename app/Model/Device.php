@@ -38,7 +38,7 @@ class Device extends Model
     /**
      * Fleet
      */
-    public function Fleet()
+    public function fleet()
     {
         return $this->belongsTo(Fleet::class, 'fleet_id');
     }

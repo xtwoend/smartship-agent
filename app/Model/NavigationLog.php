@@ -34,7 +34,7 @@ class NavigationLog extends Model
         'terminal_time' => 'datetime'
     ];
 
-    public function Fleet()
+    public function fleet()
     {
         return $this->belongsTo(Fleet::class, 'fleet_id');
     }

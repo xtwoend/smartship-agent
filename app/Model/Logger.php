@@ -35,7 +35,7 @@ class Logger extends Model
         'terminal_time' => 'datetime:Y-m-d H:i:s'
     ];
 
-    public function Fleet()
+    public function fleet()
     {
         return $this->belongsTo(Fleet::class, 'fleet_id');
     }
