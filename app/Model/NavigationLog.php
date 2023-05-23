@@ -49,7 +49,7 @@ class NavigationLog extends Model
             Schema::create($tableName, function (Blueprint $table) {
                 $table->uuid('id')->primary();
                 $table->unsignedBigInteger('fleet_id')->index();
-                $table->datetime('terminal_time')->unique()->index();
+                $table->datetime('terminal_time')->unique();
                 $table->float('wind_speed')->default(0);
                 $table->float('wind_direction')->default(0);
                 $table->float('lat', 15, 6)->default(0);

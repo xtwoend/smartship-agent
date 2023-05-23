@@ -56,7 +56,7 @@ class SambuLog extends Model
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
-                $table->datetime('terminal_time')->index();
+                $table->datetime('terminal_time')->unique();
                 $table->float('tank_1_port', 10, 3)->default(0);
                 $table->float('tank_1_port_temp', 10, 3)->default(0);
                 $table->float('tank_1_stb', 10, 3)->default(0);

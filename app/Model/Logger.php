@@ -50,7 +50,7 @@ class Logger extends Model
             Schema::create($tableName, function (Blueprint $table) {
                 $table->uuid('id')->primary();
                 $table->unsignedBigInteger('fleet_id')->index();
-                $table->datetime('terminal_time')->unique()->index();
+                $table->datetime('terminal_time')->unique();
                 $table->string('group')->index(); // vdr, ccr, ecr
                 $table->json('data')->nullable();
                 $table->timestamps();
