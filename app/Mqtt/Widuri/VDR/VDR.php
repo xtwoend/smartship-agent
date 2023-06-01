@@ -2,46 +2,71 @@
 
 namespace App\Mqtt\Widuri\VDR;
 
+use Carbon\Carbon;
+use Hyperf\Utils\Codec\Json;
+
 class VDR
 {
     protected $message;
+    protected $data;
 
     public function __construct(string $message) {
-        var_dump($message);
         $this->message = $message;
+        $this->data = Json::decode($message);
     }
 
     public function parse()
-    {
-        // $parse = [
-        //     'wind_speed' => $this->_anemometer($this->message)['wind_speed'],
-        //     'wind_direction' => $this->_anemometer($this->message)['wind_direction'],
-        //     'lat' => $this->_gps($this->message)['lat'][0],
-        //     'lat_dir' =>  $this->_gps($this->message)['lat'][1],
-        //     'lng' =>  $this->_gps($this->message)['lng'][0],
-        //     'lng_dir' =>  $this->_gps($this->message)['lng'][1],
-        //     'datum_refrence' => null,
-        //     'sog' => $this->_cog($this->message)['sog'],
-        //     'cog' => $this->_cog($this->message)['cog'],
-        //     'total_distance' => $this->_heading($this->message)['travel_accumulation'],
-        //     'distance' => 0,
-        //     'heading' => $this->_heading($this->message)['heading'],
-        //     'rot' => 0,
-        //     'depth' => $this->_echosounder($this->message)['depth'],
-        // ];
-        // var_dump($parse);
-        // return $parse;
-        return [];
+    {   
+        $parse = [
+            'wind_speed' => $this->_anemometer($this->message)['wind_speed'],
+            'wind_direction' => $this->_anemometer($this->message)['wind_direction'],
+            'lat' => $this->_gps($this->message)['lat'][0],
+            'lat_dir' =>  $this->_gps($this->message)['lat'][1],
+            'lng' =>  $this->_gps($this->message)['lng'][0],
+            'lng_dir' =>  $this->_gps($this->message)['lng'][1],
+            'datum_refrence' => 'W84',
+            'sog' => $this->_cog($this->message)['sog'],
+            'cog' => $this->_cog($this->message)['cog'],
+            'total_distance' => $this->_heading($this->message)['travel_accumulation'],
+            'distance' => 0,
+            'heading' => $this->_heading($this->message)['heading'],
+            'rot' => 0,
+            'depth' => $this->_echosounder($this->message)['depth'],
+        ];
+
+       
+        return $parse;
     }
 
     public function extract(): ?array
     {
-        return ['nav' => $this->parse()];
+        return [
+            'nav' => $this->parse(),
+            'engine' => [
+                'terminal_time' => (string) $this->data['_terminalTime'] ?: Carbon::now()->format('Y-m-d H:i:s'),
+                'control_air_inlet' => (float) 0,
+                'me_ac_cw_inlet_cooler' => (float) 0,
+                'jcw_inlet' => (float) $this->data['MEJFWINLETPRESSURE'] ?: 0,
+                'me_lo_inlet' => (float) $this->data['MELOINLETPRESSURE'] ?: 0,
+                'scav_air_receiver' => (float) 0,
+                'start_air_inlet' => (float) 0,
+                'main_lub_oil' => (float) $this->data['MEHFOVISCOCITY'] ?: 0,
+                'me_fo_inlet_engine' => (float) 0,
+                'turbo_charger_speed_no_1' => (float) $this->data['METURBOCHARGE'] ?: 0,
+                'turbo_charger_speed_no_2' => (float) 0,
+                'turbo_charger_speed_no_3' => (float) 0,
+                'tachometer_turbocharge' => (float) 0,
+                'main_engine_speed' => (float) isset($this->data['MERPMINDICATOR'])? isset($this->data['MERPMINDICATOR']) : 0,
+            ],
+            // 'cargo' => [
+            //     'terminal_time' => (string) $this->data['_terminalTime'] ?: Carbon::now()->format('Y-m-d H:i:s'),
+            // ]
+        ];
     }
 
 
     protected function _gps($data)
-    {
+    {   
         preg_match_all('/(\w+\.+\w+)(,S,|,W,|,N,|,E,)/', $data, $ext);
         // https://student-activity.binus.ac.id/himtek/2017/10/31/cara-membaca-gps-dan-menghitung-koordinat-latitude-longitude/
         // 06 degree 05menit .9353 second,S
@@ -56,6 +81,13 @@ class VDR
         return $this->coordinate($coordinate);
     }
 
+    public function coordinate(array $coordinate)
+    {
+        $lat = $coordinate['lat'];
+        $lng = $coordinate['lng'];
+
+        return $coordinate;
+    }
 
     protected function _latitude($val)
     {

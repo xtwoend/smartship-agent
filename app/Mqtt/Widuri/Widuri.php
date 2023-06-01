@@ -29,46 +29,7 @@ class Widuri
                     $this->attributes[$key] = $this->{$key};
                 }
             }
-            $lat = $this->_latitude();
-            $lng = $this->_longitude();
-            return [
-                'nav' => [
-                    'terminal_time' => (string) $this->attributes['_terminaltime'] ?: Carbon::now()->format('Y-m-d H:i:s'),
-                    'lat' =>  (float) $lat[0],
-                    'lat_dir' => (string) $lat[1],
-                    'lng' => (float) $lng[0],
-                    'lng_dir' => (string) $lng[1],
-                    'heading' => (float) $this->_heading()[0],
-                    'total_distance' => (float) $this->_heading()[1],
-                    'distance' => (float) (float) $this->_heading()[1],
-                    'wind_direction' => (float) $this->_anemometer()[0],
-                    'wind_speed' => (float) $this->_anemometer()[1],
-                    'cog' => (float) $this->_cog()[0],
-                    'sog' => (float) $this->_cog()[1],
-                    'datum_refrence' => 'W84',
-                    'depth' => (float) $this->_echosounder()[0],
-                    'rot' => 0,
-                ],
-                'engine' => [
-                    'terminal_time' => (string) $this->attributes['_terminalTime'] ?: Carbon::now()->format('Y-m-d H:i:s'),
-                    'control_air_inlet' => (float) 0,
-                    'me_ac_cw_inlet_cooler' => (float) $this->attributes['me_ac_cw_inlet_cooler'] ?: 0,
-                    'jcw_inlet' => (float) $this->attributes['mejfwinletpressure'] ?: 0,
-                    'me_lo_inlet' => (float) $this->attributes['meloinletpressure'] ?: 0,
-                    'scav_air_receiver' => (float) $this->attributes['scav_air_receiver'] ?: 0,
-                    'start_air_inlet' => (float) $this->attributes['start_air_inlet'] ?: 0,
-                    'main_lub_oil' => (float) $this->attributes['mehfoviscocity'] ?: 0,
-                    'me_fo_inlet_engine' => (float) $this->attributes['meloinletpressure'] ?: 0,
-                    'turbo_charger_speed_no_1' => (float) $this->attributes['meturbocharge'] ?: 0,
-                    'turbo_charger_speed_no_2' => (float) 0,
-                    'turbo_charger_speed_no_3' => (float) 0,
-                    'tachometer_turbocharge' => (float) $this->attributes['tachometer_turbocharge'] ?: 0,
-                    'main_engine_speed' => (float) isset($this->attributes['merpmindicator'])? isset($this->attributes['merpmindicator']) : 0,
-                ],
-                'cargo' => [
-
-                ]
-            ];
+            return $this;
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -319,7 +280,7 @@ class Widuri
     protected function formatting(array $data): array
     {
         return [
-            "terminal_time" => \Carbon\Carbon::parse($data['_terminaltime'])->format('Y-m-d H:i:s'),
+            "Fleet_time" => \Carbon\Carbon::parse($data['_terminaltime'])->format('Y-m-d H:i:s'),
             "latitude" => $data['gps']['lat'],
             "longitude" => $data['gps']['lng'],
             "cog" => $data['cog']['cog'],
