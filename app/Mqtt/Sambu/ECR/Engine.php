@@ -32,7 +32,7 @@ class Engine
                 'turbo_charger_speed_no_2' => (float) $data['no2_dg_turbo_charger_speed'] ?: 0,
                 'turbo_charger_speed_no_3' => (float) $data['no3_dg_turbo_charger_speed'] ?: 0,
                 'tachometer_turbocharge' => (float) $data['tachometer_turbocharge'] ?: 0,
-                'main_engine_speed' => (float) isset($data['MP5W_RPM_PV'])? isset($data['MP5W_RPM_PV']) : 0,
+                'main_engine_speed' => (float) isset($data['MP5W_RPM_PV'])? $data['MP5W_RPM_PV'] : 0,
             ]
         ];
     }

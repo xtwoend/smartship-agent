@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mqtt\Sambu\ECR;
+namespace App\Mqtt\Walio\ECR;
 
 use Carbon\Carbon;
 use Hyperf\Utils\Codec\Json;
@@ -10,12 +10,14 @@ class Engine
     protected string $message;
 
     public function __construct(string $message) {
+        
         $this->message = $message;
     }
     
     public function extract()
     {
         $data = Json::decode($this->message);
+        
         /**
          * "me_tc_rpm_indicator": "14337.6",
             "ai_hfo_bunker": "0",
@@ -45,10 +47,11 @@ class Engine
             "igg_fuel_tank": "0",
             "rpm_me": "11"
          */
+
         return [
             'engine' => [
                 'terminal_time' => (string) $data['_terminalTime'] ?: Carbon::now()->format('Y-m-d H:i:s'),
-                'control_air_inlet' => (float) $data['control_air_inlet'] ?: 0,
+                'control_air_inlet' => (float) 0,
                 'me_ac_cw_inlet_cooler' => (float) $data['me_jcfw_inlet_press'] ?: 0,
                 'jcw_inlet' => (float) $data['me_jcfw_inlet_press'] ?: 0,
                 'me_lo_inlet' => (float) $data['me_lo_inlet_press'] ?: 0,
@@ -60,7 +63,7 @@ class Engine
                 'turbo_charger_speed_no_2' => (float) 0,
                 'turbo_charger_speed_no_3' => (float) 0,
                 'tachometer_turbocharge' => (float) $data['me_tc_rpm_indicator'] ?: 0,
-                'main_engine_speed' => (float) isset($data['rpm_me'])? isset($data['rpm_me']) : 0,
+                'main_engine_speed' => (float) isset($data['rpm_me'])? $data['rpm_me'] : 0,
             ]
         ];
     }
