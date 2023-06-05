@@ -100,12 +100,16 @@ class Fleet extends Model
         $model = Logger::table($this->id, $date);
         $last = $model->where('group', $group)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
-
+        
+        // delete data log
+        Logger::table($this->id, $date)->where('terminal_time', '<', Carbon::now()->subHour()->format('Y-m-d H:i:s'))->delete();
+        
         // save interval 60 detik
         if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
             return;
         }
         
+
         return $model->updateOrCreate([
             'group' => $group,
             'fleet_id' => $this->id,
