@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use App\Model\Cargo\SenipahLog;
+use App\Model\Cargo\TypeSLog;
+use App\Model\Cargo\GerongLog;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Model\Events\Updated;
 
-class Senipah extends Model
+class TypeS extends Model
 {
     /**
      * The table associated with the model.
@@ -83,7 +84,6 @@ class Senipah extends Model
                 $table->float('tank_6_stb', 10, 3)->default(0);
                 $table->float('tank_6_stb_temp', 10, 3)->default(0);
 
-                //
                 $table->float('slop_port', 10, 3)->default(0);
                 $table->float('slop_port_temp', 10, 3)->default(0);
                 $table->float('slop_stb', 10, 3)->default(0); 
@@ -128,7 +128,6 @@ class Senipah extends Model
                 $table->float('ls_fuel_oil_service_port', 10, 3)->default(0);
                 $table->float('ls_fuel_oil_settling_port', 10, 3)->default(0);
 
-                // pump status
                 $table->boolean('cargo_pump1_run')->default(false);
                 $table->boolean('cargo_pump1_alarm')->default(false);
                 $table->boolean('cargo_pump2_run')->default(false);
@@ -142,7 +141,7 @@ class Senipah extends Model
                 $table->boolean('ballast_pump2_alarm')->default(false);
                 $table->boolean('stripping_pump_run')->default(false);
                 $table->boolean('stripping_pump_alarm')->default(false);
-                
+
                 $table->timestamps();
             });
         }
@@ -151,20 +150,22 @@ class Senipah extends Model
     }
 
 
-    // update & insert log 
+    // update & insert
     public function updated(Updated $event)
     {
         $model = $event->getModel();
+       
         $date = $model->terminal_time;
-        $last = SenipahLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
+        $last = TypeSLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
+     
         $now = Carbon::parse($date);
 
         // save interval 60 detik
         if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
             return;
         }
-
-        return SenipahLog::table($model->fleet_id, $date)->updateOrCreate([
+        
+        return TypeSLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
         ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());

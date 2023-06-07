@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Model\Cargo;
 
-use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
+use Carbon\Carbon;
 
-class SenipahLog extends Model
+class TypeSLog extends Model
 {
     /**
      * The table associated with the model.
@@ -82,7 +82,6 @@ class SenipahLog extends Model
                 $table->float('tank_6_stb', 10, 3)->default(0);
                 $table->float('tank_6_stb_temp', 10, 3)->default(0);
 
-                //
                 $table->float('slop_port', 10, 3)->default(0);
                 $table->float('slop_port_temp', 10, 3)->default(0);
                 $table->float('slop_stb', 10, 3)->default(0); 
@@ -141,7 +140,7 @@ class SenipahLog extends Model
                 $table->boolean('ballast_pump2_alarm')->default(false);
                 $table->boolean('stripping_pump_run')->default(false);
                 $table->boolean('stripping_pump_alarm')->default(false);
-
+                
                 $table->timestamps();
             });
         }

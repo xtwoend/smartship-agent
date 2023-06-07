@@ -34,7 +34,7 @@ class MQTTCargoListener implements ListenerInterface
             if($fleet) {
                 if(key_exists('cargo', $data)) {
                     // var_dump('cargo', $fleet->id);
-                    $model = $device->cargo_model;
+                    $model = $device->log_model;
                     if(class_exists($model)){
                         $v = Fleet::find($fleet->id);
                         $v->setCargo($model, $data);

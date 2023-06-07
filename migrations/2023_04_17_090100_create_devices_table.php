@@ -18,7 +18,7 @@ class CreateDevicesTable extends Migration
             $table->string('mqtt_server')->nullable();
             $table->string('topic')->nullable();
             $table->string('extractor')->nullable();
-            $table->string('cargo_model')->nullable();
+            $table->string('log_model')->nullable();
             $table->boolean('connected')->default(false);
             $table->boolean('active')->default(false);
             $table->timestamp('last_connected')->nullable();

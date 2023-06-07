@@ -61,11 +61,13 @@ class Fleet extends Model
         }
     }
     
-    public function setEngine(array $data)
+    public function setEngine($model, array $data)
     {   
         if(isset($data['engine'])) {
             
-            $log = $this->engine()->updateOrCreate([
+            $model = (new $model)->table($this->id);
+
+            $log = $model->updateOrCreate([
                 'fleet_id' => $this->id
             ], $data['engine']);
         
@@ -84,10 +86,11 @@ class Fleet extends Model
         
         if(isset($data['cargo'])) {
             $model = (new $model)->table($this->id);
+      
             $log = $model->updateOrCreate([
                 'fleet_id' => $this->id
             ], $data['cargo']);
-            
+
             $this->logger('ccr', $log);
 
             return $log;
