@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Model;
 
 use Carbon\Carbon;
-use App\Model\Engine;
 use App\Model\Navigation;
 use App\Model\Cargo\Cargo;
+use App\Model\Engine\Engine;
 use Hyperf\DbConnection\Model\Model;
 
 /**
@@ -33,7 +33,7 @@ class Fleet extends Model
 
     public function engine()
     {
-        return $this->hasOne(Engine::class, 'fleet_id');
+        return Engine::table($this->id)->where('fleet_id', $this->id)->first();
     }
 
     public function cargo()
