@@ -3,18 +3,17 @@
 namespace App\Model\Engine;
 
 use Carbon\Carbon;
-use App\Model\Engine\TypeWLog;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Model\Events\Updated;
 
-class TypeW extends Model
+class TypeWLog extends Model
 {
     /**
      * The table associated with the model.
      */
-    protected ?string $table = 'engines';
+    protected ?string $table = 'engine_log';
 
     /**
      * The connection name for the model.
@@ -34,10 +33,11 @@ class TypeW extends Model
     ];
 
     // create table cargo if not found table
-    public static function table($fleetId)
+    public static function table($fleetId, $date = null)
     {
+        $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
         $model = new self;
-        $tableName = $model->getTable() . "_{$fleetId}";
+        $tableName = $model->getTable() . "_{$fleetId}_{$date}";
         
         if(! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
@@ -76,25 +76,5 @@ class TypeW extends Model
         }
         
         return $model->setTable($tableName);
-    }
-
-
-    // update & insert
-    public function updated(Updated $event)
-    {
-        $model = $event->getModel();
-        $date = $model->terminal_time;
-        $last = TypeWLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
-        $now = Carbon::parse($date);
-
-        // save interval 60 detik
-        if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
-            return;
-        }
-
-        return TypeWLog::table($model->fleet_id, $date)->updateOrCreate([
-            'fleet_id' => $model->fleet_id,
-            'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }
