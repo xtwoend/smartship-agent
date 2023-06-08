@@ -81,8 +81,8 @@ class VDR
         $aData  = explode(',', $message);
        
         return [
-            'cog' => (float) $aData[5],
-            'sog' => (float) $aData[7]
+            'cog' => (float) $aData[1],
+            'sog' => (float) $aData[5]
         ];
     }
 
