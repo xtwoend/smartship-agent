@@ -33,12 +33,14 @@ class Fleet extends Model
 
     public function engine()
     {
-        return Engine::table($this->id)->where('fleet_id', $this->id)->first();
+        $engine = Engine::table($this->id)->where('fleet_id', $this->id)->first();
+        return $engine ?: [];
     }
 
     public function cargo()
     {   
-        return Cargo::table($this->id)->where('fleet_id', $this->id)->first();
+        $cargo = Cargo::table($this->id)->where('fleet_id', $this->id)->first();
+        return $cargo ?: [];
     }
 
     public function setNav(array $data)
