@@ -33,8 +33,8 @@ class MQTTCargoPumpListener implements ListenerInterface
             
             if($fleet) {
                 if(key_exists('cargo_pump', $data)) {
-                    // var_dump('cargo', $fleet->id);
                     $model = $device->log_model;
+                    
                     if(class_exists($model)){
                         $v = Fleet::find($fleet->id);
                         $v->setCargoPump($model, $data);

@@ -18,7 +18,7 @@ class CargoPump
       
         return [
             'cargo_pump' => [
-                'terminal_time' => (string) $data['_terminalTime'],
+                'terminal_time' => (string) $data['ts'],
                 'pump_non_drvend_c1' => (float) $data['pump_non_drvend_c1'],
                 'pump_casing_c1' => (float) $data['pump_casing_c1'],
                 'pump_drvend_c1' => (float) $data['pump_drvend_c1'],
