@@ -8,12 +8,18 @@ use Carbon\Carbon;
 use App\Model\Navigation;
 use App\Model\Cargo\Cargo;
 use App\Model\Engine\Engine;
+use App\Model\Cargo\CargoTrait;
+use App\Model\Engine\EngineTrait;
+use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\CargoPump\CargoPumpTrait;
 
 /**
  */
 class Fleet extends Model
 {
+    use CargoPumpTrait, EngineTrait, CargoTrait;
+    
     /**
      * The table associated with the model.
      */
@@ -33,14 +39,32 @@ class Fleet extends Model
 
     public function engine()
     {
-        $engine = Engine::table($this->id)->where('fleet_id', $this->id)->first();
-        return $engine ?: [];
+        $model = Engine::table($this->id);
+        if(Schema::hasTable($model->getTable())) {
+            $cargo = $model->where('fleet_id', $this->id)->first();
+            return $cargo;
+        }
+        return null;
     }
 
     public function cargo()
     {   
-        $cargo = Cargo::table($this->id)->where('fleet_id', $this->id)->first();
-        return $cargo ?: [];
+        $model = Cargo::table($this->id);
+        if(Schema::hasTable($model->getTable())) {
+            $cargo = $model->where('fleet_id', $this->id)->first();
+            return $cargo;
+        }
+        return null;
+    }
+
+    public function cargo_pump()
+    {   
+        $model = CargoPump::table($this->id);
+        if(Schema::hasTable($model->getTable())) {
+            $cargo = $model->where('fleet_id', $this->id)->first();
+            return $cargo;
+        }
+        return null;
     }
 
     public function setNav(array $data)
@@ -59,42 +83,6 @@ class Fleet extends Model
 
             $this->logger('vdr', $log);
             
-            return $log;
-        }
-    }
-    
-    public function setEngine($model, array $data)
-    {   
-        if(isset($data['engine'])) {
-            
-            $model = (new $model)->table($this->id);
-
-            $log = $model->updateOrCreate([
-                'fleet_id' => $this->id
-            ], $data['engine']);
-        
-            // $this->connected = 1;
-            // $this->last_connection = Carbon::now();
-            // $this->save();
-
-            $this->logger('ecr', $log);
-
-            return $log;
-        }
-    }
-
-    public function setCargo($model, array $data)
-    {
-        
-        if(isset($data['cargo'])) {
-            $model = (new $model)->table($this->id);
-      
-            $log = $model->updateOrCreate([
-                'fleet_id' => $this->id
-            ], $data['cargo']);
-
-            $this->logger('ccr', $log);
-
             return $log;
         }
     }
