@@ -101,8 +101,7 @@ class Fleet extends Model
         if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
             return;
         }
-        
-
+    
         return $model->updateOrCreate([
             'group' => $group,
             'fleet_id' => $this->id,
