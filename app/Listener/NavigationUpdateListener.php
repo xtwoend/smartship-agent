@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
+use App\Model\Port;
+use App\Model\Fleet;
 use App\Event\NavigationUpdateEvent;
 use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
@@ -31,7 +33,10 @@ class NavigationUpdateListener implements ListenerInterface
 
         foreach($ports as $port) {
             if(calc_crow($port->lat, $port->lng, $data->lat, $data->lng) <= 5) {
-                
+                Fleet::find($data->fleet_id)->update([
+                    'fleet_status' => 'at_port',
+                    'last_port' => $port->name .', '. $port->location 
+                ]);
             }
         }
         
