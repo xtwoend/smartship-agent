@@ -29,7 +29,7 @@ class Fleet extends Model
      * The attributes that are mass assignable.
      */
     protected array $fillable = [
-        'name', 'image', 'connected', 'last_connection'
+        'name', 'image', 'fleet_status', 'last_port', 'connected', 'last_connection'
     ];
 
     public function navigation()
