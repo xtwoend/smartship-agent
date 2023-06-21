@@ -4,23 +4,23 @@ use Hyperf\Context\ApplicationContext;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 
-if(function_exists('calc_crow')) {
-    function calc_crow($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo)
-    {
-        $earthRadius = 6371000;
-        // convert from degrees to radians
-        $latFrom = deg2rad($latitudeFrom);
-        $lonFrom = deg2rad($longitudeFrom);
-        $latTo = deg2rad($latitudeTo);
-        $lonTo = deg2rad($longitudeTo);
+if(! function_exists('calc_crow')) {
+    function calc_crow($lat1, $lon1, $lat2, $lon2) {
+        $radius = 6371; // in KM
+        $dLat = to_rad($lat2 - $lat1);
+        $dLon = to_rad($lon2 - $lat2);
 
-        $lonDelta = $lonTo - $lonFrom;
-        $a = pow(cos($latTo) * sin($lonDelta), 2) + pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2);
-        $b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
+        $a = sin($dLat / 2) * sin($dLat / 2) + sin($dLon / 2) * sin($dLon/2) * cos($lat1) * cos($lat2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $d = $radius * $c;
 
-        $angle = atan2(sqrt($a), $b);
+        return $d;
+    }
+}
 
-        return ($angle * $earthRadius) * 0.001;
+if(! function_exists('to_rad')) {
+    function to_rad($val) {
+        return ($val * pi()) / 180;
     }
 }
 

@@ -30,15 +30,37 @@ class NavigationUpdateListener implements ListenerInterface
         $data = $event->data;
 
         $ports = Port::all();
-
+        $fleet_location = ['lat' => $data->lat, 'lng' => $data->lng];
+        $distances = [];
         foreach($ports as $port) {
-            if(calc_crow($port->lat, $port->lng, $data->lat, $data->lng) <= 5) {
-                Fleet::find($data->fleet_id)->update([
-                    'fleet_status' => 'at_port',
-                    'last_port' => $port->name .', '. $port->location 
-                ]);
-            }
-        }
         
+            $lat1 = deg2rad($port->lat);
+            $lon1 = deg2rad($port->lng);
+            $lat2 = deg2rad($fleet_location['lat']);
+            $lon2 = deg2rad($fleet_location['lng']);
+
+            $delta_lat = $lat2 - $lat1;
+            $delta_lng = $lon2 - $lon1;
+
+            $hav_lat = (sin($delta_lat / 2))**2;
+            $hav_lng = (sin($delta_lng / 2))**2;
+
+            $distance = 2 * asin(sqrt($hav_lat + cos($lat1) * cos($lat2) * $hav_lng));
+            $earth_radius_km = 6371.009;
+            $actual_distance = $earth_radius_km * $distance;
+
+            $distances[$port->id] = $actual_distance;
+        }
+        asort($distances);
+        $key = key($distances);
+        $distance_km = $distances[$key];
+        if($distance_km <= 5) {
+            $p = Port::find($key);
+
+            Fleet::find($data->fleet_id)->update([
+                'fleet_status' => 'at_port',
+                'last_port' => $p->name. ', ' . $p->location
+            ]);
+        }
     }
 }

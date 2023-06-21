@@ -6,6 +6,7 @@ namespace App\Model;
 
 use Carbon\Carbon;
 use App\Model\NavigationLog;
+use App\Event\NavigationUpdateEvent;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Model\Events\Updated;
 
