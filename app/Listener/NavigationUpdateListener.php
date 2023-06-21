@@ -61,8 +61,8 @@ class NavigationUpdateListener implements ListenerInterface
                 'fleet_status' => 'at_port',
                 'last_port' => $p->name. ', ' . $p->location
             ]);
+        }else{
+            $fleet->update(['fleet_status' => 'laden']);
         }
-
-        $fleet->update(['fleet_status' => 'laden']);
     }
 }
