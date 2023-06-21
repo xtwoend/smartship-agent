@@ -45,7 +45,8 @@ class MQTT1Processor extends AbstractProcess
                 }
                 
                 $data = (new $class($message))->extract();
-                
+         
+        
                 $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
                
                 $logger->debug('Received Topic: '. $topic);

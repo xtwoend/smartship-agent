@@ -32,7 +32,6 @@ class NavigationUpdateListener implements ListenerInterface
         $ports = Port::all();
         $fleet_location = ['lat' => $data->lat, 'lng' => $data->lng];
         $distances = [];
-        var_dump('________');
         foreach($ports as $port) {
         
             $lat1 = deg2rad($port->lat);

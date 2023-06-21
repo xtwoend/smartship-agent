@@ -61,7 +61,7 @@ class TypeS extends Model
                 $table->float('pump_non_drvend_bp1', 10, 5)->default(0);
                 $table->float('pump_casing_bp1', 10, 5)->default(0);
                 $table->float('pump_drvend_bp1', 10, 5)->default(0);
-                $table->float('tansmission_sealing_bp1', 10, 5)->default(0);
+                $table->float('transmission_sealing_bp1', 10, 5)->default(0);
                 $table->float('pump_non_drvend_bp2', 10, 5)->default(0);
                 $table->float('pump_casing_bp2', 10, 5)->default(0);
                 $table->float('pump_drvend_bp2', 10, 5)->default(0);
