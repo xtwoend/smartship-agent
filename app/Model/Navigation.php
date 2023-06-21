@@ -59,6 +59,8 @@ class Navigation extends Model
         if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
             return;
         }
+        
+        dispatch(new NavigationUpdateEvent($model));
 
         return NavigationLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,

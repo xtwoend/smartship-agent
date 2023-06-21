@@ -1,5 +1,8 @@
 <?php
 
+use Hyperf\Context\ApplicationContext;
+use Psr\EventDispatcher\EventDispatcherInterface;
+
 
 if(function_exists('calc_crow')) {
     function calc_crow($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo)
@@ -18,5 +21,25 @@ if(function_exists('calc_crow')) {
         $angle = atan2(sqrt($a), $b);
 
         return ($angle * $earthRadius) * 0.001;
+    }
+}
+
+if (! function_exists('dispatch')) {
+    function dispatch($event, int $priority = 1)
+    {
+        $eventDispatcher = container()->get(EventDispatcherInterface::class);
+        $eventDispatcher->dispatch($event, $priority);
+    }
+}
+
+
+if (! function_exists('container')) {
+    function container()
+    {
+        if (! ApplicationContext::hasContainer()) {
+            throw new \RuntimeException('The application context lacks the container.');
+        }
+
+        return ApplicationContext::getContainer();
     }
 }
