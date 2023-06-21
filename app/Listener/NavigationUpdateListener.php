@@ -54,6 +54,7 @@ class NavigationUpdateListener implements ListenerInterface
         asort($distances);
         $key = key($distances);
         $distance_km = $distances[$key];
+        var_dump($distance_km);
         $fleet = Fleet::find($data->fleet_id);
         if($distance_km <= 5) {
             $p = Port::find($key);
@@ -61,8 +62,6 @@ class NavigationUpdateListener implements ListenerInterface
                 'fleet_status' => 'at_port',
                 'last_port' => $p->name. ', ' . $p->location
             ]);
-        }else{
-            $fleet->update(['fleet_status' => 'laden']);
         }
     }
 }
