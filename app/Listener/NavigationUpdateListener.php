@@ -32,6 +32,7 @@ class NavigationUpdateListener implements ListenerInterface
         $ports = Port::all();
         $fleet_location = ['lat' => $data->lat, 'lng' => $data->lng];
         $distances = [];
+        var_dump('________');
         foreach($ports as $port) {
         
             $lat1 = deg2rad($port->lat);
@@ -54,13 +55,19 @@ class NavigationUpdateListener implements ListenerInterface
         asort($distances);
         $key = key($distances);
         $distance_km = $distances[$key];
+        
         var_dump($distance_km);
+
         $fleet = Fleet::find($data->fleet_id);
         if($distance_km <= 5) {
             $p = Port::find($key);
             $fleet->update([
                 'fleet_status' => 'at_port',
                 'last_port' => $p->name. ', ' . $p->location
+            ]);
+        }else{
+            $fleet->update([
+                'fleet_status' => 'ballast',
             ]);
         }
     }
