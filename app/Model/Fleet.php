@@ -7,6 +7,7 @@ namespace App\Model;
 use Carbon\Carbon;
 use App\Model\Navigation;
 use App\Model\Cargo\Cargo;
+use App\Model\EngineLimit;
 use App\Model\Engine\Engine;
 use App\Model\Cargo\CargoTrait;
 use App\Model\Engine\EngineTrait;
@@ -45,6 +46,11 @@ class Fleet extends Model
             return $cargo;
         }
         return null;
+    }
+
+    public function engine_limits()
+    {
+        return $this->hasMany(EngineLimit::class, 'fleet_id');
     }
 
     public function cargo()
