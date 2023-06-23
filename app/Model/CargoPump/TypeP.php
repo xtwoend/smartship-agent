@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Model\CargoPump;
 
 use Carbon\Carbon;
-use App\Model\CargoPump\TypeSLog;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;

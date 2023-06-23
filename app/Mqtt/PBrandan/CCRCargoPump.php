@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mqtt\Pakning\CCR;
+namespace App\Mqtt\PBrandan;
 
 use Hyperf\Utils\Codec\Json;
 
