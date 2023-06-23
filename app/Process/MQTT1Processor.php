@@ -42,7 +42,7 @@ class MQTT1Processor extends AbstractProcess
                 if(!class_exists($class)){
                     return;
                 }
-                
+
                 $data = (new $class($message))->extract();
                 
                 $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
