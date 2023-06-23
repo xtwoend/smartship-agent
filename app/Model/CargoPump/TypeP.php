@@ -38,7 +38,7 @@ class TypeP extends Model
     public static function table($fleetId)
     {
         $model = new self;
-        $tableName = $model->getTable() . '_{$fleetId}';
+        $tableName = $model->getTable() . "_{$fleetId}";
         
         if(! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
