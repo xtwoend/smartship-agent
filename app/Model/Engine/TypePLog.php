@@ -8,7 +8,7 @@ use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Model\Events\Updated;
 
-class TypeSLog extends Model
+class TypePLog extends Model
 {
     /**
      * The table associated with the model.

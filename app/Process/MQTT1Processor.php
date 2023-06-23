@@ -38,13 +38,13 @@ class MQTT1Processor extends AbstractProcess
                 $device->update(['last_message' => $message, 'last_connected' => Carbon::now()]);
                 
                 $class = $device->extractor;
-               
+                
                 if(!class_exists($class)){
                     return;
                 }
                 
                 $data = (new $class($message))->extract();
-
+                
                 $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
                
                 $logger->debug('Received Topic: '. $topic);

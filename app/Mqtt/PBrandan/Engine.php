@@ -10,6 +10,7 @@ class Engine
     protected string $message;
 
     public function __construct(string $message) {
+       
         $this->message = $message;
     }
     
@@ -19,7 +20,7 @@ class Engine
         
         return [
             'engine' => [
-                'terminal_time' => (string) $data['_terminalTime'] ?: Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'lo_inlet_pressure_ge1' => (float) $data['lo_inlet_pressure_ge1'],
                 'cfw_inlet_pressure_ge1' => (float) $data['cfw_inlet_pressure_ge1'],
                 'fo_inlet_pressure_ge1' => (float) $data['fo_inlet_pressure_ge1'],
