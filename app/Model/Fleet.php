@@ -47,12 +47,7 @@ class Fleet extends Model
         }
         return null;
     }
-
-    public function engine_limits()
-    {
-        return $this->hasMany(EngineLimit::class, 'fleet_id');
-    }
-
+    
     public function cargo()
     {   
         $model = Cargo::table($this->id);
