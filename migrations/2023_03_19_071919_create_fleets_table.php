@@ -13,6 +13,7 @@ class CreateFleetsTable extends Migration
     {
         Schema::create('fleets', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->boolean('active')->default(false);
             $table->string('name');
             $table->string('imo_number')->nullable();
             $table->string('image')->nullable();
