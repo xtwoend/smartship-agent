@@ -47,7 +47,6 @@ class TypeA extends Model
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
-                $table->float('tank_1_port', 10, 3)->default(0);
                 $table->float('temp_tank_upper_no1', 10, 3)->default(0);
                 $table->float('temp_tank_upper_no2', 10, 3)->default(0);
                 $table->float('temp_comp_outlet_no1', 10, 3)->default(0);
