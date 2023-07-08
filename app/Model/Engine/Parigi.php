@@ -84,7 +84,7 @@ class Parigi extends Model
     {
         $model = $event->getModel();
         $date = $model->terminal_time;
-        $last = TypePLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
+        $last = ParigiLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
 
         // save interval 60 detik
@@ -92,7 +92,7 @@ class Parigi extends Model
             return;
         }
 
-        return TypePLog::table($model->fleet_id, $date)->updateOrCreate([
+        return ParigiLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
         ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
