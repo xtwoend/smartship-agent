@@ -1,5 +1,6 @@
 <?php
 
+use Hyperf\Utils\Codec\Json;
 use Hyperf\Context\ApplicationContext;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -42,4 +43,13 @@ if (! function_exists('container')) {
 
         return ApplicationContext::getContainer();
     }
+}
+
+
+if (! function_exists('websocket_emit')) {
+    function websocket_emit(array $data): void
+    {
+        $io = container()->get(\Hyperf\SocketIOServer\SocketIO::class);
+        $io->emit('listen', Json::encode($data));
+    } 
 }

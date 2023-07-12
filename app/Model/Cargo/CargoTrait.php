@@ -13,7 +13,7 @@ trait CargoTrait
                 'fleet_id' => $this->id
             ], $data['cargo']);
 
-            $this->logger('ccr', $log);
+            $this->logger('cargo', $log);
 
             return $log;
         }

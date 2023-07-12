@@ -82,7 +82,7 @@ class Fleet extends Model
             $this->last_connection = Carbon::now();
             $this->save();
 
-            $this->logger('vdr', $log);
+            $this->logger('navigation', $log);
             
             return $log;
         }
@@ -90,7 +90,7 @@ class Fleet extends Model
 
     public function logger($group, $data)
     {
-        $date = $data->terminal_time; // get last update data
+        $date = $data->updated_at; // get last update data
         $model = Logger::table($this->id, $date);
         $last = $model->where('group', $group)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
@@ -98,8 +98,14 @@ class Fleet extends Model
         // delete data log
         Logger::table($this->id, $date)->where('terminal_time', '<', Carbon::now()->subHour()->format('Y-m-d H:i:s'))->delete();
         
+        $data = $data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray();
+        // send data to websocket io
+        // if($last && $now->diffInSeconds($last->terminal_time) >= 15 ) {   
+        //     websocket_emit($data);
+        // }
+
         // save interval 60 detik
-        if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
+        if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 15) ) {   
             return;
         }
     
@@ -108,7 +114,7 @@ class Fleet extends Model
             'fleet_id' => $this->id,
             'terminal_time' => $date,
         ], [
-            'data' => (array) $data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray()
+            'data' => (array) $data
         ]);
     }
 }

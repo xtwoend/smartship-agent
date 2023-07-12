@@ -42,6 +42,7 @@ class MQTTCargoListener implements ListenerInterface
                 }
 
             }
+            
         }
     }
 }
