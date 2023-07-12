@@ -47,9 +47,9 @@ if (! function_exists('container')) {
 
 
 if (! function_exists('websocket_emit')) {
-    function websocket_emit(array $data): void
+    function websocket_emit(string $room, array $data): void
     {
         $io = container()->get(\Hyperf\SocketIOServer\SocketIO::class);
-        $io->emit('listen', Json::encode($data));
+        $io->to($room)->emit('listen', Json::encode($data));
     } 
 }

@@ -19,7 +19,16 @@ class WebSocketController extends BaseNamespace
     #[Event("listen")]
     public function onListen(Socket $socket, $data)
     {
-        // response
-        return'Listen Received: '. $data;
+        return Json::decode($data);
+    }
+
+    /**
+     * @param string $data
+     */
+    #[Event("join-room")]
+    public function onJoinRoom(Socket $socket, $data)
+    {
+        // Add the current user to the room
+        $socket->join($data);
     }
 }
