@@ -2,7 +2,7 @@
 
 return [
     'default' => 'default',
-    'interval_save' => 30,
+    'interval_save' => 5,
     'servers' => [
         'default' => [
             'host' => env('MQTT1_HOST', 'mqtt.mix.my.id'),

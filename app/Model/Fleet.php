@@ -100,13 +100,13 @@ class Fleet extends Model
         
         $data = $data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray();
     
-        // save interval 30 detik
-        if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 30) ) {   
+        // save interval 5 detik
+        if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 5) ) {   
             return;
         }
 
         // submit to event
-        websocket_emit("{$this->id}_{$group}", $data);
+        websocket_emit("fleet-{$this->id}", "{$group}_{$this->id}", $data);
 
         return $model->updateOrCreate([
             'group' => $group,
