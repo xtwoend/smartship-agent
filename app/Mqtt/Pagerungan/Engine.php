@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mqtt\Pegerungan;
+namespace App\Mqtt\Pagerungan;
 
 use Carbon\Carbon;
 use Hyperf\Utils\Codec\Json;
