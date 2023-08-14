@@ -31,18 +31,18 @@ class TypeSLog extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
-        'cargo_pump1_run' => 'booelan',
-        'cargo_pump1_alarm' => 'booelan',
-        'cargo_pump2_run' => 'booelan',
-        'cargo_pump2_alarm' => 'booelan',
-        'cargo_pump3_run' => 'booelan',
-        'cargo_pump3_alarm' => 'booelan',
-        'ballast_pump1_run' => 'booelan',
-        'ballast_pump1_alarm' => 'booelan',
-        'ballast_pump2_run' => 'booelan',
-        'ballast_pump2_alarm' => 'booelan',
-        'stripping_pump_run' => 'booelan',
-        'stripping_pump_alarm' => 'booelan',
+        'cargo_pump1_run' => 'boolean',
+        'cargo_pump1_alarm' => 'boolean',
+        'cargo_pump2_run' => 'boolean',
+        'cargo_pump2_alarm' => 'boolean',
+        'cargo_pump3_run' => 'boolean',
+        'cargo_pump3_alarm' => 'boolean',
+        'ballast_pump1_run' => 'boolean',
+        'ballast_pump1_alarm' => 'boolean',
+        'ballast_pump2_run' => 'boolean',
+        'ballast_pump2_alarm' => 'boolean',
+        'stripping_pump_run' => 'boolean',
+        'stripping_pump_alarm' => 'boolean',
     ];
 
     // create table cargo if not found table
