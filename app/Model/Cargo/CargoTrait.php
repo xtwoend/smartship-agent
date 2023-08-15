@@ -5,7 +5,7 @@ namespace App\Model\Cargo;
 trait CargoTrait
 {
     public function setCargo($model, array $data)
-    {
+    {    
         if(isset($data['cargo'])) {
             $model = (new $model)->table($this->id);
       

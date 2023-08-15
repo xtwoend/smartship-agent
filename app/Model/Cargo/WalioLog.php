@@ -148,7 +148,7 @@ class WalioLog extends Model
                 $table->float('disch_temperature_1_stage_reliq_2', 10, 3)->default(0);
                 $table->float('suction_temperature_2_stage_reliq_2', 10, 3)->default(0);
                 $table->float('disch_temperature_2_stage_reliq_2', 10, 3)->default(0);
-                $table->float('pressure_condensate_reliq_1_to_header', 10, 3)->default(0);
+                $table->float('pressure_condensate_reliq_2_to_header', 10, 3)->default(0);
                 $table->float('temperature_glycol_to_compressor_reliq_2', 10, 3)->default(0);
                 $table->float('lubeoil_pressure_compressor_reliq_2', 10, 3)->default(0);
                 $table->float('disch_presure_1_suction_pressure_1_stage_reliq_2', 10, 3)->default(0);
@@ -167,7 +167,7 @@ class WalioLog extends Model
                 $table->float('disch_temperature_1_stage_reliq_3', 10, 3)->default(0);
                 $table->float('suction_temperature_2_stage_reliq_3', 10, 3)->default(0);
                 $table->float('disch_temperature_2_stage_reliq_3', 10, 3)->default(0);
-                $table->float('pressure_condensate_reliq_1_to_header', 10, 3)->default(0);
+                $table->float('pressure_condensate_reliq_3_to_header', 10, 3)->default(0);
                 $table->float('temperature_glycol_to_compressor_reliq_3', 10, 3)->default(0);
                 $table->float('lubeoil_pressure_compressor_reliq_3', 10, 3)->default(0);
                 $table->float('disch_presure_1_suction_pressure_1_stage_reliq_3', 10, 3)->default(0);
