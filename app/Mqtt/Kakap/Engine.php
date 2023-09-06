@@ -21,7 +21,7 @@ class Engine
         $value = $data['main_engine'];
         return [
             'engine' => [
-                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' => $data['ts'] ?: Carbon::now()->format('Y-m-d H:i:s'),
                 'fuel_oil_inlet_pressure' => (float) ($value[0] / 100),
                 'fuel_oil_inlet_temperature' => (float) ($value[1] / 10),
                 'lube_oil_inlet_pressure' => (float) ($value[5] / 100),
