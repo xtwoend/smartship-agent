@@ -114,7 +114,7 @@ class Kakap extends Model
     {
         $model = $event->getModel();
         $date = $model->terminal_time;
-        $last = ParigiLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
+        $last = KakapLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
 
         // save interval 60 detik
@@ -122,7 +122,7 @@ class Kakap extends Model
             return;
         }
 
-        return ParigiLog::table($model->fleet_id, $date)->updateOrCreate([
+        return KakapLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
         ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
