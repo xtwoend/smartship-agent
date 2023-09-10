@@ -6,6 +6,7 @@ namespace App\Model;
 
 use Carbon\Carbon;
 use App\Model\Navigation;
+use App\Model\Alarm\Alarm;
 use App\Model\Cargo\Cargo;
 use App\Model\EngineLimit;
 use App\Model\Engine\Engine;
@@ -116,4 +117,14 @@ class Fleet extends Model
             'data' => (array) $data
         ]);
     }
+
+    public function alarms() 
+    {
+        $model = Alarm::table($this->id);
+        if(Schema::hasTable($model->getTable())) {
+            return $model;
+        }
+        return null;
+    }
+
 }

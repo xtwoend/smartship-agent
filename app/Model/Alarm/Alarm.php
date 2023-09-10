@@ -73,8 +73,7 @@ class Alarm extends Model
             $al->save();
         }
     }
-
-
+    
     /**
      * get duration attribute
      */
