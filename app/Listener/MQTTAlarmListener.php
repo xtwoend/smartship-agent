@@ -35,7 +35,8 @@ class MQTTAlarmListener implements ListenerInterface
                 if(key_exists('alarm', $data)) {
                     $alarmModel = $device->log_model;
                     if(class_exists($alarmModel)){
-                        $alarmModel->setAlarm($data, $fleet->id);
+                        $model = new $alarmModel;
+                        $model->setAlarm($data['alarm'], $fleet->id);
                     }
                 }
 

@@ -56,7 +56,7 @@ class Alarm extends Model
     }
 
     public function setAlarm($data, $fleetId)
-    {
+    { 
         foreach($data as $alarm) {
             $al = self::table($fleetId)
                 ->firstOrCreate([
