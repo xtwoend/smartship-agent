@@ -25,7 +25,13 @@ class Engine
         // $d400 = $collection->firstWhere('id', 'plc.cj2m.cj2m.D400');
 
         $d100 = isset($d100['v']) && is_string($d100['v']) ? Json::decode($d100['v']) : [];
-
+        
+        if(empty($d100)) {
+            return [
+                'engine' => []
+            ];
+        }
+        
         return [
             'engine' => [
                 'terminal_time' => $data['timestamp'] ?: Carbon::now()->format('Y-m-d H:i:s'),
