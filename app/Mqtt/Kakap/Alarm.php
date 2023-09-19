@@ -22,6 +22,9 @@ class Alarm
 
         $alarms = [];
         foreach($value as $index => $val) {
+            
+            if(is_null($this->mapArray[$index])) continue;
+
             if($val) {
                 $alarms[] = [
                     'property' => 'ams',
