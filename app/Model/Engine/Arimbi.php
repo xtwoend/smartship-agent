@@ -122,7 +122,6 @@ class Arimbi extends Model
         return $model->setTable($tableName);
     }
 
-
     // update & insert
     public function updated(Updated $event)
     {
