@@ -14,6 +14,11 @@ class TypeKLog extends Model
     use SensorAlarmTrait;
     
     /**
+     * engine group sensor
+     */
+    public array $sensor_group = ['engine'];
+    
+    /**
      * The table associated with the model.
      */
     protected ?string $table = 'engine_log';

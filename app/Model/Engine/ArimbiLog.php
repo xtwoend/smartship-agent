@@ -12,6 +12,11 @@ use Hyperf\Database\Model\Events\Updated;
 class ArimbiLog extends Model
 {
     use SensorAlarmTrait;
+
+    /**
+     * engine group sensor
+     */
+    public array $sensor_group = ['engine'];
      
     /**
      * The table associated with the model.
