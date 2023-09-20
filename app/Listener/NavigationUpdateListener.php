@@ -29,9 +29,38 @@ class NavigationUpdateListener implements ListenerInterface
     {
         $data = $event->data;
 
-        $ports = Port::all();
-        $fleet_location = ['lat' => $data->lat, 'lng' => $data->lng];
+        $distance_km = $this->toRadius($data->lat, $data->lng);
+        $fleet = Fleet::find($data->fleet_id);
+
+        if($distance_km < 1 && $data->sog <= 0.5) {
+            $p = Port::find($key);
+            $fleet->update([
+                'fleet_status' => 'at_port',
+                'last_port' => $p->name. ', ' . $p->location
+            ]);
+        }elseif ($distance_km > 1 && $distance_km <= 2 && $data->sog <= 0.5) {
+            $fleet->update([
+                'fleet_status' => 'at_anchorage',
+                'last_port' => NULL
+            ]);
+        }elseif ($distance_km >= 3 && $data->sog <= 0.5){
+            $fleet->update([
+                'fleet_status' => 'other',
+                'last_port' => NULL
+            ]);
+        }else{
+            $fleet->update([
+                'fleet_status' => 'underway',
+                'last_port' => NULL
+            ]);
+        }
+    }
+
+    protected function toRadius(float $lat, float $lng)
+    {
+        $fleet_location = ['lat' => $lat, 'lng' => $lng];
         $distances = [];
+        $ports = Port::all();
         foreach($ports as $port) {
         
             $lat1 = deg2rad($port->lat);
@@ -54,18 +83,7 @@ class NavigationUpdateListener implements ListenerInterface
         asort($distances);
         $key = key($distances);
         $distance_km = $distances[$key];
-       
-        $fleet = Fleet::find($data->fleet_id);
-        if($distance_km <= 1) {
-            $p = Port::find($key);
-            $fleet->update([
-                'fleet_status' => 'at_port',
-                'last_port' => $p->name. ', ' . $p->location
-            ]);
-        }else{
-            $fleet->update([
-                'fleet_status' => 'ballast',
-            ]);
-        }
+
+        return $distance_km;
     }
 }
