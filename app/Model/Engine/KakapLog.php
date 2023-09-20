@@ -35,6 +35,11 @@ class KakapLog extends Model
         'terminal_time' => 'datetime'
     ];
 
+    /**
+     * engine group sensor
+     */
+    public array $sensor_group = ['engine'];
+
     // create table cargo if not found table
     public static function table($fleetId, $date = null)
     {

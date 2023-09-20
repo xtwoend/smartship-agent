@@ -11,7 +11,7 @@ use Hyperf\DbConnection\Model\Model;
  */
 class Sensor extends Model
 {
-    protected $guarded = ['id'];
+    protected array $guarded = ['id'];
     
     public function fleet() 
     {
