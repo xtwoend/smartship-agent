@@ -126,5 +126,9 @@ class Fleet extends Model
         }
         return null;
     }
-
+    
+    public function voyages()
+    {
+        return $this->hasMany(Voyage::class, 'fleet_id');
+    }
 }
