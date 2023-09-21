@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Mqtt\Panderman;
+
+use Carbon\Carbon;
+use Hyperf\Utils\Str;
+use Hyperf\Utils\Codec\Json;
+
+class Hanla
+{
+    protected string $message;
+
+    public function __construct(string $message) {
+       
+        $this->message = $message;
+    }
+    
+    public function extract()
+    {
+        $data = Json::decode($this->message);
+        
+        return [
+            'cargo' => [
+                'terminal_time' => $data['_terminalTime'] ?: Carbon::now()->format('Y-m-d H:i:s'),
+                'no_1_cargo_tank_p' => $data['NO_1_CARGO_TANK_P'],
+                'temp_1ctp' => $data['TEMP_1CTP'],
+                'no_1_cargo_tank_s' => $data['NO_1_CARGO_TANK_S'],
+                'temp_1cts' => $data['TEMP_1CTS'],
+                'no_2_cargo_tank_p' => $data['NO_2_CARGO_TANK_P'],
+                'temp_2ctp' => $data['TEMP_2CTP'],
+                'no_2_cargo_tank_s' => $data['NO_2_CARGO_TANK_S'],
+                'temp_2cts' => $data['TEMP_2CTS'],
+                'no_3_cargo_tank_p' => $data['NO_3_CARGO_TANK_P'],
+                'temp_3ctp' => $data['TEMP_3CTP'],
+                'no_3_cargo_tank_s' => $data['NO_3_CARGO_TANK_S'],
+                'temp_3cts' => $data['TEMP_3CTS'],
+                'no_4_cargo_tank_p' => $data['NO_4_CARGO_TANK_P'],
+                'temp_4ctp' => $data['TEMP_4CTP'],
+                'no_4_cargo_tank_s' => $data['NO_4_CARGO_TANK_S'],
+                'temp_4cts' => $data['TEMP_4CTS'],
+                'no_5_cargo_tank_p' => $data['NO_5_CARGO_TANK_P'],
+                'temp_5ctp' => $data['TEMP_5CTP'],
+                'no_5_cargo_tank_s' => $data['NO_5_CARGO_TANK_S'],
+                'temp_5cts' => $data['TEMP_5CTS'],
+                'no_6_cargo_tank_p' => $data['NO_6_CARGO_TANK_P'],
+                'temp_6ctp' => $data['TEMP_6CTP'],
+                'no_6_cargo_tank_s' => $data['NO_6_CARGO_TANK_S'],
+                'temp_6cts' => $data['TEMP_6CTS'],
+            ]
+        ];
+    }
+
+    function arrayToSnake() : array {
+        $snake = [];
+        foreach($this->mappArray as $in => $val) {
+            if(is_null($val)) continue;
+            $key = Str::snake(strtolower($val));
+            $snake[$key] = $val;
+        } 
+        return $snake;
+    }
+
+    protected $mappArray = [
+        'NO_1_CARGO_TANK_P',
+        'TEMP_1CTP',
+        'NO_1_CARGO_TANK_S',
+        'TEMP_1CTS',
+        'NO_2_CARGO_TANK_P',
+        'TEMP_2CTP',
+        'NO_2_CARGO_TANK_S',
+        'TEMP_2CTS',
+        'NO_3_CARGO_TANK_P',
+        'TEMP_3CTP',
+        'NO_3_CARGO_TANK_S',
+        'TEMP_3CTS',
+        'NO_4_CARGO_TANK_P',
+        'TEMP_4CTP',
+        'NO_4_CARGO_TANK_S',
+        'TEMP_4CTS',
+        'NO_5_CARGO_TANK_P',
+        'TEMP_5CTP',
+        'NO_5_CARGO_TANK_S',
+        'TEMP_5CTS',
+        'NO_6_CARGO_TANK_P',
+        'TEMP_6CTP',
+        'NO_6_CARGO_TANK_S',
+        'TEMP_6CTS',
+    ];
+}
