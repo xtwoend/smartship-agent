@@ -38,12 +38,12 @@ class NavigationUpdateListener implements ListenerInterface
                 'fleet_status' => 'at_port',
                 'last_port' => $p->name. ', ' . $p->location
             ]);
-        }elseif ($distance_km >= 1 && $distance_km <= 10 && $data->sog <= 0.5) {
+        }elseif ($distance_km >= 1 && $distance_km <= 5 && $data->sog <= 0.5) {
             $fleet->update([
                 'fleet_status' => 'at_anchorage',
                 'last_port' => NULL
             ]);
-        }elseif ($distance_km >= 10 && $data->sog <= 0.5){
+        }elseif ($distance_km >= 5 && $data->sog <= 0.5){
             $fleet->update([
                 'fleet_status' => 'other',
                 'last_port' => NULL
