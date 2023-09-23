@@ -20,7 +20,9 @@ trait SensorAlarmTrait
         $model = $event->getModel();
         $fleetId = $model->fleet_id;
         foreach($this->sensor()->whereIn('group', $this->sensor_group)->get() as $sensor) {
-        
+            $val = $model->{$sensor->sensor_name};
+            $val = round($val, 3, PHP_ROUND_HALF_UP);
+            
             if($model->{$sensor->sensor_name} < $sensor->normal) {
                 
                 $lo = Alarm::table($fleetId)
@@ -30,7 +32,7 @@ trait SensorAlarmTrait
                         'property_key' => $sensor->sensor_name,
                         'status' => 1
                     ], [
-                        'message' => \strtoupper($sensor->name) . " VALUE {$model->{$sensor->sensor_name}} ".  'IS VERY LOW',
+                        'message' => \strtoupper($sensor->name) . " VALUE {$val} ".  'IS VERY LOW',
                     ]);
                 if(is_null($lo->started_at)) {
                     $lo->started_at = Carbon::now()->format('Y-m-d H:i:s');
@@ -46,7 +48,7 @@ trait SensorAlarmTrait
                         'property_key' => $sensor->sensor_name,
                         'status' => 1
                     ], [
-                        'message' => \strtoupper($sensor->name) . " VALUE {$model->{$sensor->sensor_name}} ".  'IS VERY HIGH',
+                        'message' => \strtoupper($sensor->name) . " VALUE {$val} ".  'IS VERY HIGH',
                     ]);
                 if(is_null($hi->started_at)) {
                     $hi->started_at = Carbon::now()->format('Y-m-d H:i:s');
