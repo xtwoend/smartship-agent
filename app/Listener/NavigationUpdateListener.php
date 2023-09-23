@@ -29,11 +29,12 @@ class NavigationUpdateListener implements ListenerInterface
     {
         $data = $event->data;
 
-        $distance_km = $this->toRadius($data->lat, $data->lng);
+        list($distance_km, $portId) = $this->toRadius($data->lat, $data->lng);
         $fleet = Fleet::find($data->fleet_id);
-
+    
         if($distance_km < 1 && $data->sog <= 0.5) {
-            $p = Port::find($key);
+            $p = Port::find($portId);
+
             $fleet->update([
                 'fleet_status' => 'at_port',
                 'last_port' => $p->name. ', ' . $p->location
@@ -84,6 +85,6 @@ class NavigationUpdateListener implements ListenerInterface
         $key = key($distances);
         $distance_km = $distances[$key];
 
-        return $distance_km;
+        return (array) [$distance_km, $key];
     }
 }
