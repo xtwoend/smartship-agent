@@ -138,6 +138,44 @@ class Pangalengan extends Model
                 $table->float('wballast_pump2_run', 10,3)->default(0);
                 $table->float('tank_cleaning_pump_run', 10,3)->default(0);
                 $table->float('stripping_pump_run', 10,3)->default(0);
+
+                // Cargo Sensor
+                $table->datetime('cargo_timestamp')->nullable();
+                $table->float('temp_casing_wbp1', 10,3)->default(0);
+                $table->float('temp_bearing_wbp1', 10,3)->default(0);
+                $table->float('temp_stuffingbox_wbp1', 10,3)->default(0);
+                $table->float('temp_casing_wbp2', 10,3)->default(0);
+                $table->float('temp_bearing_wbp2', 10,3)->default(0);
+                $table->float('temp_stuffingbox_wbp2', 10,3)->default(0);
+                $table->float('temp_casing_sp', 10,3)->default(0);
+                $table->float('temp_bearing_sp', 10,3)->default(0);
+                $table->float('temp_stuffingbox_sp', 10,3)->default(0);
+                $table->float('temp_casing_tcp', 10,3)->default(0);
+                $table->float('temp_bearing_tcp', 10,3)->default(0);
+                $table->float('temp_stuffingbox_tcp', 10,3)->default(0);
+                $table->float('temp_casing_cp1', 10,3)->default(0);
+                $table->float('temp_bearing_cp1', 10,3)->default(0);
+                $table->float('temp_stuffingbox_cp1', 10,3)->default(0);
+                $table->float('temp_casing_cp2', 10,3)->default(0);
+                $table->float('temp_bearing_cp2', 10,3)->default(0);
+                $table->float('temp_stuffingbox_cp2', 10,3)->default(0);
+                $table->float('temp_casing_cp3', 10,3)->default(0);
+                $table->float('temp_bearing_cp3', 10,3)->default(0);
+                $table->float('temp_stuffingbox_cp3', 10,3)->default(0);
+                $table->float('press_discharge_wbp1', 10,3)->default(0);
+                $table->float('press_suction_wbp1', 10,3)->default(0);
+                $table->float('press_discharge_wbp2', 10,3)->default(0);
+                $table->float('press_suction_wbp2', 10,3)->default(0);
+                $table->float('press_discharge_tcp', 10,3)->default(0);
+                $table->float('press_suction_tcp', 10,3)->default(0);
+                $table->float('press_discharge_sp', 10,3)->default(0);
+                $table->float('press_suction_sp', 10,3)->default(0);
+                $table->float('press_discharge_cp1', 10,3)->default(0);
+                $table->float('press_suction_cp1', 10,3)->default(0);
+                $table->float('press_discharge_cp2', 10,3)->default(0);
+                $table->float('press_suction_cp2', 10,3)->default(0);
+                $table->float('press_discharge_cp3', 10,3)->default(0);
+                $table->float('press_suction_cp3', 10,3)->default(0);
                 $table->timestamps();
             });
         }
