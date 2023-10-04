@@ -37,67 +37,67 @@ class Engine
         if(! empty($d0)) {
             $d0 = [
                 // D0
-                "me_rev_speed_con_value" => $d0[0] ?? 0,
-                "tc_rev_speed_con_value" => $d0[1] ?? 0,
-                "me_fo_rack_con_value" => $d0[2] ?? 0,
-                "propeller_rev_con_value" => $d0[3] ?? 0,
-                "me_lo_press_con_value" => $d0[4] ?? 0,
-                "me_fo_press_con_value" => $d0[5] ?? 0,
-                "me_h_temp_fw_press_con_value" => $d0[6] ?? 0,
-                "booster_air_pressure_con_value" => $d0[7] ?? 0,
-                "control_air_pressure_con_value" => $d0[8] ?? 0,
-                "me_lo_inlet_temp_con_value" => $d0[9] ?? 0,
-                "me_fw_high_temp_outlet_temp_con_value" => $d0[10] ?? 0,
-                "me_booster_air_emp_con_value" => $d0[11] ?? 0,
-                "me_exh_no1_cyl_temp_con_value" => $d0[12] ?? 0,
-                "me_exh_no2_cyl_temp_con_value" => $d0[13] ?? 0,
-                "me_exh_no3_cyl_temp_con_value" => $d0[14] ?? 0,
-                "me_exh_no4_cyl_temp_con_value" => $d0[15] ?? 0,
-                "me_exh_no5_cyl_temp_con_value" => $d0[16] ?? 0,
-                "me_exh_no6_cyl_temp_con_value" => $d0[17] ?? 0,
-                "me_exh_no7_cyl_temp_con_value" => $d0[18] ?? 0,
-                "me_exh_no8_cyl_temp_con_value" => $d0[19] ?? 0,
-                "tc_exh_in_temp1_con_value" => $d0[20] ?? 0,
-                "tc_exh_in_temp2_con_value" => $d0[21] ?? 0,
-                "tc_exh_out_temp_con_value" => $d0[22] ?? 0,
+                "me_rev_speed_con_value" => (float) $d0[0] ?? 0,
+                "tc_rev_speed_con_value" => (float) $d0[1] ?? 0,
+                "me_fo_rack_con_value" => (float) $d0[2] ?? 0,
+                "propeller_rev_con_value" => (float) $d0[3] ?? 0,
+                "me_lo_press_con_value" => (float) $d0[4] ?? 0,
+                "me_fo_press_con_value" => (float) $d0[5] ?? 0,
+                "me_h_temp_fw_press_con_value" => (float) $d0[6] ?? 0,
+                "booster_air_pressure_con_value" => (float) $d0[7] ?? 0,
+                "control_air_pressure_con_value" => (float) $d0[8] ?? 0,
+                "me_lo_inlet_temp_con_value" => (float) $d0[9] ?? 0,
+                "me_fw_high_temp_outlet_temp_con_value" => (float) $d0[10] ?? 0,
+                "me_booster_air_emp_con_value" => (float) $d0[11] ?? 0,
+                "me_exh_no1_cyl_temp_con_value" => (float) $d0[12] ?? 0,
+                "me_exh_no2_cyl_temp_con_value" => (float) $d0[13] ?? 0,
+                "me_exh_no3_cyl_temp_con_value" => (float) $d0[14] ?? 0,
+                "me_exh_no4_cyl_temp_con_value" => (float) $d0[15] ?? 0,
+                "me_exh_no5_cyl_temp_con_value" => (float) $d0[16] ?? 0,
+                "me_exh_no6_cyl_temp_con_value" => (float) $d0[17] ?? 0,
+                "me_exh_no7_cyl_temp_con_value" => (float) $d0[18] ?? 0,
+                "me_exh_no8_cyl_temp_con_value" => (float) $d0[19] ?? 0,
+                "tc_exh_in_temp1_con_value" => (float) $d0[20] ?? 0,
+                "tc_exh_in_temp2_con_value" => (float) $d0[21] ?? 0,
+                "tc_exh_out_temp_con_value" => (float) $d0[22] ?? 0,
             ];
         }
 
         if(! empty($d55)) {
             $d55 = [
                 // D55
-                "exh_temp_set" => $d55[0] ?? 0,
-                "deviation_high_set" => $d55[1] ?? 0,
-                "deviation_low_set" => $d55[2] ?? 0,
+                "exh_temp_set" => (float) $d55[0] ?? 0,
+                "deviation_high_set" => (float) $d55[1] ?? 0,
+                "deviation_low_set" => (float) $d55[2] ?? 0,
             ];
         }
 
         if(! empty($d400)) {
             $d400 = [
                 // D400
-                "me_rev_speed_set_high" => $d400[0] ?? 0,
-                "tc_rev_speed_set_high" => $d400[1] ?? 0,
-                "me_fo_rack_set_high" => $d400[2] ?? 0,
-                "propeller_rev_set_high" => $d400[3] ?? 0,
-                "me_lo_press_set_high" => $d400[4] ?? 0,
-                "me_fo_press_set_high" => $d400[5] ?? 0,
-                "me_h_temp_fw_press_set_high" => $d400[6] ?? 0,
-                "booster_air_pressure_set_high" => $d400[7] ?? 0,
-                "control_air_pressure_set_high" => $d400[8] ?? 0,
-                "me_lo_inlet_temp_set_high" => $d400[9] ?? 0,
-                "me_fw_high_temp_outlet_temp_set_high" => $d400[10] ?? 0,
-                "me_booster_air_emp_set_high" => $d400[11] ?? 0,
-                "me_exh_no1_cyl_temp_set_high" => $d400[12] ?? 0,
-                "me_exh_no2_cyl_temp_set_high" => $d400[13] ?? 0,
-                "me_exh_no3_cyl_temp_set_high" => $d400[14] ?? 0,
-                "me_exh_no4_cyl_temp_set_high" => $d400[15] ?? 0,
-                "me_exh_no5_cyl_temp_set_high" => $d400[16] ?? 0,
-                "me_exh_no6_cyl_temp_set_high" => $d400[17] ?? 0,
-                "me_exh_no7_cyl_temp_set_high" => $d400[18] ?? 0,
-                "me_exh_no8_cyl_temp_set_high" => $d400[19] ?? 0,
-                "tc_exh_in_temp1_set_high" => $d400[20] ?? 0,
-                "tc_exh_in_temp2_set_high" => $d400[21] ?? 0,
-                "tc_exh_out_temp_set_high" => $d400[22] ?? 0,
+                "me_rev_speed_set_high" => (float) $d400[0] ?? 0,
+                "tc_rev_speed_set_high" => (float) $d400[1] ?? 0,
+                "me_fo_rack_set_high" => (float) $d400[2] ?? 0,
+                "propeller_rev_set_high" => (float) $d400[3] ?? 0,
+                "me_lo_press_set_high" => (float) $d400[4] ?? 0,
+                "me_fo_press_set_high" => (float) $d400[5] ?? 0,
+                "me_h_temp_fw_press_set_high" => (float) $d400[6] ?? 0,
+                "booster_air_pressure_set_high" => (float) $d400[7] ?? 0,
+                "control_air_pressure_set_high" => (float) $d400[8] ?? 0,
+                "me_lo_inlet_temp_set_high" => (float) $d400[9] ?? 0,
+                "me_fw_high_temp_outlet_temp_set_high" => (float) $d400[10] ?? 0,
+                "me_booster_air_emp_set_high" => (float) $d400[11] ?? 0,
+                "me_exh_no1_cyl_temp_set_high" => (float) $d400[12] ?? 0,
+                "me_exh_no2_cyl_temp_set_high" => (float) $d400[13] ?? 0,
+                "me_exh_no3_cyl_temp_set_high" => (float) $d400[14] ?? 0,
+                "me_exh_no4_cyl_temp_set_high" => (float) $d400[15] ?? 0,
+                "me_exh_no5_cyl_temp_set_high" => (float) $d400[16] ?? 0,
+                "me_exh_no6_cyl_temp_set_high" => (float) $d400[17] ?? 0,
+                "me_exh_no7_cyl_temp_set_high" => (float) $d400[18] ?? 0,
+                "me_exh_no8_cyl_temp_set_high" => (float) $d400[19] ?? 0,
+                "tc_exh_in_temp1_set_high" => (float) $d400[20] ?? 0,
+                "tc_exh_in_temp2_set_high" => (float) $d400[21] ?? 0,
+                "tc_exh_out_temp_set_high" => (float) $d400[22] ?? 0,
             ];
         }
 
@@ -133,7 +133,7 @@ class Engine
         $collectData = array_merge($d0, $d55, $d400, $d500, [
             'terminal_time' => Carbon::parse($timestamp)->format('Y-m-d H:i:s'),
         ]);
-       
+        
         return [
             'engine' => $collectData
         ];
