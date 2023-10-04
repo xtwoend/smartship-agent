@@ -1,0 +1,16 @@
+{
+    "_terminalTime": "2023-10-04 11:10:26.637",
+    "_groupName": "ecr",
+    "control_air_inlet_pressure": "7.79",
+    "me_fo_inlet_pressure": "7.6",
+    "tc_lo_inlet_pressure": "0.23",
+    "me_air_cooler_cw_inlet_pressure": "1.83",
+    "main_lo_pco_inlet_pressure": "-0.14",
+    "jcw_inlet_pressure": "3.63",
+    "me_starting_air_pressure": "18.96",
+    "me_scavenging_air_pressure": "-0.01",
+    "no1_dg_lo_inlet_pressure": "5.97",
+    "no2_dg_lo_inlet_pressure": "5.7",
+    "no3_dg_lo_inlet_pressure": "0.98",
+    "tc_tacho_rpm": "-2.1"
+}
