@@ -9,7 +9,7 @@ use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
 use Carbon\Carbon;
 
-class KakapLog extends Model
+class ArarLog extends Model
 {
     /**
      * The table associated with the model.
