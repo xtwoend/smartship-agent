@@ -9,7 +9,7 @@ use App\Model\Alarm\SensorAlarmTrait;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Model\Events\Updated;
 
-class PengalenganLog extends Model
+class PangalenganLog extends Model
 {
     use SensorAlarmTrait;
     
