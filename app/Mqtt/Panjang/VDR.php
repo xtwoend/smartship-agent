@@ -15,7 +15,8 @@ class VDR
     public function parse()
     {
         $parse = null;
-        if(str_contains($this->message, 'GGA')) {
+
+        if(str_contains($this->message, 'GPGGA')) {
             $parse = $this->parseGPS($this->message);
         }elseif(str_contains($this->message, 'HDT')) {
             $parse = $this->parseHeading($this->message);
@@ -36,7 +37,7 @@ class VDR
         return $parse;
     }
 
-    protected function parseGPS(string $message, $header = 'GGA')
+    protected function parseGPS(string $message, $header = 'GPGGA')
     {
         $aData  = explode(',', $message);
        
