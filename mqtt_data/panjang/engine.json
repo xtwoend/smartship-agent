@@ -1,0 +1,16 @@
+{
+    "_terminalTime": "2023-10-06 08:23:35.902",
+    "_groupName": "ecr",
+    "me_exh_vv_spring_air_pressure": "6.19",
+    "me_fo_inlet_pressure": "4.89",
+    "tc_lo_inlet_pressure": "0",
+    "me_air_cooler_cw_inlet_pressure": "2.36",
+    "me_exh_vv_driv_oil_inlet_pressure": "-0.03",
+    "me_jacket_cfw_inlet_pressure": "3.29",
+    "me_starting_air_pressure": "-0.11",
+    "me_scavenging_air_pressure": "-0.01",
+    "no1_ge_lo_inlet_pressure": "1.22",
+    "no2_ge_lo_inlet_pressure": "310",
+    "no3_ge_lo_inlet_pressure": "310",
+    "me_lo_inlet_pressure": "-0.02"
+}
