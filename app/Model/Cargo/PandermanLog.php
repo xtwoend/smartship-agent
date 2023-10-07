@@ -44,8 +44,6 @@ class PandermanLog extends Model
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
-                $table->datetime('terminal_time')->unique();
-                
                 $table->datetime('terminal_time')->index();
                 $table->float('no_1_cot_p', 10, 3)->default(0);
                 $table->float('no_1_p_a_temp', 10, 3)->default(0);
