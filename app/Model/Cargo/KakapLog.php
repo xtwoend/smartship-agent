@@ -11,6 +11,13 @@ use Carbon\Carbon;
 
 class KakapLog extends Model
 {
+    use SensorAlarmTrait;
+
+    /**
+     * engine group sensor
+     */
+    public array $sensor_group = ['cargo'];
+    
     /**
      * The table associated with the model.
      */

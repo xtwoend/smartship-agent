@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace App\Model\Cargo;
 
+use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
 use Hyperf\Database\Schema\Blueprint;
-use Carbon\Carbon;
 
 class ArarLog extends Model
 {
+    use SensorAlarmTrait;
+
+    /**
+     * engine group sensor
+     */
+    public array $sensor_group = ['cargo'];
+
     /**
      * The table associated with the model.
      */
