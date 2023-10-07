@@ -1,0 +1,21 @@
+{
+    "pressure_tank_tank1": 4.614294052124023,
+    "level_tank1": 60.532405853271484,
+    "bottom_temp_tank1": 14.496528625488281,
+    "middle_temp_tank1": 14.91319465637207,
+    "top_temp_tank1": 23.020832061767578,
+    "motor_current_tank1": 129.05091857910156,
+    "sp_low_current_pm5101_tank1": 50,
+    "sp_bottom_temp_t5101_tank1": 45,
+    "pressure_tank_tank2": 4.672164440155029,
+    "level_tank2": 84.75115966796875,
+    "bottom_temp_tank2": 14.496528625488281,
+    "middle_temp_tank2": 14.427083969116211,
+    "top_temp_tank2": 27.77777862548828,
+    "motor_current_tank2": -0.11574073880910873,
+    "sp_low_current_pm5101_tank2": 50,
+    "sp_bottom_temp_t5101_tank2": 45,
+    "heating_crossover_outloading": 14.895833969116211,
+    "cm1101_motor_current": 0.1736111044883728,
+    "cm1201_motor_current": 0.0868055522441864
+}
