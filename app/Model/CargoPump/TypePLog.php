@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace App\Model\CargoPump;
 
+use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
 use Hyperf\Database\Schema\Blueprint;
-use Carbon\Carbon;
 
 class TypePLog extends Model
 {
+    use SensorAlarmTrait;
+
+    /**
+     * engine group sensor
+     */
+    public array $sensor_group = ['cargo_pump'];
+
     /**
      * The table associated with the model.
      */
