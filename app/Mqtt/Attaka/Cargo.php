@@ -16,7 +16,7 @@ class Cargo
     public function extract()
     {
         $data = Json::decode($this->message);
-
+       
         return [
             'cargo' => [
                 'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
