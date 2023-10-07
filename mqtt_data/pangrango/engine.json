@@ -1,0 +1,16 @@
+{
+    "_terminalTime": "2023-10-07 12:53:55.443",
+    "_groupName": "ecr",
+    "me_lo_inlet_pressure": "2.58",
+    "tc_lo_inlet_pressure": "1.61",
+    "jcw_inlet_pressure": "3.38",
+    "me_fo_inlet_pressure": "6.02",
+    "me_starting_air_pressure": "20.19",
+    "me_exh_vv_drive_oil_inlet_pressure": "3.51",
+    "me_scav_air_pressure": "1.4",
+    "no1_dg_lo_inlet_pressure": "5.51",
+    "no2_dg_lo_inlet_pressure": "23.89",
+    "no3_dg_lo_inlet_pressure": "-0.04",
+    "no1_main_air_bottle_pressure": "20.23",
+    "no2_main_air_bottle_pressure": "1.06"
+}
