@@ -31,20 +31,23 @@ class Ams
             'arar_engine.arar_me.New PLC 1.501' => 'channel501',
         ];
         foreach($arrayAms as $ams) {
-            // $this->setAlarm($ams['v'], $keys[$ams['id']]);
-            $aName = $keys[$ams['id']];
+            
+            $aName = $keys[$ams['id']] ?? null;
+            if(is_null($aName)) continue;
+        
             $array = Json::decode($ams['v']);
             foreach($array as $index => $val) {
                 if(! isset($this->{$aName}[$index])) continue;
-                var_dump($this->{$aName}[$index], $val);
-                // $alarms[] = [
-                //     'property' => 'ams_' . $aName,
-                //     'property_key' => $index,
-                //     'message' => $this->{$aName}[$index]
-                // ];
+                if($val == 1) {
+                    $alarms[] = [
+                        'property' => 'ams_' . $aName,
+                        'property_key' => $index,
+                        'message' => $this->{$aName}[$index] ?? NULL
+                    ];
+                }
+                
             }
         }
-        var_dump($alarms);
         return [
             'alarm' => $alarms
         ];
