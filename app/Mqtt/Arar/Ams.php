@@ -9,7 +9,6 @@ use Hyperf\Utils\Codec\Json;
 class Ams
 {
     protected string $message;
-    protected array $alarms;
 
     public function __construct(string $message) {
        
@@ -20,56 +19,35 @@ class Ams
     {
         $data = Json::decode($this->message);
         $arrayAms = $data['values'];
-
+        $alarms = [];
+        $keys = [
+            'arar_engine.arar_me.New PLC 1.21' => 'channel21',
+            'arar_engine.arar_me.New PLC 1.22' => 'channel22',
+            'arar_engine.arar_me.New PLC 1.23' => 'channel23',
+            'arar_engine.arar_me.New PLC 1.24' => 'channel24',
+            'arar_engine.arar_me.New PLC 1.400' => 'channel400',
+            'arar_engine.arar_me.New PLC 1.401' => 'channel401',
+            'arar_engine.arar_me.New PLC 1.500' => 'channel500',
+            'arar_engine.arar_me.New PLC 1.501' => 'channel501',
+        ];
         foreach($arrayAms as $ams) {
-            switch ($ams['id']) {
-                case 'arar_engine.arar_me.New PLC 1.21':
-                    $this->setAlarm($ams['v'], 'channel21');
-                    break;
-                case 'arar_engine.arar_me.New PLC 1.22':
-                    $this->setAlarm($ams['v'], 'channel22');
-                    break;
-                case 'arar_engine.arar_me.New PLC 1.23':
-                    $this->setAlarm($ams['v'], 'channel23');
-                    break;  
-                case 'arar_engine.arar_me.New PLC 1.24':
-                    $this->setAlarm($ams['v'], 'channel24');
-                    break; 
-                case 'arar_engine.arar_me.New PLC 1.400':
-                    $this->setAlarm($ams['v'], 'channel400');
-                    break;  
-                case 'arar_engine.arar_me.New PLC 1.401':
-                    $this->setAlarm($ams['v'], 'channel401');
-                    break;
-                case 'arar_engine.arar_me.New PLC 1.500':
-                    $this->setAlarm($ams['v'], 'channel500');
-                    break; 
-                case 'arar_engine.arar_me.New PLC 1.501':
-                    $this->setAlarm($ams['v'], 'channel501');
-                    break;   
-                default:
-                    # code...
-                    break;
+            // $this->setAlarm($ams['v'], $keys[$ams['id']]);
+            $aName = $keys[$ams['id']];
+            $array = Json::decode($ams['v']);
+            foreach($array as $index => $val) {
+                if(! isset($this->{$aName}[$index])) continue;
+                var_dump($this->{$aName}[$index], $val);
+                // $alarms[] = [
+                //     'property' => 'ams_' . $aName,
+                //     'property_key' => $index,
+                //     'message' => $this->{$aName}[$index]
+                // ];
             }
         }
-
+        var_dump($alarms);
         return [
-            'alarm' => $this->alarms
+            'alarm' => $alarms
         ];
-    }
-
-    function setAlarm(array $aValues, string $aName) : array {
-
-        foreach($aValues as $index => $val) {
-            
-            if(! isset($this->{$aName}[$index])) continue;
-
-            $this->alarms[] = [
-                'property' => 'ams_' . $aName,
-                'property_key' => $index,
-                'message' => $this->{$aName}[$index]
-            ];
-        }
     }
 
     function arrayToSnake() : array {
