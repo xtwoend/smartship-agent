@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Mqtt\Kakap;
+namespace App\Mqtt\Arar;
 
 use Carbon\Carbon;
 use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
 
-class Alarm
+class Ams
 {
     protected string $message;
     protected array $alarms;
