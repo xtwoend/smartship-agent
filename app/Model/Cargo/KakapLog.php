@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Model\Cargo;
 
+use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
 use Hyperf\Database\Schema\Blueprint;
-use Carbon\Carbon;
 
 class KakapLog extends Model
 {
@@ -52,30 +53,32 @@ class KakapLog extends Model
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->unique();
-                $table->float('no_1_cargo_tank_p', 10, 3)->nullable();
-                $table->float('temp_1ctp', 10, 3)->nullable();
-                $table->float('no_1_cargo_tank_s', 10, 3)->nullable();
-                $table->float('temp_1cts', 10, 3)->nullable();
-                $table->float('no_2_cargo_tank_p', 10, 3)->nullable();
-                $table->float('temp_2ctp', 10, 3)->nullable();
-                $table->float('no_2_cargo_tank_s', 10, 3)->nullable();
-                $table->float('temp_2cts', 10, 3)->nullable();
-                $table->float('no_3_cargo_tank_p', 10, 3)->nullable();
-                $table->float('temp_3ctp', 10, 3)->nullable();
-                $table->float('no_3_cargo_tank_s', 10, 3)->nullable();
-                $table->float('temp_3cts', 10, 3)->nullable();
-                $table->float('no_4_cargo_tank_p', 10, 3)->nullable();
-                $table->float('temp_4ctp', 10, 3)->nullable();
-                $table->float('no_4_cargo_tank_s', 10, 3)->nullable();
-                $table->float('temp_4cts', 10, 3)->nullable();
-                $table->float('no_5_cargo_tank_p', 10, 3)->nullable();
-                $table->float('temp_5ctp', 10, 3)->nullable();
-                $table->float('no_5_cargo_tank_s', 10, 3)->nullable();
-                $table->float('temp_5cts', 10, 3)->nullable();
-                $table->float('no_6_cargo_tank_p', 10, 3)->nullable();
-                $table->float('temp_6ctp', 10, 3)->nullable();
-                $table->float('no_6_cargo_tank_s', 10, 3)->nullable();
-                $table->float('temp_6cts', 10, 3)->nullable();
+                
+                $table->float('no_1_cargo_tank_p', 10, 3)->default(0);
+                $table->float('temp_1ctp', 10, 3)->default(0);
+                $table->float('no_1_cargo_tank_s', 10, 3)->default(0);
+                $table->float('temp_1cts', 10, 3)->default(0);
+                $table->float('no_2_cargo_tank_p', 10, 3)->default(0);
+                $table->float('temp_2ctp', 10, 3)->default(0);
+                $table->float('no_2_cargo_tank_s', 10, 3)->default(0);
+                $table->float('temp_2cts', 10, 3)->default(0);
+                $table->float('no_3_cargo_tank_p', 10, 3)->default(0);
+                $table->float('temp_3ctp', 10, 3)->default(0);
+                $table->float('no_3_cargo_tank_s', 10, 3)->default(0);
+                $table->float('temp_3ctm', 10, 3)->default(0);
+                $table->float('no_4_cargo_tank_p', 10, 3)->default(0);
+                $table->float('temp_4ctp', 10, 3)->default(0);
+                $table->float('no_4_cargo_tank_s', 10, 3)->default(0);
+                $table->float('temp_4cts', 10, 3)->default(0);
+                $table->float('no_5_cargo_tank_p', 10, 3)->default(0);
+                $table->float('temp_5ctp', 10, 3)->default(0);
+                $table->float('no_5_cargo_tank_s', 10, 3)->default(0);
+                $table->float('temp_5cts', 10, 3)->default(0);
+                $table->float('slop_tank_p', 10, 3)->default(0);
+                $table->float('temp_stp', 10, 3)->default(0);
+                $table->float('slop_tank_s', 10, 3)->default(0);
+                $table->float('temp_sts', 10, 3)->default(0);
+
                 $table->timestamps();
             });
         }

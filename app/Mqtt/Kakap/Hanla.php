@@ -33,7 +33,7 @@ class Hanla
                 'no_3_cargo_tank_p' => $data['NO_3_CARGO_TANK_P'],
                 'temp_3ctp' => $data['TEMP_3CTP'],
                 'no_3_cargo_tank_s' => $data['NO_3_CARGO_TANK_S'],
-                'temp_3cts' => $data['TEMP_3CTS'],
+                'temp_3ctm' => $data['TEMP_3CTM'],
                 'no_4_cargo_tank_p' => $data['NO_4_CARGO_TANK_P'],
                 'temp_4ctp' => $data['TEMP_4CTP'],
                 'no_4_cargo_tank_s' => $data['NO_4_CARGO_TANK_S'],
@@ -42,10 +42,10 @@ class Hanla
                 'temp_5ctp' => $data['TEMP_5CTP'],
                 'no_5_cargo_tank_s' => $data['NO_5_CARGO_TANK_S'],
                 'temp_5cts' => $data['TEMP_5CTS'],
-                'no_6_cargo_tank_p' => $data['NO_6_CARGO_TANK_P'],
-                'temp_6ctp' => $data['TEMP_6CTP'],
-                'no_6_cargo_tank_s' => $data['NO_6_CARGO_TANK_S'],
-                'temp_6cts' => $data['TEMP_6CTS'],
+                'slop_tank_p' => $data['SLOP_TANK_P'],
+                'temp_stp' => $data['TEMP_STP'],
+                'slop_tank_s' => $data['SLOP_TANK_S'],
+                'temp_sts' => $data['TEMP_STS'],
             ]
         ];
     }
@@ -72,7 +72,7 @@ class Hanla
         'NO_3_CARGO_TANK_P',
         'TEMP_3CTP',
         'NO_3_CARGO_TANK_S',
-        'TEMP_3CTS',
+        'TEMP_3CTM',
         'NO_4_CARGO_TANK_P',
         'TEMP_4CTP',
         'NO_4_CARGO_TANK_S',
@@ -81,9 +81,9 @@ class Hanla
         'TEMP_5CTP',
         'NO_5_CARGO_TANK_S',
         'TEMP_5CTS',
-        'NO_6_CARGO_TANK_P',
-        'TEMP_6CTP',
-        'NO_6_CARGO_TANK_S',
-        'TEMP_6CTS',
+        'SLOP_TANK_P',
+        'TEMP_STP',
+        'SLOP_TANK_S',
+        'TEMP_STS',
     ];
 }
