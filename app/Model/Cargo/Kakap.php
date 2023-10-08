@@ -39,7 +39,7 @@ class Kakap extends Model
     {
         $model = new self;
         $tableName = $model->getTable() . "_{$fleetId}";
-        
+       
         if(! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
