@@ -1,0 +1,11 @@
+{
+    "_terminalTime": "2023-10-09 02:51:53.392",
+    "_groupName": "pumpstatus",
+    "cargo_pump1_run": "0",
+    "cargo_pump2_run": "0",
+    "cargo_pump3_run": "0",
+    "wballast_pump1_run": "0",
+    "wballast_pump2_run": "0",
+    "tank_cleaning_pump_run": "0",
+    "stripping_pump_run": "0"
+}
