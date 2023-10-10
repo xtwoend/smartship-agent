@@ -1,0 +1,16 @@
+{
+    "_terminalTime": "2023-10-10 11:34:00.459",
+    "_groupName": "ecr",
+    "hfo_storage_tank_1p": "7.81",
+    "hfo_storage_tank_1s": "5.12",
+    "hfo_storage_tank_2p": "0.15",
+    "hfo_storage_tank_2s": "0.32",
+    "hfo_setting_tank": "1.79",
+    "hfo_service_tank_1": "2.05",
+    "hfo_service_tank_2": "2.28",
+    "mdo_storage_tank_p": "4.49",
+    "mdo_storage_tank_s": "4.4",
+    "mdo_setting_tank": "0.59",
+    "mdo_service_tank_1": "1.72",
+    "mdo_service_tank_2": "1.76"
+}
