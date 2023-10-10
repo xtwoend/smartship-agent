@@ -21,6 +21,7 @@ trait SensorAlarmTrait
         $fleetId = $model->fleet_id;
 
         // todo: 10/10/2023 15:12 add condition sensor by min & max value
+        $this->conditionSensor();
         
         foreach($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
             $val = $model->{$sensor->sensor_name};
@@ -58,6 +59,26 @@ trait SensorAlarmTrait
                 }
                 $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
                 $hi->save();
+            }
+        }
+        
+    }
+
+
+    function conditionSensor() : void {
+        foreach($this->sensor()->get() as $sensor) {
+            $val = $model->{$sensor->sensor_name};
+            
+            if($val) {
+                if($sensor->min < $val || $sensor->max > $val) {
+                    $sensor->update([
+                        'condition' => 'ABNORMAL'
+                    ]);
+                }else{
+                    $sensor->update([
+                        'condition' => 'NORMAL'
+                    ]);
+                }
             }
         }
     }
