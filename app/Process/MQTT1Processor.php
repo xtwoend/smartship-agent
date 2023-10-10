@@ -7,6 +7,7 @@ namespace App\Process;
 use Carbon\Carbon;
 use App\Model\Device;
 use Hyperf\Utils\Str;
+use App\Model\MqttLog;
 use App\Event\MQTTReceived;
 use PhpMqtt\Client\MqttClient;
 use Hyperf\Process\AbstractProcess;
@@ -37,6 +38,13 @@ class MQTT1Processor extends AbstractProcess
             $mqtt->subscribe($device->topic, function ($topic, $message) use ($logger, $event, $device) {
                 $device->update(['last_message' => $message, 'last_connected' => Carbon::now()]);
                 $class = $device->extractor;
+                
+                // MqttLog::create([
+                //     'fleet_id' => $device->fleet_id,
+                //     'topic' => $topic,
+                //     'message' => $message,
+                // ]);
+
                 // var_dump($topic, $message, $class);
                 if(!class_exists($class)){
                     return;
