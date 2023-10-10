@@ -70,7 +70,7 @@ trait SensorAlarmTrait
         foreach($this->sensor as $sensor) {
             $val = $model->{$sensor->sensor_name};
             if($val) {
-                if($sensor->min < $val || $sensor->max > $val) {
+                if($val < $sensor->min || $val > $sensor->max) {
                     $sensor->update([
                         'condition' => 'ABNORMAL',
                         'value' => $val
