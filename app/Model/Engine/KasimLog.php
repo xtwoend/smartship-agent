@@ -5,15 +5,18 @@ namespace App\Model\Engine;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Model\Events\Updated;
 
-class Kasim extends Model
+class KasimLog extends Model
 {
+    use SensorAlarmTrait;
+    
     /**
      * The table associated with the model.
      */
-    protected ?string $table = 'engines';
+    protected ?string $table = 'engine_log';
 
     /**
      * The connection name for the model.
@@ -32,19 +35,23 @@ class Kasim extends Model
         'terminal_time' => 'datetime'
     ];
 
+    /**
+     * engine group sensor
+     */
+    public array $sensor_group = ['engine'];
+
     // create table cargo if not found table
-    public static function table($fleetId)
+    public static function table($fleetId, $date = null)
     {
+        $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
         $model = new self;
-        $tableName = $model->getTable() . "_{$fleetId}";
-       
+        $tableName = $model->getTable() . "_{$fleetId}_{$date}";
+        
         if(! Schema::hasTable($tableName)) {
-            
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
-                
                 // 
                 $table->float('rpm_propeller', 10, 3)->default(0);
                 $table->float('eng_htcw_pressure', 10, 3)->default(0);
@@ -66,30 +73,10 @@ class Kasim extends Model
                 $table->float('eng_exh_gas_temp_cyl6_te1606', 10, 3)->default(0);
                 $table->float('eng_exh_gas_temp_cyl7_te1607', 10, 3)->default(0);
                 $table->float('eng_exh_gas_temp_cyl8_te1608', 10, 3)->default(0);
-
                 $table->timestamps();
             });
         }
         
         return $model->setTable($tableName);
-    }
-
-    // update & insert
-    public function updated(Updated $event)
-    {
-        $model = $event->getModel();
-        $date = $model->terminal_time;
-        $last = KasimLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
-        $now = Carbon::parse($date);
-
-        // save interval 60 detik
-        if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
-            return;
-        }
-
-        return KasimLog::table($model->fleet_id, $date)->updateOrCreate([
-            'fleet_id' => $model->fleet_id,
-            'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }
