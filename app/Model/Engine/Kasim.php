@@ -39,7 +39,7 @@ class Kasim extends Model
         $tableName = $model->getTable() . "_{$fleetId}";
        
         if(! Schema::hasTable($tableName)) {
-            
+           
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
@@ -47,7 +47,6 @@ class Kasim extends Model
                 
                 // 
                 $table->float('rpm_propeller', 10, 3)->default(0);
-                $table->float('eng_htcw_pressure', 10, 3)->default(0);
                 $table->float('eng_htcw_pressure', 10, 3)->default(0);
 
                 $table->float('speed_lever_sig_factor_dep_idle_rpm', 10, 3)->default(0);

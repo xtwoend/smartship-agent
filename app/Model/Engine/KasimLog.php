@@ -55,7 +55,6 @@ class KasimLog extends Model
                 // 
                 $table->float('rpm_propeller', 10, 3)->default(0);
                 $table->float('eng_htcw_pressure', 10, 3)->default(0);
-                $table->float('eng_htcw_pressure', 10, 3)->default(0);
 
                 $table->float('speed_lever_sig_factor_dep_idle_rpm', 10, 3)->default(0);
                 $table->float('speed_lever_sig_factor_dep_idle_rpmcal', 10, 3)->default(0);
