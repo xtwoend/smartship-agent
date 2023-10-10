@@ -21,7 +21,7 @@ trait SensorAlarmTrait
         $fleetId = $model->fleet_id;
 
         // todo: 10/10/2023 15:12 add condition sensor by min & max value
-        $this->conditionSensor();
+        $this->conditionSensor($model);
 
         foreach($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
             $val = $model->{$sensor->sensor_name};
@@ -65,10 +65,10 @@ trait SensorAlarmTrait
     }
 
 
-    function conditionSensor() : void {
-        foreach($this->sensor()->get() as $sensor) {
+    private function conditionSensor($model) : void {
+    
+        foreach($this->sensor as $sensor) {
             $val = $model->{$sensor->sensor_name};
-            
             if($val) {
                 if($sensor->min < $val || $sensor->max > $val) {
                     $sensor->update([
