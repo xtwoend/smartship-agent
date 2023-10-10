@@ -1,0 +1,16 @@
+{
+    "_terminalTime": "2023-10-10 11:11:36.596",
+    "_groupName": "ecr",
+    "me_lo_inlet_pressure": "0",
+    "me_tc_lo_inlet_pressure": "0",
+    "me_jcw_inlet_pressure": "0",
+    "me_fo_inlet_pressure": "0",
+    "me_starting_air_pressure": "0",
+    "me_scavenging_air_pressure": "0",
+    "me_exh_valve_spring_air_pressure": "0",
+    "me_cfw_air_cooler_pressure": "0",
+    "me_exh_valve_drive_oil_pressure": "0",
+    "no1_dg_lo_inlet_pressure": "0",
+    "no2_dg_lo_inlet_pressure": "0",
+    "no3_dg_lo_inlet_pressure": "0"
+}
