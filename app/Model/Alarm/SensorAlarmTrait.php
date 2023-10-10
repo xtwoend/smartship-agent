@@ -22,7 +22,7 @@ trait SensorAlarmTrait
 
         // todo: 10/10/2023 15:12 add condition sensor by min & max value
         $this->conditionSensor();
-        
+
         foreach($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
             $val = $model->{$sensor->sensor_name};
             $val = round($val, 2, PHP_ROUND_HALF_UP);
@@ -72,11 +72,13 @@ trait SensorAlarmTrait
             if($val) {
                 if($sensor->min < $val || $sensor->max > $val) {
                     $sensor->update([
-                        'condition' => 'ABNORMAL'
+                        'condition' => 'ABNORMAL',
+                        'value' => $val
                     ]);
                 }else{
                     $sensor->update([
-                        'condition' => 'NORMAL'
+                        'condition' => 'NORMAL',
+                        'value' => $val
                     ]);
                 }
             }
