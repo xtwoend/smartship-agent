@@ -19,6 +19,9 @@ trait SensorAlarmTrait
     {
         $model = $event->getModel();
         $fleetId = $model->fleet_id;
+
+        // todo: 10/10/2023 15:12 add condition sensor by min & max value
+        
         foreach($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
             $val = $model->{$sensor->sensor_name};
             $val = round($val, 2, PHP_ROUND_HALF_UP);
