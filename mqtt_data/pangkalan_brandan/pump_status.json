@@ -1,0 +1,17 @@
+{
+    "cargo_pump1_run": false,
+    "cargo_pump1_alarm": false,
+    "cargo_pump2_run": false,
+    "cargo_pump2_alarm": false,
+    "cargo_pump3_run": false,
+    "cargo_pump3_alarm": true,
+    "ballast_pump1_run": false,
+    "ballast_pump1_alarm": false,
+    "ballast_pump2_run": false,
+    "ballast_pump2_alarm": false,
+    "stripping_pump_run": false,
+    "stripping_pump_alarm": false,
+    "cleaningtank_pump_run": false,
+    "cleaningtank_pump_alarm": false,
+    "ts": "2023-10-10T14:58:47.075741"
+}

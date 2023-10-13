@@ -4,7 +4,7 @@ namespace App\Mqtt\PBrandan;
 
 use Hyperf\Utils\Codec\Json;
 
-class CCRCargoPump
+class Cargo
 {
     protected string $message;
 
@@ -17,7 +17,7 @@ class CCRCargoPump
         $data = Json::decode($this->message);
       
         return [
-            'cargo_pump' => [
+            'cargo' => [
                 'terminal_time' => (string) $data['ts'],
                 'pump_non_drvend_c1' => (float) $data['pump_non_drvend_c1'],
                 'pump_casing_c1' => (float) $data['pump_casing_c1'],
