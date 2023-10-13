@@ -2,6 +2,7 @@
 
 namespace App\Mqtt\PBrandan;
 
+use Carbon\Carbon;
 use Hyperf\Utils\Codec\Json;
 
 class Cargo
@@ -15,10 +16,10 @@ class Cargo
     public function extract()
     {
         $data = Json::decode($this->message);
-      
+
         return [
             'cargo' => [
-                'terminal_time' => (string) $data['ts'],
+                'terminal_time' => (string) $data['ts'] ?? Carbon::now()->format('Y-m-d H:i:s'),
                 'pump_non_drvend_c1' => (float) $data['pump_non_drvend_c1'],
                 'pump_casing_c1' => (float) $data['pump_casing_c1'],
                 'bulk_head_c1' => (float) $data['bulk_head_c1'],

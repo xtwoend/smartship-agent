@@ -39,7 +39,8 @@ class Pangkalanbrandan extends Model
     {
         $model = new self;
         $tableName = $model->getTable() . "_{$fleetId}";
-        
+      
+
         if(! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
@@ -89,7 +90,7 @@ class Pangkalanbrandan extends Model
                 $table->float('mdo_service_tank_1', 10, 3)->default(0);
                 $table->float('mdo_service_tank_2', 10, 3)->default(0);
 
-                $table->datetime('pump_latest_update_at', 10, 3)->nullable();
+                $table->datetime('pump_latest_update_at')->nullable();
                 $table->boolean('cargo_pump1_run', 10, 3)->nullable();
                 $table->boolean('cargo_pump1_alarm', 10, 3)->nullable();
                 $table->boolean('cargo_pump2_run', 10, 3)->nullable();

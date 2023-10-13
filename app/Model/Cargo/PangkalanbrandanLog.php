@@ -97,7 +97,7 @@ class PangkalanbrandanLog extends Model
                 $table->float('mdo_service_tank_1', 10, 3)->default(0);
                 $table->float('mdo_service_tank_2', 10, 3)->default(0);
 
-                $table->datetime('pump_latest_update_at', 10, 3)->nullable();
+                $table->datetime('pump_latest_update_at')->nullable();
                 $table->boolean('cargo_pump1_run', 10, 3)->nullable();
                 $table->boolean('cargo_pump1_alarm', 10, 3)->nullable();
                 $table->boolean('cargo_pump2_run', 10, 3)->nullable();
@@ -112,7 +112,7 @@ class PangkalanbrandanLog extends Model
                 $table->boolean('stripping_pump_alarm', 10, 3)->nullable();
                 $table->boolean('cleaningtank_pump_run', 10, 3)->nullable();
                 $table->boolean('cleaningtank_pump_alarm', 10, 3)->nullable();
-                
+
                 $table->timestamps();
             });
         }
