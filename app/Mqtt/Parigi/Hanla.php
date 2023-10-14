@@ -4,7 +4,7 @@ namespace App\Mqtt\Parigi;
 
 use Hyperf\Utils\Codec\Json;
 
-class Cargo
+class Hanla
 {
     protected string $message;
 
