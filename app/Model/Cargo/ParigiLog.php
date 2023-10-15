@@ -85,6 +85,76 @@ class ParigiLog extends Model
                 $table->float('slop_tank_s_level', 10, 3)->default(0);
                 $table->float('slop_tank_s_temp', 10, 3)->default(0);
                 
+                // cargo 
+                $table->float('cargo_timestamp', 10, 3)->default(0);
+                $table->float('bottom_gear_cp1', 10, 3)->default(0);
+                $table->float('pump_casing_c1', 10, 3)->default(0);
+                $table->float('upper_gear_cp1', 10, 3)->default(0);
+                $table->float('transmission_seal_c1', 10, 3)->default(0);
+                $table->float('trans_v_bearing_c1', 10, 3)->default(0);
+                $table->float('throtle_position_cp1', 10, 3)->default(0);
+                $table->float('bottom_gear_cp2', 10, 3)->default(0);
+                $table->float('pump_casing_cp2', 10, 3)->default(0);
+                $table->float('upper_gear_cp2', 10, 3)->default(0);
+                $table->float('transmission_seal_cp2', 10, 3)->default(0);
+                $table->float('trans_v_bearing_cp2', 10, 3)->default(0);
+                $table->float('throtle_position_cp2', 10, 3)->default(0);
+                $table->float('bottom_gear_cp3', 10, 3)->default(0);
+                $table->float('pump_casing_cp3', 10, 3)->default(0);
+                $table->float('upper_gear_cp3', 10, 3)->default(0);
+                $table->float('tansmission_seal_cp3', 10, 3)->default(0);
+                $table->float('throtle_position_cp3', 10, 3)->default(0);
+                $table->float('pump_casing_bp1', 10, 3)->default(0);
+                $table->float('upper_gear_bp1', 10, 3)->default(0);
+                $table->float('transmission_sealing_bp1', 10, 3)->default(0);
+                $table->float('transmission_v_bearing_bp1', 10, 3)->default(0);
+                $table->float('pump_casing_bp2', 10, 3)->default(0);
+                $table->float('upper_gear_bp2', 10, 3)->default(0);
+                $table->float('transmission_seal_bp2', 10, 3)->default(0);
+                $table->float('transmission_v_bearing_bp2', 10, 3)->default(0);
+                $table->float('bearing_temp_vp1', 10, 3)->default(0);
+                $table->float('bearing_temp_vp2', 10, 3)->default(0);
+                $table->float('bottom_gear_sp', 10, 3)->default(0);
+                $table->float('pump_casing_sp', 10, 3)->default(0);
+                $table->float('upper_gear_sp', 10, 3)->default(0);
+                $table->float('transmission_seal_sp', 10, 3)->default(0);
+                $table->float('transmission_v_bearing_sp', 10, 3)->default(0);
+                $table->float('bottom_gear_tcp', 10, 3)->default(0);
+                $table->float('pump_casing_tcp', 10, 3)->default(0);
+                $table->float('upper_gear_tcp', 10, 3)->default(0);
+                $table->float('transmission_seal_tcp', 10, 3)->default(0);
+                $table->float('transmission_v_bearing_tcp', 10, 3)->default(0);
+                $table->float('suction_cp1', 10, 3)->default(0);
+                $table->float('suction_cp2', 10, 3)->default(0);
+                $table->float('suction_cp3', 10, 3)->default(0);
+                $table->float('suction_sp', 10, 3)->default(0);
+                $table->float('suction_tcp', 10, 3)->default(0);
+                $table->float('suction_bp1', 10, 3)->default(0);
+                $table->float('suction_bp2', 10, 3)->default(0);
+                $table->float('vibration_cp1', 10, 3)->default(0);
+                $table->float('vibration_cp2', 10, 3)->default(0);
+                $table->float('vibration_cp3', 10, 3)->default(0);
+                $table->float('discharge_cp1', 10, 3)->default(0);
+                $table->float('discharge_cp2', 10, 3)->default(0);
+                $table->float('discharge_cp3', 10, 3)->default(0);
+                $table->float('dicharge_press_sp', 10, 3)->default(0);
+                $table->float('discharge_press_tcp', 10, 3)->default(0);
+                $table->float('discharge_press_bp1', 10, 3)->default(0);
+                $table->float('discharge_press_bp2', 10, 3)->default(0);
+                $table->float('vacuum_manifold_pressure', 10, 3)->default(0);
+
+                // pump status
+                $table->float('cargo_pump_timestamp', 10, 3)->default(0);
+                $table->float('cargo_pump1_run', 10, 3)->default(0);
+                $table->float('cargo_pump2_run', 10, 3)->default(0);
+                $table->float('cargo_pump3_run', 10, 3)->default(0);
+                $table->float('ballast_pump1_run', 10, 3)->default(0);
+                $table->float('ballast_pump2_run', 10, 3)->default(0);
+                $table->float('stripping_pump_run', 10, 3)->default(0);
+                $table->float('vacuum_pump1_run', 10, 3)->default(0);
+                $table->float('vacuum_pump2_run', 10, 3)->default(0);
+                $table->float('tank_cleaning_pump_run', 10, 3)->default(0);
+                
                 $table->timestamps();
             });
         }
