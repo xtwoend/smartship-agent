@@ -34,9 +34,9 @@ class Hanla
                 'temp_3ctp' => $data['TEMP_3CTP'],
                 'no_3_cargo_tank_s' => $data['NO_3_CARGO_TANK_S'],
                 'temp_3ctm' => $data['TEMP_3CTM'],
-                'no_4_cargo_tank_p' => $data['NO_4_CARGO_TANK_P'],
+                'no_4_cargo_tank_p' => (float) ($data['NO_4_CARGO_TANK_P'] / 10000),
                 'temp_4ctp' => $data['TEMP_4CTP'],
-                'no_4_cargo_tank_s' => $data['NO_4_CARGO_TANK_S'],
+                'no_4_cargo_tank_s' => (float) ($data['NO_4_CARGO_TANK_S'] / 10000),
                 'temp_4cts' => $data['TEMP_4CTS'],
                 'no_5_cargo_tank_p' => $data['NO_5_CARGO_TANK_P'],
                 'temp_5ctp' => $data['TEMP_5CTP'],
@@ -44,7 +44,7 @@ class Hanla
                 'temp_5cts' => $data['TEMP_5CTS'],
                 'slop_tank_p' => $data['SLOP_TANK_P'],
                 'temp_stp' => $data['TEMP_STP'],
-                'slop_tank_s' => $data['SLOP_TANK_S'],
+                'slop_tank_s' => (float) ($data['SLOP_TANK_S'] / 10000),
                 'temp_sts' => $data['TEMP_STS'],
             ]
         ];
