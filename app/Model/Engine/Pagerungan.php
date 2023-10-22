@@ -122,18 +122,18 @@ class Pagerungan extends Model
                 $table->float('control_air_inlet_pressure', 12, 3)->default(0);
 
                 // bunker
-                $table->float('hfo_storage_tank_1p', 10, 3)->default(0);
-                $table->float('hfo_storage_tank_1s', 10, 3)->default(0);
-                $table->float('hfo_storage_tank_2p', 10, 3)->default(0);
-                $table->float('hfo_storage_tank_2s', 10, 3)->default(0);
-                $table->float('hfo_setting_tank', 10, 3)->default(0);
-                $table->float('hfo_service_tank_1', 10, 3)->default(0);
-                $table->float('hfo_service_tank_2', 10, 3)->default(0);
-                $table->float('mdo_storage_tank_p', 10, 3)->default(0);
-                $table->float('mdo_storage_tank_s', 10, 3)->default(0);
-                $table->float('mdo_setting_tank', 10, 3)->default(0);
-                $table->float('mdo_service_tank_1', 10, 3)->default(0);
-                $table->float('mdo_service_tank_2', 10, 3)->default(0);
+                // $table->float('hfo_storage_tank_1p', 10, 3)->default(0);
+                // $table->float('hfo_storage_tank_1s', 10, 3)->default(0);
+                // $table->float('hfo_storage_tank_2p', 10, 3)->default(0);
+                // $table->float('hfo_storage_tank_2s', 10, 3)->default(0);
+                // $table->float('hfo_setting_tank', 10, 3)->default(0);
+                // $table->float('hfo_service_tank_1', 10, 3)->default(0);
+                // $table->float('hfo_service_tank_2', 10, 3)->default(0);
+                // $table->float('mdo_storage_tank_p', 10, 3)->default(0);
+                // $table->float('mdo_storage_tank_s', 10, 3)->default(0);
+                // $table->float('mdo_setting_tank', 10, 3)->default(0);
+                // $table->float('mdo_service_tank_1', 10, 3)->default(0);
+                // $table->float('mdo_service_tank_2', 10, 3)->default(0);
 
 
                 $table->timestamps();
