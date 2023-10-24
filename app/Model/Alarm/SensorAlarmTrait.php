@@ -25,7 +25,7 @@ trait SensorAlarmTrait
 
         foreach($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
             $val = $model->{$sensor->sensor_name};
-            $val = round($val, 2, PHP_ROUND_HALF_UP);
+            $val = number($val);
             
             if($model->{$sensor->sensor_name} < $sensor->normal) {
                 
