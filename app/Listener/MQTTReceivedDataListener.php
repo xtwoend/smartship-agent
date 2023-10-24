@@ -31,10 +31,9 @@ class MQTTReceivedDataListener implements ListenerInterface
             $fleet = $event->device?->fleet;
             
             if($fleet) {
-                $fleet->update([
-                        'connected' => 1,
-                        'last_connection' => Carbson::now()->format('Y-m-d H:i:s')
-                ]);
+                $fleet->connected = 1;
+                $fleet->last_connection = Carbon::now();
+                $fleet->save();
             }
         }
     }
