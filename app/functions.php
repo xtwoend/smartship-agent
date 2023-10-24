@@ -53,3 +53,10 @@ if (! function_exists('websocket_emit')) {
         $io->to($fleet)->emit($event, Json::encode($data));
     } 
 }
+
+
+if(! function_exists('number')) {
+    function number($number) {
+        return number_format($number, 2, ",",".");
+    }
+}
