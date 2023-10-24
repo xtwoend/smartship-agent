@@ -79,9 +79,9 @@ class Fleet extends Model
                 'fleet_id' => $this->id
             ], $m);
 
-            $this->connected = 1;
-            $this->last_connection = Carbon::now();
-            $this->save();
+            // $this->connected = 1;
+            // $this->last_connection = Carbon::now();
+            // $this->save();
 
             $this->logger('navigation', $log);
             
