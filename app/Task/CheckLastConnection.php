@@ -18,7 +18,7 @@ class CheckLastConnection
         $now = Carbon::now();
 
         Fleet::where('connected', 1)
-            ->where('last_connection', '<', $now->subMinutes(5)->format('Y-m-d H:i:s'))
+            ->where('last_connection', '<', $now->subMinutes(15)->format('Y-m-d H:i:s'))
             ->update([
                 'connected' => 0,
                 'fleet_status' => 'lost_connection'
