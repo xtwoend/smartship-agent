@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
+use Carbon\Carbon;
 use App\Model\Fleet;
 use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
@@ -32,7 +33,7 @@ class MQTTReceivedDataListener implements ListenerInterface
             if($fleet) {
                 $fleet->update([
                         'connected' => 1,
-                        'last_connection' => Carbon::now()->format('Y-m-d H:i:s')
+                        'last_connection' => Carbson::now()->format('Y-m-d H:i:s')
                 ]);
             }
         }
