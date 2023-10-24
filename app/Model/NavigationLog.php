@@ -14,6 +14,8 @@ use Hyperf\Database\Model\Events\Creating;
  */
 class NavigationLog extends Model
 {
+    use SensorAlarmTrait;
+    
     /**
      * The table associated with the model.
      */
