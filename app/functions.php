@@ -56,7 +56,7 @@ if (! function_exists('websocket_emit')) {
 
 
 if(! function_exists('number')) {
-    function number($number) {
-        return number_format($number, 2, ",",".");
+    function number($number, $digit = 2) {
+        return number_format($number, $digit, ",",".");
     }
 }
