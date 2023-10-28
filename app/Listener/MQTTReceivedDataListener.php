@@ -33,6 +33,11 @@ class MQTTReceivedDataListener implements ListenerInterface
             if($fleet) {
                 $fleet->connected = 1;
                 $fleet->last_connection = Carbon::now();
+        
+                if($fleet->fleet_status == 'lost_connection') {
+                    $fleet->fleet_status = 'other';
+                }
+
                 $fleet->save();
             }
         }
