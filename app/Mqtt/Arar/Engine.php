@@ -66,7 +66,7 @@ class Engine
         if(! empty($d55)) {
             $d55 = [
                 // D55
-                "exh_temp_set" => (float) $d55[0] ?? 0,
+                "exh_temp_set" => (float) ($d55[0] ?? 0) * 0.1,
                 "deviation_high_set" => (float) $d55[1] ?? 0,
                 "deviation_low_set" => (float) $d55[2] ?? 0,
             ];
