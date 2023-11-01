@@ -129,7 +129,7 @@ class Pasaman extends Model
                 $table->boolean('ballast_pump1_run')->default(false);
                 $table->boolean('ballast_pump2_run')->default(false);
 
-                // Cargo
+                // Cargo operation
                 $table->datetime('cargo_timestamp')->nullable();
                 $table->float('bottom_gear_cp1', 10, 3)->default(0);
                 $table->float('pump_casing_cp1', 10, 3)->default(0);
