@@ -86,7 +86,7 @@ class ParigiLog extends Model
                 $table->float('slop_tank_s_temp', 10, 3)->default(0);
                 
                 // cargo 
-                $table->datetime('cargo_timestamp', 10, 3)->default(0);
+                $table->datetime('cargo_timestamp')->nullable();
                 $table->float('bottom_gear_cp1', 10, 3)->default(0);
                 $table->float('pump_casing_c1', 10, 3)->default(0);
                 $table->float('upper_gear_cp1', 10, 3)->default(0);
@@ -144,7 +144,7 @@ class ParigiLog extends Model
                 $table->float('vacuum_manifold_pressure', 10, 3)->default(0);
 
                 // pump status
-                $table->datetime('cargo_pump_timestamp', 10, 3)->default(0);
+                $table->datetime('cargo_pump_timestamp')->nullable();
                 $table->float('cargo_pump1_run', 10, 3)->default(0);
                 $table->float('cargo_pump2_run', 10, 3)->default(0);
                 $table->float('cargo_pump3_run', 10, 3)->default(0);
