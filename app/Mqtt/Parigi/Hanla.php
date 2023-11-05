@@ -2,6 +2,7 @@
 
 namespace App\Mqtt\Parigi;
 
+use Carbon\Carbon;
 use Hyperf\Utils\Codec\Json;
 
 class Hanla
@@ -18,7 +19,7 @@ class Hanla
 
         return [
             'cargo' => [
-                'terminal_time' => (string) $data['_terminalTime'],
+                'terminal_time' => (string) $data['_terminalTime'] ?? Carbon::now()->format('Y-m-d H:i:s'),
                 'no1_cargo_tank_p_level' => (float) $data['NO_1_CARGO_TANK_P'],
                 'no1_cargo_tank_p_temp' => (float) $data['TEMP_1CTP'],
                 'no1_cargo_tank_s_level' => (float) $data['NO_1_CARGO_TANK_S'],

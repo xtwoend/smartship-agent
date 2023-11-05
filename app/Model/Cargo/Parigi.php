@@ -39,7 +39,7 @@ class Parigi extends Model
     {
         $model = new self;
         $tableName = $model->getTable() . "_{$fleetId}";
-       
+        
         if(! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
@@ -160,7 +160,7 @@ class Parigi extends Model
     public function updated(Updated $event)
     {
         $model = $event->getModel();
-       
+        
         $date = $model->terminal_time;
         $last = ParigiLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
      
