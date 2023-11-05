@@ -21,16 +21,16 @@ class CargoPump
        
         return [
             'cargo' => [
-                'cargo_pump_timestamp' => $data['ts'] ?? Carbon::now()->format('Y-m-d H:i:s'),
-                'cargo_pump1_run' => (int) $data['cargo_pump1_run'],
-                'cargo_pump2_run' => (int) $data['cargo_pump2_run'],
-                'cargo_pump3_run' => (int) $data['cargo_pump3_run'],
-                'ballast_pump1_run' => (int) $data['ballast_pump1_run'],
-                'ballast_pump2_run' => (int) $data['ballast_pump2_run'],
-                'stripping_pump_run' => (int) $data['stripping_pump_run'],
-                'vacuum_pump1_run' => (int) $data['vacuum_pump1_run'],
-                'vacuum_pump2_run' => (int) $data['vacuum_pump2_run'],
-                'tank_cleaning_pump_run' => (int) $data['tank_cleaning_pump_run'],
+                'cargo_pump_timestamp' => (string) $data['ts'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'cargo_pump1_run' => (boolean) $data['cargo_pump1_run'],
+                'cargo_pump2_run' => (boolean) $data['cargo_pump2_run'],
+                'cargo_pump3_run' => (boolean) $data['cargo_pump3_run'],
+                'ballast_pump1_run' => (boolean) $data['ballast_pump1_run'],
+                'ballast_pump2_run' => (boolean) $data['ballast_pump2_run'],
+                'stripping_pump_run' => (boolean) $data['stripping_pump_run'],
+                'vacuum_pump1_run' => (boolean) $data['vacuum_pump1_run'],
+                'vacuum_pump2_run' => (boolean) $data['vacuum_pump2_run'],
+                'tank_cleaning_pump_run' => (boolean) $data['tank_cleaning_pump_run'],
             ]
         ];
     }
