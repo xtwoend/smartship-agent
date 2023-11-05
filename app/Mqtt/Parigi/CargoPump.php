@@ -22,15 +22,15 @@ class CargoPump
         return [
             'cargo' => [
                 'cargo_pump_timestamp' => $data['ts'] ?? Carbon::now()->format('Y-m-d H:i:s'),
-                'cargo_pump1_run' => $data['cargo_pump1_run'],
-                'cargo_pump2_run' => $data['cargo_pump2_run'],
-                'cargo_pump3_run' => $data['cargo_pump3_run'],
-                'ballast_pump1_run' => $data['ballast_pump1_run'],
-                'ballast_pump2_run' => $data['ballast_pump2_run'],
-                'stripping_pump_run' => $data['stripping_pump_run'],
-                'vacuum_pump1_run' => $data['vacuum_pump1_run'],
-                'vacuum_pump2_run' => $data['vacuum_pump2_run'],
-                'tank_cleaning_pump_run' => $data['tank_cleaning_pump_run'],
+                'cargo_pump1_run' => (int) $data['cargo_pump1_run'],
+                'cargo_pump2_run' => (int) $data['cargo_pump2_run'],
+                'cargo_pump3_run' => (int) $data['cargo_pump3_run'],
+                'ballast_pump1_run' => (int) $data['ballast_pump1_run'],
+                'ballast_pump2_run' => (int) $data['ballast_pump2_run'],
+                'stripping_pump_run' => (int) $data['stripping_pump_run'],
+                'vacuum_pump1_run' => (int) $data['vacuum_pump1_run'],
+                'vacuum_pump2_run' => (int) $data['vacuum_pump2_run'],
+                'tank_cleaning_pump_run' => (int) $data['tank_cleaning_pump_run'],
             ]
         ];
     }
