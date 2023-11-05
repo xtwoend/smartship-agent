@@ -145,15 +145,15 @@ class ParigiLog extends Model
 
                 // pump status
                 $table->datetime('cargo_pump_timestamp')->nullable();
-                $table->float('cargo_pump1_run', 10, 3)->default(0);
-                $table->float('cargo_pump2_run', 10, 3)->default(0);
-                $table->float('cargo_pump3_run', 10, 3)->default(0);
-                $table->float('ballast_pump1_run', 10, 3)->default(0);
-                $table->float('ballast_pump2_run', 10, 3)->default(0);
-                $table->float('stripping_pump_run', 10, 3)->default(0);
-                $table->float('vacuum_pump1_run', 10, 3)->default(0);
-                $table->float('vacuum_pump2_run', 10, 3)->default(0);
-                $table->float('tank_cleaning_pump_run', 10, 3)->default(0);
+                $table->boolean('cargo_pump1_run')->default(0);
+                $table->boolean('cargo_pump2_run')->default(0);
+                $table->boolean('cargo_pump3_run')->default(0);
+                $table->boolean('ballast_pump1_run')->default(0);
+                $table->boolean('ballast_pump2_run')->default(0);
+                $table->boolean('stripping_pump_run')->default(0);
+                $table->boolean('vacuum_pump1_run')->default(0);
+                $table->boolean('vacuum_pump2_run')->default(0);
+                $table->boolean('tank_cleaning_pump_run')->default(0);
                 
                 $table->timestamps();
             });
