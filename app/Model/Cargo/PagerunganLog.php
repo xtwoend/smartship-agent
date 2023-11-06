@@ -98,7 +98,7 @@ class PagerunganLog extends Model
                 $table->boolean('stripping_pump_alarm')->nullable();
                 $table->boolean('cleaningtank_pump_run')->nullable();
                 $table->boolean('cleaningtank_pump_alarm')->nullable();
-                
+
                 // panasia/hanla
                 $table->float('cargo_tank1p_ullage', 10, 3)->default(0);
                 $table->float('cargo_tank1s_ullage', 10, 3)->default(0);
