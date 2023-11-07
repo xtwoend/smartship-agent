@@ -39,25 +39,6 @@ class MQTTReceivedDataListener implements ListenerInterface
                 }
                 
                 $fleet->save();
-
-                // save duration fleet status
-                $hi = $fleet->status_durations()->where([
-                        'fleet_id' => $fleetId,
-                        'fleet_status' => $fleet->fleet_status,
-                        'status' => 1
-                    ])->first();
-                if($hi) {
-                    $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
-                    $hi->save(); 
-                }else{
-                    $fleet->status_durations()->update(['status' => 0]);
-                    $fleet->status_durations()->create([
-                        'fleet_id' => $fleetId,
-                        'fleet_status' => $fleet->fleet_status,
-                        'status' => 1,
-                        'started_at' => Carbon::now()->format('Y-m-d H:i:s')
-                    ]);
-                }
             }
         }
     }

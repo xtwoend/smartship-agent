@@ -26,7 +26,7 @@ class CheckLastConnection
 
         $loses = Fleet::where('connected', 0)->get();
         foreach($loses as $lost) {
-            $hi = $lost->firstOrCreate([
+            $hi = $lost->status_durations()->firstOrCreate([
                 'fleet_status' => 'lost_connection',
                 'status' => 1,
             ], [

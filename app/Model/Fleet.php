@@ -15,6 +15,7 @@ use App\Model\Engine\EngineTrait;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use App\Model\CargoPump\CargoPumpTrait;
+use Hyperf\Database\Model\Events\Updated;
 
 /**
  */
@@ -141,5 +142,29 @@ class Fleet extends Model
     public function status_durations() 
     {
         return $this->hasMany(FleetStatusDuration::class, 'fleet_id');
+    }
+
+    public function updated(Updated $event)
+    {
+        $fleet = $event->getModel();
+        
+        // save duration fleet status
+        $hi = FleetStatusDuration::where([
+                'fleet_id' => $fleet->id,
+                'fleet_status' => $fleet->fleet_status,
+                'status' => 1
+            ])->first();
+        if($hi) {
+            $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
+            $hi->save(); 
+        }else{
+            FleetStatusDuration::update(['status' => 0]);
+            FleetStatusDuration::create([
+                'fleet_id' => $fleet->id,
+                'fleet_status' => $fleet->fleet_status,
+                'status' => 1,
+                'started_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
+        }
     }
 }
