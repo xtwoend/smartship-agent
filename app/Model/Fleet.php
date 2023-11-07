@@ -131,4 +131,15 @@ class Fleet extends Model
     {
         return $this->hasMany(Voyage::class, 'fleet_id');
     }
+
+
+    public function avarages()
+    {
+        return $this->hasMany(FleetAverage::class, 'fleet_id');
+    }
+
+    public function status_durations() 
+    {
+        return $this->hasMany(FleetStatusDuration::class, 'fleet_id');
+    }
 }
