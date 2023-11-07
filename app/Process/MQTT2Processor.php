@@ -12,7 +12,7 @@ use Hyperf\Process\AbstractProcess;
 use Hyperf\Process\Annotation\Process;
 use Hyperf\Contract\StdoutLoggerInterface;
 
-#[Process(name: 'MQTT2Processor')]
+// #[Process(name: 'MQTT2Processor')]
 class MQTT2Processor extends AbstractProcess
 {
     public function handle(): void
