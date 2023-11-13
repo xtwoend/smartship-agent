@@ -27,7 +27,7 @@ class FleetDailyReport extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['fleet_id', 'date', 'sensor', 'value'];
+    protected array $fillable = ['fleet_id', 'date', 'sensor', 'before', 'after', 'value'];
 
     /**
      * The attributes that should be cast to native types.
@@ -47,8 +47,9 @@ class FleetDailyReport extends Model
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->date('date')->unique();
                 $table->string('sensor')->nullable();
-                $table->string('value')->nullable();
-                // $table->timestamps();
+                $table->float('before', 15, 3)->nullable();
+                $table->float('after', 15, 3)->nullable();
+                $table->float('value', 15, 3)->nullable();
                 $table->index(['date', 'sensor'], 'index_date_sensor');
             });
         }
