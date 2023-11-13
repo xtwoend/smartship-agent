@@ -44,7 +44,7 @@ class FleetDailyReport extends Model
         
         if(! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
-                $table->uuid('id')->primary();
+                $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->date('date')->unique();
                 $table->string('sensor')->nullable();
@@ -54,10 +54,5 @@ class FleetDailyReport extends Model
         }
         
         return $model->setTable($tableName);
-    }
-
-    public function creating(Creating $event)
-    {
-        $this->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
     }
 }
