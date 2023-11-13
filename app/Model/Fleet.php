@@ -154,7 +154,7 @@ class Fleet extends Model
             $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
             $hi->save(); 
         }else{
-            FleetStatusDuration::update(['status' => 0]);
+            FleetStatusDuration::where('fleet_id', $fleet->id)->update(['status' => 0]);
             FleetStatusDuration::create([
                 'fleet_id' => $fleet->id,
                 'fleet_status' => $fleet->fleet_status,
