@@ -23,7 +23,10 @@ class FleetStatusDuration extends Model
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = [];
+    protected array $casts = [
+        'started_at' => 'datetime',
+        'finished_at' => 'datetime'
+    ];
 
     /**
      * relation to fleet
