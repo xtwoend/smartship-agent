@@ -12,6 +12,7 @@ use App\Model\EngineLimit;
 use App\Model\Engine\Engine;
 use App\Model\Cargo\CargoTrait;
 use App\Model\Engine\EngineTrait;
+use App\Model\FleetStatusDuration;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use App\Model\CargoPump\CargoPumpTrait;
