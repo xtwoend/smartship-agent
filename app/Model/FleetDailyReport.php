@@ -49,6 +49,7 @@ class FleetDailyReport extends Model
                 $table->string('sensor')->nullable();
                 $table->string('value')->nullable();
                 // $table->timestamps();
+                $table->index(['date', 'sensor'], 'index_date_sensor');
             });
         }
         
