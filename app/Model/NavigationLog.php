@@ -86,14 +86,14 @@ class NavigationLog extends Model
         $model = $event->getModel();
         
         $now = Carbon::now();
-        $fdr = FleetDailyReport::where([
+        $fdr = FleetDailyReport::table($model->fleet_id)->where([
             'fleet_id' => $model->fleet_id,
             'date' => $now->format('Y-m-d'),
             'sensor' => 'distance'
         ])->first();
         
         if(! $fdr) {
-            $fdr = new FleetDailyReport;
+            $fdr = FleetDailyReport::table($model->fleet_id);
             $fdr->fleet_id = $model->fleet_id;
             $fdr->date = $now->format('Y-m-d');
             $fdr->sensor = 'distance';
