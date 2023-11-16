@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Model;
 
 use Carbon\Carbon;
+use App\Model\FleetDailyReport;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use App\Model\Alarm\SensorAlarmTrait;
 use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Model\Events\Created;
 use Hyperf\Database\Model\Events\Creating;
 
 /**
@@ -77,5 +79,29 @@ class NavigationLog extends Model
     public function creating(Creating $event)
     {
         $this->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
+    }
+
+    public function created(Created $event) 
+    {
+        $model = $event->getModel();
+        
+        $now = Carbon::now();
+        $fdr = FleetDailyReport::where([
+            'fleet_id' => $model->fleet_id,
+            'date' => $now->format('Y-m-d'),
+            'sensor' => 'distance'
+        ])->first();
+        
+        if(! $fdr) {
+            $fdr = new FleetDailyReport;
+            $fdr->fleet_id = $model->fleet_id;
+            $fdr->date = $now->format('Y-m-d');
+            $fdr->sensor = 'distance';
+            $fdr->before = $model->total_distance;
+        }
+
+        $fdr->after = $model->total_distance;
+        $fdr->value = ($fdr->after - $fdr->before);
+        $fdr->save();
     }
 }
