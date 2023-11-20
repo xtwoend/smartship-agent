@@ -161,7 +161,7 @@ class TypeSLog extends Model
     }
 
     // Calculate percentage cargo capacity
-    function cagroCapacity($model) : ?float {
+    function cargoCapacity($model) : ?float {
         $fleet = Fleet::find($model->fleet_id);
         $cargoCapacity = $fleet->max_capacity ?? 100;
 
@@ -189,7 +189,7 @@ class TypeSLog extends Model
     {
         $model = $event->getModel();
 
-        $value = $this->cagroCapacity($model);
+        $value = $this->cargoCapacity($model);
 
         $now = Carbon::now();
         $fdr = FleetDailyReport::table($model->fleet_id)->where([
