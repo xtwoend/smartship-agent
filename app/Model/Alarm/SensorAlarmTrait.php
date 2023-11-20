@@ -98,23 +98,23 @@ trait SensorAlarmTrait
             $value = $this->cargoCapacity($model);
             // var_dump($value);
             $now = Carbon::now();
-            $fdr = FleetDailyReport::table($model->fleet_id)->where([
+            $fsr = FleetDailyReport::table($model->fleet_id)->where([
                 'fleet_id' => $model->fleet_id,
                 'date' => $now->format('Y-m-d'),
                 'sensor' => 'cargo_percentage'
             ])->first();
             
-            if(! $fdr) {
-                $fdr = FleetDailyReport::table($model->fleet_id);
-                $fdr->fleet_id = $model->fleet_id;
-                $fdr->date = $now->format('Y-m-d');
-                $fdr->sensor = 'cargo_percentage';
-                $fdr->before = $value;
+            if(! $fsr) {
+                $fsr = FleetDailyReport::table($model->fleet_id);
+                $fsr->fleet_id = $model->fleet_id;
+                $fsr->date = $now->format('Y-m-d');
+                $fsr->sensor = 'cargo_percentage';
+                $fsr->before = $value;
             }
 
-            $fdr->after = $value;
-            $fdr->value = ($fdr->after - $fdr->before);
-            $fdr->save();
+            $fsr->after = $value;
+            $fsr->value = ($fsr->after - $fsr->before);
+            $fsr->save();
         }
     }
 }

@@ -136,7 +136,7 @@ class ArarLog extends Model
 
         $totalPercentage = 0;
         foreach($cargoArray as $d) {
-            $totalPercentage += $model->{$d};
+            $totalPercentage += ($model->{$d} / 100);
         }
 
         $percentageCargo = $totalPercentage / count($cargoArray);
