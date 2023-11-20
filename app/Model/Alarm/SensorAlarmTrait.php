@@ -96,7 +96,7 @@ trait SensorAlarmTrait
         if(\method_exists($this, 'cargoCapacity')) {
             // var_dump('called' . $model->fleet_id);
             $value = $this->cargoCapacity($model);
-            var_dump($value);
+            // var_dump($value);
             $now = Carbon::now();
             $fsr = FleetDailyReport::table($model->fleet_id)->where([
                 'fleet_id' => $model->fleet_id,
