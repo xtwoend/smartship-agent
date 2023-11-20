@@ -93,8 +93,8 @@ trait SensorAlarmTrait
 
     public function calculateCargo($model) 
     {
-        if(method_exists($this, 'cargoCapacity')) {
-            
+        if(\method_exists($this, 'cargoCapacity')) {
+
             $value = $this->cargoCapacity($model);
             $now = Carbon::now();
             $fdr = FleetDailyReport::table($model->fleet_id)->where([
