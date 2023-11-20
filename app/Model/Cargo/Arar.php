@@ -139,4 +139,23 @@ class Arar extends Model
             'terminal_time' => $date,
         ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
+
+
+    // Calculate percentage cargo capacity
+    public function cargoCapacity($model) : ?float {
+    
+        $cargoArray = [
+            'level_tank1', 
+            'level_tank2',
+        ];
+
+        $totalPercentage = 0;
+        foreach($cargoArray as $d) {
+            $totalPercentage += $model->{$d};
+        }
+
+        $percentageCargo = $totalPercentage / count($cargoArray);
+
+        return (float) $percentageCargo;
+    }
 }
