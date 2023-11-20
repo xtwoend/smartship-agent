@@ -169,7 +169,7 @@ class TypeSLog extends Model
         $data = [];
         foreach($cargoArray as $c) {
             $us = $sensors->where('sensor_name', $c)->first();
-            $max = $us->max;
+            $max = $us->danger;
             $value = $model->{$c};
             
             $percentage = ($value <= $max)? ($value / $max) : 0;

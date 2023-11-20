@@ -176,4 +176,42 @@ class PandermanLog extends Model
         
         return $model->setTable($tableName);
     }
+
+
+    // Calculate percentage cargo capacity
+    public function cargoCapacity($model) : ?float {
+    
+        $cargoArray = [
+            'no_1_cot_p', 
+            'no_1_cot_s', 
+            'no_2_cot_p', 
+            'no_2_cot_2',
+            'no_3_cot_p', 
+            'no_3_cot_s', 
+            'no_4_cot_p', 
+            'no_4_cot_2',
+            'no_5_cot_p', 
+            'no_5_cot_s', 
+        ];
+        $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->get();
+        
+        $data = [];
+        foreach($cargoArray as $c) {
+            $us = $sensors->where('sensor_name', $c)->first();
+            $max = $us->danger;
+            $value = $model->{$c};
+            
+            $percentage = ($value <= $max)? ($value / $max) : 0;
+            $data[$c] = (1 - $percentage);
+        }
+        
+        $totalPercentage = 0;
+        foreach($data as $d) {
+            $totalPercentage += $d;
+        }
+
+        $percentageCargo = $totalPercentage / count($cargoArray);
+
+        return $percentageCargo;
+    }
 }

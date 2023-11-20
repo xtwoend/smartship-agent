@@ -126,7 +126,7 @@ class ArarLog extends Model
         return $model->setTable($tableName);
     }
 
-        // Calculate percentage cargo capacity
+    // Calculate percentage cargo capacity
     public function cargoCapacity($model) : ?float {
     
         $cargoArray = [

@@ -209,4 +209,23 @@ class WalioLog extends Model
         
         return $model->setTable($tableName);
     }
+
+
+    // Calculate percentage cargo capacity
+    public function cargoCapacity($model) : ?float {
+    
+        $cargoArray = [
+            'level_cargo_1_stb', 
+            'level_cargo_1_port',
+        ];
+
+        $totalPercentage = 0;
+        foreach($cargoArray as $d) {
+            $totalPercentage += ($model->{$d} / 100);
+        }
+
+        $percentageCargo = $totalPercentage / count($cargoArray);
+
+        return (float) $percentageCargo;
+    }
 }
