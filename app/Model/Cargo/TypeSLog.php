@@ -161,7 +161,7 @@ class TypeSLog extends Model
     }
 
     // Calculate percentage cargo capacity
-    function cargoCapacity($model) : ?float {
+    public function cargoCapacity($model) : ?float {
         $fleet = Fleet::find($model->fleet_id);
         $cargoCapacity = $fleet->max_capacity ?? 100;
 
