@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
+use App\Model\Fleet;
+use App\Model\Sensor;
+use App\Model\FleetDailyReport;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use App\Model\Alarm\SensorAlarmTrait;
 use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Model\Events\Created;
 
 class TypeSLog extends Model
 {
@@ -154,5 +158,56 @@ class TypeSLog extends Model
         }
         
         return $model->setTable($tableName);
+    }
+
+    // Calculate percentage cargo capacity
+    function cagroCapacity($model) : ?float {
+        $fleet = Fleet::find($model->fleet_id);
+        $cargoCapacity = $fleet->max_capacity ?? 100;
+
+        $cargoArray = ['tank_1_port', 'tank_2_port', 'tank_3_port', 'tank_4_port', 'tank_5_port', 'tank_6_port', 'tank_1_stb', 'tank_2_stb', 'tank_3_stb', 'tank_4_stb', 'tank_5_stb', 'tank_6_stb'];
+        $sensors = Sensor::where('fleet_id', $fleet_id)->where('group', 'cargo')->get();
+        $data = [];
+        foreach($cargoArray as $c) {
+            $us = $sensors->where('sensor_name', $c)->first();
+            $max = $us->max;
+            $value = $model->{$c};
+            $percentage = ($value <= $max)? ($max / $value) : 0;
+            $data[$c] = (1 - $percentage);
+        }
+        $totalPercentage = 0;
+        foreach($data as $d) {
+            $totalPercentage += $d;
+        }
+
+        $percentageCargo = $totalPercentage / count($cargoArray);
+
+        return $percentageCargo;
+    }
+
+    public function created(Created $event) 
+    {
+        $model = $event->getModel();
+
+        $value = $this->cagroCapacity($model);
+
+        $now = Carbon::now();
+        $fdr = FleetDailyReport::table($model->fleet_id)->where([
+            'fleet_id' => $model->fleet_id,
+            'date' => $now->format('Y-m-d'),
+            'sensor' => 'cargo_percentage'
+        ])->first();
+        
+        if(! $fdr) {
+            $fdr = FleetDailyReport::table($model->fleet_id);
+            $fdr->fleet_id = $model->fleet_id;
+            $fdr->date = $now->format('Y-m-d');
+            $fdr->sensor = 'cargo_percentage';
+            $fdr->before = $value;
+        }
+
+        $fdr->after = $value;
+        $fdr->value = ($fdr->after - $fdr->before);
+        $fdr->save();
     }
 }
