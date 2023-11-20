@@ -175,6 +175,7 @@ class TypeSLog extends Model
             $percentage = ($value <= $max)? ($value / $max) : 0;
             $data[$c] = (1 - $percentage);
         }
+        
         $totalPercentage = 0;
         foreach($data as $d) {
             $totalPercentage += $d;
