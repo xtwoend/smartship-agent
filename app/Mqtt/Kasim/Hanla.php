@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mqtt\Kamojang;
+namespace App\Mqtt\Kasim;
 
 use Carbon\Carbon;
 use Hyperf\Utils\Str;
