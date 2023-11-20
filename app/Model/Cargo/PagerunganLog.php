@@ -223,7 +223,7 @@ class PagerunganLog extends Model
 
 
     // Calculate percentage cargo capacity
-    public function cargoCapacity($model) : ?float {
+    public function cargoCapacity($model) : void {
     
         $cargoArray = [
             'cargo_tank1p_ullage', 
@@ -255,6 +255,23 @@ class PagerunganLog extends Model
 
         $percentageCargo = $totalPercentage / count($cargoArray);
 
-        return $percentageCargo;
+        $now = \Carbon\Carbon::now();
+        $fsr = \App\Model\FleetDailyReport::table($model->fleet_id)->where([
+            'fleet_id' => $model->fleet_id,
+            'date' => $now->format('Y-m-d'),
+            'sensor' => 'cargo_percentage'
+        ])->first();
+        
+        if(! $fsr) {
+            $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);
+            $fsr->fleet_id = $model->fleet_id;
+            $fsr->date = $now->format('Y-m-d');
+            $fsr->sensor = 'cargo_percentage';
+            $fsr->before = $percentageCargo;
+        }
+
+        $fsr->after = $percentageCargo;
+        $fsr->value = ($fsr->after - $fsr->before);
+        $fsr->save();
     }
 }

@@ -127,7 +127,7 @@ class ArarLog extends Model
     }
 
     // Calculate percentage cargo capacity
-    public function cargoCapacity($model) : ?float {
+    public function cargoCapacity($model) : void {
     
         $cargoArray = [
             'level_tank1', 
@@ -141,6 +141,25 @@ class ArarLog extends Model
 
         $percentageCargo = $totalPercentage / count($cargoArray);
 
-        return (float) $percentageCargo;
+        // return (float) $percentageCargo;
+
+        $now = \Carbon\Carbon::now();
+        $fsr = \App\Model\FleetDailyReport::table($model->fleet_id)->where([
+            'fleet_id' => $model->fleet_id,
+            'date' => $now->format('Y-m-d'),
+            'sensor' => 'cargo_percentage'
+        ])->first();
+        
+        if(! $fsr) {
+            $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);
+            $fsr->fleet_id = $model->fleet_id;
+            $fsr->date = $now->format('Y-m-d');
+            $fsr->sensor = 'cargo_percentage';
+            $fsr->before = $percentageCargo;
+        }
+
+        $fsr->after = $percentageCargo;
+        $fsr->value = ($fsr->after - $fsr->before);
+        $fsr->save();
     }
 }

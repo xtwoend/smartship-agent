@@ -25,7 +25,10 @@ trait SensorAlarmTrait
         $this->conditionSensor($model);
         
         // added cargo percantage calculate
-        $this->calculateCargo($model);
+        // $this->calculateCargo($model);
+        if(\method_exists($this, 'cargoCapacity')) {
+            $this->cargoCapacity($model);
+        }
        
         foreach($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
             $val = $model->{$sensor->sensor_name};
@@ -88,33 +91,6 @@ trait SensorAlarmTrait
                     ]);
                 }
             }
-        }
-    }
-
-    public function calculateCargo($model) 
-    {
-        if(\method_exists($this, 'cargoCapacity')) {
-            // var_dump('called' . $model->fleet_id);
-            $value = $this->cargoCapacity($model);
-            // var_dump($value);
-            $now = Carbon::now();
-            $fsr = FleetDailyReport::table($model->fleet_id)->where([
-                'fleet_id' => $model->fleet_id,
-                'date' => $now->format('Y-m-d'),
-                'sensor' => 'cargo_percentage'
-            ])->first();
-            
-            if(! $fsr) {
-                $fsr = FleetDailyReport::table($model->fleet_id);
-                $fsr->fleet_id = $model->fleet_id;
-                $fsr->date = $now->format('Y-m-d');
-                $fsr->sensor = 'cargo_percentage';
-                $fsr->before = $value;
-            }
-
-            $fsr->after = $value;
-            $fsr->value = ($fsr->after - $fsr->before);
-            $fsr->save();
         }
     }
 }
