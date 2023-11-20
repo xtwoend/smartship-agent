@@ -125,4 +125,22 @@ class ArarLog extends Model
         
         return $model->setTable($tableName);
     }
+
+        // Calculate percentage cargo capacity
+    public function cargoCapacity($model) : ?float {
+    
+        $cargoArray = [
+            'level_tank1', 
+            'level_tank2',
+        ];
+
+        $totalPercentage = 0;
+        foreach($cargoArray as $d) {
+            $totalPercentage += $model->{$d};
+        }
+
+        $percentageCargo = $totalPercentage / count($cargoArray);
+
+        return (float) $percentageCargo;
+    }
 }
