@@ -195,7 +195,7 @@ class TypeSLog extends Model
         }
 
         $percentageCargo = $totalPercentage / count($cargoArray);
-
+        
         return $percentageCargo;
     }
 }
