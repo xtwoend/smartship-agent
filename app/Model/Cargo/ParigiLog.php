@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
+use App\Model\Sensor;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use App\Model\Alarm\SensorAlarmTrait;
@@ -160,5 +161,43 @@ class ParigiLog extends Model
         }
         
         return $model->setTable($tableName);
+    }
+
+
+    // Calculate percentage cargo capacity
+    public function cargoCapacity($model) : ?float {
+    
+        $cargoArray = [
+            'no1_cargo_tank_p_level', 
+            'no1_cargo_tank_s_level', 
+            'no2_cargo_tank_p_level', 
+            'no2_cargo_tank_s_level',
+            'no3_cargo_tank_p_level', 
+            'no3_cargo_tank_s_level', 
+            'no4_cargo_tank_p_level', 
+            'no4_cargo_tank_s_level',
+            'no5_cargo_tank_p_level', 
+            'no5_cargo_tank_s_level',
+        ];
+        $sensors = Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->get();
+        
+        $data = [];
+        foreach($cargoArray as $c) {
+            $us = $sensors->where('sensor_name', $c)->first();
+            $max = $us->max;
+            $value = $model->{$c};
+            
+            $percentage = ($value <= $max)? ($value / $max) : 0;
+            $data[$c] = (1 - $percentage);
+        }
+        
+        $totalPercentage = 0;
+        foreach($data as $d) {
+            $totalPercentage += $d;
+        }
+
+        $percentageCargo = $totalPercentage / count($cargoArray);
+
+        return $percentageCargo;
     }
 }
