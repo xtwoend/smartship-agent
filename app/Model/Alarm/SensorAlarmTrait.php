@@ -94,7 +94,7 @@ trait SensorAlarmTrait
     public function calculateCargo($model) 
     {
         if(\method_exists($this, 'cargoCapacity')) {
-            var_dump('called' . $model->fleet_id);
+            // var_dump('called' . $model->fleet_id);
             $value = $this->cargoCapacity($model);
             var_dump($value);
             $now = Carbon::now();
