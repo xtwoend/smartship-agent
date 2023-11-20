@@ -138,6 +138,8 @@ class KasimLog extends Model
             'date' => $now->format('Y-m-d'),
             'sensor' => 'cargo_percentage'
         ])->first();
+
+        
         
         if(! $fsr) {
             $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);

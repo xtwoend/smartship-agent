@@ -138,6 +138,8 @@ class KamojangLog extends Model
             'sensor' => 'cargo_percentage'
         ])->first();
         
+        
+
         if(! $fsr) {
             $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);
             $fsr->fleet_id = $model->fleet_id;
