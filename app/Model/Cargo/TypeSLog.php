@@ -163,7 +163,20 @@ class TypeSLog extends Model
     // Calculate percentage cargo capacity
     public function cargoCapacity($model) : ?float {
     
-        $cargoArray = ['tank_1_port', 'tank_2_port', 'tank_3_port', 'tank_4_port', 'tank_5_port', 'tank_6_port', 'tank_1_stb', 'tank_2_stb', 'tank_3_stb', 'tank_4_stb', 'tank_5_stb', 'tank_6_stb'];
+        $cargoArray = [
+            'tank_1_port', 
+            'tank_2_port', 
+            'tank_3_port', 
+            'tank_4_port', 
+            'tank_5_port', 
+            'tank_6_port', 
+            'tank_1_stb', 
+            'tank_2_stb', 
+            'tank_3_stb', 
+            'tank_4_stb', 
+            'tank_5_stb', 
+            'tank_6_stb'
+        ];
         
 
         $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
