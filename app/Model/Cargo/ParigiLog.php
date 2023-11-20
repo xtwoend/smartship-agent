@@ -179,7 +179,7 @@ class ParigiLog extends Model
             'no5_cargo_tank_p_level', 
             'no5_cargo_tank_s_level',
         ];
-        $sensors = Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->get();
+        $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->get();
         
         $data = [];
         foreach($cargoArray as $c) {

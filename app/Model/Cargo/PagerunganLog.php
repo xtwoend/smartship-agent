@@ -220,4 +220,42 @@ class PagerunganLog extends Model
         
         return $model->setTable($tableName);
     }
+
+
+    // Calculate percentage cargo capacity
+    public function cargoCapacity($model) : ?float {
+    
+        $cargoArray = [
+            'cargo_tank1p_ullage', 
+            'cargo_tank1s_ullage', 
+            'cargo_tank2p_ullage', 
+            'cargo_tank2s_ullage',
+            'cargo_tank3p_ullage', 
+            'cargo_tank3s_ullage', 
+            'cargo_tank4p_ullage', 
+            'cargo_tank4s_ullage', 
+            'cargo_tank5p_ullage', 
+            'cargo_tank5s_ullage', 
+        ];
+        $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->get();
+        
+        $data = [];
+        foreach($cargoArray as $c) {
+            $us = $sensors->where('sensor_name', $c)->first();
+            $max = $us->max;
+            $value = $model->{$c};
+            
+            $percentage = ($value <= $max)? ($value / $max) : 0;
+            $data[$c] = (1 - $percentage);
+        }
+        
+        $totalPercentage = 0;
+        foreach($data as $d) {
+            $totalPercentage += $d;
+        }
+
+        $percentageCargo = $totalPercentage / count($cargoArray);
+
+        return $percentageCargo;
+    }
 }
