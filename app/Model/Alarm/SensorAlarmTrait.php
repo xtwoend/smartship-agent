@@ -20,13 +20,13 @@ trait SensorAlarmTrait
     {
         $model = $event->getModel();
         $fleetId = $model->fleet_id;
-
+        
         // todo: 10/10/2023 15:12 add condition sensor by min & max value
         $this->conditionSensor($model);
-
+        
         // added cargo percantage calculate
         $this->calculateCargo($model);
-
+       
         foreach($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
             $val = $model->{$sensor->sensor_name};
             $val = number($val);
@@ -94,7 +94,6 @@ trait SensorAlarmTrait
     public function calculateCargo($model) 
     {
         $value = $this->cargoCapacity($model);
-        var_dump($value);
         
         $now = Carbon::now();
         $fdr = FleetDailyReport::table($model->fleet_id)->where([

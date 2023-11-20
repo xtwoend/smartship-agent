@@ -153,7 +153,7 @@ class TypeS extends Model
     public function updated(Updated $event)
     {
         $model = $event->getModel();
-       
+        
         $date = $model->terminal_time;
         $last = TypeSLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
      

@@ -162,17 +162,17 @@ class TypeSLog extends Model
 
     // Calculate percentage cargo capacity
     public function cargoCapacity($model) : ?float {
-        $fleet = Fleet::find($model->fleet_id);
-        $cargoCapacity = $fleet->max_capacity ?? 100;
-
+    
         $cargoArray = ['tank_1_port', 'tank_2_port', 'tank_3_port', 'tank_4_port', 'tank_5_port', 'tank_6_port', 'tank_1_stb', 'tank_2_stb', 'tank_3_stb', 'tank_4_stb', 'tank_5_stb', 'tank_6_stb'];
-        $sensors = Sensor::where('fleet_id', $fleet_id)->where('group', 'cargo')->get();
+        $sensors = Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->get();
+        
         $data = [];
         foreach($cargoArray as $c) {
             $us = $sensors->where('sensor_name', $c)->first();
             $max = $us->max;
             $value = $model->{$c};
-            $percentage = ($value <= $max)? ($max / $value) : 0;
+            
+            $percentage = ($value <= $max)? ($value / $max) : 0;
             $data[$c] = (1 - $percentage);
         }
         $totalPercentage = 0;
