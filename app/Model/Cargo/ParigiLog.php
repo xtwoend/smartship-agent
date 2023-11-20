@@ -179,12 +179,11 @@ class ParigiLog extends Model
             'no5_cargo_tank_p_level', 
             'no5_cargo_tank_s_level',
         ];
-        $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->get();
         
+        $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
         $data = [];
         foreach($cargoArray as $c) {
-            $us = $sensors->where('sensor_name', $c)->first();
-            $max = $us->danger;
+            $max = $sensors[$c];
             $value = $model->{$c};
             
             $percentage = ($value <= $max)? ($value / $max) : 0;
