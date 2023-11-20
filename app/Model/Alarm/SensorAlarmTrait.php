@@ -5,6 +5,7 @@ namespace App\Model\Alarm;
 use Carbon\Carbon;
 use App\Model\Sensor;
 use App\Model\Alarm\Alarm;
+use App\Model\FleetDailyReport;
 use Hyperf\Database\Model\Events\Created;
 use Hyperf\Database\Model\Relations\HasMany;
 
@@ -22,6 +23,9 @@ trait SensorAlarmTrait
 
         // todo: 10/10/2023 15:12 add condition sensor by min & max value
         $this->conditionSensor($model);
+
+        // added cargo percantage calculate
+        $this->calculateCargo($model);
 
         foreach($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
             $val = $model->{$sensor->sensor_name};
@@ -63,8 +67,10 @@ trait SensorAlarmTrait
         }
         
     }
-
-
+    
+    /**
+     * sensor condition saved
+     */
     private function conditionSensor($model) : void {
     
         foreach($this->sensor as $sensor) {
@@ -83,5 +89,30 @@ trait SensorAlarmTrait
                 }
             }
         }
+    }
+
+    public function calculateCargo($model) 
+    {
+        $value = $this->cargoCapacity($model);
+        var_dump($value);
+        
+        $now = Carbon::now();
+        $fdr = FleetDailyReport::table($model->fleet_id)->where([
+            'fleet_id' => $model->fleet_id,
+            'date' => $now->format('Y-m-d'),
+            'sensor' => 'cargo_percentage'
+        ])->first();
+        
+        if(! $fdr) {
+            $fdr = FleetDailyReport::table($model->fleet_id);
+            $fdr->fleet_id = $model->fleet_id;
+            $fdr->date = $now->format('Y-m-d');
+            $fdr->sensor = 'cargo_percentage';
+            $fdr->before = $value;
+        }
+
+        $fdr->after = $value;
+        $fdr->value = ($fdr->after - $fdr->before);
+        $fdr->save();
     }
 }

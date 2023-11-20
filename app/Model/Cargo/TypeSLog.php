@@ -184,30 +184,4 @@ class TypeSLog extends Model
 
         return $percentageCargo;
     }
-
-    public function created(Created $event) 
-    {
-        $model = $event->getModel();
-
-        $value = $this->cargoCapacity($model);
-
-        $now = Carbon::now();
-        $fdr = FleetDailyReport::table($model->fleet_id)->where([
-            'fleet_id' => $model->fleet_id,
-            'date' => $now->format('Y-m-d'),
-            'sensor' => 'cargo_percentage'
-        ])->first();
-        
-        if(! $fdr) {
-            $fdr = FleetDailyReport::table($model->fleet_id);
-            $fdr->fleet_id = $model->fleet_id;
-            $fdr->date = $now->format('Y-m-d');
-            $fdr->sensor = 'cargo_percentage';
-            $fdr->before = $value;
-        }
-
-        $fdr->after = $value;
-        $fdr->value = ($fdr->after - $fdr->before);
-        $fdr->save();
-    }
 }
