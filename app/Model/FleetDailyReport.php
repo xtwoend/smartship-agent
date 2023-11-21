@@ -45,11 +45,12 @@ class FleetDailyReport extends Model
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
-                $table->date('date')->unique();
+                $table->date('date');
                 $table->string('sensor')->nullable();
                 $table->float('before', 15, 3)->nullable();
                 $table->float('after', 15, 3)->nullable();
                 $table->float('value', 15, 3)->nullable();
+
                 $table->index(['date', 'sensor'], 'index_date_sensor');
             });
         }
