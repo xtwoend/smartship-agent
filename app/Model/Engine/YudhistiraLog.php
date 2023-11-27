@@ -86,10 +86,10 @@ class YudhistiraLog extends Model
                 $table->float('ge1_charge_air_temp', 10, 3)->nullable();
                 $table->float('ge1_battery_voltage', 10, 3)->nullable();
                 $table->float('ge1_generator_rpm', 10, 3)->nullable();
-                $table->float('ge1_spare', 10, 3)->nullable();
-                $table->float('ge1_spare', 10, 3)->nullable();
-                $table->float('ge1_spare', 10, 3)->nullable();
-                $table->float('ge1_spare', 10, 3)->nullable();
+                $table->float('ge1_spare_1', 10, 3)->nullable();
+                $table->float('ge1_spare_2', 10, 3)->nullable();
+                $table->float('ge1_spare_3', 10, 3)->nullable();
+                $table->float('ge1_spare_4', 10, 3)->nullable();
                 $table->float('ge2_lube_oil_pressure', 10, 3)->nullable();
                 $table->float('ge2_ht_fw_coolant_pressure', 10, 3)->nullable();
                 $table->float('ge2_lt_fw_coolant_pressure', 10, 3)->nullable();
@@ -100,10 +100,10 @@ class YudhistiraLog extends Model
                 $table->float('ge2_charge_air_temp', 10, 3)->nullable();
                 $table->float('ge2_battery_voltage', 10, 3)->nullable();
                 $table->float('ge2_generator_rpm', 10, 3)->nullable();
-                $table->float('ge2_spare', 10, 3)->nullable();
-                $table->float('ge2_spare', 10, 3)->nullable();
-                $table->float('ge2_spare', 10, 3)->nullable();
-                $table->float('ge2_spare', 10, 3)->nullable();
+                $table->float('ge2_spare_1', 10, 3)->nullable();
+                $table->float('ge2_spare_2', 10, 3)->nullable();
+                $table->float('ge2_spare_3', 10, 3)->nullable();
+                $table->float('ge2_spare_4', 10, 3)->nullable();
                 $table->float('ge3_lube_oil_pressure', 10, 3)->nullable();
                 $table->float('ge3_ht_fw_coolant_pressure', 10, 3)->nullable();
                 $table->float('ge3_lt_fw_coolant_pressure', 10, 3)->nullable();
@@ -114,8 +114,8 @@ class YudhistiraLog extends Model
                 $table->float('ge3_charge_air_temp', 10, 3)->nullable();
                 $table->float('ge3_battery_voltage', 10, 3)->nullable();
                 $table->float('ge3_generator_rpm', 10, 3)->nullable();
-                $table->float('ge3_spare', 10, 3)->nullable();
-                $table->float('ge3_spare', 10, 3)->nullable();
+                $table->float('ge3_spare_1', 10, 3)->nullable();
+                $table->float('ge3_spare_2', 10, 3)->nullable();
                 $table->timestamps();
             });
         }
