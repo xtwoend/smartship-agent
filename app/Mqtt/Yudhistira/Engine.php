@@ -19,10 +19,10 @@ class Engine
     {
         $data = Json::decode($this->message);
         $data = (array) $data['data1_ecr'];
-       
+        
         return [
             'engine' => [
-                'terminal_time' => $data['_terminalTime'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'me_rpm' => $data[0],
                 'me_exhaust_gas_cyl_1_temp' => $data[1],
                 'me_exhaust_gas_cyl_2_temp' => $data[2],
@@ -57,10 +57,10 @@ class Engine
                 'ge1_charge_air_temp' => $data[31],
                 'ge1_battery_voltage' => $data[32],
                 'ge1_generator_rpm' => $data[33],
-                'ge1_spare' => $data[34],
-                'ge1_spare' => $data[35],
-                'ge1_spare' => $data[36],
-                'ge1_spare' => $data[37],
+                'ge1_spare_1' => $data[34],
+                'ge1_spare_2' => $data[35],
+                'ge1_spare_3' => $data[36],
+                'ge1_spare_4' => $data[37],
                 'ge2_lube_oil_pressure' => $data[38],
                 'ge2_ht_fw_coolant_pressure' => $data[39],
                 'ge2_lt_fw_coolant_pressure' => $data[40],
@@ -71,10 +71,10 @@ class Engine
                 'ge2_charge_air_temp' => $data[45],
                 'ge2_battery_voltage' => $data[46],
                 'ge2_generator_rpm' => $data[47],
-                'ge2_spare' => $data[48],
-                'ge2_spare' => $data[49],
-                'ge2_spare' => $data[50],
-                'ge2_spare' => $data[51],
+                'ge2_spare_1' => $data[48],
+                'ge2_spare_2' => $data[49],
+                'ge2_spare_3' => $data[50],
+                'ge2_spare_4' => $data[51],
                 'ge3_lube_oil_pressure' => $data[52],
                 'ge3_ht_fw_coolant_pressure' => $data[53],
                 'ge3_lt_fw_coolant_pressure' => $data[54],
@@ -85,8 +85,8 @@ class Engine
                 'ge3_charge_air_temp' => $data[59],
                 'ge3_battery_voltage' => $data[60],
                 'ge3_generator_rpm' => $data[61],
-                'ge3_spare' => $data[62],
-                'ge3_spare' => $data[63],
+                'ge3_spare_1' => $data[62],
+                'ge3_spare_2' => $data[63],
             ]
         ];
     }
