@@ -10,7 +10,7 @@ use Hyperf\DbConnection\Model\Model;
 use App\Model\Alarm\SensorAlarmTrait;
 use Hyperf\Database\Schema\Blueprint;
 
-class PanjangLog extends Model
+class YudhistiraLog extends Model
 {
     use SensorAlarmTrait;
 
