@@ -68,7 +68,7 @@ class Pangalengan extends Model
     {
         $model = $event->getModel();
         $date = $model->terminal_time;
-        $last = PengalenganLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
+        $last = PangalenganLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
 
         // save interval 60 detik
@@ -76,7 +76,7 @@ class Pangalengan extends Model
             return;
         }
 
-        return PengalenganLog::table($model->fleet_id, $date)->updateOrCreate([
+        return PangalenganLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
         ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
