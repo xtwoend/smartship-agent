@@ -10,7 +10,7 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\Crontab\Annotation\Crontab;
 use Hyperf\Contract\StdoutLoggerInterface;
 
-#[Crontab(name: "EverageSpeedCalc", rule: "0 */2 * * *", callback: "execute", memo: "EverageSpeedCalc")]
+#[Crontab(name: "EverageSpeedCalc", rule: "0 */1 * * *", callback: "execute", memo: "EverageSpeedCalc")]
 class EverageSpeedCalc
 {
     #[Inject]
