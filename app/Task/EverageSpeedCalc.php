@@ -30,7 +30,7 @@ class EverageSpeedCalc
                 'sensor' => 'speed'
             ])->first();
             
-            if($avg  && ! $fsr) {
+            if($avg && ! $fsr) {
                 $fsr = FleetDailyReport::table($fleet->id);
                 $fsr->fleet_id = $fleet->id;
                 $fsr->date = $date;
@@ -38,9 +38,11 @@ class EverageSpeedCalc
                 $fsr->before = $avg;
             }
 
-            $fsr->after = $avg;
-            $fsr->value = $avg;
-            $fsr->save();
+            if($fsr){
+                $fsr->after = $avg;
+                $fsr->value = $avg;
+                $fsr->save();
+            }
         }
     }
 }
