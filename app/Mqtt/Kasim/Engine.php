@@ -18,40 +18,37 @@ class Engine
     public function extract()
     {
         $data = Json::decode($this->message);
-        $signal = $data['signal'];
-        $values = $data['value'];
-        $collectData = [];
-
-        if($signal == 'RPM_Propeller'){
-            $collectData['rpm_propeller'] = $values[0];
-        }elseif($signal == 'ENG HT-CW PRESS PT1102(0~6BAR)') {
-            $collectData['eng_htcw_pressure'] = $values[0];
-        }elseif($signal == 'db14_real') {
-            $collectData = [
-                "speed_lever_sig_factor_dep_idle_rpm" => $values[0],
-                "speed_lever_sig_factor_dep_idle_rpmcal" => $values[1],
-                "sld_command_rpm" => $values[2],
-                "sld_command_rpmcal" => $values[3],
-                "sld_command_rpm_hysl" => $values[4],
-                "sld_command_rpm_hysh" => $values[5],
-            ];
-        }elseif($signal == 'sensor_SE1704B') {
-            $collectData['sensor_SE1704B'] = $values[0];
-        }elseif($signal == 'sensor_db11_1'){
-            $collectData = [
-                "eng_exh_gas_temp_cyl1_te1601" => $values[17],
-                "eng_exh_gas_temp_cyl2_te1602" => $values[18],
-                "eng_exh_gas_temp_cyl3_te1603" => $values[19],
-                "eng_exh_gas_temp_cyl4_te1604" => $values[20],
-                "eng_exh_gas_temp_cyl5_te1605" => $values[21],
-                "eng_exh_gas_temp_cyl6_te1606" => $values[22],
-                "eng_exh_gas_temp_cyl7_te1607" => $values[23],
-                "eng_exh_gas_temp_cyl8_te1608" => $values[24],
-            ];
-        }
-
+       
         return [
-            'engine' => array_merge($collectData, ['terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),])
+            'engine' => [
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
+                'me_ht_water_temp_air_cooler_inlet' => $data['TE1102'],
+                'me_ht_water_temp_cyl_row_inlet' => $data['TE1103'],
+                'me_lube_oil_temp_cooler_inlet' => $data['TE1222'],
+                'me_lube_oil_temp_engine_inlet' => $data['TE1224'],
+                'me_exhaust_gat_temp_cyl1_a' => $data['TE1601A'],
+                'me_exhaust_gat_temp_cyl2_a' => $data['TE1602A'],
+                'me_exhaust_gat_temp_cyl3_a' => $data['TE1603A'],
+                'me_exhaust_gat_temp_cyl4_a' => $data['TE1604A'],
+                'me_exhaust_gat_temp_cyl5_a' => $data['TE1605A'],
+                'me_exhaust_gat_temp_cyl6_a' => $data['TE1606A'],
+                'me_exhaust_gat_temp_cyl7_a' => $data['TE1607A'],
+                'me_exhaust_gat_temp_cyl8_a' => $data['TE1608A'],
+                'me_exhaust_gas_temp_tc_inlet' => $data['TE1621'],
+                'me_exhaust_gas_temp_tc_outlet' => $data['TE1622'],
+                'me_ht_water_pressure' => $data['PT1102A'],
+                'me_ht_water_temp_cyl_row_outlet' => $data['TE1104A'],
+                'me_exhaust_gat_temp_cyl1_b' => $data['TE1601B'],
+                'me_exhaust_gat_temp_cyl2_b' => $data['TE1602B'],
+                'me_exhaust_gat_temp_cyl3_b' => $data['TE1603B'],
+                'me_exhaust_gat_temp_cyl4_b' => $data['TE1604B'],
+                'me_exhaust_gat_temp_cyl5_b' => $data['TE1605B'],
+                'me_exhaust_gat_temp_cyl6_b' => $data['TE1606B'],
+                'me_exhaust_gat_temp_cyl7_b' => $data['TE1607B'],
+                'me_exhaust_gat_temp_cyl8_b' => $data['TE1608B'],
+                'me_ht_water_pressure2' => $data['PT1102B'],
+                'me_ht_water_temp_cyl_row_outlet2' => $data['TE1104B']
+            ]
         ];
 
     }
@@ -66,25 +63,32 @@ class Engine
         return $snake;
     }
 
-    protected $mapDb11_1 = [
-        17 => 'ENG EXH GAS TEMP CYL1 TE1601',
-        18 => 'ENG EXH GAS TEMP CYL2 TE1602',
-        19 => 'ENG EXH GAS TEMP CYL3 TE1603',
-        20 => 'ENG EXH GAS TEMP CYL4 TE1604',
-        21 => 'ENG EXH GAS TEMP CYL5 TE1605',
-        22 => 'ENG EXH GAS TEMP CYL6 TE1606',
-        23 => 'ENG EXH GAS TEMP CYL7 TE1607',
-        24 => 'ENG EXH GAS TEMP CYL8 TE1608'
+    protected $engine = [
+        'ME HT Water Temp Air Cooler Inlet', 
+        'ME HT Water Temp Cyl Row Inlet',
+        'ME Lube Oil Temp Cooler Inlet',
+        'ME Lube Oil Temp Engine Inlet',
+        'ME Exhaust Gat Temp Cyl 1 A',
+        'ME Exhaust Gat Temp Cyl 2 A',
+        'ME Exhaust Gat Temp Cyl 3 A',
+        'ME Exhaust Gat Temp Cyl 4 A',
+        'ME Exhaust Gat Temp Cyl 5 A',
+        'ME Exhaust Gat Temp Cyl 6 A',
+        'ME Exhaust Gat Temp Cyl 7 A',
+        'ME Exhaust Gat Temp Cyl 8 A',
+        'ME Exhaust Gas Temp TC Inlet',
+        'ME Exhaust Gas Temp TC Outlet',
+        'ME HT Water Pressure',
+        'ME HT Water Temp Cyl Row Outlet',
+        'ME Exhaust Gat Temp Cyl 1 B',
+        'ME Exhaust Gat Temp Cyl 2 B',
+        'ME Exhaust Gat Temp Cyl 3 B',
+        'ME Exhaust Gat Temp Cyl 4 B',
+        'ME Exhaust Gat Temp Cyl 5 B',
+        'ME Exhaust Gat Temp Cyl 6 B',
+        'ME Exhaust Gat Temp Cyl 7 B',
+        'ME Exhaust Gat Temp Cyl 8 B',
+        'ME HT Water Pressure 2',
+        'ME HT Water Temp Cyl Row Outlet 2',
     ];
-
-
-    protected $rpm = [
-        'SPEED_LEVER_SIG_FACTOR_DEP_IDLE_RPM',
-        'SPEED_LEVER_SIG_FACTOR_DEP_IDLE_RPMcal',
-        'SLD_COMMAND_RPM',
-        'SLD_COMMAND_RPMcal',
-        'SLD_COMMAND_RPM_hysL',
-        'SLD_COMMAND_RPM_hysH',
-    ];
-
 }

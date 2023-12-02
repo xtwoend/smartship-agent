@@ -46,25 +46,32 @@ class Kasim extends Model
                 $table->datetime('terminal_time')->index();
                 
                 // 
-                $table->float('rpm_propeller', 10, 3)->default(0);
-                $table->float('eng_htcw_pressure', 10, 3)->default(0);
-
-                $table->float('speed_lever_sig_factor_dep_idle_rpm', 10, 3)->default(0);
-                $table->float('speed_lever_sig_factor_dep_idle_rpmcal', 10, 3)->default(0);
-                $table->float('sld_command_rpm', 10, 3)->default(0);
-                $table->float('sld_command_rpmcal', 10, 3)->default(0);
-                $table->float('sld_command_rpm_hysl', 10, 3)->default(0);
-                $table->float('sld_command_rpm_hysh', 10, 3)->default(0);
-                $table->float('sensor_SE1704B', 10, 3)->default(0);
-
-                $table->float('eng_exh_gas_temp_cyl1_te1601', 10, 3)->default(0);
-                $table->float('eng_exh_gas_temp_cyl2_te1602', 10, 3)->default(0);
-                $table->float('eng_exh_gas_temp_cyl3_te1603', 10, 3)->default(0);
-                $table->float('eng_exh_gas_temp_cyl4_te1604', 10, 3)->default(0);
-                $table->float('eng_exh_gas_temp_cyl5_te1605', 10, 3)->default(0);
-                $table->float('eng_exh_gas_temp_cyl6_te1606', 10, 3)->default(0);
-                $table->float('eng_exh_gas_temp_cyl7_te1607', 10, 3)->default(0);
-                $table->float('eng_exh_gas_temp_cyl8_te1608', 10, 3)->default(0);
+                $table->float('me_ht_water_temp_air_cooler_inlet', 10, 3)->default(0);
+                $table->float('me_ht_water_temp_cyl_row_inlet', 10, 3)->default(0);
+                $table->float('me_lube_oil_temp_cooler_inlet', 10, 3)->default(0);
+                $table->float('me_lube_oil_temp_engine_inlet', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl1_a', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl2_a', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl3_a', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl4_a', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl5_a', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl6_a', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl7_a', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl8_a', 10, 3)->default(0);
+                $table->float('me_exhaust_gas_temp_tc_inlet', 10, 3)->default(0);
+                $table->float('me_exhaust_gas_temp_tc_outlet', 10, 3)->default(0);
+                $table->float('me_ht_water_pressure', 10, 3)->default(0);
+                $table->float('me_ht_water_temp_cyl_row_outlet', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl1_b', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl2_b', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl3_b', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl4_b', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl5_b', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl6_b', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl7_b', 10, 3)->default(0);
+                $table->float('me_exhaust_gat_temp_cyl8_b', 10, 3)->default(0);
+                $table->float('me_ht_water_pressure2', 10, 3)->default(0);
+                $table->float('me_ht_water_temp_cyl_row_outlet2', 10, 3)->default(0);
 
                 $table->timestamps();
             });
