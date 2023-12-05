@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
 
-class Pump
+class Cargo
 {
     protected string $message;
 
@@ -18,14 +18,12 @@ class Pump
     public function extract()
     {
         $data = Json::decode($this->message);
-        var_dump($data);
+
         $sensors = [];
         foreach($data['values'] as $val) {
             $id = str_replace('plc.cop.q02h.', '', $val['id']);
             $sensors[$id] = (float) $val['v'];
         }
-
-        var_dump($sensors);
         
         return [
             'cargo' => [
