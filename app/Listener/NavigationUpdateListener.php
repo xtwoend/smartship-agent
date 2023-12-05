@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
+use Carbon\Carbon;
 use App\Model\Port;
 use App\Model\Fleet;
+use App\Model\FleetStatusDuration;
 use App\Event\NavigationUpdateEvent;
 use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
@@ -39,12 +41,12 @@ class NavigationUpdateListener implements ListenerInterface
                 'fleet_status' => 'at_port',
                 'last_port' => $p->name. ', ' . $p->location
             ]);
-        }elseif ($distance_km >= 1 && $distance_km <= 10 && $data->sog <= 0.5) {
+        }elseif ($distance_km >= 1 && $distance_km <= 15 && $data->sog <= 0.5) {
             $fleet->update([
                 'fleet_status' => 'at_anchorage',
                 'last_port' => $p->location
             ]);
-        }elseif ($distance_km >= 10 && $data->sog <= 0.5){
+        }elseif ($distance_km >= 15 && $data->sog <= 0.5){
             $fleet->update([
                 'fleet_status' => 'other',
                 'last_port' => NULL
@@ -53,6 +55,29 @@ class NavigationUpdateListener implements ListenerInterface
             $fleet->update([
                 'fleet_status' => 'underway',
                 'last_port' => NULL
+            ]);
+        }
+
+       
+        // save duration fleet status
+        $hi = FleetStatusDuration::where([
+                'fleet_id' => $fleet->id,
+                'fleet_status' => $fleet->fleet_status,
+                'port' => $fleet->last_port,
+                'status' => 1
+            ])->first();
+            
+        if($hi) {
+            $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
+            $hi->save(); 
+        }else{
+            FleetStatusDuration::where('fleet_id', $fleet->id)->update(['status' => 0]);
+            FleetStatusDuration::create([
+                'fleet_id' => $fleet->id,
+                'fleet_status' => $fleet->fleet_status,
+                'port' => $fleet->last_port,
+                'status' => 1,
+                'started_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
         }
     }

@@ -138,29 +138,4 @@ class Fleet extends Model
     {
         return $this->hasMany(FleetStatusDuration::class, 'fleet_id');
     }
-
-    public function updated(Updated $event)
-    {
-        $fleet = $event->getModel();
-
-        // save duration fleet status
-        $hi = FleetStatusDuration::where([
-                'fleet_id' => $fleet->id,
-                'fleet_status' => $fleet->fleet_status,
-                'status' => 1
-            ])->first();
-            
-        if($hi) {
-            $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
-            $hi->save(); 
-        }else{
-            FleetStatusDuration::where('fleet_id', $fleet->id)->update(['status' => 0]);
-            FleetStatusDuration::create([
-                'fleet_id' => $fleet->id,
-                'fleet_status' => $fleet->fleet_status,
-                'status' => 1,
-                'started_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ]);
-        }
-    }
 }
