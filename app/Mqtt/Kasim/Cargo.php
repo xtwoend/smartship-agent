@@ -27,7 +27,7 @@ class Cargo
         
         return [
             'cargo' => [
-                'cargo_timestamp' => $data['timestamp'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'cargo_timestamp' => Carbon::now()->format('Y-m-d H:i:s'),
                 'bp1_casing_temp' => $sensors['bp1_casing_temp'],
                 'bp1_transmission_brg_temp' => $sensors['bp1_transmission_brg_temp'],
                 'bp1_drive_end_bearing_temp' => $sensors['bp1_drive_end_bearing_temp'],
@@ -74,6 +74,7 @@ class Cargo
             ]
         ];
     }
+
 
     function arrayToSnake() : array {
         $snake = [];
