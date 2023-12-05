@@ -53,8 +53,8 @@ class KasimLog extends Model
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
-                $table->datetime('terminal_time')->unique();
-                
+                $table->datetime('terminal_time')->index();
+
                 $table->float('no_1_cargo_tank_p', 10, 3)->default(0);
                 $table->float('temp_1ctp', 10, 3)->default(0);
                 $table->float('no_1_cargo_tank_s', 10, 3)->default(0);
@@ -92,7 +92,7 @@ class KasimLog extends Model
                 $table->boolean('stripping_pump2_run')->nullable();
 
                 // cargo 
-                $table->datetime('pump_timestamp')->default(0);
+                $table->datetime('cargo_timestamp')->nullable();
                 $table->float('bp1_casing_temp', 10, 3)->default(0);
                 $table->float('bp1_transmission_brg_temp', 10, 3)->default(0);
                 $table->float('bp1_drive_end_bearing_temp', 10, 3)->default(0);
@@ -126,49 +126,6 @@ class KasimLog extends Model
                 $table->float('sp2_casing_temp', 10, 3)->default(0);
                 $table->float('sp1_transmission_seal_temp', 10, 3)->default(0);
                 $table->float('sp2_discharge_pressure', 10, 3)->default(0);
-                $table->float('sp2_drive_end_bearing_temp', 10, 3)->default(0);
-                $table->float('sp2_nondrive_end_bearing_temp', 10, 3)->default(0);
-                $table->float('sp2_transmission_brg_temp', 10, 3)->default(0);
-                $table->float('sp2_transmission_seal_temp', 10, 3)->default(0);
-                $table->float('tcp_casing_temp', 10, 3)->default(0);
-                $table->float('tcp_discharge_pressure', 10, 3)->default(0);
-                $table->float('tcp_nondrive_end_bearing_temp', 10, 3)->default(0);
-                $table->float('tcp_drive_end_bearing_temp', 10, 3)->default(0);
-                $table->float('tcp_transmission_brg_temp', 10, 3)->default(0);
-                $table->float('tcp_transmission_seal_temp', 10, 3)->default(0);
-                $table->float('bp1_casing_temp', 10, 3)->default(0);
-                $table->float('bp1_transmission_brg_temp', 10, 3)->default(0);
-                $table->float('bp1_drive_end_bearing_temp', 10, 3)->default(0);
-                $table->float('bp1_nondrive_end_bearing_temp', 10, 3)->default(0);
-                $table->float('bp1_transmission_seal_temp', 10, 3)->default(0);
-                $table->float('bp2_casing_temp', 10, 3)->default(0);
-                $table->float('bp2_drive_end_bearing_temp', 10, 3)->default(0);
-                $table->float('bp2_nondrive_end_bearing_temp', 10, 3)->default(0);
-                $table->float('bp2_transmission_brg_temp', 10, 3)->default(0);
-                $table->float('bp2_transmission_seal_temp', 10, 3)->default(0);
-                $table->float('cp1_bearing_temp', 10, 3)->default(0);
-                $table->float('cp1_casing_temp', 10, 3)->default(0);
-                $table->float('cp1_discharge_pressure', 10, 3)->default(0);
-                $table->float('cp1_transmission_seal_temp', 10, 3)->default(0);
-                $table->float('cp1_transmission_brg_temp', 10, 3)->default(0);
-                $table->float('cp2_bearing_temp', 10, 3)->default(0);
-                $table->float('cp2_casing_temp', 10, 3)->default(0);
-                $table->float('cp2_transmission_brg_temp', 10, 3)->default(0);
-                $table->float('cp2_discharge_pressure', 10, 3)->default(0);
-                $table->float('cp2_transmission_seal_temp', 10, 3)->default(0);
-                $table->float('cp3_casing_temp', 10, 3)->default(0);
-                $table->float('cp3_bearing_temp', 10, 3)->default(0);
-                $table->float('cp3_transmission_brg_temp', 10, 3)->default(0);
-                $table->float('cp3_discharge_pressure', 10, 3)->default(0);
-                $table->float('sp1_casing_temp', 10, 3)->default(0);
-                $table->float('cp3_transmission_seal_temp', 10, 3)->default(0);
-                $table->float('sp1_discharge_pressure', 10, 3)->default(0);
-                $table->float('sp1_drive_end_bearing_temp', 10, 3)->default(0);
-                $table->float('sp1_nondrive_end_bearing_temp', 10, 3)->default(0);
-                $table->float('sp1_transmission_seal_temp', 10, 3)->default(0);
-                $table->float('sp1_transmission_brg_temp', 10, 3)->default(0);
-                $table->float('sp2_discharge_pressure', 10, 3)->default(0);
-                $table->float('sp2_casing_temp', 10, 3)->default(0);
                 $table->float('sp2_drive_end_bearing_temp', 10, 3)->default(0);
                 $table->float('sp2_nondrive_end_bearing_temp', 10, 3)->default(0);
                 $table->float('sp2_transmission_brg_temp', 10, 3)->default(0);
