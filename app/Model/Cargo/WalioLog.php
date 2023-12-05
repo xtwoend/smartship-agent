@@ -218,10 +218,20 @@ class WalioLog extends Model
             'level_cargo_1_stb', 
             'level_cargo_1_port',
         ];
-
+        
+        $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
+        $data = [];
+        foreach($cargoArray as $c) {
+            $max = $sensors[$c];
+            $value = $model->{$c};
+            
+            $percentage = ($value <= $max)? ($value / $max) : 0;
+            $data[$c] = (1 - $percentage);
+        }
+        
         $totalPercentage = 0;
-        foreach($cargoArray as $d) {
-            $totalPercentage += ($model->{$d} / 100);
+        foreach($data as $d) {
+            $totalPercentage += $d;
         }
 
         $percentageCargo = $totalPercentage / count($cargoArray);

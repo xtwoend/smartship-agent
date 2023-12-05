@@ -1,0 +1,349 @@
+{
+    "timestamp": "Sat Dec 02 21:31:46 ICT 2023",
+    "values": [
+        {
+            "id": "plc.cop.q02h.bp1_casing_temp",
+            "v": 2617.6001
+        },
+        {
+            "id": "plc.cop.q02h.bp1_transmission_brg_temp",
+            "v": 34.0800018
+        },
+        {
+            "id": "plc.cop.q02h.bp1_drive_end_bearing_temp",
+            "v": 33.1199989
+        },
+        {
+            "id": "plc.cop.q02h.bp1_nondrive_end_bearing_temp",
+            "v": 32.7200012
+        },
+        {
+            "id": "plc.cop.q02h.bp1_transmission_seal_temp",
+            "v": 34.1599998
+        },
+        {
+            "id": "plc.cop.q02h.bp2_drive_end_bearing_temp",
+            "v": 32.7599983
+        },
+        {
+            "id": "plc.cop.q02h.bp2_casing_temp",
+            "v": 32.4399986
+        },
+        {
+            "id": "plc.cop.q02h.bp2_transmission_brg_temp",
+            "v": 33.9199982
+        },
+        {
+            "id": "plc.cop.q02h.bp2_nondrive_end_bearing_temp",
+            "v": 32.9599991
+        },
+        {
+            "id": "plc.cop.q02h.bp2_transmission_seal_temp",
+            "v": 33.6399994
+        },
+        {
+            "id": "plc.cop.q02h.cp1_casing_temp",
+            "v": 32.9599991
+        },
+        {
+            "id": "plc.cop.q02h.cp1_bearing_temp",
+            "v": 32.4799995
+        },
+        {
+            "id": "plc.cop.q02h.cp1_transmission_brg_temp",
+            "v": 34.0800018
+        },
+        {
+            "id": "plc.cop.q02h.cp1_discharge_pressure",
+            "v": 0.752399981
+        },
+        {
+            "id": "plc.cop.q02h.cp1_transmission_seal_temp",
+            "v": 34.0800018
+        },
+        {
+            "id": "plc.cop.q02h.cp2_casing_temp",
+            "v": 32.5200005
+        },
+        {
+            "id": "plc.cop.q02h.cp2_bearing_temp",
+            "v": 32.6800003
+        },
+        {
+            "id": "plc.cop.q02h.cp2_transmission_brg_temp",
+            "v": 33.9199982
+        },
+        {
+            "id": "plc.cop.q02h.cp2_discharge_pressure",
+            "v": 2591.42407
+        },
+        {
+            "id": "plc.cop.q02h.cp2_transmission_seal_temp",
+            "v": 33.7200012
+        },
+        {
+            "id": "plc.cop.q02h.cp3_bearing_temp",
+            "v": 32.8800011
+        },
+        {
+            "id": "plc.cop.q02h.cp3_casing_temp",
+            "v": 32.8800011
+        },
+        {
+            "id": "plc.cop.q02h.cp3_discharge_pressure",
+            "v": 6.41520023
+        },
+        {
+            "id": "plc.cop.q02h.cp3_transmission_brg_temp",
+            "v": 33.7200012
+        },
+        {
+            "id": "plc.cop.q02h.cp3_transmission_seal_temp",
+            "v": 34.0400009
+        },
+        {
+            "id": "plc.cop.q02h.sp1_discharge_pressure",
+            "v": 2617.6001
+        },
+        {
+            "id": "plc.cop.q02h.sp1_drive_end_bearing_temp",
+            "v": 32.8800011
+        },
+        {
+            "id": "plc.cop.q02h.sp1_casing_temp",
+            "v": 32.9599991
+        },
+        {
+            "id": "plc.cop.q02h.sp1_nondrive_end_bearing_temp",
+            "v": 32.3199997
+        },
+        {
+            "id": "plc.cop.q02h.sp1_transmission_brg_temp",
+            "v": 34.3600006
+        },
+        {
+            "id": "plc.cop.q02h.sp2_casing_temp",
+            "v": 32.8800011
+        },
+        {
+            "id": "plc.cop.q02h.sp1_transmission_seal_temp",
+            "v": 33.7200012
+        },
+        {
+            "id": "plc.cop.q02h.sp2_discharge_pressure",
+            "v": 65.1999969
+        },
+        {
+            "id": "plc.cop.q02h.sp2_drive_end_bearing_temp",
+            "v": 32.6399994
+        },
+        {
+            "id": "plc.cop.q02h.sp2_nondrive_end_bearing_temp",
+            "v": 32.5600014
+        },
+        {
+            "id": "plc.cop.q02h.sp2_transmission_brg_temp",
+            "v": 33.3199997
+        },
+        {
+            "id": "plc.cop.q02h.sp2_transmission_seal_temp",
+            "v": 36.5999985
+        },
+        {
+            "id": "plc.cop.q02h.tcp_casing_temp",
+            "v": 34.2400017
+        },
+        {
+            "id": "plc.cop.q02h.tcp_discharge_pressure",
+            "v": 1.24000001
+        },
+        {
+            "id": "plc.cop.q02h.tcp_nondrive_end_bearing_temp",
+            "v": 163.800003
+        },
+        {
+            "id": "plc.cop.q02h.tcp_drive_end_bearing_temp",
+            "v": 32.9599991
+        },
+        {
+            "id": "plc.cop.q02h.tcp_transmission_brg_temp",
+            "v": 23.5599995
+        },
+        {
+            "id": "plc.cop.q02h.tcp_transmission_seal_temp",
+            "v": 33.8800011
+        },
+        {
+            "id": "plc.cop.q02h.bp1_casing_temp",
+            "v": 2617.6001
+        },
+        {
+            "id": "plc.cop.q02h.bp1_transmission_brg_temp",
+            "v": 33.9199982
+        },
+        {
+            "id": "plc.cop.q02h.bp1_drive_end_bearing_temp",
+            "v": 33.1199989
+        },
+        {
+            "id": "plc.cop.q02h.bp1_nondrive_end_bearing_temp",
+            "v": 32.7200012
+        },
+        {
+            "id": "plc.cop.q02h.bp1_transmission_seal_temp",
+            "v": 34.1599998
+        },
+        {
+            "id": "plc.cop.q02h.bp2_casing_temp",
+            "v": 32.4399986
+        },
+        {
+            "id": "plc.cop.q02h.bp2_drive_end_bearing_temp",
+            "v": 32.7599983
+        },
+        {
+            "id": "plc.cop.q02h.bp2_nondrive_end_bearing_temp",
+            "v": 32.9599991
+        },
+        {
+            "id": "plc.cop.q02h.bp2_transmission_brg_temp",
+            "v": 33.9199982
+        },
+        {
+            "id": "plc.cop.q02h.bp2_transmission_seal_temp",
+            "v": 33.6399994
+        },
+        {
+            "id": "plc.cop.q02h.cp1_bearing_temp",
+            "v": 32.4799995
+        },
+        {
+            "id": "plc.cop.q02h.cp1_casing_temp",
+            "v": 32.8800011
+        },
+        {
+            "id": "plc.cop.q02h.cp1_discharge_pressure",
+            "v": 0.752399981
+        },
+        {
+            "id": "plc.cop.q02h.cp1_transmission_seal_temp",
+            "v": 34.1599998
+        },
+        {
+            "id": "plc.cop.q02h.cp1_transmission_brg_temp",
+            "v": 33.9599991
+        },
+        {
+            "id": "plc.cop.q02h.cp2_bearing_temp",
+            "v": 32.7999992
+        },
+        {
+            "id": "plc.cop.q02h.cp2_casing_temp",
+            "v": 32.6800003
+        },
+        {
+            "id": "plc.cop.q02h.cp2_transmission_brg_temp",
+            "v": 33.9199982
+        },
+        {
+            "id": "plc.cop.q02h.cp2_discharge_pressure",
+            "v": 2591.42407
+        },
+        {
+            "id": "plc.cop.q02h.cp2_transmission_seal_temp",
+            "v": 33.7200012
+        },
+        {
+            "id": "plc.cop.q02h.cp3_casing_temp",
+            "v": 32.7599983
+        },
+        {
+            "id": "plc.cop.q02h.cp3_bearing_temp",
+            "v": 32.8800011
+        },
+        {
+            "id": "plc.cop.q02h.cp3_transmission_brg_temp",
+            "v": 33.7200012
+        },
+        {
+            "id": "plc.cop.q02h.cp3_discharge_pressure",
+            "v": 6.45480013
+        },
+        {
+            "id": "plc.cop.q02h.sp1_casing_temp",
+            "v": 32.9599991
+        },
+        {
+            "id": "plc.cop.q02h.cp3_transmission_seal_temp",
+            "v": 34.1199989
+        },
+        {
+            "id": "plc.cop.q02h.sp1_discharge_pressure",
+            "v": 2617.6001
+        },
+        {
+            "id": "plc.cop.q02h.sp1_drive_end_bearing_temp",
+            "v": 32.8800011
+        },
+        {
+            "id": "plc.cop.q02h.sp1_nondrive_end_bearing_temp",
+            "v": 32.3199997
+        },
+        {
+            "id": "plc.cop.q02h.sp1_transmission_seal_temp",
+            "v": 33.6800003
+        },
+        {
+            "id": "plc.cop.q02h.sp1_transmission_brg_temp",
+            "v": 34.1599998
+        },
+        {
+            "id": "plc.cop.q02h.sp2_discharge_pressure",
+            "v": 65.1999969
+        },
+        {
+            "id": "plc.cop.q02h.sp2_casing_temp",
+            "v": 32.8800011
+        },
+        {
+            "id": "plc.cop.q02h.sp2_drive_end_bearing_temp",
+            "v": 32.5600014
+        },
+        {
+            "id": "plc.cop.q02h.sp2_nondrive_end_bearing_temp",
+            "v": 32.5600014
+        },
+        {
+            "id": "plc.cop.q02h.sp2_transmission_brg_temp",
+            "v": 33.2400017
+        },
+        {
+            "id": "plc.cop.q02h.sp2_transmission_seal_temp",
+            "v": 35.9599991
+        },
+        {
+            "id": "plc.cop.q02h.tcp_casing_temp",
+            "v": 34.2400017
+        },
+        {
+            "id": "plc.cop.q02h.tcp_discharge_pressure",
+            "v": 1.27999997
+        },
+        {
+            "id": "plc.cop.q02h.tcp_nondrive_end_bearing_temp",
+            "v": 163.800003
+        },
+        {
+            "id": "plc.cop.q02h.tcp_drive_end_bearing_temp",
+            "v": 32.9599991
+        },
+        {
+            "id": "plc.cop.q02h.tcp_transmission_brg_temp",
+            "v": 23.5599995
+        },
+        {
+            "id": "plc.cop.q02h.tcp_transmission_seal_temp",
+            "v": 33.8800011
+        }
+    ]
+}
