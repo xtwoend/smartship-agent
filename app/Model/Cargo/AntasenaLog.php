@@ -150,6 +150,15 @@ class AntasenaLog extends Model
                 $table->float('fw_tank_s', 10, 3)->nullable();
                 $table->float('fo_overflow_tank', 10, 3)->nullable();
                 
+                $table->datetime('pump_latest_update_at')->nullable();
+                $table->boolean('cargo_pump1_run')->default(false);
+                $table->boolean('cargo_pump2_run')->default(false);
+                $table->boolean('cargo_pump3_run')->default(false);
+                $table->boolean('wballast_pump1_run')->default(false);
+                $table->boolean('wballast_pump2_run')->default(false);
+                $table->boolean('tank_cleaning_pump_run')->default(false);
+                $table->boolean('stripping_pump_run')->default(false);
+                
                 $table->timestamps();
             });
         }
