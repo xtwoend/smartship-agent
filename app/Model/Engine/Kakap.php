@@ -10,6 +10,8 @@ use Hyperf\Database\Model\Events\Updated;
 
 class Kakap extends Model
 {
+    use \App\Model\Traits\LoggerTrait;
+    
     /**
      * The table associated with the model.
      */
@@ -116,6 +118,8 @@ class Kakap extends Model
         $date = $model->terminal_time;
         $last = KakapLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
+
+        $this->logger('engine', $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
 
         // save interval 60 detik
         if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   

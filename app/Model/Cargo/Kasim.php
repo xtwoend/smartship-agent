@@ -12,6 +12,9 @@ use Hyperf\Database\Model\Events\Updated;
 
 class Kasim extends Model
 {
+
+    use \App\Model\Traits\LoggerTrait;
+
     /**
      * The table associated with the model.
      */
@@ -146,6 +149,8 @@ class Kasim extends Model
      
         $now = Carbon::parse($date);
 
+        $this->logger('cargo', $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        
         // save interval 60 detik
         if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
             return;

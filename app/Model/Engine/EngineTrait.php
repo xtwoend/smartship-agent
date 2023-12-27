@@ -14,8 +14,6 @@ trait EngineTrait
                 'fleet_id' => $this->id
             ], $data['engine']);
 
-            $this->logger('engine', $log);
-
             return $log;
         }
     }

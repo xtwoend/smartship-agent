@@ -13,8 +13,6 @@ trait CargoTrait
                 'fleet_id' => $this->id
             ], $data['cargo']);
 
-            $this->logger('cargo', $log);
-
             return $log;
         }
     }
