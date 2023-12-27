@@ -73,8 +73,8 @@ class Pasaman extends Model
         $last = PasamanLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
 
-        $this->logger('engine', $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
-        
+        $this->logger('engine', $model);
+
         // save interval 60 detik
         if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
             return;
