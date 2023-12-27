@@ -10,7 +10,7 @@ use Hyperf\Database\Model\Events\Updated;
 
 class Antasena extends Model
 {
-    use \App\Model\Traits\LoggerTrait;
+    
 
     /**
      * The table associated with the model.
@@ -127,7 +127,7 @@ class Antasena extends Model
         $last = AntasenaLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
 
-        $this->logger('engine', $model);
+        
 
         // save interval 60 detik
         if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   

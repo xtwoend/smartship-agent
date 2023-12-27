@@ -11,7 +11,7 @@ use Hyperf\Database\Model\Events\Updated;
 class Pangalengan extends Model
 {
 
-    use \App\Model\Traits\LoggerTrait;
+    
 
     /**
      * The table associated with the model.
@@ -74,7 +74,7 @@ class Pangalengan extends Model
         $last = PangalenganLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
 
-        $this->logger('engine', $model);
+        
 
         // save interval 60 detik
         if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   

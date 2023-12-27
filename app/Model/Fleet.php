@@ -99,14 +99,14 @@ class Fleet extends Model
         $now = Carbon::parse($date);
         
         // delete data log
-        Logger::table($this->id, $date)->where('terminal_time', '<', Carbon::now()->subHour()->format('Y-m-d H:i:s'))->delete();
+        Logger::table($this->id, $date)->where('terminal_time', '<', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
         
         $data = $data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray();
     
         // save interval 5 detik
-        if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 5) ) {   
-            return;
-        }
+        // if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 5) ) {   
+        //     return;
+        // }
 
         // submit to event
         websocket_emit("fleet-{$this->id}", "{$group}_{$this->id}", $data);

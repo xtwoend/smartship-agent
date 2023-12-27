@@ -13,6 +13,8 @@ trait EngineTrait
             $log = $model->updateOrCreate([
                 'fleet_id' => $this->id
             ], $data['engine']);
+            
+            $this->logger('engine', $log);
 
             return $log;
         }
