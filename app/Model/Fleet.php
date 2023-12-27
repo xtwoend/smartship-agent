@@ -93,23 +93,28 @@ class Fleet extends Model
 
     public function logger($group, $data)
     {
+    
+        $emit_data = clone $data;
+
+        // submit to event
+        websocket_emit("fleet-{$this->id}", "{$group}_{$this->id}", $emit_data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+
         $date = $data->updated_at; // get last update data
         $model = Logger::table($this->id, $date);
         $last = $model->where('group', $group)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
         
-        // delete data log
-        Logger::table($this->id, $date)->where('terminal_time', '<', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
-        
-        $data = $data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray();
+      
     
         // save interval 5 detik
         // if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 5) ) {   
         //     return;
         // }
+        
+        // delete data log
+        Logger::table($this->id, $date)->where('terminal_time', '<', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
 
-        // submit to event
-        websocket_emit("fleet-{$this->id}", "{$group}_{$this->id}", $data);
+        $data = $data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray();
 
         return $model->updateOrCreate([
             'group' => $group,
