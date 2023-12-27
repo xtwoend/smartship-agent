@@ -84,9 +84,10 @@ class Fleet extends Model
             // $this->connected = 1;
             // $this->last_connection = Carbon::now();
             // $this->save();
+            
             // save interval 5 detik
-
-            if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 5) ) {   
+            $last = Logger::table($this->id)->where('group', 'navigation')->latest()->first();
+            if($last && $now->diffInSeconds($last->created_at) < config('mqtt.interval_save', 5) ) {   
                 return;
             }
             $this->logger('navigation', $log);
