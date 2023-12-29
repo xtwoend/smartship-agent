@@ -2,6 +2,7 @@
 
 return [
     'default' => 'default',
+    'agent' => env('SERVER_AGENT', 'agent_01'),
     'interval_save' => 10,
     'servers' => [
         'default' => [

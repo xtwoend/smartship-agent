@@ -21,7 +21,7 @@ class MQTT1Processor extends AbstractProcess
     {
         $server = 'default';
         $config = config('mqtt.servers')[$server];
-        
+        $agent = config('mqtt.agent');
         $clientId = Str::random(10);
         
         $logger = $this->container->get(StdoutLoggerInterface::class);
@@ -34,7 +34,7 @@ class MQTT1Processor extends AbstractProcess
 
         $mqtt->connect($config, true);
 
-        foreach(Device::active()->where('mqtt_server', $server)->get() as $device) {
+        foreach(Device::active()->where('mqtt_server', $server)->where('agent', $agent)->get() as $device) {
             $mqtt->subscribe($device->topic, function ($topic, $message) use ($logger, $event, $device) {
                 $device->update(['last_message' => $message, 'last_connected' => Carbon::now()]);
                 $class = $device->extractor;
