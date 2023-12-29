@@ -20,7 +20,7 @@ return [
             'name' => 'http',
             'type' => Server::SERVER_HTTP,
             'host' => '0.0.0.0',
-            'port' => 9501,
+            'port' => (int) env('APP_PORT', 9501),
             'sock_type' => SWOOLE_SOCK_TCP,
             'callbacks' => [
                 Event::ON_REQUEST => [Hyperf\HttpServer\Server::class, 'onRequest'],
@@ -30,7 +30,7 @@ return [
             'name' =>'socket-io',
             'type' => Server::SERVER_WEBSOCKET,
             'host' => '0.0.0.0',
-            'port' => 9502,
+            'port' => (int) env('SOCKET_PORT', 9502),
             'sock_type' => SWOOLE_SOCK_TCP,
             'callbacks' => [
                 Event::ON_HAND_SHAKE => [Hyperf\WebSocketServer\Server::class,'onHandShake'],
