@@ -10,15 +10,15 @@ class Engine
     protected string $message;
 
     public function __construct(string $message) {
-       
+      
         $this->message = $message;
     }
     
     public function extract()
     {
         $data = Json::decode($this->message);
-        
-        return [
+       
+        return  [
             'engine' => [
                 'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'no1_ge_fo_inlet_press_low' => (float) $data['no1_ge_fo_inlet_press_low'],
@@ -29,10 +29,10 @@ class Engine
                 'tc_lo_inlet_press_low' => (float) $data['tc_lo_inlet_press_low'],
                 'mlo_pco_inlet_press_ecr' => (float) $data['mlo_pco_inlet_press_ecr'],
                 'fo_inlet_press_low' => (float) $data['fo_inlet_press_low'],
-                'me_air_cooler_cw_inlet_press' => (float) $data['hfo_setting_tank'],
+                'me_air_cooler_cw_inlet_press' => (float) $data['me_air_cooler_cw_inlet_press'],
                 'no1_ge_lo_inlet_press' => (float) $data['no1_ge_lo_inlet_press'],
                 'no2_ge_lo_inlet_press' => (float) $data['no2_ge_lo_inlet_press'],
-                'no3_ge_lo_inlet_press' => (float) $data['no3_ge_lo_inlet_press'],
+                'no3_ge_lo_inlet_press' => (float) $data['no3_ge_lo_inlet_press']
             ]
         ];
     }

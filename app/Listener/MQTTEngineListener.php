@@ -32,8 +32,9 @@ class MQTTEngineListener implements ListenerInterface
             $device = $event->device;
             
             if($fleet) {
+                // var_dump('engine', $data);
                 if(key_exists('engine', $data)) {
-                //    var_dump('engine', $data);
+                   
                     $model = $device->log_model;
                     if(class_exists($model)){
                         $v = Fleet::find($fleet->id);
