@@ -138,6 +138,19 @@ class Parigi extends Model
                 $table->float('discharge_press_bp2', 10, 3)->default(0);
                 $table->float('vacuum_manifold_pressure', 10, 3)->default(0);
 
+                // bunker
+                $table->datetime('bunker_timestamp')->nullable();
+                $table->float('mdo_tank_1p', 10, 3)->default(0);
+                $table->float('mdo_tank_2p', 10, 3)->default(0);
+                $table->float('mdo_day_tank_1p', 10, 3)->default(0);
+                $table->float('mdo_day_tank_2s', 10, 3)->default(0);
+                $table->float('hfo_tank_1p', 10, 3)->default(0);
+                $table->float('hfo_tank_2s', 10, 3)->default(0);
+                $table->float('hfo_day_tank_1p', 10, 3)->default(0);
+                $table->float('hfo_day_tank_2s', 10, 3)->default(0);
+                $table->float('hfo_setting_tank', 10, 3)->default(0);
+                $table->float('mdo_setting_tank', 10, 3)->default(0);
+
                 // pump status
                 $table->datetime('cargo_pump_timestamp')->nullable();
                 $table->boolean('cargo_pump1_run')->default(0);
@@ -167,9 +180,7 @@ class Parigi extends Model
         $last = ParigiLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
      
         $now = Carbon::parse($date);
-
-       
-
+        
         // save interval 60 detik
         if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
             return;
