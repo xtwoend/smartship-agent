@@ -1,0 +1,13 @@
+{
+    "_terminalTime": "2024-01-09 09:25:14.088",
+    "_groupName": "ecr",
+    "me_fo_inlet_press": "0.05",
+    "me_tc_lo_inlet_press": "0.13",
+    "me_lo_pco_inlet_press": "0.01",
+    "jcw_inlet_press": "0.8",
+    "cw_ac_inlet_press": "-0.03",
+    "starting_air_inlet_press": "9.8",
+    "scavenging_air_inlet_press": "0.01",
+    "speed_setting_air_inlet_press": "0",
+    "control_air_inlet_press": "0.04"
+}
