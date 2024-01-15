@@ -103,13 +103,11 @@ if(! function_exists('decToDMS')) {
 
 if(! function_exists('latDMSToDec')) {
     function latDMSToDec($string, $dir) {
-        $deg = substr($string, 0, 2);
+        $deg = (int) substr($string, 0, 2);
+        $min = (float) substr($string, 2, -1);
 
-        $min = substr($string, 2, 2);
-        $sec = substr($string, -1, 4);
-
-        $lat = $deg+((($min*60)+($sec))/3600);
-
+        $lat = $deg + ($min / 60);
+ 
         if(strtoupper($dir) == 'S') {
             $lat = $lat * -1;
         }
@@ -124,10 +122,9 @@ if(! function_exists('lngDMSToDec')) {
     function lngDMSToDec($string, $dir) {
         $deg = substr($string, 0, 3);
 
-        $min = substr($string, 3, 2);
-        $sec = substr($string, -1, 4);
+        $min = substr($string, 3, -1);
 
-        $lat = $deg+((($min*60)+($sec))/3600);
+        $lat = $deg + ( $min / 60 );
 
         if(strtoupper($dir) == 'W') {
             $lat = $lat * -1;
