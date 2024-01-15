@@ -60,3 +60,77 @@ if(! function_exists('number')) {
         return number_format($number, $digit, ",",".");
     }
 }
+
+if(! function_exists('decToDMS')) {
+    function decToDMS($latitude, $longitude) {
+        $latitudeDirection = $latitude < 0 ? 'S': 'N';
+        $longitudeDirection = $longitude < 0 ? 'W': 'E';
+
+        $latitudeNotation = $latitude < 0 ? '-': '';
+        $longitudeNotation = $longitude < 0 ? '-': '';
+
+        $latitudeInDegrees = floor(abs($latitude));
+        $longitudeInDegrees = floor(abs($longitude));
+
+        $latitudeDecimal = abs($latitude)-$latitudeInDegrees;
+        $longitudeDecimal = abs($longitude)-$longitudeInDegrees;
+
+        $_precision = 4;
+        $latitudeMinutes = round($latitudeDecimal*60,$_precision);
+        $longitudeMinutes = round($longitudeDecimal*60,$_precision);
+
+        return sprintf('%02d%s,%s,%03d%s,%s',
+            $latitudeInDegrees,
+            $latitudeMinutes,
+            $latitudeDirection,
+            $longitudeInDegrees,
+            $longitudeMinutes,
+            $longitudeDirection
+        );
+
+        // return sprintf('%s%s° %s %s %s%s° %s %s',
+        //     $latitudeNotation,
+        //     $latitudeInDegrees,
+        //     $latitudeMinutes,
+        //     $latitudeDirection,
+        //     $longitudeNotation,
+        //     $longitudeInDegrees,
+        //     $longitudeMinutes,
+        //     $longitudeDirection
+        // );
+    }
+}
+
+if(! function_exists('latDMSToDec')) {
+    function latDMSToDec($string, $dir) {
+        $deg = substr($string, 0, 2);
+
+        $min = substr($string, 2, 2);
+        $sec = substr($string, -1, 4);
+
+        $lat = $deg+((($min*60)+($sec))/3600);
+
+        if(strtoupper($dir) == 'S') {
+            $lat = $lat * -1;
+        }
+
+        return $lat;
+    }
+}
+
+if(! function_exists('lngDMSToDec')) {
+    function lngDMSToDec($string, $dir) {
+        $deg = substr($string, 0, 3);
+
+        $min = substr($string, 3, 2);
+        $sec = substr($string, -1, 4);
+
+        $lat = $deg+((($min*60)+($sec))/3600);
+
+        if(strtoupper($dir) == 'W') {
+            $lat = $lat * -1;
+        }
+
+        return $lat;
+    }
+}
