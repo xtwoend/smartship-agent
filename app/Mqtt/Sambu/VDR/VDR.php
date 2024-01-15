@@ -45,8 +45,8 @@ class VDR
         $lng    = $aData[3];
         $lngDir = $aData[4]; // satellites count
 
-        $lat = latDMSToDec($lat, $latDir);
-        $lng = lngDMSToDec($lng, $lngDir);
+        list($lat, $latDir) = $this->_latitude($lat, $latDir);
+        list($lng, $lngDir) = $this->_longitude($lng, $lngDir);
 
         return [
             'lat' =>  (float) $lat,
