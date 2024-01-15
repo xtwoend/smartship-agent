@@ -120,9 +120,9 @@ if(! function_exists('latDMSToDec')) {
 
 if(! function_exists('lngDMSToDec')) {
     function lngDMSToDec($string, $dir) {
-        $deg = substr($string, 0, 3);
 
-        $min = substr($string, 3, -1);
+        $deg = (int) substr($string, 0, 3);
+        $min = (float) substr($string, 3, -1);
 
         $lat = $deg + ( $min / 60 );
 
