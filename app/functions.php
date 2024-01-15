@@ -72,14 +72,14 @@ if(! function_exists('decToDMS')) {
         $latitudeInDegrees = floor(abs($latitude));
         $longitudeInDegrees = floor(abs($longitude));
 
-        $latitudeDecimal = abs($latitude)-$latitudeInDegrees;
-        $longitudeDecimal = abs($longitude)-$longitudeInDegrees;
+        $latitudeDecimal = abs($latitude) - $latitudeInDegrees;
+        $longitudeDecimal = abs($longitude) - $longitudeInDegrees;
 
-        $_precision = 4;
-        $latitudeMinutes = round($latitudeDecimal*60,$_precision);
-        $longitudeMinutes = round($longitudeDecimal*60,$_precision);
+        $_precision = 6;
+        $latitudeMinutes = round($latitudeDecimal * 60, $_precision);
+        $longitudeMinutes = round($longitudeDecimal * 60, $_precision);
 
-        return sprintf('%02d%s,%s,%03d%s,%s',
+        return sprintf('%02d%.4f,%s,%03d%.4f,%s',
             $latitudeInDegrees,
             $latitudeMinutes,
             $latitudeDirection,
@@ -101,35 +101,16 @@ if(! function_exists('decToDMS')) {
     }
 }
 
-if(! function_exists('latDMSToDec')) {
-    function latDMSToDec($string, $dir) {
-        $deg = (int) substr($string, 0, 2);
-        $min = (float) substr($string, 2, -1);
-
-        $lat = $deg + ($min / 60);
+if(! function_exists('DMSToDec')) {
+    function DMSToDec($string, $dir) {
+        $dd = (int) ((float) ($string) / 100);
+        $ss = ($string) - $dd * 100;
+        $dec = $dd + $ss / 60;
  
-        if(strtoupper($dir) == 'S') {
-            $lat = $lat * -1;
+        if(strtoupper($dir) == 'S' || strtoupper($dir) == 'W') {
+            $dec = $dec * -1;
         }
 
-        return $lat;
-    }
-}
-
-// $GPGGA,143202.84,0259.0736,S,10450.3807,E,1,12,01,+0024,M,+004,M,,*55
-
-if(! function_exists('lngDMSToDec')) {
-    function lngDMSToDec($string, $dir) {
-
-        $deg = (int) substr($string, 0, 3);
-        $min = (float) substr($string, 3, -1);
-
-        $lat = $deg + ( $min / 60 );
-
-        if(strtoupper($dir) == 'W') {
-            $lat = $lat * -1;
-        }
-
-        return $lat;
+        return $dec;
     }
 }
