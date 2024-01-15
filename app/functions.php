@@ -118,6 +118,8 @@ if(! function_exists('latDMSToDec')) {
     }
 }
 
+// $GPGGA,143202.84,0259.0736,S,10450.3807,E,1,12,01,+0024,M,+004,M,,*55
+
 if(! function_exists('lngDMSToDec')) {
     function lngDMSToDec($string, $dir) {
         $deg = substr($string, 0, 3);
