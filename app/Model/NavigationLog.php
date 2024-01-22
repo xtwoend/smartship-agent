@@ -81,10 +81,12 @@ class NavigationLog extends Model
         $this->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
     }
 
-    public function created(Created $event) 
+    /**
+     * create by sistem
+     */
+    public function navigationDailyReport($model) 
     {
-        $model = $event->getModel();
-        
+         
         $now = Carbon::now();
         $fdr = FleetDailyReport::table($model->fleet_id)->where([
             'fleet_id' => $model->fleet_id,

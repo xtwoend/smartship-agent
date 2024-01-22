@@ -29,6 +29,10 @@ trait SensorAlarmTrait
         if(\method_exists($this, 'cargoCapacity')) {
             $this->cargoCapacity($model);
         }
+
+        if(\method_exists($this, 'navigationDailyReport')) {
+            $this->navigationDailyReport($model);
+        }
        
         foreach($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
             $val = $model->{$sensor->sensor_name};
