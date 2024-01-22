@@ -13,6 +13,7 @@
     "license": "Apache-2.0",
     "require": {
         "php": ">=8.0",
+        "bulton-fr/nmea-parser": "^1.0",
         "gokure/hyperf-tinker": "^2.0",
         "hyperf/cache": "~3.0.0",
         "hyperf/command": "~3.0.0",

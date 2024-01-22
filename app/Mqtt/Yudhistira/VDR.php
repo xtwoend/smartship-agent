@@ -40,6 +40,8 @@ class VDR
 
     protected function parseGPS(string $message, $header = 'GGA')
     {
+        // $GPGGA,154141.00,0535.8693,N,09531.2071,E,2,05,02,+0039,M,-038,M,,*48
+        
         $aData  = explode(',', $message);
        
         $lat    = $aData[2];
@@ -52,7 +54,7 @@ class VDR
 
         $lat = latDMSToDec($lat, $latDir);
         $lng = lngDMSToDec($lng, $lngDir);
-
+    
         return [
             'lat' =>  (float) $lat,
             'lat_dir' => (string) $latDir,

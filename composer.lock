@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04fe858d14e12134225bc5be6740d970",
+    "content-hash": "79cad4dd6a1e4bb381f9b5a6306e582a",
     "packages": [
         {
             "name": "brick/math",
@@ -60,6 +60,59 @@
                 }
             ],
             "time": "2023-01-15T23:15:59+00:00"
+        },
+        {
+            "name": "bulton-fr/nmea-parser",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bulton-fr/nmea-parser.git",
+                "reference": "101bafff6a3988904274cad5013a4c9c8146af02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bulton-fr/nmea-parser/zipball/101bafff6a3988904274cad5013a4c9c8146af02",
+                "reference": "101bafff6a3988904274cad5013a4c9c8146af02",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "atoum/atoum": "~3.2",
+                "atoum/visibility-extension": "^1.3",
+                "scrutinizer/ocular": "~1.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BultonFr\\NMEA\\": "src/",
+                    "BultonFr\\NMEA\\Utils\\": "src/utils/",
+                    "BultonFr\\NMEA\\Frames\\": "src/frames/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Vermeulen Maxime",
+                    "email": "bulton.fr@gmail.com",
+                    "homepage": "http://www.bulton.fr"
+                }
+            ],
+            "description": "NMEA PHP parser",
+            "keywords": [
+                "nmea",
+                "parser"
+            ],
+            "support": {
+                "email": "support@bulton.fr",
+                "issues": "https://github.com/bulton-fr/nmea-parser/issues",
+                "source": "https://github.com/bulton-fr/nmea-parser/tree/master"
+            },
+            "time": "2017-09-17T00:00:00+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -8697,5 +8750,5 @@
         "php": ">=8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

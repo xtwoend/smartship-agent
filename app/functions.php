@@ -63,6 +63,8 @@ if(! function_exists('number')) {
 
 if(! function_exists('decToDMS')) {
     function decToDMS($latitude, $longitude) {
+        // "H9DQ","FASTRON","$PROVIDER,231117,A,0145.4166,N,12329.4246,E,010.8,080.0,031214,000.0,*68"
+
         $latitudeDirection = $latitude < 0 ? 'S': 'N';
         $longitudeDirection = $longitude < 0 ? 'W': 'E';
 
@@ -106,11 +108,39 @@ if(! function_exists('DMSToDec')) {
         $dd = (int) ((float) ($string) / 100);
         $ss = ($string) - $dd * 100;
         $dec = $dd + $ss / 60;
- 
+        
+        $dec = $d + ($m/60) + (($s*60)/3600);
+
         if(strtoupper($dir) == 'S' || strtoupper($dir) == 'W') {
             $dec = $dec * -1;
         }
 
         return $dec;
+    }
+}
+
+if(! function_exists('NMEADateAndTimeToTimestamp')) {
+    function NMEADateAndTimeToTimestamp($utcTime, $date)
+    {
+        // Get day components
+        $day = substr($date,0,2);
+        $month = substr($date,2,2);
+        $year = substr($date,4,2);
+        
+        // Get time components
+        $hour = substr($utcTime,0,2);
+        $minute = substr($utcTime,2,2);
+        $seconds = substr($utcTime,4,2);
+        
+        // create time stamp
+        return mktime($hour, $minute, $seconds, $month, $day, $year);
+    }
+}
+
+if(! function_exists('nmeaParser')) {
+
+    function nmeaParser(string $message) {
+        $parser = new \BultonFr\NMEA\Parser;
+        return $parser->readLine($message);
     }
 }
