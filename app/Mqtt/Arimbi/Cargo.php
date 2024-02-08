@@ -16,7 +16,7 @@ class Cargo
     public function extract()
     {
         $data = Json::decode($this->message);
-
+        
         return [
             'cargo' => [
                 'terminal_time' => (string) Carbon::now()->format('Y-m-d H:i:s'),
@@ -36,10 +36,10 @@ class Cargo
                 'ullage_cargo_no2' => (float) $data['ullage_cargo_no2'],
                 'data15' => (float) $data['data15'],
                 'data16' => (float) $data['data16'],
-                'cargo_pump1_run' => (float) $data['cargo_pump1_run'],
-                'cargo_pump2_run' => (float) $data['cargo_pump2_run'],
-                'compressor_no1_run' => (float) $data['compressor_no1_run'],
-                'compressor_no2_run' => (float) $data['compressor_no2_run'],
+                'deepwell_pump1_run' => (float) $data['deepwell_pump1_run'],
+                'deepwell_pump2_run' => (float) $data['deepwell_pump2_run'],
+                'cargo_compressor_no1_run' => (float) $data['cargo_compressor_no1_run'],
+                'cargo_compressor_no2_run' => (float) $data['cargo_compressor_no2_run'],
             ]
         ];
     }

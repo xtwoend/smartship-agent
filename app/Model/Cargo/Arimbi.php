@@ -65,10 +65,10 @@ class Arimbi extends Model
                 $table->float('ullage_cargo_no2', 10, 3)->default(0);
                 $table->float('data15', 10, 3)->default(0);
                 $table->float('data16', 10, 3)->default(0);
-                $table->float('cargo_pump1_run', 10, 3)->default(0);
-                $table->float('cargo_pump2_run', 10, 3)->default(0);
-                $table->float('compressor_no1_run', 10, 3)->default(0);
-                $table->float('compressor_no2_run', 10, 3)->default(0);
+                $table->float('deepwell_pump1_run', 10, 3)->default(0);
+                $table->float('deepwell_pump2_run', 10, 3)->default(0);
+                $table->float('cargo_compressor_no1_run', 10, 3)->default(0);
+                $table->float('cargo_compressor_no2_run', 10, 3)->default(0);
                 $table->timestamps();
             });
         }
