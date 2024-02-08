@@ -21,7 +21,7 @@ class Hanla
         
         return [
             'cargo' => [
-                'terminal_time' => $data['_terminalTime'] ?: Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' =>  Carbon::now()->format('Y-m-d H:i:s'),
                 'level_cot_1p' => $data['level_cot_1p'],
                 'temp_cot_1p' => $data['temp_cot_1p'],
                 'level_cot_1s' => $data['level_cot_1s'],

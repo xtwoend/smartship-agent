@@ -21,7 +21,7 @@ class Engine
 
         return [
             'engine' => [
-                'terminal_time' => (string) $data['_terminalTime'] ?: Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'me_tc_rpm_indicator' => $data['me_tc_rpm_indicator'],
                 'ai_hfo_bunker' => $data['ai_hfo_bunker'],
                 'ai_fwd_hfo_bunker' => $data['ai_fwd_hfo_bunker'],

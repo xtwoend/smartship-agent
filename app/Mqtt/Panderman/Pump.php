@@ -21,7 +21,7 @@ class Pump
         
         return [
             'cargo' => [
-                'terminal_time' => $data['_terminalTime'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 "temp_casing_wbp1" => $data["temp_casing_wbp1"],
                 "temp_bearing_wbp1" => $data["temp_bearing_wbp1"],
                 "temp_stuffingbox_wbp1" => $data["temp_stuffingbox_wbp1"],

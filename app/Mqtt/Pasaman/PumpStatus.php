@@ -21,7 +21,7 @@ class PumpStatus
        
         return [
             'cargo' => [
-                'pump_latest_update_at' => $data['_terminalTime'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'pump_latest_update_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'cargo_pump1_run' => $data['cargo_pump1_run'],
                 'cargo_pump2_run' => $data['cargo_pump2_run'],
                 'cargo_pump3_run' => $data['cargo_pump3_run'],

@@ -20,7 +20,7 @@ class Engine
         
         return [
             'engine' => [
-                'terminal_time' => $data['_terminalTime'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'me_exh_vv_spring_air_pressure' => $data['me_exh_vv_spring_air_pressure'],
                 'me_fo_inlet_pressure' => $data['me_fo_inlet_pressure'],
                 'tc_lo_inlet_pressure' => $data['tc_lo_inlet_pressure'],

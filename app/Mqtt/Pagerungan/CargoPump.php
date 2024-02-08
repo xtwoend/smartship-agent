@@ -20,7 +20,7 @@ class CargoPump
         
         return [
             'cargo' => [
-                'pump_latest_update_at' => $data['ts'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'pump_latest_update_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'cargo_pump1_run' => $data['cargo_pump1_run'],
                 'cargo_pump1_alarm' => $data['cargo_pump1_alarm'],
                 'cargo_pump2_run' => $data['cargo_pump2_run'],

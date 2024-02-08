@@ -20,7 +20,7 @@ class Bunker
         
         return [
             'cargo' => [
-                'bunker_timestamp' => $data['_terminalTime'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'bunker_timestamp' => Carbon::now()->format('Y-m-d H:i:s'),
                 'hfo_storage_tank_1p' => (float) $data['hfo_storage_tank_1p'],
                 'hfo_storage_tank_1s' => (float) $data['hfo_storage_tank_1s'],
                 'hfo_storage_tank_2p' => (float) $data['hfo_storage_tank_2p'],

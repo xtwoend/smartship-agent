@@ -19,7 +19,7 @@ class Engine
         
         return [
             'engine' => [
-                'terminal_time' => (string) $data['_terminalTime'] ?: Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'control_air_inlet' => (float) (($data['RIO_AI1_3X16'] / 27648) * 10) ?: 0,
                 'me_ac_cw_inlet_cooler' => (float) (($data['RIO_AI1_3X17'] / 27648) * 4) ?: 0,
                 'jcw_inlet' => (float) (($data['RIO_AI1_3X18'] / 27648) * 6) ?: 0,

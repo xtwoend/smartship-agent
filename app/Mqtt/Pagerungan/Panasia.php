@@ -22,7 +22,7 @@ class Panasia
 
         return [
             'cargo' => [
-                'terminal_time' => $data['ts'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'cargo_tank1p_ullage' => $values[0] / 1000,
                 'cargo_tank1s_ullage' => $values[1] / 1000,
                 'cargo_tank2p_ullage' => $values[2] / 1000,

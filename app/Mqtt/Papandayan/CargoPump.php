@@ -21,7 +21,7 @@ class CargoPump
        
         return [
             'cargo' => [
-                'cargo_pump_timestamp' => (string) $data['_terminalTime'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'cargo_pump_timestamp' => (string) Carbon::now()->format('Y-m-d H:i:s'),
                 'cargo_pump1_run' => (bool) $data['cargo_pump1_run'],
                 'cargo_pump2_run' => (bool) $data['cargo_pump2_run'],
                 'cargo_pump3_run' => (bool) $data['cargo_pump3_run'],

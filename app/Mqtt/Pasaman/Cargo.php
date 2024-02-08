@@ -21,7 +21,7 @@ class Cargo
         // var_dump($data);
         return [
             'cargo' => [
-                'cargo_timestamp' => $data['_terminalTime'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'cargo_timestamp' => Carbon::now()->format('Y-m-d H:i:s'),
                 'bottom_gear_cp1' => (float) $data['bottom_gear_cp1'],
                 'pump_casing_cp1' => (float) $data['pump_casing_cp1'],
                 'upper_gear_cp1' => (float) $data['upper_gear_cp1'],

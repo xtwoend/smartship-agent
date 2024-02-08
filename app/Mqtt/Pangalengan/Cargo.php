@@ -21,7 +21,7 @@ class Cargo
        
         return [
             'cargo' => [
-                'cargo_timestamp' => $data['_terminalTime'] ?? Carbon::now()->format('Y-m-d H:i:s'),
+                'cargo_timestamp' => Carbon::now()->format('Y-m-d H:i:s'),
                 'temp_casing_wbp1' => $data['temp_casing_wbp1'],
                 'temp_bearing_wbp1' => $data['temp_bearing_wbp1'],
                 'temp_stuffingbox_wbp1' => $data['temp_stuffingbox_wbp1'],

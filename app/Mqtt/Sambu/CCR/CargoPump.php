@@ -2,6 +2,7 @@
 
 namespace App\Mqtt\Sambu\CCR;
 
+use Carbon\Carbon;
 use Hyperf\Utils\Codec\Json;
 
 class CargoPump
@@ -18,7 +19,7 @@ class CargoPump
       
         return [
             'cargo_pump' => [
-                'terminal_time' => (string) $data['_terminalTime'],
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'pump_non_drvend_c1' => (float) $data['pump_non_drvend_c1'],
                 'pump_casing_c1' => (float) $data['pump_casing_c1'],
                 'pump_drvend_c1' => (float) $data['pump_drvend_c1'],

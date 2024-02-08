@@ -20,7 +20,7 @@ class Engine
         
         return [
             'engine' => [
-                'terminal_time' => Carbon::parse($data['_terminalTime'])->format('Y-m-d H:i:s'),
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'me_control_air_inlet_pressure' => (float) $data['me_control_air_inlet_pressure'],
                 'me_fo_inlet_pressure' => (float) $data['me_fo_inlet_pressure'],
                 'tc_lo_inlet_pressure' => (float) $data['tc_lo_inlet_pressure'],

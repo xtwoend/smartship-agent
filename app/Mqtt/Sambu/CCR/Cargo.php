@@ -2,6 +2,8 @@
 
 namespace App\Mqtt\Sambu\CCR;
 
+use Carbon\Carbon;
+
 
 class Cargo
 {
@@ -16,7 +18,7 @@ class Cargo
         $data = Json::decode($this->message);
         return [
             'cargo' => [
-                'terminal_time' => $data['ts'],
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'pump_non_drvend_c1' => $data['pump_non_drvend_c1'],
                 'pump_casing_c1' => $data['pump_casing_c1'],
                 'pump_drvend_c1' => $data['pump_drvend_c1'],
