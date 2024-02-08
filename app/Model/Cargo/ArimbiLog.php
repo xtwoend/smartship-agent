@@ -79,4 +79,5 @@ class ArimbiLog extends Model
         
         return $model->setTable($tableName);
     }
+
 }
