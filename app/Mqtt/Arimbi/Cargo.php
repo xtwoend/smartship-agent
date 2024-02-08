@@ -18,7 +18,7 @@ class Cargo
 
         return [
             'cargo' => [
-                'terminal_time' => (string) $data['_terminalTime'],
+                'terminal_time' => (string) Carbon::now()->format('Y-m-d H:i:s'),
                 'temp_tank_upper_no1' => (float) $data['temp_tank_upper_no1'],
                 'temp_tank_upper_no2' => (float) $data['temp_tank_upper_no2'],
                 'temp_comp_outlet_no1' => (float) $data['temp_comp_outlet_no1'],
