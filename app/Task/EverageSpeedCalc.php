@@ -23,7 +23,7 @@ class EverageSpeedCalc
         $fleets = Fleet::where('active', 1)->get();
         $date = Carbon::now()->format('Y-m-d');
         foreach($fleets as $fleet) {
-            $avg = NavigationLog::table($fleet->id, $date)->where('sog', '>=', 2)->avg('sog');
+            $avg = NavigationLog::table($fleet->id, $date)->where('sog', '>=', 2)->where('sog', '<=', 30)->avg('sog');
             $fsr = FleetDailyReport::table($fleet->id)->where([
                 'fleet_id' => $fleet->id,
                 'date' => $date,
