@@ -88,8 +88,8 @@ class VDR
         $aData  = explode(',', $message);
        
         return [
-            'cog' => (float) $aData[1],
-            'sog' => (float) $aData[5]
+            'cog' => $aData[1] <= 360 ? (float) $aData[1] : NULL,
+            'sog' => $aData[5] <= 50 ? (float) $aData[5] : NULL,
         ];
     }
 
