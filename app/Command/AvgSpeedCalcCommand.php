@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use Carbon\Carbon;
+use App\Model\Fleet;
+use App\Model\NavigationLog;
+use App\Model\FleetDailyReport;
 use Psr\Container\ContainerInterface;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Command\Command as HyperfCommand;
