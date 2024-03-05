@@ -1,15 +1,24 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Sambu\CCR;
 
 use Carbon\Carbon;
-
 
 class Cargo
 {
     protected string $message;
 
-    public function __construct(string $message) {
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
 
@@ -56,8 +65,8 @@ class Cargo
                 'vibration_c2' => $data['vibration_c2'],
                 'vibration_c3' => $data['vibration_c3'],
                 'tcm_sw_temp' => $data['tcm_sw_temp'],
-                'tcm_sw_press' => $data['tcm_sw_press']
-            ]
+                'tcm_sw_press' => $data['tcm_sw_press'],
+            ],
         ];
     }
 }

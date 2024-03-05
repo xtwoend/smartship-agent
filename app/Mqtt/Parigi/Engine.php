@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Parigi;
 
 use Carbon\Carbon;
@@ -9,16 +18,16 @@ class Engine
 {
     protected string $message;
 
-    public function __construct(string $message) {
-      
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
-       
-        return  [
+
+        return [
             'engine' => [
                 'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'no1_ge_fo_inlet_press_low' => (float) ($data['no1_ge_fo_inlet_press_low'] / 100),
@@ -33,7 +42,7 @@ class Engine
                 'no1_ge_lo_inlet_press' => (float) ($data['no1_ge_lo_inlet_press'] / 100),
                 'no2_ge_lo_inlet_press' => (float) ($data['no2_ge_lo_inlet_press'] / 100),
                 'no3_ge_lo_inlet_press' => (float) ($data['no3_ge_lo_inlet_press'] / 100),
-            ]
+            ],
         ];
     }
 }

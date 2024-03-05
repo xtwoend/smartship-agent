@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Pagerungan;
 
 use Carbon\Carbon;
@@ -9,15 +18,15 @@ class CargoPump
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
-        
+
         return [
             'cargo' => [
                 'pump_latest_update_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -35,7 +44,7 @@ class CargoPump
                 'stripping_pump_alarm' => $data['stripping_pump_alarm'],
                 'cleaningtank_pump_run' => $data['cleaningtank_pump_run'],
                 'cleaningtank_pump_alarm' => $data['cleaningtank_pump_alarm'],
-            ]
+            ],
         ];
     }
 }

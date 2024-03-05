@@ -1,28 +1,34 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model\Cargo;
 
-use Carbon\Carbon;
-use App\Model\Fleet;
+use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\HasColumnTrait;
 use App\Model\Sensor;
-use App\Model\FleetDailyReport;
+use Carbon\Carbon;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use App\Model\Alarm\SensorAlarmTrait;
-use Hyperf\Database\Schema\Blueprint;
-use Hyperf\Database\Model\Events\Created;
 
 class TypeSLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
-     * engine group sensor
+     * engine group sensor.
      */
     public array $sensor_group = ['cargo'];
-    
+
     /**
      * The table associated with the model.
      */
@@ -34,9 +40,9 @@ class TypeSLog extends Model
     protected ?string $connection = 'default';
 
     /**
-     * all 
+     * all.
      */
-    protected array $guarded = ['id']; 
+    protected array $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -60,11 +66,11 @@ class TypeSLog extends Model
     // create table cargo if not found table
     public static function table($fleetId, $date = null)
     {
-        $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
-        $model = new self;
+        $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}_{$date}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
@@ -96,13 +102,13 @@ class TypeSLog extends Model
 
                 $table->float('slop_port', 10, 3)->default(0);
                 $table->float('slop_port_temp', 10, 3)->default(0);
-                $table->float('slop_stb', 10, 3)->default(0); 
-                $table->float('slop_stb_temp', 10, 3)->default(0); 
+                $table->float('slop_stb', 10, 3)->default(0);
+                $table->float('slop_stb_temp', 10, 3)->default(0);
 
                 $table->float('draft_front', 10, 3)->default(0);
-                $table->float('draft_center_left', 10, 3)->default(0); 
-                $table->float('draft_center_right', 10, 3)->default(0); 
-                $table->float('draft_rear', 10, 3)->default(0); 
+                $table->float('draft_center_left', 10, 3)->default(0);
+                $table->float('draft_center_right', 10, 3)->default(0);
+                $table->float('draft_rear', 10, 3)->default(0);
 
                 $table->float('fore_peak', 10, 3)->default(0);
 
@@ -145,66 +151,128 @@ class TypeSLog extends Model
                 $table->boolean('cargo_pump2_alarm')->default(false);
                 $table->boolean('cargo_pump3_run')->default(false);
                 $table->boolean('cargo_pump3_alarm')->default(false);
-                
+
                 $table->boolean('ballast_pump1_run')->default(false);
                 $table->boolean('ballast_pump1_alarm')->default(false);
                 $table->boolean('ballast_pump2_run')->default(false);
                 $table->boolean('ballast_pump2_alarm')->default(false);
                 $table->boolean('stripping_pump_run')->default(false);
                 $table->boolean('stripping_pump_alarm')->default(false);
-                
+
                 $table->timestamps();
             });
         }
-        
+
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'tank_1_port_mt',
+                'after' => 'tank_1_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_1_stb_mt',
+                'after' => 'tank_1_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_2_port_mt',
+                'after' => 'tank_2_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_2_stb_mt',
+                'after' => 'tank_2_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_3_port_mt',
+                'after' => 'tank_3_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_3_stb_mt',
+                'after' => 'tank_3_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_4_port_mt',
+                'after' => 'tank_4_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_4_stb_mt',
+                'after' => 'tank_4_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_5_port_mt',
+                'after' => 'tank_5_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_5_stb_mt',
+                'after' => 'tank_5_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_6_port_mt',
+                'after' => 'tank_6_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_6_stb_mt',
+                'after' => 'tank_6_stb',
+            ],
+        ]);
+
         return $model->setTable($tableName);
     }
 
     // Calculate percentage cargo capacity
-    public function cargoCapacity($model): void {
-    
+    public function cargoCapacity($model): void
+    {
         $cargoArray = [
-            'tank_1_port', 
-            'tank_2_port', 
-            'tank_3_port', 
-            'tank_4_port', 
-            'tank_5_port', 
-            'tank_6_port', 
-            'tank_1_stb', 
-            'tank_2_stb', 
-            'tank_3_stb', 
-            'tank_4_stb', 
-            'tank_5_stb', 
-            'tank_6_stb'
+            'tank_1_port',
+            'tank_2_port',
+            'tank_3_port',
+            'tank_4_port',
+            'tank_5_port',
+            'tank_6_port',
+            'tank_1_stb',
+            'tank_2_stb',
+            'tank_3_stb',
+            'tank_4_stb',
+            'tank_5_stb',
+            'tank_6_stb',
         ];
-        
 
         $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
         $data = [];
-        foreach($cargoArray as $c) {
+        foreach ($cargoArray as $c) {
             $max = $sensors[$c];
             $value = $model->{$c};
-            
-            $percentage = ($value <= $max)? ($value / $max) : 0;
+
+            $percentage = ($value <= $max) ? ($value / $max) : 0;
             $data[$c] = (1 - $percentage);
         }
-        
+
         $totalPercentage = 0;
-        foreach($data as $d) {
+        foreach ($data as $d) {
             $totalPercentage += $d;
         }
 
         $percentageCargo = $totalPercentage / count($cargoArray);
-        
+
         // save
         $now = \Carbon\Carbon::now();
         $fsr = \App\Model\FleetDailyReport::table($model->fleet_id)->where([
             'fleet_id' => $model->fleet_id,
             'date' => $now->format('Y-m-d'),
-            'sensor' => 'cargo_percentage'
+            'sensor' => 'cargo_percentage',
         ])->first();
-        
-        if(! $fsr) {
+
+        if (! $fsr) {
             $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);
             $fsr->fleet_id = $model->fleet_id;
             $fsr->date = $now->format('Y-m-d');

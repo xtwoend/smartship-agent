@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Arar;
 
 use Carbon\Carbon;
@@ -9,7 +18,8 @@ class Cargo
 {
     protected string $message;
 
-    public function __construct(string $message) {
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
 
@@ -39,7 +49,7 @@ class Cargo
                 'heating_crossover_outloading' => $data['heating_crossover_outloading'],
                 'cm1101_motor_current' => $data['cm1101_motor_current'],
                 'cm1201_motor_current' => $data['cm1201_motor_current'],
-            ]
+            ],
         ];
     }
 }

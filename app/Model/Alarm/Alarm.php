@@ -1,11 +1,20 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model\Alarm;
 
 use Carbon\Carbon;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use Hyperf\Database\Schema\Blueprint;
 
 class Alarm extends Model
 {
@@ -20,9 +29,9 @@ class Alarm extends Model
     protected ?string $connection = 'default';
 
     /**
-     * all 
+     * all.
      */
-    protected array $guarded = ['id']; 
+    protected array $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -35,10 +44,10 @@ class Alarm extends Model
     // create table cargo if not found table
     public static function table($fleetId)
     {
-        $model = new self;
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
@@ -51,60 +60,60 @@ class Alarm extends Model
                 $table->timestamps();
             });
         }
-        
+
         return $model->setTable($tableName);
     }
 
     public function setAlarm($data, $fleetId)
-    { 
-        foreach($data as $alarm) {
+    {
+        foreach ($data as $alarm) {
             $al = self::table($fleetId)
                 ->firstOrCreate([
                     'fleet_id' => $fleetId,
                     'property' => $alarm['property'],
                     'property_key' => $alarm['property_key'],
                     'message' => $alarm['message'],
-                    'status' => 1
+                    'status' => 1,
                 ]);
-            if(is_null($al->started_at)) {
+            if (is_null($al->started_at)) {
                 $al->started_at = Carbon::now()->format('Y-m-d H:i:s');
             }
             $al->finished_at = Carbon::now()->format('Y-m-d H:i:s');
             $al->save();
         }
     }
-    
+
     /**
-     * get duration attribute
+     * get duration attribute.
      */
     public function getDurationAttribute()
     {
-        $duration = (isset($this->finished_at) && isset($this->started_at)) ? Carbon::parse($this->finished_at)->diffInSeconds(Carbon::parse($this->started_at)): 0;
-        if($duration > 0) {
-            return gmdate("H:i:s", $duration);
+        $duration = (isset($this->finished_at, $this->started_at)) ? Carbon::parse($this->finished_at)->diffInSeconds(Carbon::parse($this->started_at)) : 0;
+        if ($duration > 0) {
+            return gmdate('H:i:s', $duration);
         }
         return 0;
     }
 
     /**
-     * get duration in hours
+     * get duration in hours.
      */
     public function getDurationInHourAttribute()
     {
-        $duration = (isset($this->finished_at) && isset($this->started_at)) ? Carbon::parse($this->finished_at)->diffInSeconds(Carbon::parse($this->started_at)): 0;
-        if($duration > 0) {
+        $duration = (isset($this->finished_at, $this->started_at)) ? Carbon::parse($this->finished_at)->diffInSeconds(Carbon::parse($this->started_at)) : 0;
+        if ($duration > 0) {
             return (float) $duration / (60 * 60);
         }
         return 0;
     }
 
     /**
-     * get duration in hours
+     * get duration in hours.
      */
     public function getDurationInMinuteAttribute()
     {
-        $duration = (isset($this->finished_at) && isset($this->started_at)) ? Carbon::parse($this->finished_at)->diffInSeconds(Carbon::parse($this->started_at)): 0;
-        if($duration > 0) {
+        $duration = (isset($this->finished_at, $this->started_at)) ? Carbon::parse($this->finished_at)->diffInSeconds(Carbon::parse($this->started_at)) : 0;
+        if ($duration > 0) {
             return (float) $duration / 60;
         }
         return 0;

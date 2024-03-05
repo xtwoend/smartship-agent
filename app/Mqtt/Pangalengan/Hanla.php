@@ -1,24 +1,129 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Pangalengan;
 
 use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Hanla
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    protected $mappArray = [
+        'NO_1_CARGO_TANK_P',
+        'TEMP_1CTP',
+        'NO_1_CARGO_TANK_S',
+        'TEMP_1CTS',
+        'NO_2_CARGO_TANK_P',
+        'TEMP_2CTP',
+        'NO_2_CARGO_TANK_S',
+        'TEMP_2CTS',
+        'NO_3_CARGO_TANK_P',
+        'TEMP_3CTP',
+        'NO_3_CARGO_TANK_S',
+        'TEMP_3CTS',
+        'NO_4_CARGO_TANK_P',
+        'TEMP_4CTP',
+        'NO_4_CARGO_TANK_S',
+        'TEMP_4CTS',
+        'NO_5_CARGO_TANK_P',
+        'TEMP_5CTP',
+        'NO_5_CARGO_TANK_S',
+        'TEMP_5CTS',
+        'SLOP_CARGO_TANK_P',
+        'TEMP_SCTP',
+        'SLOP_CARGO_TANK_S',
+        'TEMP_SCTS',
+        'F_P_T_C',
+        'NO_1_WBT_P',
+        'NO_1_WBT_S',
+        'NO_2_WBT_P',
+        'NO_2_WBT_S',
+        'NO_3_WBT_P',
+        'NO_3_WBT_S',
+        'NO_4_WBT_P',
+        'NO_4_WBT_S',
+        'NO_5_WBT_P',
+        'NO_5_WBT_S',
+        'NO_6_WBT_P',
+        'NO_6_WBT_S',
+        'NO_7_WBT_P',
+        'NO_7_WBT_S',
+        'AFTK_P',
+        'AFTK_S',
+        'NO_1_HFO_P',
+        'NO_2_HFO_S',
+        'NO_1_HFODAY_P',
+        'NO_2_HFODAY_S',
+        'HFO_SETT_P',
+        'MDO_SETT_S',
+        'NO_1_MDO_P',
+        'NO_2_MDO_S',
+        'NO_1_MDODAY_P',
+        'NO_S_MDODAY_S',
+        'VOLUME_COT_1P',
+        'VOLUME_COT_1S',
+        'VOLUME_COT_2P',
+        'VOLUME_COT_2S',
+        'VOLUME_COT_3P',
+        'VOLUME_COT_3S',
+        'VOLUME_COT_4P',
+        'VOLUME_COT_4S',
+        'VOLUME_COT_5P',
+        'VOLUME_COT_5S',
+        'VOLUME_FPT',
+        'VOLUME_WBT_1P',
+        'VOLUME_WBT_1S',
+        'VOLUME_WBT_2P',
+        'VOLUME_WBT_2S',
+        'VOLUME_WBT_3P',
+        'VOLUME_WBT_3S',
+        'VOLUME_WBT_4P',
+        'VOLUME_WBT_4S',
+        'VOLUME_WBT_5P',
+        'VOLUME_WBT_5S',
+        'VOLUME_WBT_6P',
+        'VOLUME_WBT_6S',
+        'VOLUME_WBT_7P',
+        'VOLUME_WBT_7S',
+        'VOLUME_AFT_1P',
+        'VOLUME_AFT_1S',
+        'VOLUME_MDO_1P',
+        'VOLUME_MDO_2S',
+        'VOLUME_HFO_1P',
+        'VOLUME_HFO_2S',
+        'VOLUME_MDO_SETT_S',
+        'VOLUME_MDODAY_1P',
+        'VOLUME_MDODAY_2S',
+        'VOLUME_HFO_SETT_P',
+        'cargo_pump1_run',
+        'cargo_pump2_run',
+        'cargo_pump3_run',
+        'wballast_pump1_run',
+        'wballast_pump2_run',
+        'tank_cleaning_pump_run',
+        'stripping_pump_run',
+    ];
+
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
-        
+
         return [
             'cargo' => [
                 'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -115,113 +220,20 @@ class Hanla
                 'wballast_pump2_run' => $data['wballast_pump2_run'],
                 'tank_cleaning_pump_run' => $data['tank_cleaning_pump_run'],
                 'stripping_pump_run' => $data['stripping_pump_run'],
-            ]
+            ],
         ];
     }
 
-    function arrayToSnake() : array {
+    public function arrayToSnake(): array
+    {
         $snake = [];
-        foreach($this->mappArray as $in => $val) {
-            if(is_null($val)) continue;
+        foreach ($this->mappArray as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
             $key = Str::snake(strtolower($val));
             $snake[$key] = $val;
-        } 
+        }
         return $snake;
     }
-
-    protected $mappArray = [
-            "NO_1_CARGO_TANK_P",
-            "TEMP_1CTP",
-            "NO_1_CARGO_TANK_S",
-            "TEMP_1CTS",
-            "NO_2_CARGO_TANK_P",
-            "TEMP_2CTP",
-            "NO_2_CARGO_TANK_S",
-            "TEMP_2CTS",
-            "NO_3_CARGO_TANK_P",
-            "TEMP_3CTP",
-            "NO_3_CARGO_TANK_S",
-            "TEMP_3CTS",
-            "NO_4_CARGO_TANK_P",
-            "TEMP_4CTP",
-            "NO_4_CARGO_TANK_S",
-            "TEMP_4CTS",
-            "NO_5_CARGO_TANK_P",
-            "TEMP_5CTP",
-            "NO_5_CARGO_TANK_S",
-            "TEMP_5CTS",
-            "SLOP_CARGO_TANK_P",
-            "TEMP_SCTP",
-            "SLOP_CARGO_TANK_S",
-            "TEMP_SCTS",
-            "F_P_T_C",
-            "NO_1_WBT_P",
-            "NO_1_WBT_S",
-            "NO_2_WBT_P",
-            "NO_2_WBT_S",
-            "NO_3_WBT_P",
-            "NO_3_WBT_S",
-            "NO_4_WBT_P",
-            "NO_4_WBT_S",
-            "NO_5_WBT_P",
-            "NO_5_WBT_S",
-            "NO_6_WBT_P",
-            "NO_6_WBT_S",
-            "NO_7_WBT_P",
-            "NO_7_WBT_S",
-            "AFTK_P",
-            "AFTK_S",
-            "NO_1_HFO_P",
-            "NO_2_HFO_S",
-            "NO_1_HFODAY_P",
-            "NO_2_HFODAY_S",
-            "HFO_SETT_P",
-            "MDO_SETT_S",
-            "NO_1_MDO_P",
-            "NO_2_MDO_S",
-            "NO_1_MDODAY_P",
-            "NO_S_MDODAY_S",
-            "VOLUME_COT_1P",
-            "VOLUME_COT_1S",
-            "VOLUME_COT_2P",
-            "VOLUME_COT_2S",
-            "VOLUME_COT_3P",
-            "VOLUME_COT_3S",
-            "VOLUME_COT_4P",
-            "VOLUME_COT_4S",
-            "VOLUME_COT_5P",
-            "VOLUME_COT_5S",
-            "VOLUME_FPT",
-            "VOLUME_WBT_1P",
-            "VOLUME_WBT_1S",
-            "VOLUME_WBT_2P",
-            "VOLUME_WBT_2S",
-            "VOLUME_WBT_3P",
-            "VOLUME_WBT_3S",
-            "VOLUME_WBT_4P",
-            "VOLUME_WBT_4S",
-            "VOLUME_WBT_5P",
-            "VOLUME_WBT_5S",
-            "VOLUME_WBT_6P",
-            "VOLUME_WBT_6S",
-            "VOLUME_WBT_7P",
-            "VOLUME_WBT_7S",
-            "VOLUME_AFT_1P",
-            "VOLUME_AFT_1S",
-            "VOLUME_MDO_1P",
-            "VOLUME_MDO_2S",
-            "VOLUME_HFO_1P",
-            "VOLUME_HFO_2S",
-            "VOLUME_MDO_SETT_S",
-            "VOLUME_MDODAY_1P",
-            "VOLUME_MDODAY_2S",
-            "VOLUME_HFO_SETT_P",
-            "cargo_pump1_run",
-            "cargo_pump2_run",
-            "cargo_pump3_run",
-            "wballast_pump1_run",
-            "wballast_pump2_run",
-            "tank_cleaning_pump_run",
-            "stripping_pump_run"
-    ];
 }

@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Senipah\CCR;
 
 use Carbon\Carbon;
@@ -9,14 +18,15 @@ class Hanla
 {
     protected string $message;
 
-    public function __construct(string $message) {
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
 
     public function extract()
     {
         $data = Json::decode($this->message);
-      
+
         return [
             'cargo' => [
                 'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -81,8 +91,8 @@ class Hanla
                 'fuel_oil_service_port' => (float) $data['FUEL_O_SERV_T_P'],
                 'fuel_oil_settling_port' => (float) $data['FUEL_O_SETT_T_P'],
                 'ls_fuel_oil_service_port' => (float) $data['LOW_SULP_FUEL_O_SERV_T_P'],
-                'ls_fuel_oil_settling_port' => (float) $data['LOW_SULP_FUEL_O_SETT_T_P']
-            ]
+                'ls_fuel_oil_settling_port' => (float) $data['LOW_SULP_FUEL_O_SETT_T_P'],
+            ],
         ];
     }
 }

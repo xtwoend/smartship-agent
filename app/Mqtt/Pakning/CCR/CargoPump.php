@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Pakning\CCR;
 
 use Carbon\Carbon;
@@ -9,14 +18,15 @@ class CargoPump
 {
     protected string $message;
 
-    public function __construct(string $message) {
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
 
     public function extract()
     {
         $data = Json::decode($this->message);
-      
+
         return [
             'cargo_pump' => [
                 'terminal_time' => (string) Carbon::now()->format('Y-m-d H:i:s'),
@@ -58,7 +68,7 @@ class CargoPump
                 'vibration_c3' => (float) $data['vibration_c3'],
                 'tcm_sw_temp' => (float) $data['tcm_sw_temp'],
                 'tcm_sw_press' => (float) $data['tcm_sw_press'],
-            ]
+            ],
         ];
     }
 }

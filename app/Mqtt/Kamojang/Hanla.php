@@ -1,64 +1,23 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Kamojang;
 
 use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Hanla
 {
     protected string $message;
-
-    public function __construct(string $message) {
-       
-        $this->message = $message;
-    }
-    
-    public function extract()
-    {
-        $data = Json::decode($this->message);
-        
-        return [
-            'cargo' => [
-                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
-                'no_1_cargo_tank_p' => $data['NO_1_CARGO_TANK_P'],
-                'temp_1ctp' => $data['TEMP_1CTP'],
-                'no_1_cargo_tank_s' => $data['NO_1_CARGO_TANK_S'],
-                'temp_1cts' => $data['TEMP_1CTS'],
-                'no_2_cargo_tank_p' => $data['NO_2_CARGO_TANK_P'],
-                'temp_2ctp' => $data['TEMP_2CTP'],
-                'no_2_cargo_tank_s' => $data['NO_2_CARGO_TANK_S'],
-                'temp_2cts' => $data['TEMP_2CTS'],
-                'no_3_cargo_tank_p' => $data['NO_3_CARGO_TANK_P'],
-                'temp_3ctp' => $data['TEMP_3CTP'],
-                'no_3_cargo_tank_s' => $data['NO_3_CARGO_TANK_S'],
-                'temp_3ctm' => $data['TEMP_3CTM'],
-                'no_4_cargo_tank_p' => $data['NO_4_CARGO_TANK_P'],
-                'temp_4ctp' => $data['TEMP_4CTP'],
-                'no_4_cargo_tank_s' => $data['NO_4_CARGO_TANK_S'],
-                'temp_4cts' => $data['TEMP_4CTS'],
-                'no_5_cargo_tank_p' => $data['NO_5_CARGO_TANK_P'],
-                'temp_5ctp' => $data['TEMP_5CTP'],
-                'no_5_cargo_tank_s' => $data['NO_5_CARGO_TANK_S'],
-                'temp_5cts' => $data['TEMP_5CTS'],
-                'slop_tank_p' => $data['SLOP_TANK_P'],
-                'temp_stp' => $data['TEMP_STP'],
-                'slop_tank_s' => $data['SLOP_TANK_S'],
-                'temp_sts' => $data['TEMP_STS'],
-            ]
-        ];
-    }
-
-    function arrayToSnake() : array {
-        $snake = [];
-        foreach($this->mappArray as $in => $val) {
-            if(is_null($val)) continue;
-            $key = Str::snake(strtolower($val));
-            $snake[$key] = $val;
-        } 
-        return $snake;
-    }
 
     protected $mappArray = [
         'NO_1_CARGO_TANK_P',
@@ -86,4 +45,57 @@ class Hanla
         'SLOP_TANK_S',
         'TEMP_STS',
     ];
+
+    public function __construct(string $message)
+    {
+        $this->message = $message;
+    }
+
+    public function extract()
+    {
+        $data = Json::decode($this->message);
+
+        return [
+            'cargo' => [
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
+                'no_1_cargo_tank_p' => $data['NO_1_CARGO_TANK_P'],
+                'temp_1ctp' => $data['TEMP_1CTP'],
+                'no_1_cargo_tank_s' => $data['NO_1_CARGO_TANK_S'],
+                'temp_1cts' => $data['TEMP_1CTS'],
+                'no_2_cargo_tank_p' => $data['NO_2_CARGO_TANK_P'],
+                'temp_2ctp' => $data['TEMP_2CTP'],
+                'no_2_cargo_tank_s' => $data['NO_2_CARGO_TANK_S'],
+                'temp_2cts' => $data['TEMP_2CTS'],
+                'no_3_cargo_tank_p' => $data['NO_3_CARGO_TANK_P'],
+                'temp_3ctp' => $data['TEMP_3CTP'],
+                'no_3_cargo_tank_s' => $data['NO_3_CARGO_TANK_S'],
+                'temp_3ctm' => $data['TEMP_3CTM'],
+                'no_4_cargo_tank_p' => $data['NO_4_CARGO_TANK_P'],
+                'temp_4ctp' => $data['TEMP_4CTP'],
+                'no_4_cargo_tank_s' => $data['NO_4_CARGO_TANK_S'],
+                'temp_4cts' => $data['TEMP_4CTS'],
+                'no_5_cargo_tank_p' => $data['NO_5_CARGO_TANK_P'],
+                'temp_5ctp' => $data['TEMP_5CTP'],
+                'no_5_cargo_tank_s' => $data['NO_5_CARGO_TANK_S'],
+                'temp_5cts' => $data['TEMP_5CTS'],
+                'slop_tank_p' => $data['SLOP_TANK_P'],
+                'temp_stp' => $data['TEMP_STP'],
+                'slop_tank_s' => $data['SLOP_TANK_S'],
+                'temp_sts' => $data['TEMP_STS'],
+            ],
+        ];
+    }
+
+    public function arrayToSnake(): array
+    {
+        $snake = [];
+        foreach ($this->mappArray as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
+            $key = Str::snake(strtolower($val));
+            $snake[$key] = $val;
+        }
+        return $snake;
+    }
 }

@@ -1,24 +1,36 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Mahakam;
 
 use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Engine
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    protected $engine = [
+    ];
+
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
-       
+
         return [
             'engine' => [
                 'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -31,21 +43,20 @@ class Engine
                 'scavenging_air_inlet_press' => $data['scavenging_air_inlet_press'],
                 'speed_setting_air_inlet_press' => $data['speed_setting_air_inlet_press'],
                 'control_air_inlet_press' => $data['control_air_inlet_press'],
-            ]
+            ],
         ];
-
     }
 
-    function arrayToSnake($arrayName) : array {
+    public function arrayToSnake($arrayName): array
+    {
         $snake = [];
-        foreach($this->{$arrayName} as $in => $val) {
-            if(is_null($val)) continue;
+        foreach ($this->{$arrayName} as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
             $key = Str::snake(strtolower($val));
             $snake[$key] = $in;
-        } 
+        }
         return $snake;
     }
-
-    protected $engine = [
-    ];
 }

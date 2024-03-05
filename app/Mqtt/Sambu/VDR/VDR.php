@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Sambu\VDR;
 
 class VDR
@@ -8,78 +17,49 @@ class VDR
 
     protected $data;
 
-    public function __construct(string $message) {
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
 
     public function parse()
     {
         $parse = null;
-        if(str_contains($this->message, 'GLL')) {
+        if (str_contains($this->message, 'GLL')) {
             $parse = $this->parseGPS($this->message);
-        }elseif(str_contains($this->message, 'HDT')) {
+        } elseif (str_contains($this->message, 'HDT')) {
             $parse = $this->parseHeading($this->message);
-        }elseif(str_contains($this->message, 'MWV')) {
+        } elseif (str_contains($this->message, 'MWV')) {
             $parse = $this->parseMWV($this->message);
-        }elseif(str_contains($this->message, 'VTG')) {
+        } elseif (str_contains($this->message, 'VTG')) {
             $parse = $this->parseVTG($this->message);
-        }elseif(str_contains($this->message, 'DTM')) {
+        } elseif (str_contains($this->message, 'DTM')) {
             $parse = $this->parseDTM($this->message);
-        }elseif(str_contains($this->message, 'VLW')) {
+        } elseif (str_contains($this->message, 'VLW')) {
             $parse = $this->parseVLW($this->message);
-        }elseif(str_contains($this->message, 'DPT')) {
+        } elseif (str_contains($this->message, 'DPT')) {
             $parse = $this->parseDPT($this->message);
-        }elseif(str_contains($this->message, 'ROT')) {
+        } elseif (str_contains($this->message, 'ROT')) {
             $parse = $this->parseROT($this->message);
         }
 
         return $parse;
     }
 
-    protected function parseGPS(string $message, $header = 'GLL')
-    {
-        $aData  = explode(',', $message);
-       
-        $lat    = $aData[1];
-        $latDir = $aData[2];
-        $lng    = $aData[3];
-        $lngDir = $aData[4]; // satellites count
-
-        $lat = DMSToDec($lat, $latDir);
-        $lng = DMSToDec($lng, $lngDir);
-
-        return [
-            'lat' =>  (float) $lat,
-            'lat_dir' => (string) $latDir,
-            'lng' => (float) $lng,
-            'lng_dir' => (string) $lngDir
-        ];
-    }
-
-    protected function parseHeading(string $message)
-    {
-        $aData  = explode(',', $message);
-        $heading   = $aData[1];
-
-        return [
-            'heading' => (float) $heading
-        ];
-    }
-
     public function parseMWV(string $message)
     {
-        $aData  = explode(',', $message);
+        $aData = explode(',', $message);
 
         return [
             'wind_direction' => (float) $aData[1],
-            'wind_speed' => (float) $aData[3]
+            'wind_speed' => (float) $aData[3],
         ];
     }
 
     public function parseVTG(string $message)
     {
-        $aData  = explode(',', $message);
-       
+        $aData = explode(',', $message);
+
         return [
             'cog' => $aData[1] <= 360 ? (float) $aData[1] : 0,
             'sog' => $aData[5] <= 50 ? (float) $aData[5] : 0,
@@ -88,38 +68,38 @@ class VDR
 
     public function parseDTM(string $message)
     {
-        $aData  = explode(',', $message);
+        $aData = explode(',', $message);
 
         return [
-            'datum_refrence' => (string) $aData[1]
+            'datum_refrence' => (string) $aData[1],
         ];
     }
 
     public function parseVLW(string $message)
     {
-        $aData  = explode(',', $message);
-        
+        $aData = explode(',', $message);
+
         return [
             'total_distance' => (float) $aData[1],
-            'distance' => (float) $aData[3]
+            'distance' => (float) $aData[3],
         ];
     }
 
     public function parseDPT(string $message)
     {
-        $aData  = explode(',', $message);
+        $aData = explode(',', $message);
 
         return [
-            'depth' => (float) $aData[1]
+            'depth' => (float) $aData[1],
         ];
     }
 
     public function parseROT(string $message)
     {
-        $aData  = explode(',', $message);
+        $aData = explode(',', $message);
 
         return [
-            'rot' => (float) $aData[1]
+            'rot' => (float) $aData[1],
         ];
     }
 
@@ -128,13 +108,43 @@ class VDR
         return ['nav' => $this->parse()];
     }
 
+    protected function parseGPS(string $message, $header = 'GLL')
+    {
+        $aData = explode(',', $message);
+
+        $lat = $aData[1];
+        $latDir = $aData[2];
+        $lng = $aData[3];
+        $lngDir = $aData[4]; // satellites count
+
+        $lat = DMSToDec($lat, $latDir);
+        $lng = DMSToDec($lng, $lngDir);
+
+        return [
+            'lat' => (float) $lat,
+            'lat_dir' => (string) $latDir,
+            'lng' => (float) $lng,
+            'lng_dir' => (string) $lngDir,
+        ];
+    }
+
+    protected function parseHeading(string $message)
+    {
+        $aData = explode(',', $message);
+        $heading = $aData[1];
+
+        return [
+            'heading' => (float) $heading,
+        ];
+    }
+
     protected function _longitude($val, $pos)
     {
         $second = (float) substr($val, -7);
         $second = $second / 60;
-        
+
         $lng = explode('.', $val);
-        $lng = (int) ($lng[0]/100);
+        $lng = (int) ($lng[0] / 100);
         $lng = $lng + $second;
 
         if (strtoupper($pos) == 'W') {
@@ -142,7 +152,7 @@ class VDR
         }
 
         return [
-            round($lng, 6, PHP_ROUND_HALF_UP), $pos
+            round($lng, 6, PHP_ROUND_HALF_UP), $pos,
         ];
     }
 
@@ -150,18 +160,17 @@ class VDR
     {
         $second = (float) substr($latString, -7);
         $second = $second / 60;
-        
+
         $lat = explode('.', $latString);
         $lat = (int) ($lat[0] / 100);
-        $lat =  $lat + $second;
-    
-        
+        $lat = $lat + $second;
+
         if (strtoupper($pos) == 'S') {
             $lat = $lat * -1;
         }
 
         return [
-            round($lat, 6, PHP_ROUND_HALF_UP), $pos
+            round($lat, 6, PHP_ROUND_HALF_UP), $pos,
         ];
     }
 }

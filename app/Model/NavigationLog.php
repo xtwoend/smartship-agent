@@ -1,31 +1,37 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model;
 
+use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
-use App\Model\FleetDailyReport;
+use Hyperf\Database\Model\Events\Creating;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use App\Model\Alarm\SensorAlarmTrait;
-use Hyperf\Database\Schema\Blueprint;
-use Hyperf\Database\Model\Events\Created;
-use Hyperf\Database\Model\Events\Creating;
 
-/**
- */
 class NavigationLog extends Model
 {
     use SensorAlarmTrait;
-    
+
+    public bool $incrementing = false;
+
     /**
      * The table associated with the model.
      */
     protected ?string $table = 'navigation_log';
+
     protected string $primaryKey = 'id';
+
     protected string $keyType = 'string';
-    public bool $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
@@ -36,21 +42,21 @@ class NavigationLog extends Model
      * The attributes that should be cast to native types.
      */
     protected array $casts = [
-        'terminal_time' => 'datetime'
+        'terminal_time' => 'datetime',
     ];
 
     public function fleet()
     {
         return $this->belongsTo(Fleet::class, 'fleet_id');
     }
-    
+
     public static function table($fleetId, $date = null)
     {
-        $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
-        $model = new self;
+        $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}_{$date}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->uuid('id')->primary();
                 $table->unsignedBigInteger('fleet_id')->index();
@@ -72,29 +78,29 @@ class NavigationLog extends Model
                 $table->timestamps();
             });
         }
-        
+
         return $model->setTable($tableName);
     }
-    
+
     public function creating(Creating $event)
     {
         $this->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
     }
 
     /**
-     * create by sistem
+     * create by sistem.
+     * @param mixed $model
      */
-    public function navigationDailyReport($model) 
+    public function navigationDailyReport($model)
     {
-         
         $now = Carbon::now();
         $fdr = FleetDailyReport::table($model->fleet_id)->where([
             'fleet_id' => $model->fleet_id,
             'date' => $now->format('Y-m-d'),
-            'sensor' => 'distance'
+            'sensor' => 'distance',
         ])->first();
-        
-        if(! $fdr) {
+
+        if (! $fdr) {
             $fdr = FleetDailyReport::table($model->fleet_id);
             $fdr->fleet_id = $model->fleet_id;
             $fdr->date = $now->format('Y-m-d');

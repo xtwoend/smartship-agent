@@ -1,67 +1,22 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Arar;
 
-use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Ams
 {
     protected string $message;
-
-    public function __construct(string $message) {
-       
-        $this->message = $message;
-    }
-    
-    public function extract()
-    {
-        $data = Json::decode($this->message);
-        $arrayAms = $data['values'];
-        $alarms = [];
-        $keys = [
-            'arar_engine.arar_me.New PLC 1.21' => 'channel21',
-            'arar_engine.arar_me.New PLC 1.22' => 'channel22',
-            'arar_engine.arar_me.New PLC 1.23' => 'channel23',
-            'arar_engine.arar_me.New PLC 1.24' => 'channel24',
-            'arar_engine.arar_me.New PLC 1.400' => 'channel400',
-            'arar_engine.arar_me.New PLC 1.401' => 'channel401',
-            'arar_engine.arar_me.New PLC 1.500' => 'channel500',
-            'arar_engine.arar_me.New PLC 1.501' => 'channel501',
-        ];
-        foreach($arrayAms as $ams) {
-            
-            $aName = $keys[$ams['id']] ?? null;
-            if(is_null($aName)) continue;
-        
-            $array = Json::decode($ams['v']);
-            foreach($array as $index => $val) {
-                if(! isset($this->{$aName}[$index])) continue;
-                if($val == 1) {
-                    $alarms[] = [
-                        'property' => 'ams_' . $aName,
-                        'property_key' => $index,
-                        'message' => $this->{$aName}[$index] ?? NULL
-                    ];
-                }
-                
-            }
-        }
-        return [
-            'alarm' => $alarms
-        ];
-    }
-
-    function arrayToSnake() : array {
-        $snake = [];
-        foreach($this->mapArray as $in => $val) {
-            if(is_null($val)) continue;
-            $key = Str::snake(strtolower($val));
-            $snake[$key] = $in;
-        } 
-        return $snake;
-    }
 
     protected $channel21 = [
         'ME RUN IND',
@@ -179,4 +134,62 @@ class Ams
         'TC EXH IN TEMP2 LOW ALARM',
         'TC EXH OUT TEMP LOW ALARM',
     ];
+
+    public function __construct(string $message)
+    {
+        $this->message = $message;
+    }
+
+    public function extract()
+    {
+        $data = Json::decode($this->message);
+        $arrayAms = $data['values'];
+        $alarms = [];
+        $keys = [
+            'arar_engine.arar_me.New PLC 1.21' => 'channel21',
+            'arar_engine.arar_me.New PLC 1.22' => 'channel22',
+            'arar_engine.arar_me.New PLC 1.23' => 'channel23',
+            'arar_engine.arar_me.New PLC 1.24' => 'channel24',
+            'arar_engine.arar_me.New PLC 1.400' => 'channel400',
+            'arar_engine.arar_me.New PLC 1.401' => 'channel401',
+            'arar_engine.arar_me.New PLC 1.500' => 'channel500',
+            'arar_engine.arar_me.New PLC 1.501' => 'channel501',
+        ];
+        foreach ($arrayAms as $ams) {
+            $aName = $keys[$ams['id']] ?? null;
+            if (is_null($aName)) {
+                continue;
+            }
+
+            $array = Json::decode($ams['v']);
+            foreach ($array as $index => $val) {
+                if (! isset($this->{$aName}[$index])) {
+                    continue;
+                }
+                if ($val == 1) {
+                    $alarms[] = [
+                        'property' => 'ams_' . $aName,
+                        'property_key' => $index,
+                        'message' => $this->{$aName}[$index] ?? null,
+                    ];
+                }
+            }
+        }
+        return [
+            'alarm' => $alarms,
+        ];
+    }
+
+    public function arrayToSnake(): array
+    {
+        $snake = [];
+        foreach ($this->mapArray as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
+            $key = Str::snake(strtolower($val));
+            $snake[$key] = $in;
+        }
+        return $snake;
+    }
 }

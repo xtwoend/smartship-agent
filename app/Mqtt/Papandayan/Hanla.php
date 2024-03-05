@@ -1,16 +1,84 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Papandayan;
 
 use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Hanla
 {
     protected string $message;
 
-    public function __construct(string $message) {
+    protected $mappArray = [
+        'NO_1_CARGO_TANK_P',
+        'TEMP_1CTP',
+        'NO_1_CARGO_TANK_S',
+        'TEMP_1CTS',
+        'NO_2_CARGO_TANK_P',
+        'TEMP_2CTP',
+        'NO_2_CARGO_TANK_S',
+        'TEMP_2CTS',
+        'NO_3_CARGO_TANK_P',
+        'TEMP_3CTP',
+        'NO_3_CARGO_TANK_S',
+        'TEMP_3CTS',
+        'NO_4_CARGO_TANK_P',
+        'TEMP_4CTP',
+        'NO_4_CARGO_TANK_S',
+        'TEMP_4CTS',
+        'NO_5_CARGO_TANK_P',
+        'TEMP_5CTP',
+        'NO_5_CARGO_TANK_S',
+        'TEMP_5CTS',
+        'SLOP_CARGO_TANK_P',
+        'TEMP_SCTP',
+        'SLOP_CARGO_TANK_S',
+        'TEMP_SCTS',
+        'F_P_T_C',
+        'NO_1_WBT_P',
+        'NO_1_WBT_S',
+        'NO_2_WBT_P',
+        'NO_2_WBT_S',
+        'NO_3_WBT_P',
+        'NO_3_WBT_S',
+        'NO_4_WBT_P',
+        'NO_4_WBT_S',
+        'NO_5_WBT_P',
+        'NO_5_WBT_S',
+        'NO_6_WBT_P',
+        'NO_6_WBT_S',
+        'NO_7_WBT_P',
+        'NO_7_WBT_S',
+        'AFTK_P',
+        'AFTK_S',
+        'NO1_MDO_TANK_P',
+        'NO2_MDO_TANK_S',
+        'MDO_SETT_TANK_S',
+        'NO1_MDO_DAY_TANK_P',
+        'NO2_MDO_DAY_TANK_S',
+        'NO1_HFO_TANK_P',
+        'NO2_HFO_TANK_S',
+        'HFO_SETT_TANK_P',
+        'NO1_HFO_DAY_TANK_P',
+        'NO2_HFO_DAY_TANK_S',
+        'DRAFT_FORE',
+        'DRAFT_MID_P',
+        'DRAFT_MID_S',
+        'DRAFT_AFTER',
+    ];
+
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
 
@@ -76,75 +144,20 @@ class Hanla
                 'draft_mid_p' => (float) $data['DRAFT_MID_P'],
                 'draft_mid_s' => (float) $data['DRAFT_MID_S'],
                 'draft_after' => (float) $data['DRAFT_AFTER'],
-            ]
+            ],
         ];
     }
 
-    function arrayToSnake() : array {
+    public function arrayToSnake(): array
+    {
         $snake = [];
-        foreach($this->mappArray as $in => $val) {
-            if(is_null($val)) continue;
+        foreach ($this->mappArray as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
             $key = Str::snake(strtolower($val));
             $snake[$key] = $val;
-        } 
+        }
         return $snake;
     }
-
-    protected $mappArray = [
-        'NO_1_CARGO_TANK_P',
-        'TEMP_1CTP',
-        'NO_1_CARGO_TANK_S',
-        'TEMP_1CTS',
-        'NO_2_CARGO_TANK_P',
-        'TEMP_2CTP',
-        'NO_2_CARGO_TANK_S',
-        'TEMP_2CTS',
-        'NO_3_CARGO_TANK_P',
-        'TEMP_3CTP',
-        'NO_3_CARGO_TANK_S',
-        'TEMP_3CTS',
-        'NO_4_CARGO_TANK_P',
-        'TEMP_4CTP',
-        'NO_4_CARGO_TANK_S',
-        'TEMP_4CTS',
-        'NO_5_CARGO_TANK_P',
-        'TEMP_5CTP',
-        'NO_5_CARGO_TANK_S',
-        'TEMP_5CTS',
-        'SLOP_CARGO_TANK_P',
-        'TEMP_SCTP',
-        'SLOP_CARGO_TANK_S',
-        'TEMP_SCTS',
-        'F_P_T_C',
-        'NO_1_WBT_P',
-        'NO_1_WBT_S',
-        'NO_2_WBT_P',
-        'NO_2_WBT_S',
-        'NO_3_WBT_P',
-        'NO_3_WBT_S',
-        'NO_4_WBT_P',
-        'NO_4_WBT_S',
-        'NO_5_WBT_P',
-        'NO_5_WBT_S',
-        'NO_6_WBT_P',
-        'NO_6_WBT_S',
-        'NO_7_WBT_P',
-        'NO_7_WBT_S',
-        'AFTK_P',
-        'AFTK_S',
-        'NO1_MDO_TANK_P',
-        'NO2_MDO_TANK_S',
-        'MDO_SETT_TANK_S',
-        'NO1_MDO_DAY_TANK_P',
-        'NO2_MDO_DAY_TANK_S',
-        'NO1_HFO_TANK_P',
-        'NO2_HFO_TANK_S',
-        'HFO_SETT_TANK_P',
-        'NO1_HFO_DAY_TANK_P',
-        'NO2_HFO_DAY_TANK_S',
-        'DRAFT_FORE',
-        'DRAFT_MID_P',
-        'DRAFT_MID_S',
-        'DRAFT_AFTER',
-    ];
 }

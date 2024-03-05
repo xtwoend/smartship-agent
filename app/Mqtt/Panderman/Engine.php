@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Panderman;
 
 use Carbon\Carbon;
@@ -9,18 +18,18 @@ class Engine
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
-        
+
         return [
             'engine' => [
-                'terminal_time' =>  Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'control_air_inlet_pressure' => $data['control_air_inlet_pressure'],
                 'me_fo_inlet_pressure' => $data['me_fo_inlet_pressure'],
                 'tc_lo_inlet_pressure' => $data['tc_lo_inlet_pressure'],
@@ -33,7 +42,7 @@ class Engine
                 'no2_ge_lo_inlet_pressure' => $data['no2_ge_lo_inlet_pressure'],
                 'no3_ge_lo_inlet_pressure' => $data['no3_ge_lo_inlet_pressure'],
                 'no1_ge_cooling_fw_inlet_pressure' => $data['no1_ge_cooling_fw_inlet_pressure'],
-            ]
+            ],
         ];
     }
 }

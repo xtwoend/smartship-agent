@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt;
 
 use Hyperf\Di\Annotation\Inject;
@@ -12,7 +21,8 @@ class Memory
     #[Inject]
     protected CacheInterface $cache;
 
-    public function __construct(array $data = []) {
+    public function __construct(array $data = [])
+    {
         $this->attributes = $data;
     }
 
@@ -24,7 +34,7 @@ class Memory
 
     public function __get($key)
     {
-        return $this->attributes[$key] ?? null;   
+        return $this->attributes[$key] ?? null;
     }
 
     public function load($name)

@@ -1,25 +1,32 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model\Cargo;
 
-use Carbon\Carbon;
+use App\Model\Alarm\SensorAlarmTrait;
 use App\Model\Sensor;
+use Carbon\Carbon;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use App\Model\Alarm\SensorAlarmTrait;
-use Hyperf\Database\Schema\Blueprint;
 
 class ParigiLog extends Model
 {
     use SensorAlarmTrait;
 
     /**
-     * engine group sensor
+     * engine group sensor.
      */
     public array $sensor_group = ['cargo'];
-    
+
     /**
      * The table associated with the model.
      */
@@ -31,9 +38,9 @@ class ParigiLog extends Model
     protected ?string $connection = 'default';
 
     /**
-     * all 
+     * all.
      */
-    protected array $guarded = ['id']; 
+    protected array $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -45,16 +52,16 @@ class ParigiLog extends Model
     // create table cargo if not found table
     public static function table($fleetId, $date = null)
     {
-        $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
-        $model = new self;
+        $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}_{$date}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->unique();
-                
+
                 $table->float('no1_cargo_tank_p_level', 10, 3)->default(0);
                 $table->float('no1_cargo_tank_p_temp', 10, 3)->default(0);
                 $table->float('no1_cargo_tank_s_level', 10, 3)->default(0);
@@ -85,8 +92,8 @@ class ParigiLog extends Model
 
                 $table->float('slop_tank_s_level', 10, 3)->default(0);
                 $table->float('slop_tank_s_temp', 10, 3)->default(0);
-                
-                // cargo 
+
+                // cargo
                 $table->datetime('cargo_timestamp')->nullable();
                 $table->float('bottom_gear_cp1', 10, 3)->default(0);
                 $table->float('pump_casing_c1', 10, 3)->default(0);
@@ -156,7 +163,7 @@ class ParigiLog extends Model
                 $table->float('hfo_day_tank_2s', 10, 3)->default(0);
                 $table->float('hfo_setting_tank', 10, 3)->default(0);
                 $table->float('mdo_setting_tank', 10, 3)->default(0);
-                
+
                 // pump status
                 $table->datetime('cargo_pump_timestamp')->nullable();
                 $table->boolean('cargo_pump1_run')->default(0);
@@ -168,43 +175,42 @@ class ParigiLog extends Model
                 $table->boolean('vacuum_pump1_run')->default(0);
                 $table->boolean('vacuum_pump2_run')->default(0);
                 $table->boolean('tank_cleaning_pump_run')->default(0);
-                
+
                 $table->timestamps();
             });
         }
-        
+
         return $model->setTable($tableName);
     }
 
-
     // Calculate percentage cargo capacity
-    public function cargoCapacity($model) : void {
-    
+    public function cargoCapacity($model): void
+    {
         $cargoArray = [
-            'no1_cargo_tank_p_level', 
-            'no1_cargo_tank_s_level', 
-            'no2_cargo_tank_p_level', 
+            'no1_cargo_tank_p_level',
+            'no1_cargo_tank_s_level',
+            'no2_cargo_tank_p_level',
             'no2_cargo_tank_s_level',
-            'no3_cargo_tank_p_level', 
-            'no3_cargo_tank_s_level', 
-            'no4_cargo_tank_p_level', 
+            'no3_cargo_tank_p_level',
+            'no3_cargo_tank_s_level',
+            'no4_cargo_tank_p_level',
             'no4_cargo_tank_s_level',
-            'no5_cargo_tank_p_level', 
+            'no5_cargo_tank_p_level',
             'no5_cargo_tank_s_level',
         ];
-        
+
         $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
         $data = [];
-        foreach($cargoArray as $c) {
+        foreach ($cargoArray as $c) {
             $max = $sensors[$c];
             $value = $model->{$c};
-            
-            $percentage = ($value <= $max)? ($value / $max) : 0;
+
+            $percentage = ($value <= $max) ? ($value / $max) : 0;
             $data[$c] = (1 - $percentage);
         }
-        
+
         $totalPercentage = 0;
-        foreach($data as $d) {
+        foreach ($data as $d) {
             $totalPercentage += $d;
         }
 
@@ -214,12 +220,10 @@ class ParigiLog extends Model
         $fsr = \App\Model\FleetDailyReport::table($model->fleet_id)->where([
             'fleet_id' => $model->fleet_id,
             'date' => $now->format('Y-m-d'),
-            'sensor' => 'cargo_percentage'
+            'sensor' => 'cargo_percentage',
         ])->first();
 
-        
-        
-        if(! $fsr) {
+        if (! $fsr) {
             $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);
             $fsr->fleet_id = $model->fleet_id;
             $fsr->date = $now->format('Y-m-d');

@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Walio\ECR;
 
 use Carbon\Carbon;
@@ -9,15 +18,14 @@ class Engine
 {
     protected string $message;
 
-    public function __construct(string $message) {
-        
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
-    
 
         return [
             'engine' => [
@@ -49,7 +57,7 @@ class Engine
                 'mdo_service_tank' => $data['mdo_service_tank'],
                 'igg_fuel_tank' => $data['igg_fuel_tank'],
                 'rpm_me' => $data['rpm_me'],
-            ]
+            ],
         ];
     }
 }

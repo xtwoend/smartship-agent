@@ -1,23 +1,31 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model\Engine;
 
+use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use App\Model\Alarm\SensorAlarmTrait;
-use Hyperf\Database\Schema\Blueprint;
-use Hyperf\Database\Model\Events\Updated;
 
 class PBrandanLog extends Model
 {
     use SensorAlarmTrait;
-    
+
     /**
-     * engine group sensor
+     * engine group sensor.
      */
     public array $sensor_group = ['engine'];
-    
+
     /**
      * The table associated with the model.
      */
@@ -29,30 +37,30 @@ class PBrandanLog extends Model
     protected ?string $connection = 'default';
 
     /**
-     * all 
+     * all.
      */
-    protected array $guarded = ['id']; 
+    protected array $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
      */
     protected array $casts = [
-        'terminal_time' => 'datetime'
+        'terminal_time' => 'datetime',
     ];
 
     // create table cargo if not found table
     public static function table($fleetId, $date = null)
     {
-        $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
-        $model = new self;
+        $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}_{$date}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
-                
+
                 // bunker
                 $table->float('hfo_storage_tank_1p', 10, 3)->default(0);
                 $table->float('hfo_storage_tank_1s', 10, 3)->default(0);
@@ -66,11 +74,11 @@ class PBrandanLog extends Model
                 $table->float('mdo_setting_tank', 10, 3)->default(0);
                 $table->float('mdo_service_tank_1', 10, 3)->default(0);
                 $table->float('mdo_service_tank_2', 10, 3)->default(0);
-                
+
                 $table->timestamps();
             });
         }
-        
+
         return $model->setTable($tableName);
     }
 }

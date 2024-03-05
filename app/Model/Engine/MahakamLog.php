@@ -1,18 +1,31 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model\Engine;
 
+use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use App\Model\Alarm\SensorAlarmTrait;
-use Hyperf\Database\Schema\Blueprint;
-use Hyperf\Database\Model\Events\Updated;
 
 class MahakamLog extends Model
 {
     use SensorAlarmTrait;
-    
+
+    /**
+     * engine group sensor.
+     */
+    public array $sensor_group = ['engine'];
+
     /**
      * The table associated with the model.
      */
@@ -24,35 +37,30 @@ class MahakamLog extends Model
     protected ?string $connection = 'default';
 
     /**
-     * all 
+     * all.
      */
-    protected array $guarded = ['id']; 
+    protected array $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
      */
     protected array $casts = [
-        'terminal_time' => 'datetime'
+        'terminal_time' => 'datetime',
     ];
-
-    /**
-     * engine group sensor
-     */
-    public array $sensor_group = ['engine'];
 
     // create table cargo if not found table
     public static function table($fleetId, $date = null)
     {
-        $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
-        $model = new self;
+        $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}_{$date}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
-                
+
                 $table->float('me_fo_inlet_press', 16, 2)->default(0);
                 $table->float('me_tc_lo_inlet_press', 16, 2)->default(0);
                 $table->float('me_lo_pco_inlet_press', 16, 2)->default(0);
@@ -62,11 +70,11 @@ class MahakamLog extends Model
                 $table->float('scavenging_air_inlet_press', 16, 2)->default(0);
                 $table->float('speed_setting_air_inlet_press', 16, 2)->default(0);
                 $table->float('control_air_inlet_press', 16, 2)->default(0);
-                
+
                 $table->timestamps();
             });
         }
-        
+
         return $model->setTable($tableName);
     }
 }

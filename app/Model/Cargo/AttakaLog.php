@@ -1,24 +1,31 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model\Cargo;
 
+use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use App\Model\Alarm\SensorAlarmTrait;
-use Hyperf\Database\Schema\Blueprint;
 
 class AttakaLog extends Model
 {
     use SensorAlarmTrait;
 
     /**
-     * engine group sensor
+     * engine group sensor.
      */
     public array $sensor_group = ['cargo'];
-    
+
     /**
      * The table associated with the model.
      */
@@ -30,9 +37,9 @@ class AttakaLog extends Model
     protected ?string $connection = 'default';
 
     /**
-     * all 
+     * all.
      */
-    protected array $guarded = ['id']; 
+    protected array $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -44,11 +51,11 @@ class AttakaLog extends Model
     // create table cargo if not found table
     public static function table($fleetId, $date = null)
     {
-        $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
-        $model = new self;
+        $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}_{$date}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
@@ -121,21 +128,21 @@ class AttakaLog extends Model
                 $table->timestamps();
             });
         }
-        
+
         return $model->setTable($tableName);
     }
 
     // Calculate percentage cargo capacity
-    public function cargoCapacity($model) : void {
-
+    public function cargoCapacity($model): void
+    {
         $cargoArray = [
-            'level_tank1', 
+            'level_tank1',
             'level_tank2',
         ];
 
         $totalPercentage = 0;
-        foreach($cargoArray as $d) {
-            $totalPercentage += ( $model->{$d} / 100 );
+        foreach ($cargoArray as $d) {
+            $totalPercentage += ($model->{$d} / 100);
         }
 
         $percentageCargo = $totalPercentage / count($cargoArray);
@@ -144,10 +151,10 @@ class AttakaLog extends Model
         $fsr = \App\Model\FleetDailyReport::table($model->fleet_id)->where([
             'fleet_id' => $model->fleet_id,
             'date' => $now->format('Y-m-d'),
-            'sensor' => 'cargo_percentage'
+            'sensor' => 'cargo_percentage',
         ])->first();
 
-        if(! $fsr) {
+        if (! $fsr) {
             $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);
             $fsr->fleet_id = $model->fleet_id;
             $fsr->date = $now->format('Y-m-d');

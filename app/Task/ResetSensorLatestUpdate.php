@@ -1,14 +1,22 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Task;
 
-use Carbon\Carbon;
 use App\Model\Sensor;
-use Hyperf\Di\Annotation\Inject;
-use Hyperf\Crontab\Annotation\Crontab;
 use Hyperf\Contract\StdoutLoggerInterface;
+use Hyperf\Crontab\Annotation\Crontab;
+use Hyperf\Di\Annotation\Inject;
 
-#[Crontab(name: "ResetSensorLatestUpdate", rule: "0 * * * *", callback: "execute", memo: "ResetSensorLatestUpdate")]
+#[Crontab(name: 'ResetSensorLatestUpdate', rule: '0 * * * *', callback: 'execute', memo: 'ResetSensorLatestUpdate')]
 class ResetSensorLatestUpdate
 {
     #[Inject]
@@ -16,11 +24,11 @@ class ResetSensorLatestUpdate
 
     public function execute()
     {
-        $this->logger->info('Crontab reset sensor runing '. date('Y-m-d H:i:s', time()));
-       
+        $this->logger->info('Crontab reset sensor runing ' . date('Y-m-d H:i:s', time()));
+
         Sensor::update([
-            'condition' => NULL,
-            'value' => NULL
+            'condition' => null,
+            'value' => null,
         ]);
     }
 }

@@ -1,24 +1,31 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model\Cargo;
 
+use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use App\Model\Alarm\SensorAlarmTrait;
-use Hyperf\Database\Schema\Blueprint;
 
 class PandermanLog extends Model
 {
     use SensorAlarmTrait;
 
     /**
-     * engine group sensor
+     * engine group sensor.
      */
     public array $sensor_group = ['cargo'];
-    
+
     /**
      * The table associated with the model.
      */
@@ -30,9 +37,9 @@ class PandermanLog extends Model
     protected ?string $connection = 'default';
 
     /**
-     * all 
+     * all.
      */
-    protected array $guarded = ['id']; 
+    protected array $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -44,11 +51,11 @@ class PandermanLog extends Model
     // create table cargo if not found table
     public static function table($fleetId, $date = null)
     {
-        $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
-        $model = new self;
+        $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}_{$date}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
@@ -169,43 +176,42 @@ class PandermanLog extends Model
                 $table->float('press_suction_cp2', 10, 3)->default(0);
                 $table->float('press_discharge_cp3', 10, 3)->default(0);
                 $table->float('press_suction_cp3', 10, 3)->default(0);
-                
+
                 $table->timestamps();
             });
         }
-        
+
         return $model->setTable($tableName);
     }
 
-
     // Calculate percentage cargo capacity
-    public function cargoCapacity($model) : void {
-    
+    public function cargoCapacity($model): void
+    {
         $cargoArray = [
-            'no_1_cot_p', 
-            'no_1_cot_s', 
-            'no_2_cot_p', 
+            'no_1_cot_p',
+            'no_1_cot_s',
+            'no_2_cot_p',
             'no_2_cot_2',
-            'no_3_cot_p', 
-            'no_3_cot_s', 
-            'no_4_cot_p', 
+            'no_3_cot_p',
+            'no_3_cot_s',
+            'no_4_cot_p',
             'no_4_cot_2',
-            'no_5_cot_p', 
-            'no_5_cot_s', 
+            'no_5_cot_p',
+            'no_5_cot_s',
         ];
-        
+
         $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
         $data = [];
-        foreach($cargoArray as $c) {
+        foreach ($cargoArray as $c) {
             $max = $sensors[$c];
             $value = $model->{$c};
-            
-            $percentage = ($value <= $max)? ($value / $max) : 0;
+
+            $percentage = ($value <= $max) ? ($value / $max) : 0;
             $data[$c] = (1 - $percentage);
         }
-        
+
         $totalPercentage = 0;
-        foreach($data as $d) {
+        foreach ($data as $d) {
             $totalPercentage += $d;
         }
 
@@ -215,12 +221,10 @@ class PandermanLog extends Model
         $fsr = \App\Model\FleetDailyReport::table($model->fleet_id)->where([
             'fleet_id' => $model->fleet_id,
             'date' => $now->format('Y-m-d'),
-            'sensor' => 'cargo_percentage'
+            'sensor' => 'cargo_percentage',
         ])->first();
 
-        
-        
-        if(! $fsr) {
+        if (! $fsr) {
             $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);
             $fsr->fleet_id = $model->fleet_id;
             $fsr->date = $now->format('Y-m-d');

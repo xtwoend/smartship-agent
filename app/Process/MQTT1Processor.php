@@ -1,18 +1,25 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Process;
 
-use Carbon\Carbon;
-use App\Model\Device;
-use Hyperf\Utils\Str;
-use App\Model\MqttLog;
 use App\Event\MQTTReceived;
-use PhpMqtt\Client\MqttClient;
+use App\Model\Device;
+use App\Model\MqttLog;
+use Carbon\Carbon;
+use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Process\AbstractProcess;
 use Hyperf\Process\Annotation\Process;
-use Hyperf\Contract\StdoutLoggerInterface;
+use Hyperf\Utils\Str;
+use PhpMqtt\Client\MqttClient;
 
 #[Process(name: 'MQTT1Processor', redirectStdinStdout: false, pipeType: 2, nums: 1, enableCoroutine: true)]
 class MQTT1Processor extends AbstractProcess
@@ -23,22 +30,22 @@ class MQTT1Processor extends AbstractProcess
         $config = config('mqtt.servers')[$server];
         $agent = config('mqtt.agent');
         $clientId = Str::random(10);
-        
+
         $logger = $this->container->get(StdoutLoggerInterface::class);
         $event = $this->event;
         $mqtt = new MqttClient($config['host'], $config['port'], $clientId);
-        
-        $config = (new \PhpMqtt\Client\ConnectionSettings)
+
+        $config = (new \PhpMqtt\Client\ConnectionSettings())
             ->setUsername($config['username'])
             ->setPassword($config['password']);
 
         $mqtt->connect($config, true);
 
-        foreach(Device::active()->where('mqtt_server', $server)->where('agent', $agent)->get() as $device) {
+        foreach (Device::active()->where('mqtt_server', $server)->where('agent', $agent)->get() as $device) {
             $mqtt->subscribe($device->topic, function ($topic, $message) use ($logger, $event, $device) {
                 $device->update(['last_message' => $message, 'last_connected' => Carbon::now()]);
                 $class = $device->extractor;
-                
+
                 // MqttLog::create([
                 //     'fleet_id' => $device->fleet_id,
                 //     'topic' => $topic,
@@ -46,15 +53,15 @@ class MQTT1Processor extends AbstractProcess
                 // ]);
 
                 // var_dump($topic, $message, $class);
-                if(! class_exists($class)){
+                if (! class_exists($class)) {
                     return;
                 }
-                
+
                 $data = (new $class($message))->extract();
-               
+
                 $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
-               
-                $logger->debug('Received Topic: '. $topic);
+
+                $logger->debug('Received Topic: ' . $topic);
             }, 0);
         }
 

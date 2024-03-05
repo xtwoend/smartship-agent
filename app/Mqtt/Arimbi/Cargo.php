@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Arimbi;
 
 use Carbon\Carbon;
@@ -9,14 +18,15 @@ class Cargo
 {
     protected string $message;
 
-    public function __construct(string $message) {
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
 
     public function extract()
     {
         $data = Json::decode($this->message);
-        
+
         return [
             'cargo' => [
                 'terminal_time' => (string) Carbon::now()->format('Y-m-d H:i:s'),
@@ -40,7 +50,7 @@ class Cargo
                 'deepwell_pump2_run' => (float) $data['deepwell_pump2_run'],
                 'cargo_compressor_no1_run' => (float) $data['cargo_compressor_no1_run'],
                 'cargo_compressor_no2_run' => (float) $data['cargo_compressor_no2_run'],
-            ]
+            ],
         ];
     }
 }

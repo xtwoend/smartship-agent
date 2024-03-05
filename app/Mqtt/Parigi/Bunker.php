@@ -1,20 +1,28 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Parigi;
 
 use Carbon\Carbon;
 use Hyperf\Utils\Codec\Json;
 
-
 class Bunker
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
@@ -32,7 +40,7 @@ class Bunker
                 'hfo_day_tank_2s' => (float) $data['hfo_day_tank_2s'],
                 'hfo_setting_tank' => (float) $data['hfo_setting_tank'],
                 'mdo_setting_tank' => (float) $data['mdo_setting_tank'],
-            ]
+            ],
         ];
     }
 }

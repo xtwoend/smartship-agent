@@ -1,20 +1,145 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Pagerungan;
 
 use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Panasia
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    protected $mappArray = [
+        'Cargo Tank 1P Ullage',
+        'Cargo Tank 1S Ullage',
+        'Cargo Tank 2P Ullage',
+        'Cargo Tank 2S Ullage',
+        'Cargo Tank 3P Ullage',
+        'Cargo Tank 3S Ullage',
+        'Cargo Tank 4P Ullage',
+        'Cargo Tank 4S Ullage',
+        'Cargo Tank 5P Ullage',
+        'Cargo Tank 5S Ullage',
+        'Slop Tank P Ullage',
+        'Slop Tank S Ullage',
+        'Water Ballast Tank 1P Level',
+        'Water Ballast Tank 1S Level',
+        'Water Ballast Tank 2P Level',
+        'Water Ballast Tank 2S Level',
+        'Water Ballast Tank 3P Level',
+        'Water Ballast Tank 3S Level',
+        'Water Ballast Tank 4P Level',
+        'Water Ballast Tank 4S Level',
+        'Water Ballast Tank 5P Level',
+        'Water Ballast Tank 5S Level',
+        'Water Ballast Tank 6P Level',
+        'Water Ballast Tank 6S Level',
+        'Fore Peak Tank Leve',
+        'After Peak Tank Level',
+        'No1 FO Tank P Level',
+        'No1 FO Tank S Level',
+        'No2 FO Tank P Level',
+        'No2 FO Tank S Level',
+        'No1 FO Service Tank  Level',
+        'No2 FO Service Tank Level',
+        'FO Settling Tank Level',
+        'DO Storage Tank P Level',
+        'DO Storage Tank S Level',
+        'No1 DO Service Tank Level',
+        'No2 DO Service Tank Level',
+        'DO Setting Tank Level',
+        'Draft Sensor Level',
+        'Draft Mark Level',
+        'Draft PP Level',
+        'Cargo Tank 1P Upper Temp',
+        'Cargo Tank 1P Middle Temp',
+        'Cargo Tank 1P Bottom Temp',
+        'Cargo Tank 1P Pressure',
+        'Cargo Tank 1P Volume',
+        'Cargo Tank 1S Upper Temp',
+        'Cargo Tank 1S Middle Temp',
+        'Cargo Tank 1S Bottom Temp',
+        'Cargo Tank 1S Pressure',
+        'Cargo Tank 1S Volume',
+        'Cargo Tank 2P Upper Temp',
+        'Cargo Tank 2P Middle Temp',
+        'Cargo Tank 2P Bottom Temp',
+        'Cargo Tank 2P Pressure',
+        'Cargo Tank 2P Volume',
+        'Cargo Tank 2S Upper Temp',
+        'Cargo Tank 2S Middle Temp',
+        'Cargo Tank 2S Bottom Temp',
+        'Cargo Tank 2S Pressure',
+        'Cargo Tank 2S Volume',
+        'Cargo Tank 3P Upper Temp',
+        'Cargo Tank 3P Middle Temp',
+        'Cargo Tank 3P Bottom Temp',
+        'Cargo Tank 3P Pressure',
+        'Cargo Tank 3P Volume',
+        'Cargo Tank 3S Upper Temp',
+        'Cargo Tank 3S Middle Temp',
+        'Cargo Tank 3S Bottom Temp',
+        'Cargo Tank 3S Pressure',
+        'Cargo Tank 3S Volume',
+        'Cargo Tank 4P Upper Temp',
+        'Cargo Tank 4P Middle Temp',
+        'Cargo Tank 4P Bottom Temp',
+        'Cargo Tank 4P Pressure',
+        'Cargo Tank 4P Volume',
+        'Cargo Tank 4S Upper Temp',
+        'Cargo Tank 4S Middle Temp',
+        'Cargo Tank 4S Bottom Temp',
+        'Cargo Tank 4S Pressure',
+        'Cargo Tank 4S Volume',
+        'Cargo Tank 5P Upper Temp',
+        'Cargo Tank 5P Middle Temp',
+        'Cargo Tank 5P Bottom Temp',
+        'Cargo Tank 5P Pressure',
+        'Cargo Tank 5P Volume',
+        'Cargo Tank 5S Upper Temp',
+        'Cargo Tank 5S Middle Temp',
+        'Cargo Tank 5S Bottom Temp',
+        'Cargo Tank 5S Pressure',
+        'Cargo Tank 5S Volume',
+        'Slop Tank P Upper Temp',
+        'Slop Tank P Middle Temp',
+        'Slop Tank P Bottom Temp',
+        'Slop Tank P Pressure',
+        'Slop Tank P Volume',
+        'Slop Tank S Upper Temp',
+        'Slop Tank S Middle Temp',
+        'Slop Tank S Bottom Temp',
+        'Slop Tank S Pressure',
+        'Slop Tank S Volume',
+        'No1 FO Tank P Volume',
+        'No1 FO Tank S Volume',
+        'No2 FO Tank P Volume',
+        'No2 FO Tank S Volume',
+        'No1 FO Service Tank  Volume',
+        'No2 FO Service Tank Volume',
+        'FO Settling Tank Volume',
+        'DO Storage Tank P Volume',
+        'DO Storage Tank S Volume',
+        'No1 DO Service Tank Volume',
+        'No2 DO Service Tank Volume',
+        'DO Setting Tank Volume',
+    ];
+
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
@@ -136,133 +261,20 @@ class Panasia
                 'no1_do_service_tank_volume' => $values[110],
                 'no2_do_service_tank_volume' => $values[111],
                 'do_setting_tank_volume' => $values[112],
-            ]
+            ],
         ];
     }
 
-    function arrayToSnake() : array {
+    public function arrayToSnake(): array
+    {
         $snake = [];
-        foreach($this->mappArray as $in => $val) {
-            if(is_null($val)) continue;
+        foreach ($this->mappArray as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
             $key = Str::snake(strtolower($val));
             $snake[$key] = $in;
-        } 
+        }
         return $snake;
     }
-
-    protected $mappArray = [
-        'Cargo Tank 1P Ullage',
-        'Cargo Tank 1S Ullage',
-        'Cargo Tank 2P Ullage',
-        'Cargo Tank 2S Ullage',
-        'Cargo Tank 3P Ullage',
-        'Cargo Tank 3S Ullage',
-        'Cargo Tank 4P Ullage',
-        'Cargo Tank 4S Ullage',
-        'Cargo Tank 5P Ullage',
-        'Cargo Tank 5S Ullage',
-        'Slop Tank P Ullage',
-        'Slop Tank S Ullage',
-        'Water Ballast Tank 1P Level',
-        'Water Ballast Tank 1S Level',
-        'Water Ballast Tank 2P Level',
-        'Water Ballast Tank 2S Level',
-        'Water Ballast Tank 3P Level',
-        'Water Ballast Tank 3S Level',
-        'Water Ballast Tank 4P Level',
-        'Water Ballast Tank 4S Level',
-        'Water Ballast Tank 5P Level',
-        'Water Ballast Tank 5S Level',
-        'Water Ballast Tank 6P Level',
-        'Water Ballast Tank 6S Level',
-        'Fore Peak Tank Leve',
-        'After Peak Tank Level',
-        'No1 FO Tank P Level',
-        'No1 FO Tank S Level',
-        'No2 FO Tank P Level',
-        'No2 FO Tank S Level',
-        'No1 FO Service Tank  Level',
-        'No2 FO Service Tank Level',
-        'FO Settling Tank Level',
-        'DO Storage Tank P Level',
-        'DO Storage Tank S Level',
-        'No1 DO Service Tank Level',
-        'No2 DO Service Tank Level',
-        'DO Setting Tank Level',
-        'Draft Sensor Level',
-        'Draft Mark Level',
-        'Draft PP Level',
-        'Cargo Tank 1P Upper Temp',
-        'Cargo Tank 1P Middle Temp',
-        'Cargo Tank 1P Bottom Temp',
-        'Cargo Tank 1P Pressure',
-        'Cargo Tank 1P Volume',
-        'Cargo Tank 1S Upper Temp',
-        'Cargo Tank 1S Middle Temp',
-        'Cargo Tank 1S Bottom Temp',
-        'Cargo Tank 1S Pressure',
-        'Cargo Tank 1S Volume',
-        'Cargo Tank 2P Upper Temp',
-        'Cargo Tank 2P Middle Temp',
-        'Cargo Tank 2P Bottom Temp',
-        'Cargo Tank 2P Pressure',
-        'Cargo Tank 2P Volume',
-        'Cargo Tank 2S Upper Temp',
-        'Cargo Tank 2S Middle Temp',
-        'Cargo Tank 2S Bottom Temp',
-        'Cargo Tank 2S Pressure',
-        'Cargo Tank 2S Volume',
-        'Cargo Tank 3P Upper Temp',
-        'Cargo Tank 3P Middle Temp',
-        'Cargo Tank 3P Bottom Temp',
-        'Cargo Tank 3P Pressure',
-        'Cargo Tank 3P Volume',
-        'Cargo Tank 3S Upper Temp',
-        'Cargo Tank 3S Middle Temp',
-        'Cargo Tank 3S Bottom Temp',
-        'Cargo Tank 3S Pressure',
-        'Cargo Tank 3S Volume',
-        'Cargo Tank 4P Upper Temp',
-        'Cargo Tank 4P Middle Temp',
-        'Cargo Tank 4P Bottom Temp',
-        'Cargo Tank 4P Pressure',
-        'Cargo Tank 4P Volume',
-        'Cargo Tank 4S Upper Temp',
-        'Cargo Tank 4S Middle Temp',
-        'Cargo Tank 4S Bottom Temp',
-        'Cargo Tank 4S Pressure',
-        'Cargo Tank 4S Volume',
-        'Cargo Tank 5P Upper Temp',
-        'Cargo Tank 5P Middle Temp',
-        'Cargo Tank 5P Bottom Temp',
-        'Cargo Tank 5P Pressure',
-        'Cargo Tank 5P Volume',
-        'Cargo Tank 5S Upper Temp',
-        'Cargo Tank 5S Middle Temp',
-        'Cargo Tank 5S Bottom Temp',
-        'Cargo Tank 5S Pressure',
-        'Cargo Tank 5S Volume',
-        'Slop Tank P Upper Temp',
-        'Slop Tank P Middle Temp',
-        'Slop Tank P Bottom Temp',
-        'Slop Tank P Pressure',
-        'Slop Tank P Volume',
-        'Slop Tank S Upper Temp',
-        'Slop Tank S Middle Temp',
-        'Slop Tank S Bottom Temp',
-        'Slop Tank S Pressure',
-        'Slop Tank S Volume',
-        'No1 FO Tank P Volume',
-        'No1 FO Tank S Volume',
-        'No2 FO Tank P Volume',
-        'No2 FO Tank S Volume',
-        'No1 FO Service Tank  Volume',
-        'No2 FO Service Tank Volume',
-        'FO Settling Tank Volume',
-        'DO Storage Tank P Volume',
-        'DO Storage Tank S Volume',
-        'No1 DO Service Tank Volume',
-        'No2 DO Service Tank Volume',
-        'DO Setting Tank Volume',
-    ];
 }

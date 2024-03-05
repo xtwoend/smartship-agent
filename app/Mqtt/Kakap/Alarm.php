@@ -1,53 +1,22 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Kakap;
 
-use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Alarm
 {
     protected string $message;
-
-    public function __construct(string $message) {
-       
-        $this->message = $message;
-    }
-    
-    public function extract()
-    {
-        $data = Json::decode($this->message);
-        $value = $data['alarm_status'];
-
-        $alarms = [];
-        foreach($value as $index => $val) {
-            
-            if(is_null($this->mapArray[$index])) continue;
-
-            if($val) {
-                $alarms[] = [
-                    'property' => 'ams',
-                    'property_key' => $index,
-                    'message' => $this->mapArray[$index]
-                ];
-            }
-        }
-
-        return [
-            'alarm' => $alarms
-        ];
-    }
-
-    function arrayToSnake() : array {
-        $snake = [];
-        foreach($this->mapArray as $in => $val) {
-            if(is_null($val)) continue;
-            $key = Str::snake(strtolower($val));
-            $snake[$key] = $in;
-        } 
-        return $snake;
-    }
 
     protected $mapArray = [
         'TRUST BEARING TEMPERATURE',
@@ -79,8 +48,8 @@ class Alarm
         'OVERSPEED SHUTDOWN STATUSFROM ESM',
         'LUBE OIL PRESS SHUTDOWN STATUS FROM ESM',
         'OILMIST DETECTOR SHUTDOWN',
-        NULL,
-        NULL,
+        null,
+        null,
         'EXTERNAL SHUTDOWN STATUS  1',
         'EXTERNAL SHUTDOWN STATUS  2',
         'EXTERNAL SHUTDOWN STATUS  3',
@@ -93,12 +62,55 @@ class Alarm
         'TEMPERATURE IN IOM A1',
         'TEMPERATURE IN IOM A2',
         'TEMPERATURE IN IOM A3',
-        NULL,
+        null,
         'CA SHUT OFF VALVE POSITION',
         'PDM SYSTEM SUPPLY EATRH FAULT',
-        NULL,
+        null,
         'PDM SYSTEM SUPPLY FAILURE',
-        NULL,
-        NULL,
+        null,
+        null,
     ];
+
+    public function __construct(string $message)
+    {
+        $this->message = $message;
+    }
+
+    public function extract()
+    {
+        $data = Json::decode($this->message);
+        $value = $data['alarm_status'];
+
+        $alarms = [];
+        foreach ($value as $index => $val) {
+            if (is_null($this->mapArray[$index])) {
+                continue;
+            }
+
+            if ($val) {
+                $alarms[] = [
+                    'property' => 'ams',
+                    'property_key' => $index,
+                    'message' => $this->mapArray[$index],
+                ];
+            }
+        }
+
+        return [
+            'alarm' => $alarms,
+        ];
+    }
+
+    public function arrayToSnake(): array
+    {
+        $snake = [];
+        foreach ($this->mapArray as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
+            $key = Str::snake(strtolower($val));
+            $snake[$key] = $in;
+        }
+        return $snake;
+    }
 }

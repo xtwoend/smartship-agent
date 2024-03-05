@@ -1,14 +1,20 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use App\Model\Cargo\GerongLog;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use Hyperf\Database\Schema\Blueprint;
 
 class Widuri extends Model
 {
@@ -23,9 +29,9 @@ class Widuri extends Model
     protected ?string $connection = 'default';
 
     /**
-     * all 
+     * all.
      */
-    protected array $guarded = ['id']; 
+    protected array $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -37,10 +43,10 @@ class Widuri extends Model
     // create table cargo if not found table
     public static function table($fleetId)
     {
-        $model = new self;
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
@@ -70,7 +76,6 @@ class Widuri extends Model
                 $table->float('tank_6_stb', 10, 3)->default(0);
                 $table->float('tank_6_stb_temp', 10, 3)->default(0);
 
-
                 $table->float('fuel_oil_1_port', 10, 3)->default(0);
                 $table->float('fuel_oil_1_stb', 10, 3)->default(0);
                 $table->float('fuel_oil_2_port', 10, 3)->default(0);
@@ -94,7 +99,7 @@ class Widuri extends Model
                 $table->boolean('cargo_pump2_alarm')->default(false);
                 $table->boolean('cargo_pump3_run')->default(false);
                 $table->boolean('cargo_pump3_alarm')->default(false);
-                
+
                 $table->boolean('ballast_pump1_run')->default(false);
                 $table->boolean('ballast_pump1_alarm')->default(false);
                 $table->boolean('ballast_pump2_run')->default(false);
@@ -105,10 +110,9 @@ class Widuri extends Model
                 $table->timestamps();
             });
         }
-        
+
         return $model->setTable($tableName);
     }
-
 
     // update & insert
     public function updated(Updated $event)
@@ -119,7 +123,7 @@ class Widuri extends Model
         $now = Carbon::parse($date);
 
         // save interval 60 detik
-        if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
+        if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
             return;
         }
 

@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Parigi;
 
 use Carbon\Carbon;
@@ -9,7 +18,8 @@ class Hanla
 {
     protected string $message;
 
-    public function __construct(string $message) {
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
 
@@ -50,7 +60,7 @@ class Hanla
 
                 'slop_tank_s_level' => (float) $data['Data_SLOP_CARGO_TANK_S'],
                 'slop_tank_s_temp' => (float) $data['Data_TEMP_SCTS'],
-            ]
+            ],
         ];
     }
 }

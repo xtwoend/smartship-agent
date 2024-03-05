@@ -1,19 +1,25 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use App\Model\Cargo\TypeSLog;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use Hyperf\Database\Schema\Blueprint;
-use Hyperf\Database\Model\Events\Updated;
 
 class TypeS extends Model
 {
-    
+    use HasColumnTrait;
 
     /**
      * The table associated with the model.
@@ -26,9 +32,9 @@ class TypeS extends Model
     protected ?string $connection = 'default';
 
     /**
-     * all 
+     * all.
      */
-    protected array $guarded = ['id']; 
+    protected array $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -52,10 +58,10 @@ class TypeS extends Model
     // create table cargo if not found table
     public static function table($fleetId)
     {
-        $model = new self;
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
@@ -87,13 +93,13 @@ class TypeS extends Model
 
                 $table->float('slop_port', 10, 3)->default(0);
                 $table->float('slop_port_temp', 10, 3)->default(0);
-                $table->float('slop_stb', 10, 3)->default(0); 
-                $table->float('slop_stb_temp', 10, 3)->default(0); 
+                $table->float('slop_stb', 10, 3)->default(0);
+                $table->float('slop_stb_temp', 10, 3)->default(0);
 
                 $table->float('draft_front', 10, 3)->default(0);
-                $table->float('draft_center_left', 10, 3)->default(0); 
-                $table->float('draft_center_right', 10, 3)->default(0); 
-                $table->float('draft_rear', 10, 3)->default(0); 
+                $table->float('draft_center_left', 10, 3)->default(0);
+                $table->float('draft_center_right', 10, 3)->default(0);
+                $table->float('draft_rear', 10, 3)->default(0);
 
                 $table->float('fore_peak', 10, 3)->default(0);
 
@@ -135,7 +141,7 @@ class TypeS extends Model
                 $table->boolean('cargo_pump2_alarm')->default(false);
                 $table->boolean('cargo_pump3_run')->default(false);
                 $table->boolean('cargo_pump3_alarm')->default(false);
-                
+
                 $table->boolean('ballast_pump1_run')->default(false);
                 $table->boolean('ballast_pump1_alarm')->default(false);
                 $table->boolean('ballast_pump2_run')->default(false);
@@ -146,28 +152,88 @@ class TypeS extends Model
                 $table->timestamps();
             });
         }
-        
+
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'tank_1_port_mt',
+                'after' => 'tank_1_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_1_stb_mt',
+                'after' => 'tank_1_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_2_port_mt',
+                'after' => 'tank_2_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_2_stb_mt',
+                'after' => 'tank_2_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_3_port_mt',
+                'after' => 'tank_3_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_3_stb_mt',
+                'after' => 'tank_3_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_4_port_mt',
+                'after' => 'tank_4_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_4_stb_mt',
+                'after' => 'tank_4_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_5_port_mt',
+                'after' => 'tank_5_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_5_stb_mt',
+                'after' => 'tank_5_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_6_port_mt',
+                'after' => 'tank_6_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'tank_6_stb_mt',
+                'after' => 'tank_6_stb',
+            ],
+        ]);
+
         return $model->setTable($tableName);
     }
-
 
     // update & insert
     public function updated(Updated $event)
     {
         $model = $event->getModel();
-        
+
         $date = $model->terminal_time;
         $last = TypeSLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
-     
+
         $now = Carbon::parse($date);
 
-       
-
         // save interval 60 detik
-        if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
+        if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
             return;
         }
-        
+
         return TypeSLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,

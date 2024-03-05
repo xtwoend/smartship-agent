@@ -1,25 +1,37 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Yudhistira;
 
 use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Engine
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    protected $mappArray = [
+    ];
+
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
         $data = (array) $data['data1_ecr'];
-        
+
         return [
             'engine' => [
                 'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -87,20 +99,20 @@ class Engine
                 'ge3_generator_rpm' => $data[61],
                 'ge3_spare_1' => $data[62],
                 'ge3_spare_2' => $data[63],
-            ]
+            ],
         ];
     }
 
-    function arrayToSnake() : array {
+    public function arrayToSnake(): array
+    {
         $snake = [];
-        foreach($this->mappArray as $in => $val) {
-            if(is_null($val)) continue;
+        foreach ($this->mappArray as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
             $key = Str::snake(strtolower($val));
             $snake[$key] = $val;
-        } 
+        }
         return $snake;
     }
-
-    protected $mappArray = [
-    ];
 }

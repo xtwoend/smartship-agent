@@ -1,8 +1,17 @@
 <?php
 
-use Hyperf\Database\Schema\Schema;
-use Hyperf\Database\Schema\Blueprint;
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 use Hyperf\Database\Migrations\Migration;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Schema\Schema;
 
 class AddPbrandanCargoTable extends Migration
 {
@@ -53,7 +62,6 @@ class AddPbrandanCargoTable extends Migration
             $table->float('aptk', 10, 3)->default(0);
         });
 
-        
         Schema::table('cargo_log_9_202310', function (Blueprint $table) {
             // cargo pansia
             $table->float('no1_cotp_ullage', 10, 3)->default(0);
@@ -96,7 +104,6 @@ class AddPbrandanCargoTable extends Migration
             $table->float('aptk', 10, 3)->default(0);
         });
 
-
         Schema::table('cargo_log_9_202312', function (Blueprint $table) {
             // cargo pansia
             $table->float('no1_cotp_ullage', 10, 3)->default(0);
@@ -138,7 +145,7 @@ class AddPbrandanCargoTable extends Migration
             $table->float('fptk', 10, 3)->default(0);
             $table->float('aptk', 10, 3)->default(0);
         });
-        
+
         Schema::table('cargo_log_9_202401', function (Blueprint $table) {
             // cargo pansia
             $table->float('no1_cotp_ullage', 10, 3)->default(0);
@@ -188,7 +195,6 @@ class AddPbrandanCargoTable extends Migration
     public function down(): void
     {
         Schema::table('cargo_9', function (Blueprint $table) {
-            //
         });
     }
 }

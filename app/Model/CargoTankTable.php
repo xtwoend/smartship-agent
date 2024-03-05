@@ -1,17 +1,27 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model;
 
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use Hyperf\Database\Schema\Blueprint;
 
-/**
- */
 class CargoTankTable extends Model
 {
+    /**
+     * disable timestamps.
+     */
+    public bool $timestamps = false;
+
     /**
      * The table associated with the model.
      */
@@ -29,18 +39,19 @@ class CargoTankTable extends Model
 
     public static function table($fleetId)
     {
-        $model = new self;
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
-                
+                $table->string('tank_position')->nullable();
+                $table->float('ulage', 6, 3)->default(0);
+                $table->float('volume', 8, 3)->default(0);
             });
         }
-        
+
         return $model->setTable($tableName);
     }
-
 }

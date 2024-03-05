@@ -1,13 +1,18 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model;
 
 use Hyperf\DbConnection\Model\Model;
 
-/**
- */
 class Port extends Model
 {
     /**
@@ -19,7 +24,7 @@ class Port extends Model
      * The attributes that are mass assignable.
      */
     protected array $fillable = [
-        'name', 'location', 'lat', 'lng'
+        'name', 'location', 'lat', 'lng',
     ];
 
     /**

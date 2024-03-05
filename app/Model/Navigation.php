@@ -1,17 +1,21 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model;
 
-use Carbon\Carbon;
-use App\Model\NavigationLog;
 use App\Event\NavigationUpdateEvent;
-use Hyperf\DbConnection\Model\Model;
+use Carbon\Carbon;
 use Hyperf\Database\Model\Events\Updated;
+use Hyperf\DbConnection\Model\Model;
 
-/**
- */
 class Navigation extends Model
 {
     /**
@@ -38,16 +42,15 @@ class Navigation extends Model
         'distance',
         'heading',
         'rot',
-        'depth'
+        'depth',
     ];
 
     /**
      * The attributes that should be cast to native types.
      */
     protected array $casts = [
-        'terminal_time' => 'datetime'
+        'terminal_time' => 'datetime',
     ];
-
 
     public function updated(Updated $event)
     {
@@ -59,10 +62,10 @@ class Navigation extends Model
         dispatch(new NavigationUpdateEvent($model));
 
         // save interval 60 detik
-        if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60) ) {   
+        if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
             return;
         }
-    
+
         return NavigationLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,

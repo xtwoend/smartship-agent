@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\PBrandan;
 
 use Carbon\Carbon;
@@ -9,7 +18,8 @@ class Cargo
 {
     protected string $message;
 
-    public function __construct(string $message) {
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
 
@@ -48,7 +58,7 @@ class Cargo
                 'pump_casing_tcp' => (float) $data['pump_casing_tcp'],
                 'bulk_head_tcp' => (float) $data['bulk_head_tcp'],
                 'transmission_sealing_tcp' => (float) $data['transmission_sealing_tcp'],
-            ]
+            ],
         ];
     }
 }

@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\PBrandan;
 
 use Carbon\Carbon;
@@ -9,15 +18,15 @@ class Bunker
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
-        
+
         return [
             'cargo' => [
                 'bunker_timestamp' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -33,7 +42,7 @@ class Bunker
                 'mdo_setting_tank' => (float) $data['mdo_setting_tank'],
                 'mdo_service_tank_1' => (float) $data['mdo_service_tank_1'],
                 'mdo_service_tank_2' => (float) $data['mdo_service_tank_2'],
-            ]
+            ],
         ];
     }
 }

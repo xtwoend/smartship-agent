@@ -1,24 +1,31 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model\Cargo;
 
+use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
+use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
-use App\Model\Alarm\SensorAlarmTrait;
-use Hyperf\Database\Schema\Blueprint;
 
 class PagerunganLog extends Model
 {
     use SensorAlarmTrait;
 
     /**
-     * engine group sensor
+     * engine group sensor.
      */
     public array $sensor_group = ['cargo'];
-    
+
     /**
      * The table associated with the model.
      */
@@ -30,9 +37,9 @@ class PagerunganLog extends Model
     protected ?string $connection = 'default';
 
     /**
-     * all 
+     * all.
      */
-    protected array $guarded = ['id']; 
+    protected array $guarded = ['id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -44,16 +51,16 @@ class PagerunganLog extends Model
     // create table cargo if not found table
     public static function table($fleetId, $date = null)
     {
-        $date = is_null($date) ? date('Ym'): Carbon::parse($date)->format('Ym');
-        $model = new self;
+        $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
+        $model = new self();
         $tableName = $model->getTable() . "_{$fleetId}_{$date}";
-        
-        if(! Schema::hasTable($tableName)) {
+
+        if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->unique();
-                
+
                 $table->float('pump_non_drvend_c1', 10, 3)->default(0);
                 $table->float('pump_casing_c1', 10, 3)->default(0);
                 $table->float('bulk_head_c1', 10, 3)->default(0);
@@ -217,39 +224,38 @@ class PagerunganLog extends Model
                 $table->timestamps();
             });
         }
-        
+
         return $model->setTable($tableName);
     }
 
-
     // Calculate percentage cargo capacity
-    public function cargoCapacity($model) : void {
-    
+    public function cargoCapacity($model): void
+    {
         $cargoArray = [
-            'cargo_tank1p_ullage', 
-            'cargo_tank1s_ullage', 
-            'cargo_tank2p_ullage', 
+            'cargo_tank1p_ullage',
+            'cargo_tank1s_ullage',
+            'cargo_tank2p_ullage',
             'cargo_tank2s_ullage',
-            'cargo_tank3p_ullage', 
-            'cargo_tank3s_ullage', 
-            'cargo_tank4p_ullage', 
-            'cargo_tank4s_ullage', 
-            'cargo_tank5p_ullage', 
-            'cargo_tank5s_ullage', 
+            'cargo_tank3p_ullage',
+            'cargo_tank3s_ullage',
+            'cargo_tank4p_ullage',
+            'cargo_tank4s_ullage',
+            'cargo_tank5p_ullage',
+            'cargo_tank5s_ullage',
         ];
-        
+
         $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
         $data = [];
-        foreach($cargoArray as $c) {
+        foreach ($cargoArray as $c) {
             $max = $sensors[$c];
             $value = $model->{$c};
-            
-            $percentage = ($value <= $max)? ($value / $max) : 0;
+
+            $percentage = ($value <= $max) ? ($value / $max) : 0;
             $data[$c] = (1 - $percentage);
         }
-        
+
         $totalPercentage = 0;
-        foreach($data as $d) {
+        foreach ($data as $d) {
             $totalPercentage += $d;
         }
 
@@ -259,12 +265,10 @@ class PagerunganLog extends Model
         $fsr = \App\Model\FleetDailyReport::table($model->fleet_id)->where([
             'fleet_id' => $model->fleet_id,
             'date' => $now->format('Y-m-d'),
-            'sensor' => 'cargo_percentage'
+            'sensor' => 'cargo_percentage',
         ])->first();
 
-        
-        
-        if(! $fsr) {
+        if (! $fsr) {
             $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);
             $fsr->fleet_id = $model->fleet_id;
             $fsr->date = $now->format('Y-m-d');

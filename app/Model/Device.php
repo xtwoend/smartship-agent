@@ -1,13 +1,18 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Model;
 
 use Hyperf\DbConnection\Model\Model;
 
-/**
- */
 class Device extends Model
 {
     /**
@@ -24,11 +29,12 @@ class Device extends Model
      * The attributes that should be cast to native types.
      */
     protected array $casts = [
-        'last_connected' => 'datetime'
+        'last_connected' => 'datetime',
     ];
 
     /**
-     * scope active
+     * scope active.
+     * @param mixed $query
      */
     public function scopeActive($query)
     {
@@ -36,7 +42,7 @@ class Device extends Model
     }
 
     /**
-     * Fleet
+     * Fleet.
      */
     public function fleet()
     {

@@ -1,16 +1,26 @@
 <?php
+
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Task;
 
-use Carbon\Carbon;
 use App\Model\Fleet;
-use Hyperf\Di\Annotation\Inject;
-use Hyperf\Crontab\Annotation\Crontab;
+use Carbon\Carbon;
 use Hyperf\Contract\StdoutLoggerInterface;
+use Hyperf\Crontab\Annotation\Crontab;
+use Hyperf\Di\Annotation\Inject;
 
-#[Crontab(name: "CheckLastConnection", rule: "* * * * *", callback: "execute", memo: "Check last connection & set disconnect")]
+#[Crontab(name: 'CheckLastConnection', rule: '* * * * *', callback: 'execute', memo: 'Check last connection & set disconnect')]
 class CheckLastConnection
 {
-     #[Inject]
+    #[Inject]
     private StdoutLoggerInterface $logger;
 
     public function execute()
@@ -21,16 +31,16 @@ class CheckLastConnection
             ->where('last_connection', '<', $now->subMinutes(15)->format('Y-m-d H:i:s'))
             ->update([
                 'connected' => 0,
-                'fleet_status' => 'lost_connection'
+                'fleet_status' => 'lost_connection',
             ]);
 
         $loses = Fleet::where('connected', 0)->get();
-        foreach($loses as $lost) {
+        foreach ($loses as $lost) {
             $hi = $lost->status_durations()->firstOrCreate([
                 'fleet_status' => 'lost_connection',
                 'status' => 1,
             ], [
-                'started_at' => Carbon::now()->format('Y-m-d H:i:s')
+                'started_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
             $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
             $hi->save();

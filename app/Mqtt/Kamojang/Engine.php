@@ -1,20 +1,132 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Kamojang;
 
 use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Engine
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    protected $mappArray = [
+        'Fuel Oil Inlet Pressure',
+        'Fuel Oil Inlet Temperature',
+        null,
+        null,
+        null,
+        'Lube Oil Inlet Pressure',
+        'Lube Oil Inlet Temperature',
+        null,
+        'Lube Oil Filter Differential Pressure',
+        'Lube Oil Turbocharger Pressure',
+        'Lube Oil Turbocharger Outlet Temperature',
+        null,
+        null,
+        null,
+        null,
+        'Starting Air Pressure',
+        'Control Air Pressure',
+        null,
+        'HT Water Pressure Inlet ',
+        'HT Water Temperature Inlet',
+        'HT Water Temperature Outlet',
+        null,
+        'LT Water Pressure Inlet',
+        'LT Water Temperature Inlet',
+        'LT Water Tempeature LOC Outlet',
+        null,
+        'HT Water Temperature Outlet',
+        'Exhaust Gas Temperature TC Inlet 1',
+        'Exhaust Gas Temperature TC Outlet',
+        'Exhaust Gas Temperature Cylinder 1',
+        'Exhaust Gas Temperature Cylinder 2',
+        'Exhaust Gas Temperature Cylinder 3',
+        'Exhaust Gas Temperature Cylinder 4',
+        'Exhaust Gas Temperature Cylinder 5',
+        'Exhaust Gas Temperature Cylinder 6',
+        null,
+        null,
+        null,
+        'Exhaust Gas Temperature Average',
+        'Exhaust Gas Temp Deviation 1A',
+        'Exhaust Gas Temp Deviation 2A',
+        'Exhaust Gas Temp Deviation 3A',
+        'Exhaust Gas Temp Deviation 4A',
+        'Exhaust Gas Temp Deviation 5A',
+        'Exhaust Gas Temp Deviation 6A',
+        null,
+        null,
+        null,
+        null,
+        'Charge Air Pressure  Inlet',
+        'Charge Air Temperature Inlet',
+        null,
+        null,
+        null,
+        null,
+        null,
+        'Main Bearing Temp 0',
+        'Main Bearing Temp 1',
+        'Main Bearing Temp 2',
+        'Main Bearing Temp 3',
+        'Main Bearing Temp 4',
+        'Main Bearing Temp 5',
+        'Main Bearing Temp 6',
+        'Main Bearing Temp 7',
+        null,
+        null,
+        null,
+        'Crankcase Pressure',
+        null,
+        null,
+        null,
+        null,
+        null,
+        'Fuel Rack Position',
+        'Turbocharger Speed',
+        'Modbus Counter',
+        'Engine Speed',
+        null,
+        null,
+        'Torsional Vibration Level',
+        'Cylinder A1 Liner Temperature 1',
+        'Cylinder A1 Liner Temperature 2',
+        'Cylinder A2 Liner Temperature 1',
+        'Cylinder A2 Liner Temperature 2',
+        'Cylinder A3 Liner Temperature 1',
+        'Cylinder A3 Liner Temperature 2',
+        'Cylinder A4 Liner Temperature 1',
+        'Cylinder A4 Liner Temperature 2',
+        'Cylinder A5 Liner Temperature 1',
+        'Cylinder A5 Liner Temperature 2',
+        'Cylinder A6 Liner Temperature 1',
+        'Cylinder A6 Liner Temperature 2',
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+    ];
+
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
@@ -25,17 +137,17 @@ class Engine
                 'fuel_oil_inlet_pressure' => (float) ($value[0] / 100),
                 'fuel_oil_inlet_temperature' => (float) ($value[1] / 10),
                 'lube_oil_inlet_pressure' => (float) ($value[5] / 100),
-                'lube_oil_inlet_temperature' => (float) ($value[6]/10),
+                'lube_oil_inlet_temperature' => (float) ($value[6] / 10),
                 'lube_oil_filter_differential_pressure' => (float) ($value[8] / 100),
                 'lube_oil_turbocharger_pressure' => (float) ($value[9] / 100),
-                'lube_oil_turbocharger_outlet_temperature' => (float) ($value[10]/10),
+                'lube_oil_turbocharger_outlet_temperature' => (float) ($value[10] / 10),
                 'starting_air_pressure' => (float) ($value[15] / 100),
                 'control_air_pressure' => (float) ($value[16] / 100),
                 'h_t_water_pressure_inlet' => (float) ($value[18] / 100),
-                'h_t_water_temperature_inlet' => (float) ($value[19]/10),
-                'h_t_water_temperature_outlet' => (float) ($value[26]/10),
+                'h_t_water_temperature_inlet' => (float) ($value[19] / 10),
+                'h_t_water_temperature_outlet' => (float) ($value[26] / 10),
                 'l_t_water_pressure_inlet' => (float) ($value[22] / 100),
-                'l_t_water_temperature_inlet' => (float) ($value[23]/10),
+                'l_t_water_temperature_inlet' => (float) ($value[23] / 10),
                 'l_t_water_tempeature_l_o_c_outlet' => (float) ($value[24] / 10),
                 'exhaust_gas_temperature_t_c_inlet1' => (float) ($value[27] / 10),
                 'exhaust_gas_temperature_t_c_outlet' => (float) ($value[28] / 10),
@@ -80,120 +192,20 @@ class Engine
                 'cylinder_a5_liner_temperature2' => (float) ($value[89] / 10),
                 'cylinder_a6_liner_temperature1' => (float) ($value[90] / 10),
                 'cylinder_a6_liner_temperature2' => (float) ($value[91] / 10),
-            ]
+            ],
         ];
     }
 
-    function arrayToSnake() : array {
+    public function arrayToSnake(): array
+    {
         $snake = [];
-        foreach($this->mappArray as $in => $val) {
-            if(is_null($val)) continue;
+        foreach ($this->mappArray as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
             $key = Str::snake($val);
             $snake[$key] = $in;
-        } 
+        }
         return $snake;
     }
-
-    protected $mappArray = [
-        'Fuel Oil Inlet Pressure',
-        'Fuel Oil Inlet Temperature',
-        NULL,
-        NULL,
-        NULL,
-        'Lube Oil Inlet Pressure',
-        'Lube Oil Inlet Temperature',
-        NULL,
-        'Lube Oil Filter Differential Pressure',
-        'Lube Oil Turbocharger Pressure',
-        'Lube Oil Turbocharger Outlet Temperature',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        'Starting Air Pressure',
-        'Control Air Pressure',
-        NULL,
-        'HT Water Pressure Inlet ',
-        'HT Water Temperature Inlet',
-        'HT Water Temperature Outlet',
-        NULL,
-        'LT Water Pressure Inlet',
-        'LT Water Temperature Inlet',
-        'LT Water Tempeature LOC Outlet',
-        NULL,
-        'HT Water Temperature Outlet',
-        'Exhaust Gas Temperature TC Inlet 1',
-        'Exhaust Gas Temperature TC Outlet',
-        'Exhaust Gas Temperature Cylinder 1',
-        'Exhaust Gas Temperature Cylinder 2',
-        'Exhaust Gas Temperature Cylinder 3',
-        'Exhaust Gas Temperature Cylinder 4',
-        'Exhaust Gas Temperature Cylinder 5',
-        'Exhaust Gas Temperature Cylinder 6',
-        NULL,
-        NULL,
-        NULL,
-        'Exhaust Gas Temperature Average',
-        'Exhaust Gas Temp Deviation 1A',
-        'Exhaust Gas Temp Deviation 2A',
-        'Exhaust Gas Temp Deviation 3A',
-        'Exhaust Gas Temp Deviation 4A',
-        'Exhaust Gas Temp Deviation 5A',
-        'Exhaust Gas Temp Deviation 6A',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        'Charge Air Pressure  Inlet',
-        'Charge Air Temperature Inlet',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        'Main Bearing Temp 0',
-        'Main Bearing Temp 1',
-        'Main Bearing Temp 2',
-        'Main Bearing Temp 3',
-        'Main Bearing Temp 4',
-        'Main Bearing Temp 5',
-        'Main Bearing Temp 6',
-        'Main Bearing Temp 7',
-        NULL,
-        NULL,
-        NULL,
-        'Crankcase Pressure',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        'Fuel Rack Position',
-        'Turbocharger Speed',
-        'Modbus Counter',
-        'Engine Speed',
-        NULL,
-        NULL,
-        'Torsional Vibration Level',
-        'Cylinder A1 Liner Temperature 1',
-        'Cylinder A1 Liner Temperature 2',
-        'Cylinder A2 Liner Temperature 1',
-        'Cylinder A2 Liner Temperature 2',
-        'Cylinder A3 Liner Temperature 1',
-        'Cylinder A3 Liner Temperature 2',
-        'Cylinder A4 Liner Temperature 1',
-        'Cylinder A4 Liner Temperature 2',
-        'Cylinder A5 Liner Temperature 1',
-        'Cylinder A5 Liner Temperature 2',
-        'Cylinder A6 Liner Temperature 1',
-        'Cylinder A6 Liner Temperature 2',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    ];
 }

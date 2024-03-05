@@ -1,30 +1,42 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Kasim;
 
 use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Cargo
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    protected $mappArray = [
+    ];
+
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
 
         $sensors = [];
-        foreach($data['values'] as $val) {
+        foreach ($data['values'] as $val) {
             $id = str_replace('plc.cop.q02h.', '', $val['id']);
             $sensors[$id] = (float) $val['v'];
         }
-        
+
         return [
             'cargo' => [
                 'cargo_timestamp' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -71,22 +83,20 @@ class Cargo
                 'tcp_drive_end_bearing_temp' => $sensors['tcp_drive_end_bearing_temp'],
                 'tcp_transmission_brg_temp' => $sensors['tcp_transmission_brg_temp'],
                 'tcp_transmission_seal_temp' => $sensors['tcp_transmission_seal_temp'],
-            ]
+            ],
         ];
     }
 
-
-    function arrayToSnake() : array {
+    public function arrayToSnake(): array
+    {
         $snake = [];
-        foreach($this->mappArray as $in => $val) {
-            if(is_null($val)) continue;
+        foreach ($this->mappArray as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
             $key = Str::snake(strtolower($val));
             $snake[$key] = $val;
-        } 
+        }
         return $snake;
     }
-
-    protected $mappArray = [
-        
-    ];
 }

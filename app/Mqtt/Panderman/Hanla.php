@@ -1,24 +1,115 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace App\Mqtt\Panderman;
 
 use Carbon\Carbon;
-use Hyperf\Utils\Str;
 use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Str;
 
 class Hanla
 {
     protected string $message;
 
-    public function __construct(string $message) {
-       
+    protected $mappArray = [
+        'NO_1_COT_P',
+        'NO_1_P_A_TEMP',
+        'NO_1_P_U_TEMP',
+        'NO_1_P_M_TEMP',
+        'NO_1_P_L_TEMP',
+        'NO_1_P_PRESSURE',
+        'NO_1_COT_S',
+        'NO_1_S_A_TEMP',
+        'NO_1_S_U_TEMP',
+        'NO_1_S_M_TEMP',
+        'NO_1_S_L_TEMP',
+        'NO_1_S_PRESSURE',
+        'NO_2_COT_P',
+        'NO_2_P_A_TEMP',
+        'NO_2_P_U_TEMP',
+        'NO_2_P_M_TEMP',
+        'NO_2_P_L_TEMP',
+        'NO_2_P_PRESSURE',
+        'NO_2_COT_S',
+        'NO_2_S_A_TEMP',
+        'NO_2_S_U_TEMP',
+        'NO_2_S_M_TEMP',
+        'NO_2_S_L_TEMP',
+        'NO_2_S_PRESSURE',
+        'NO_3_COT_P',
+        'NO_3_P_A_TEMP',
+        'NO_3_P_U_TEMP',
+        'NO_3_P_M_TEMP',
+        'NO_3_P_L_TEMP',
+        'NO_3_P_PRESSURE',
+        'NO_3_COT_S',
+        'NO_3_S_A_TEMP',
+        'NO_3_S_U_TEMP',
+        'NO_3_S_M_TEMP',
+        'NO_3_S_L_TEMP',
+        'NO_3_S_PRESSURE',
+        'NO_4_COT_P',
+        'NO_4_P_A_TEMP',
+        'NO_4_P_U_TEMP',
+        'NO_4_P_M_TEMP',
+        'NO_4_P_L_TEMP',
+        'NO_4_P_PRESSURE',
+        'NO_4_COT_S',
+        'NO_4_S_A_TEMP',
+        'NO_4_S_U_TEMP',
+        'NO_4_S_M_TEMP',
+        'NO_4_S_L_TEMP',
+        'NO_4_S_PRESSURE',
+        'NO_5_COT_P',
+        'NO_5_P_A_TEMP',
+        'NO_5_P_U_TEMP',
+        'NO_5_P_M_TEMP',
+        'NO_5_P_L_TEMP',
+        'NO_5_P_PRESSURE',
+        'NO_5_COT_S',
+        'NO_5_S_A_TEMP',
+        'NO_5_S_U_TEMP',
+        'NO_5_S_M_TEMP',
+        'NO_5_S_L_TEMP',
+        'NO_5_S_PRESSURE',
+        'SLOP_TK_P',
+        'SLOP_P_A_TEMP',
+        'SLOP_P_U_TEMP',
+        'SLOP_P_M_TEMP',
+        'SLOP_P_L_TEMP',
+        'SLOP_P_PRESSURE',
+        'SLOP_TK_S',
+        'SLOP_S_A_TEMP',
+        'SLOP_S_U_TEMP',
+        'SLOP_S_M_TEMP',
+        'SLOP_S_L_TEMP',
+        'SLOP_S_PRESSURE',
+        'CARGO_PUMP1_RUN',
+        'CARGO_PUMP2_RUN',
+        'CARGO_PUMP3_RUN',
+        'STRIPPING_PUMP_RUN',
+        'TK_CLEANNING_PUMP_RUN',
+        'BALLAST_PUMP1_RUN',
+        'BALLAST_PUMP2_RUN',
+    ];
+
+    public function __construct(string $message)
+    {
         $this->message = $message;
     }
-    
+
     public function extract()
     {
         $data = Json::decode($this->message);
-        
+
         return [
             'cargo' => [
                 'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -101,99 +192,20 @@ class Hanla
                 'tk_cleanning_pump_run' => $data['TK_CLEANNING_PUMP_RUN'],
                 'ballast_pump1_run' => $data['BALLAST_PUMP1_RUN'],
                 'ballast_pump2_run' => $data['BALLAST_PUMP2_RUN'],
-            ]
+            ],
         ];
     }
 
-    function arrayToSnake() : array {
+    public function arrayToSnake(): array
+    {
         $snake = [];
-        foreach($this->mappArray as $in => $val) {
-            if(is_null($val)) continue;
+        foreach ($this->mappArray as $in => $val) {
+            if (is_null($val)) {
+                continue;
+            }
             $key = Str::snake(strtolower($val));
             $snake[$key] = $val;
-        } 
+        }
         return $snake;
     }
-
-    protected $mappArray = [
-        "NO_1_COT_P",
-        "NO_1_P_A_TEMP",
-        "NO_1_P_U_TEMP",
-        "NO_1_P_M_TEMP",
-        "NO_1_P_L_TEMP",
-        "NO_1_P_PRESSURE",
-        "NO_1_COT_S",
-        "NO_1_S_A_TEMP",
-        "NO_1_S_U_TEMP",
-        "NO_1_S_M_TEMP",
-        "NO_1_S_L_TEMP",
-        "NO_1_S_PRESSURE",
-        "NO_2_COT_P",
-        "NO_2_P_A_TEMP",
-        "NO_2_P_U_TEMP",
-        "NO_2_P_M_TEMP",
-        "NO_2_P_L_TEMP",
-        "NO_2_P_PRESSURE",
-        "NO_2_COT_S",
-        "NO_2_S_A_TEMP",
-        "NO_2_S_U_TEMP",
-        "NO_2_S_M_TEMP",
-        "NO_2_S_L_TEMP",
-        "NO_2_S_PRESSURE",
-        "NO_3_COT_P",
-        "NO_3_P_A_TEMP",
-        "NO_3_P_U_TEMP",
-        "NO_3_P_M_TEMP",
-        "NO_3_P_L_TEMP",
-        "NO_3_P_PRESSURE",
-        "NO_3_COT_S",
-        "NO_3_S_A_TEMP",
-        "NO_3_S_U_TEMP",
-        "NO_3_S_M_TEMP",
-        "NO_3_S_L_TEMP",
-        "NO_3_S_PRESSURE",
-        "NO_4_COT_P",
-        "NO_4_P_A_TEMP",
-        "NO_4_P_U_TEMP",
-        "NO_4_P_M_TEMP",
-        "NO_4_P_L_TEMP",
-        "NO_4_P_PRESSURE",
-        "NO_4_COT_S",
-        "NO_4_S_A_TEMP",
-        "NO_4_S_U_TEMP",
-        "NO_4_S_M_TEMP",
-        "NO_4_S_L_TEMP",
-        "NO_4_S_PRESSURE",
-        "NO_5_COT_P",
-        "NO_5_P_A_TEMP",
-        "NO_5_P_U_TEMP",
-        "NO_5_P_M_TEMP",
-        "NO_5_P_L_TEMP",
-        "NO_5_P_PRESSURE",
-        "NO_5_COT_S",
-        "NO_5_S_A_TEMP",
-        "NO_5_S_U_TEMP",
-        "NO_5_S_M_TEMP",
-        "NO_5_S_L_TEMP",
-        "NO_5_S_PRESSURE",
-        "SLOP_TK_P",
-        "SLOP_P_A_TEMP",
-        "SLOP_P_U_TEMP",
-        "SLOP_P_M_TEMP",
-        "SLOP_P_L_TEMP",
-        "SLOP_P_PRESSURE",
-        "SLOP_TK_S",
-        "SLOP_S_A_TEMP",
-        "SLOP_S_U_TEMP",
-        "SLOP_S_M_TEMP",
-        "SLOP_S_L_TEMP",
-        "SLOP_S_PRESSURE",
-        "CARGO_PUMP1_RUN",
-        "CARGO_PUMP2_RUN",
-        "CARGO_PUMP3_RUN",
-        "STRIPPING_PUMP_RUN",
-        "TK_CLEANNING_PUMP_RUN",
-        "BALLAST_PUMP1_RUN",
-        "BALLAST_PUMP2_RUN",
-    ];
 }
