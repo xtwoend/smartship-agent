@@ -20,6 +20,8 @@ trait CargoTankCalculate
         $data = [];
         foreach($this->tanks as $key => $tank) {
             $ullage = $model->{$tank[0]};
+
+            $ullage = $ullage < 0 ? 0 : $ullage;
             $temp = $model->{$tank[1]};
             $volRow = $tabelTank->where('tank_position', $tank[0])->where('ullage', $ullage)->first();
             $correctionRow = $tabelCorrection->where('temp', $temp)->first();
@@ -33,15 +35,4 @@ trait CargoTankCalculate
 
         return $data;
     }
-
-    // public function creating(Creating $event)
-    // {
-    //     $model = $event->getModel();
-
-    //     $data = $this->calculate($model);
-
-    //     foreach($data as $key => $val) {
-    //         $this->{$key} = $val;
-    //     }
-    // }
 }
