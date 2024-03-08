@@ -18,13 +18,11 @@ use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
 use App\Model\Alarm\SensorAlarmTrait;
 use Hyperf\Database\Schema\Blueprint;
-use App\Model\Traits\CargoTankCalculate;
 
 class TypeSLog extends Model
 {
     use SensorAlarmTrait;
     use HasColumnTrait;
-    use CargoTankCalculate;
 
     /**
      * engine group sensor.
@@ -230,21 +228,6 @@ class TypeSLog extends Model
 
         return $model->setTable($tableName);
     }
-
-    public ?array $tanks = [
-        'tank_1_port_mt' => ['tank_1_port', 'tank_1_port_temp'],
-        'tank_1_stb_mt' => ['tank_1_stb', 'tank_1_stb_temp'],
-        'tank_2_port_mt' => ['tank_2_port', 'tank_2_port_temp'],
-        'tank_2_stb_mt' => ['tank_2_stb', 'tank_2_stb_temp'],
-        'tank_3_port_mt' => ['tank_3_port', 'tank_3_port_temp'],
-        'tank_3_stb_mt' => ['tank_3_stb', 'tank_3_stb_temp'],
-        'tank_4_port_mt' => ['tank_4_port', 'tank_4_port_temp'],
-        'tank_4_stb_mt' => ['tank_4_stb', 'tank_4_stb_temp'],
-        'tank_5_port_mt' => ['tank_5_port', 'tank_5_port_temp'],
-        'tank_5_stb_mt' => ['tank_5_stb', 'tank_5_stb_temp'],
-        'tank_6_port_mt' => ['tank_6_port', 'tank_6_port_temp'],
-        'tank_6_stb_mt' => ['tank_6_stb', 'tank_6_stb_temp'],
-    ];
 
     // Calculate percentage cargo capacity
     public function cargoCapacity($model): void

@@ -16,11 +16,13 @@ use Hyperf\Database\Schema\Schema;
 use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
 use Hyperf\Database\Model\Events\Updated;
 
 class TypeS extends Model
 {
     use HasColumnTrait;
+    use CargoTankCalculate;
 
     /**
      * The table associated with the model.
@@ -230,6 +232,10 @@ class TypeS extends Model
 
         $now = Carbon::parse($date);
 
+        // calculate cargo
+        $data = $this->calculate($model);
+        $model->update($data);
+
         // save interval 60 detik
         if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
             return;
@@ -240,4 +246,20 @@ class TypeS extends Model
             'terminal_time' => $date,
         ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
+
+    public ?array $tanks = [
+        'tank_1_port_mt' => ['tank_1_port', 'tank_1_port_temp'],
+        'tank_1_stb_mt' => ['tank_1_stb', 'tank_1_stb_temp'],
+        'tank_2_port_mt' => ['tank_2_port', 'tank_2_port_temp'],
+        'tank_2_stb_mt' => ['tank_2_stb', 'tank_2_stb_temp'],
+        'tank_3_port_mt' => ['tank_3_port', 'tank_3_port_temp'],
+        'tank_3_stb_mt' => ['tank_3_stb', 'tank_3_stb_temp'],
+        'tank_4_port_mt' => ['tank_4_port', 'tank_4_port_temp'],
+        'tank_4_stb_mt' => ['tank_4_stb', 'tank_4_stb_temp'],
+        'tank_5_port_mt' => ['tank_5_port', 'tank_5_port_temp'],
+        'tank_5_stb_mt' => ['tank_5_stb', 'tank_5_stb_temp'],
+        'tank_6_port_mt' => ['tank_6_port', 'tank_6_port_temp'],
+        'tank_6_stb_mt' => ['tank_6_stb', 'tank_6_stb_temp'],
+    ];
+
 }

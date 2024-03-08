@@ -10,7 +10,7 @@ use Hyperf\Database\Model\Events\Creating;
 
 trait CargoTankCalculate
 {
-    public ?array $tanks = [];
+    // public ?array $tanks = [];
 
     public function calculate($model)
     {
@@ -34,14 +34,14 @@ trait CargoTankCalculate
         return $data;
     }
 
-    public function creating(Creating $event)
-    {
-        $model = $event->getModel();
+    // public function creating(Creating $event)
+    // {
+    //     $model = $event->getModel();
 
-        $data = $this->calculate($model);
+    //     $data = $this->calculate($model);
 
-        foreach($data as $key => $val) {
-            $this->{$key} = $val;
-        }
-    }
+    //     foreach($data as $key => $val) {
+    //         $this->{$key} = $val;
+    //     }
+    // }
 }
