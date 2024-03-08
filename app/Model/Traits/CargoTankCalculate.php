@@ -20,9 +20,10 @@ trait CargoTankCalculate
         $data = [];
         foreach($this->tanks as $key => $tank) {
             $ullage = $model->{$tank[0]};
-
             $ullage = $ullage < 0 ? 0 : $ullage;
+
             $temp = $model->{$tank[1]};
+            
             $volRow = $tabelTank->where('tank_position', $tank[0])->where('ullage', $ullage)->first();
             $correctionRow = $tabelCorrection->where('temp', $temp)->first();
             $vol = $volRow?->volume ?? 0;
