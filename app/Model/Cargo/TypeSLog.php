@@ -18,6 +18,7 @@ use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
 use App\Model\Alarm\SensorAlarmTrait;
 use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
 
 class TypeSLog extends Model
 {
