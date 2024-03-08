@@ -23,7 +23,7 @@ trait CargoTankCalculate
 
             $ullage = $ullage < 0 ? 0 : $ullage;
             $temp = $model->{$tank[1]};
-            $volRow = $tabelTank->where('tank_position', $tank[0])->whereBetween('ullage', [($ullage - 1), $ullage])->orderBy('ullage', 'desc')->first();
+            $volRow = $tabelTank->where('tank_position', $tank[0])->where('ullage', $ullage)->first();
             $correctionRow = $tabelCorrection->where('temp', $temp)->first();
             $vol = $volRow?->volume ?? 0;
             $correction = $correctionRow?->correction ?? 0;
