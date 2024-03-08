@@ -115,7 +115,7 @@ class VDR
         $lat = $aData[2];
         $latDir = $aData[3];
         $lng = $aData[4];
-        $lngDir = $aData[5]; // satellites count
+        $lngDir = $aData[5];
 
         // $lat = $this->_longitude($lat, $latDir);
         $lat = $this->_longitude($lat, $latDir);
