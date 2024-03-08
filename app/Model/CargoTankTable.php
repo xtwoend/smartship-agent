@@ -47,7 +47,7 @@ class CargoTankTable extends Model
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->string('tank_position')->nullable();
-                $table->float('ulage', 6, 3)->default(0);
+                $table->float('ulage', 8, 3)->default(0);
                 $table->float('volume', 8, 3)->default(0);
             });
         }
