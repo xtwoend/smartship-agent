@@ -5,14 +5,12 @@ namespace App\Model\Traits;
 
 use App\Model\CargoTankTable;
 use App\Model\CargoTankCorrection;
+use Hyperf\Database\Model\Events\Creating;
 
 
 trait CargoTankCalculate
 {
-    public ?array $tanks = [
-        'tank_1_port_mt' => ['tank_1_port', 'tank_1_port_temp'],
-        'tank_1_stb_mt' => ['tank_1_stb', 'tank_1_stb_temp'],
-    ];
+    public ?array $tanks = [];
 
     public function calculate($model)
     {
@@ -34,5 +32,16 @@ trait CargoTankCalculate
         }
 
         return $data;
+    }
+
+    public function creating(Creating $event)
+    {
+        $model = $event->getModel();
+
+        $data = $this->calculate($model);
+
+        foreach($data as $key => $val) {
+            $this->{$key} = $val;
+        }
     }
 }
