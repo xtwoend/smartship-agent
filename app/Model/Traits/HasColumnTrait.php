@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-namespace App\Model;
+namespace App\Model\Traits;
 
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;

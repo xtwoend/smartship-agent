@@ -11,13 +11,13 @@ declare(strict_types=1);
  */
 namespace App\Model\Cargo;
 
-use App\Model\Alarm\SensorAlarmTrait;
-use App\Model\HasColumnTrait;
-use App\Model\Sensor;
 use Carbon\Carbon;
-use Hyperf\Database\Schema\Blueprint;
+use App\Model\Sensor;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
+use Hyperf\Database\Schema\Blueprint;
 
 class TypeSLog extends Model
 {
