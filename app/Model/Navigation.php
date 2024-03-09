@@ -65,7 +65,7 @@ class Navigation extends Model
             return;
         }
 
-        dispatch(new NavigationUpdateEvent($model));
+        // dispatch(new NavigationUpdateEvent($model));
 
 
         return NavigationLog::table($model->fleet_id, $date)->updateOrCreate([
