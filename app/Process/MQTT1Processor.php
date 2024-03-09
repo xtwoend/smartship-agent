@@ -46,10 +46,10 @@ class MQTT1Processor extends AbstractProcess
                 $device->update(['last_message' => $message, 'last_connected' => Carbon::now()]);
                 
                 // updated last connected
-                $device->fleet->update([
-                    'last_connection' => Carbon::now(),
-                    'connected' => 1
-                ]);
+                // $device->fleet->update([
+                //     'last_connection' => Carbon::now(),
+                //     'connected' => 1
+                // ]);
 
                 $class = $device->extractor;
 
