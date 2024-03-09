@@ -76,7 +76,7 @@ class Fleet extends Model
         if (isset($data['nav'])) {
             $m = (array) $data['nav'];
             $m = array_merge($m, ['terminal_time' => Carbon::now()->format('Y-m-d H:i:s')]);
-            var_dump($m);
+            
             $log = $this->navigation()->updateOrCreate([
                 'fleet_id' => $this->id,
             ], $m);
