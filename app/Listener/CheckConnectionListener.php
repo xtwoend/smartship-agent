@@ -29,15 +29,15 @@ class CheckConnectionListener implements ListenerInterface
     {
         $device = $event->device;
         $now = Carbon::now();
-        
+        $fleet = Fleet::find($device->fleet_id);
+
         $last_connection = $fleet->last_connection;
 
         // save interval 60 detik
         if ($now->diffInSeconds($last_connection) < config('mqtt.interval_save', 60)) {
             return;
         }
-
-        $fleet = Fleet::find($device->fleet_id);
+        
         $fleet->update([
             'connected' => 1,
             'last_connection' => $now->format('Y-m-d H:i:s'),
