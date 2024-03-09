@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Listener;
 
 use Carbon\Carbon;
+use App\Model\Fleet;
 use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
@@ -27,7 +28,6 @@ class CheckConnectionListener implements ListenerInterface
     public function process(object $event): void
     {
         $device = $event->device;
-        $fleet = $device->fleet;
         $now = Carbon::now();
         
         $last_connection = $fleet->last_connection;
@@ -36,7 +36,8 @@ class CheckConnectionListener implements ListenerInterface
         if ($now->diffInSeconds($last_connection) < config('mqtt.interval_save', 60)) {
             return;
         }
-        
+
+        $fleet = Fleet::find($device->fleet_id);
         $fleet->update([
             'connected' => 1,
             'last_connection' => $now->format('Y-m-d H:i:s'),
