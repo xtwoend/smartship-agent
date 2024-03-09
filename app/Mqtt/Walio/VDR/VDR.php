@@ -130,9 +130,9 @@ class VDR
 
         return [
             'terminal_time' => (string) $terminal_time->format('Y-m-d H:i:s'),
-            'lat' => (float) $lat,
+            'lat' => (float) $lat[0],
             'lat_dir' => (string) $latDir,
-            'lng' => (float) $lng,
+            'lng' => (float) $lng[0],
             'lng_dir' => (string) $lngDir,
             'gps_raw' => (string) $message,
         ];

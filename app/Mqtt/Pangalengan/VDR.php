@@ -121,9 +121,9 @@ class VDR
         $lat = $this->_latitude($lat, $latDir);
         
         return [
-            'lat' => (float) $lat,
+            'lat' => (float) $lat[0],
             'lat_dir' => (string) $latDir,
-            'lng' => (float) $lng,
+            'lng' => (float) $lng[0],
             'lng_dir' => (string) $lngDir,
             'gps_raw' => (string) $message,
         ];

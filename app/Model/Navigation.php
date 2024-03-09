@@ -60,12 +60,13 @@ class Navigation extends Model
         $last = NavigationLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
     
-        dispatch(new NavigationUpdateEvent($model));
-
         // save interval 60 detik
         if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
             return;
         }
+
+        dispatch(new NavigationUpdateEvent($model));
+
 
         return NavigationLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,

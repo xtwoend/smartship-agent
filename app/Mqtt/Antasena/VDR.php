@@ -116,14 +116,14 @@ class VDR
         $latDir = $aData[3];
         $lng = $aData[4];
         $lngDir = $aData[5]; // satellites count
-        
+
         $lng = $this->_longitude($lng, $lngDir);
         $lat = $this->_latitude($lat, $latDir);
 
         return [
-            'lat' => (float) $lat,
+            'lat' => (float) $lat[0],
             'lat_dir' => (string) $latDir,
-            'lng' => (float) $lng,
+            'lng' => (float) $lng[0],
             'lng_dir' => (string) $lngDir,
             'gps_raw' => (string) $message,
         ];
