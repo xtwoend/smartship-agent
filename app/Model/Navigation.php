@@ -57,7 +57,7 @@ class Navigation extends Model
     {
         $model = $event->getModel();
         $date = $model->terminal_time->format('Y-m-d H:i:s');
-        
+
         $last = NavigationLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
     
@@ -67,7 +67,6 @@ class Navigation extends Model
         }
 
         // dispatch(new NavigationUpdateEvent($model));
-
 
         return NavigationLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,

@@ -36,7 +36,7 @@ class NavigationLog extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected array $guarded = ['id'];
+    protected array $guarded = ['id', 'gps_raw'];
 
     /**
      * The attributes that should be cast to native types.
