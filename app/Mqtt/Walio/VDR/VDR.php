@@ -125,8 +125,8 @@ class VDR
 
         $terminal_time = Carbon::createFromFormat('dmy His', $date . ' ' . explode('.', $time)[0]);
 
-        $lng = $this->_longitude($lat, $latDir);
-        $lat = $this->_latitude($lng, $lngDir);
+        $lng = $this->_longitude($lng, $lngDir);
+        $lat = $this->_latitude($lat, $latDir);
 
         return [
             'terminal_time' => (string) $terminal_time->format('Y-m-d H:i:s'),
@@ -134,6 +134,7 @@ class VDR
             'lat_dir' => (string) $latDir,
             'lng' => (float) $lng,
             'lng_dir' => (string) $lngDir,
+            'gps_raw' => (string) $message,
         ];
     }
 

@@ -111,22 +111,21 @@ class VDR
     protected function parseGPS(string $message, $header = 'GGA')
     {
         $aData = explode(',', $message);
-        // $GPGLL,0602.9013,S,10653.8820,E,024321,A*3D
-        // $GPGGA,024356,0602.9010,S,10653.8831,E,1,8,0.9,5,M,,M,,*62
 
         $lat = $aData[2];
         $latDir = $aData[3];
         $lng = $aData[4];
         $lngDir = $aData[5]; // satellites count
 
-        $lng = $this->_longitude($lat, $latDir);
-        $lat = $this->_latitude($lng, $lngDir);
+        $lng = $this->_longitude($lng, $lngDir);
+        $lat = $this->_latitude($lat, $latDir);
 
         return [
             'lat' => (float) $lat,
             'lat_dir' => (string) $latDir,
             'lng' => (float) $lng,
             'lng_dir' => (string) $lngDir,
+            'gps_raw' => (string) $message,
         ];
     }
 

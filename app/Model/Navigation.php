@@ -35,6 +35,7 @@ class Navigation extends Model
         'lat_dir',
         'lng',
         'lng_dir',
+        'gps_raw',
         'datum_refrence',
         'sog',
         'cog',
@@ -58,7 +59,7 @@ class Navigation extends Model
         $date = $model->terminal_time;
         $last = NavigationLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
-
+    
         dispatch(new NavigationUpdateEvent($model));
 
         // save interval 60 detik
