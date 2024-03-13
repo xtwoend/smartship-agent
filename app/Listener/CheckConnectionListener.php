@@ -34,9 +34,9 @@ class CheckConnectionListener implements ListenerInterface
         $last_connection = $fleet->last_connection;
 
         // save interval 60 detik
-        if ($now->diffInSeconds($last_connection) < config('mqtt.interval_save', 60)) {
-            return;
-        }
+        // if ($now->diffInSeconds($last_connection) < config('mqtt.interval_save', 60)) {
+        //     return;
+        // }
         
         $fleet->update([
             'connected' => 1,
