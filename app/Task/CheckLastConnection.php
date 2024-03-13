@@ -27,14 +27,14 @@ class CheckLastConnection
     {
         $now = Carbon::now();
 
-        Fleet::where('connected', 1)
-            ->where('last_connection', '<', $now->subMinutes(120)->format('Y-m-d H:i:s'))
-            ->update([
-                'connected' => 0,
-                'fleet_status' => 'lost_connection',
-            ]);
+        // Fleet::where('connected', 1)
+        //     ->where('last_connection', '<', $now->subMinutes(120)->format('Y-m-d H:i:s'))
+        //     ->update([
+        //         'connected' => 0,
+        //         'fleet_status' => 'lost_connection',
+        //     ]);
 
-        $loses = Fleet::where('connected', 0)->get();
+        // $loses = Fleet::where('connected', 0)->get();
         foreach ($loses as $lost) {
             $hi = $lost->status_durations()->firstOrCreate([
                 'fleet_status' => 'lost_connection',
