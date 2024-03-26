@@ -45,6 +45,7 @@ class MQTTConnectionListener implements ListenerInterface
                     return;
                 }
 
+                $fleet->connected = 1;
                 $fleet->last_connection = Carbon::now();
                 $fleet->save();
             }
