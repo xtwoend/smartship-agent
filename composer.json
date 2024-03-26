@@ -30,6 +30,7 @@
         "hyperf/redis": "^3.0",
         "hyperf/socketio-server": "^3.0",
         "ramsey/uuid": "^4.7",
+        "smartship/seipakning": "^1.0",
         "xtwoend/hyperf-mqtt-client": "^3.0@dev"
     },
     "require-dev": {
@@ -81,5 +82,11 @@
             "Composer\\Config::disableProcessTimeout",
             "php ./bin/hyperf.php start"
         ]
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./fleets/seipakning"
+        }
+    ]
 }

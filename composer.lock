@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79cad4dd6a1e4bb381f9b5a6306e582a",
+    "content-hash": "c1aac7ad327d0c8ee4e44e7f07c0f099",
     "packages": [
         {
             "name": "brick/math",
@@ -4460,6 +4460,39 @@
                 }
             ],
             "time": "2023-04-15T23:01:58+00:00"
+        },
+        {
+            "name": "smartship/seipakning",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/seipakning",
+                "reference": "11298df3e3a37711b59ed620fd677f1d4e7f4712"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Seipakning\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Seipakning\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Agent Smartship For Sei Pakning",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "symfony/console",
