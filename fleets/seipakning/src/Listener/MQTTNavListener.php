@@ -40,14 +40,14 @@ class MQTTNavListener implements ListenerInterface
             $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
         }
 
-        if($last && Carbon::parse($last) < Carbon::now()->subSeconds(10)) { 
+        if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
            
             $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
 
             if ($event instanceof MQTTReceived && $fleetId) {
                 $data = $event->data;
                 $model = $event->model;
-                
+                var_dump($data);
                 $fleet = $fleet->find($fleetId);
                 if ($fleet) {
                     if (key_exists('nav', $data)) {
