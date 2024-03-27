@@ -49,7 +49,7 @@ class MQTTAlarmListener implements ListenerInterface
                 $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
             }
 
-            if($last && Carbon::parse($last) < Carbon::now()->subSeconds(10)) { 
+            if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
                 
                 $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
 
