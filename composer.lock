@@ -2466,20 +2466,20 @@
         },
         {
             "name": "hyperf/redis",
-            "version": "v3.0.21",
+            "version": "v3.0.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/redis.git",
-                "reference": "65ec6cbecb64793670ef1a512bd15369b683c746"
+                "reference": "df1c2a1fc19b9c8b4752219eca31562719d3996f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/redis/zipball/65ec6cbecb64793670ef1a512bd15369b683c746",
-                "reference": "65ec6cbecb64793670ef1a512bd15369b683c746",
+                "url": "https://api.github.com/repos/hyperf/redis/zipball/df1c2a1fc19b9c8b4752219eca31562719d3996f",
+                "reference": "df1c2a1fc19b9c8b4752219eca31562719d3996f",
                 "shasum": ""
             },
             "require": {
-                "ext-redis": "*",
+                "ext-redis": "^5.0|^6.0",
                 "hyperf/contract": "~3.0.0",
                 "hyperf/pool": "~3.0.0",
                 "hyperf/support": "~3.0.0",
@@ -2524,7 +2524,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2023-05-15T04:08:45+00:00"
+            "time": "2023-10-13T13:04:18+00:00"
         },
         {
             "name": "hyperf/serializer",
