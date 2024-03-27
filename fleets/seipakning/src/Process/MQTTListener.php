@@ -19,7 +19,7 @@ use Hyperf\Process\Annotation\Process;
 use Hyperf\Utils\Str;
 use PhpMqtt\Client\MqttClient;
 
-#[Process(name: 'smartship-seipakning', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: true)]
+#[Process(name: 'smartship-seipakning', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
 class MQTTListener extends AbstractProcess
 {
     public function handle(): void
