@@ -46,7 +46,7 @@ class MQTTEngineListener implements ListenerInterface
 
             $last = $this->redis->get('FLEET_ENGINE_'.$fleetId);
             
-            if(is_null($last)) {
+            if(!$last) {
                 $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
             }
 
@@ -55,7 +55,7 @@ class MQTTEngineListener implements ListenerInterface
                 $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
 
                 if ($fleet) {
-                    var_dump('engine', $data);
+                    // var_dump('engine', $data);
                     if (key_exists('engine', $data)) {
                         $model = $device->log_model;
                         if (class_exists($model)) {
