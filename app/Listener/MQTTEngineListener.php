@@ -11,17 +11,21 @@ declare(strict_types=1);
  */
 namespace App\Listener;
 
-use App\Event\MQTTReceived;
+use Carbon\Carbon;
 use App\Model\Fleet;
+use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
-use Hyperf\Event\Contract\ListenerInterface;
 use Psr\Container\ContainerInterface;
+use Hyperf\Event\Contract\ListenerInterface;
 
 #[Listener]
 class MQTTEngineListener implements ListenerInterface
 {
+    protected $redis;
+
     public function __construct(protected ContainerInterface $container)
     {
+        $this->redis = $container->get(\Redis::class);
     }
 
     public function listen(): array
@@ -38,13 +42,26 @@ class MQTTEngineListener implements ListenerInterface
             $fleet = $event->device?->fleet;
             $device = $event->device;
 
-            if ($fleet) {
-                // var_dump('engine', $data);
-                if (key_exists('engine', $data)) {
-                    $model = $device->log_model;
-                    if (class_exists($model)) {
-                        $v = Fleet::find($fleet->id);
-                        $v->setEngine($model, $data);
+            $fleetId = $fleet->id;
+
+            $last = $this->redis->get('FLEET_ENGINE_'.$fleetId);
+            
+            if(is_null($last)) {
+                $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            }
+
+            if($last && Carbon::parse($last) < Carbon::now()->subSeconds(10)) { 
+                
+                $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+
+                if ($fleet) {
+                    // var_dump('engine', $data);
+                    if (key_exists('engine', $data)) {
+                        $model = $device->log_model;
+                        if (class_exists($model)) {
+                            $v = Fleet::find($fleet->id);
+                            $v->setEngine($model, $data);
+                        }
                     }
                 }
             }

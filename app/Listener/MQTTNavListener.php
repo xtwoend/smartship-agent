@@ -11,17 +11,21 @@ declare(strict_types=1);
  */
 namespace App\Listener;
 
-use App\Event\MQTTReceived;
+use Carbon\Carbon;
 use App\Model\Fleet;
+use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
-use Hyperf\Event\Contract\ListenerInterface;
 use Psr\Container\ContainerInterface;
+use Hyperf\Event\Contract\ListenerInterface;
 
 #[Listener]
 class MQTTNavListener implements ListenerInterface
 {
+    protected $redis;
+
     public function __construct(protected ContainerInterface $container)
     {
+        $this->redis = $container->get(\Redis::class);
     }
 
     public function listen(): array
@@ -36,12 +40,25 @@ class MQTTNavListener implements ListenerInterface
         if ($event instanceof MQTTReceived) {
             $data = $event->data;
             $fleet = $event->device?->fleet;
+            
+            $fleetId = $fleet->id;
 
-            if ($fleet) {
-                if (key_exists('nav', $data)) {
-                    // var_dump('nav', $fleet->id);
-                    $v = Fleet::find($fleet->id);
-                    $v->setNav($data);
+            $last = $this->redis->get('FLEET_NAV_'.$fleetId);
+            
+            if(is_null($last)) {
+                $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            }
+
+            if($last && Carbon::parse($last) < Carbon::now()->subSeconds(10)) { 
+                
+                $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+
+                if ($fleet) {
+                    if (key_exists('nav', $data)) {
+                        // var_dump('nav', $fleet->id);
+                        $v = Fleet::find($fleet->id);
+                        $v->setNav($data);
+                    }
                 }
             }
         }

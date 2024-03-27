@@ -11,16 +11,20 @@ declare(strict_types=1);
  */
 namespace App\Listener;
 
+use Carbon\Carbon;
 use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
-use Hyperf\Event\Contract\ListenerInterface;
 use Psr\Container\ContainerInterface;
+use Hyperf\Event\Contract\ListenerInterface;
 
 #[Listener]
 class MQTTAlarmListener implements ListenerInterface
 {
+    protected $redis;
+
     public function __construct(protected ContainerInterface $container)
     {
+        $this->redis = $container->get(\Redis::class);
     }
 
     public function listen(): array
@@ -37,12 +41,25 @@ class MQTTAlarmListener implements ListenerInterface
             $fleet = $event->device?->fleet;
             $device = $event->device;
 
-            if ($fleet) {
-                if (key_exists('alarm', $data)) {
-                    $alarmModel = $device->log_model;
-                    if (class_exists($alarmModel)) {
-                        $model = new $alarmModel();
-                        $model->setAlarm($data['alarm'], $fleet->id);
+            $fleetId = $fleet->id;
+
+            $last = $this->redis->get('FLEET_ALARM_'.$fleetId);
+            
+            if(is_null($last)) {
+                $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            }
+
+            if($last && Carbon::parse($last) < Carbon::now()->subSeconds(10)) { 
+                
+                $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+
+                if ($fleet) {
+                    if (key_exists('alarm', $data)) {
+                        $alarmModel = $device->log_model;
+                        if (class_exists($alarmModel)) {
+                            $model = new $alarmModel();
+                            $model->setAlarm($data['alarm'], $fleet->id);
+                        }
                     }
                 }
             }
