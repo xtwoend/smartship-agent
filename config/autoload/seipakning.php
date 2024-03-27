@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'enable' => true,
     'fleet_id' => 3,
     'fleet_model' => App\Model\Fleet::class,
     'mqtt_connection' => [

@@ -54,4 +54,9 @@ class MQTTListener extends AbstractProcess
         $mqtt->loop(true);
         $mqtt->disconnect();
     }
+
+    public function isEnable($server): bool
+    {
+        return (bool) config('seipakning.enable', false);
+    }
 }
