@@ -16,7 +16,7 @@ class VDR
     public function parse()
     {
         $parse = null;
-        if (str_contains($this->message, 'GLL')) {
+        if (str_contains($this->message, 'GGA')) {
             $parse = $this->parseGPS($this->message);
         } elseif (str_contains($this->message, 'HDT')) {
             $parse = $this->parseHeading($this->message);
@@ -99,14 +99,14 @@ class VDR
         return ['nav' => $this->parse()];
     }
 
-    protected function parseGPS(string $message, $header = 'GLL')
+    protected function parseGPS(string $message, $header = 'GGA')
     {
         $aData = explode(',', $message);
 
-        $lat = $aData[1];
-        $latDir = $aData[2];
-        $lng = $aData[3];
-        $lngDir = $aData[4]; // satellites count
+        $lat = $aData[2];
+        $latDir = $aData[3];
+        $lng = $aData[4];
+        $lngDir = $aData[5];
 
         $lng = $this->_longitude($lng, $lngDir);
         $lat = $this->_latitude($lat, $latDir);
