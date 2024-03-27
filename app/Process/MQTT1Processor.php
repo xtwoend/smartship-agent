@@ -21,7 +21,7 @@ use Hyperf\Process\Annotation\Process;
 use Hyperf\Utils\Str;
 use PhpMqtt\Client\MqttClient;
 
-#[Process(name: 'MQTT1Processor', redirectStdinStdout: false, pipeType: 2, nums: 3, enableCoroutine: true)]
+#[Process(name: 'MQTT1Processor', redirectStdinStdout: false, pipeType: 2, nums: 2, enableCoroutine: true)]
 class MQTT1Processor extends AbstractProcess
 {
     public function handle(): void
