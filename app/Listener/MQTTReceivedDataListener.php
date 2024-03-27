@@ -49,7 +49,7 @@ class MQTTReceivedDataListener implements ListenerInterface
             if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
                 
                 $this->redis->set('FLEET_CONN_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-
+                var_dump($data);
                 if ($fleet) {
                     $fleet->connected = 1;
                     $fleet->last_connection = Carbon::now();

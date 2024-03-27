@@ -52,7 +52,7 @@ class MQTTAlarmListener implements ListenerInterface
             if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
                 
                 $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-
+                var_dump($data);
                 if ($fleet) {
                     if (key_exists('alarm', $data)) {
                         $alarmModel = $device->log_model;
