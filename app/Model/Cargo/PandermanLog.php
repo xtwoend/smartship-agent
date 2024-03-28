@@ -195,7 +195,7 @@ class PandermanLog extends Model
             'no_3_cot_p',
             'no_3_cot_s',
             'no_4_cot_p',
-            'no_4_cot_2',
+            'no_4_cot_s',
             'no_5_cot_p',
             'no_5_cot_s',
         ];
