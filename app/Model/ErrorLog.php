@@ -13,7 +13,7 @@ class ErrorLog extends Model
     /**
      * The table associated with the model.
      */
-    protected ?string $table = 'ErrorLog';
+    protected ?string $table = 'error_logs';
 
     /**
      * The attributes that are mass assignable.
