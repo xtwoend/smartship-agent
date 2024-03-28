@@ -106,7 +106,7 @@ class Mahakam extends Model
         $model = $event->getModel();
 
         $date = $model->terminal_time;
-        $last = KakapLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
+        $last = MahakamLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
 
         $now = Carbon::parse($date);
 
@@ -115,7 +115,7 @@ class Mahakam extends Model
             return;
         }
 
-        return KakapLog::table($model->fleet_id, $date)->updateOrCreate([
+        return MahakamLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
         ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
