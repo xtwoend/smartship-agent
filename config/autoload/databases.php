@@ -26,7 +26,7 @@ return [
             'connect_timeout' => 30.0,
             'wait_timeout' => 3.0,
             'heartbeat' => -1,
-            'max_idle_time' => (float) env('DB_MAX_IDLE_TIME', 60),
+            'max_idle_time' => (float) env('DB_MAX_IDLE_TIME', 120),
         ],
         'commands' => [
             'gen:model' => [
