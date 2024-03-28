@@ -61,7 +61,7 @@ if (! function_exists('websocket_emit')) {
 }
 
 if (! function_exists('number')) {
-    function number($number, $digit = 2)
+    function number($number, int $digit = 2)
     {   
         $number = (float) $number;
         return number_format($number, $digit, ',', '.');
