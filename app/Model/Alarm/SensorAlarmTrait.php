@@ -92,12 +92,12 @@ trait SensorAlarmTrait
                 if ($val < $sensor->min || $val > $sensor->max) {
                     $sensor->update([
                         'condition' => 'ABNORMAL',
-                        'value' => $val,
+                        'value' => (float) $val,
                     ]);
                 } else {
                     $sensor->update([
                         'condition' => 'NORMAL',
-                        'value' => $val,
+                        'value' => (float) $val,
                     ]);
                 }
             }
