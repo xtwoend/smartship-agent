@@ -42,17 +42,17 @@ class MQTTEngineListener implements ListenerInterface
             $fleet = $event->device?->fleet;
             $device = $event->device;
 
-            $fleetId = $fleet->id;
+            // $fleetId = $fleet->id;
 
-            $last = $this->redis->get('FLEET_ENGINE_'.$fleetId);
+            // $last = $this->redis->get('FLEET_ENGINE_'.$fleetId);
             
-            if(!$last) {
-                $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-            }
+            // if(!$last) {
+            //     $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            // }
 
-            if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
+            // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
                 
-                $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            //     $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
 
                 if ($fleet) {
                     // var_dump('engine', $data);
@@ -64,7 +64,7 @@ class MQTTEngineListener implements ListenerInterface
                         }
                     }
                 }
-            }
+            // }
         }
     }
 }

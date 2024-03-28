@@ -41,20 +41,20 @@ class MQTTNavListener implements ListenerInterface
             $data = $event->data;
             $fleet = $event->device?->fleet;
             
-            $fleetId = $fleet->id;
+            // $fleetId = $fleet->id;
 
-            $last = $this->redis->get('FLEET_NAV_'.$fleetId);
+            // $last = $this->redis->get('FLEET_NAV_'.$fleetId);
             
-            if(! $last) {
-                $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-                var_dump('init set');
-            }
+            // if(! $last) {
+            //     $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            //     var_dump('init set');
+            // }
 
-            if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
+            // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
                 
-                var_dump($fleetId, $last, Carbon::now()->format('Y-m-d H:i:s'));
+            //     var_dump($fleetId, $last, Carbon::now()->format('Y-m-d H:i:s'));
 
-                $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            //     $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
 
                 if ($fleet) {
                     // var_dump($data);
@@ -64,7 +64,7 @@ class MQTTNavListener implements ListenerInterface
                         $v->setNav($data);
                     }
                 }
-            }
+            // }
         }
     }
 }

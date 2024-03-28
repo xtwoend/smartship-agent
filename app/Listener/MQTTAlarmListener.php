@@ -41,17 +41,17 @@ class MQTTAlarmListener implements ListenerInterface
             $fleet = $event->device?->fleet;
             $device = $event->device;
 
-            $fleetId = $fleet->id;
+            // $fleetId = $fleet->id;
 
-            $last = $this->redis->get('FLEET_ALARM_'.$fleetId);
+            // $last = $this->redis->get('FLEET_ALARM_'.$fleetId);
             
-            if(!$last) {
-                $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-            }
+            // if(!$last) {
+            //     $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            // }
 
-            if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
+            // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
                 
-                $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            //     $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
                 // var_dump($data);
                 if ($fleet) {
                     if (key_exists('alarm', $data)) {
@@ -62,7 +62,7 @@ class MQTTAlarmListener implements ListenerInterface
                         }
                     }
                 }
-            }
+            // }
         }
     }
 }
