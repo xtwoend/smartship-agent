@@ -77,11 +77,13 @@ class Fleet extends Model
             $m = (array) $data['nav'];
             $m = array_merge($m, ['terminal_time' => Carbon::now()->format('Y-m-d H:i:s')]);
             
-            $log = $this->navigation()->updateOrCreate([
-                'fleet_id' => $this->id,
-            ], $m);
+            if(is_array($m)) {
+                $log = $this->navigation()->updateOrCreate([
+                    'fleet_id' => $this->id,
+                ], $m);
 
-            return $log;
+                return $log;
+            }
         }
     }
 
