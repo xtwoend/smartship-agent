@@ -11,15 +11,16 @@ declare(strict_types=1);
  */
 namespace App\Process;
 
-use App\Event\MQTTReceived;
-use App\Model\Device;
-use App\Model\MqttLog;
 use Carbon\Carbon;
-use Hyperf\Contract\StdoutLoggerInterface;
+use App\Model\Device;
+use Hyperf\Utils\Str;
+use App\Model\MqttLog;
+use App\Model\ErrorLog;
+use App\Event\MQTTReceived;
+use PhpMqtt\Client\MqttClient;
 use Hyperf\Process\AbstractProcess;
 use Hyperf\Process\Annotation\Process;
-use Hyperf\Utils\Str;
-use PhpMqtt\Client\MqttClient;
+use Hyperf\Contract\StdoutLoggerInterface;
 
 #[Process(name: 'MQTT1Processor', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: true)]
 class MQTT1Processor extends AbstractProcess
@@ -43,8 +44,6 @@ class MQTT1Processor extends AbstractProcess
 
         foreach (Device::active()->where('mqtt_server', $server)->where('agent', $agent)->get() as $device) {
             $mqtt->subscribe($device->topic, function ($topic, $message) use ($logger, $event, $device) {
-                var_dump($topic);
-             
                 try {
                     $class = $device->extractor;
                     if (! class_exists($class)) {
@@ -55,11 +54,16 @@ class MQTT1Processor extends AbstractProcess
 
                     $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
                 } catch (\Throwable $th) {
-                    var_dump($th->getMessage());
-                }
-                
+                    $error = $th->getMessage();
 
-                $logger->debug('Received Topic: ' . $topic);
+                    ErrorLog::where('created_at', '<=', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
+
+                    ErrorLog::create([
+                        'fleet_id' => $device->fleet_id,
+                        'topic' => $topic,
+                        'error' => $error
+                    ]);
+                }
             }, 0);
         }
 
