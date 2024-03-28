@@ -170,7 +170,7 @@ class Antasena extends Model
         $model = $event->getModel();
 
         $date = $model->terminal_time;
-        $last = YudhistiraLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
+        $last = AntasenaLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
 
         $now = Carbon::parse($date);
 
@@ -179,7 +179,7 @@ class Antasena extends Model
             return;
         }
 
-        return YudhistiraLog::table($model->fleet_id, $date)->updateOrCreate([
+        return AntasenaLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
         ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
