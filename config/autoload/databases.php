@@ -23,7 +23,7 @@ return [
         'pool' => [
             'min_connections' => 30,
             'max_connections' => 100,
-            'connect_timeout' => 10.0,
+            'connect_timeout' => 30.0,
             'wait_timeout' => 3.0,
             'heartbeat' => -1,
             'max_idle_time' => (float) env('DB_MAX_IDLE_TIME', 60),
