@@ -61,7 +61,8 @@ class MQTT1Processor extends AbstractProcess
                     ErrorLog::create([
                         'fleet_id' => $device->fleet_id,
                         'topic' => $topic,
-                        'error' => $error
+                        'message' => $message,
+                        'error' => $error,
                     ]);
                 }
             }, 0);
