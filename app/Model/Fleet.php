@@ -73,7 +73,7 @@ class Fleet extends Model
 
     public function setNav(array $data)
     {
-        if (isset($data['nav'])) {
+        if (isset($data['nav']) && is_array($data['nav'])) {
             $m = (array) $data['nav'];
             $m = array_merge($m, ['terminal_time' => Carbon::now()->format('Y-m-d H:i:s')]);
             
