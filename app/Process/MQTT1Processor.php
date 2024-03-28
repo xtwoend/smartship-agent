@@ -44,7 +44,7 @@ class MQTT1Processor extends AbstractProcess
 
         foreach (Device::active()->where('mqtt_server', $server)->where('agent', $agent)->get() as $device) {
             $mqtt->subscribe($device->topic, function ($topic, $message) use ($logger, $event, $device) {
-                // var_dump($topic);
+                var_dump($topic);
                 try {
                     $class = $device->extractor;
                     if (! class_exists($class)) {
@@ -56,7 +56,7 @@ class MQTT1Processor extends AbstractProcess
                     $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
                 } catch (\Throwable $th) {
                     $error = $th->getMessage();
-                    // var_dump($error);
+                    var_dump($error);
                     ErrorLog::where('created_at', '<=', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
                     ErrorLog::create([
                         'fleet_id' => $device->fleet_id,

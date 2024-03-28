@@ -40,6 +40,8 @@ trait SensorAlarmTrait
         if (\method_exists($this, 'navigationDailyReport')) {
             $this->navigationDailyReport($model);
         }
+        
+        $this->sensor_group = is_array($this->sensor_group)? $this->sensor_group : [];
 
         foreach ($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
             $val = $model->{$sensor->sensor_name};
