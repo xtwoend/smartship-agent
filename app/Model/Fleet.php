@@ -89,33 +89,33 @@ class Fleet extends Model
 
     public function logger($group, $data)
     {
-        $emit_data = clone $data;
+        // $emit_data = clone $data;
 
-        // submit to event
-        websocket_emit("fleet-{$this->id}", "{$group}_{$this->id}", $emit_data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        // // submit to event
+        // websocket_emit("fleet-{$this->id}", "{$group}_{$this->id}", $emit_data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
 
-        $date = $data->updated_at; // get last update data
-        $model = Logger::table($this->id);
-        $last = $model->where('group', $group)->orderBy('terminal_time', 'desc')->first();
-        $now = Carbon::parse($date);
+        // $date = $data->updated_at; // get last update data
+        // $model = Logger::table($this->id);
+        // $last = $model->where('group', $group)->orderBy('terminal_time', 'desc')->first();
+        // $now = Carbon::parse($date);
 
-        // save interval 5 detik
-        // if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 5) ) {
-        //     return;
-        // }
+        // // save interval 5 detik
+        // // if($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 5) ) {
+        // //     return;
+        // // }
 
-        // delete data log
-        Logger::table($this->id)->where('terminal_time', '<', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
+        // // delete data log
+        // Logger::table($this->id)->where('terminal_time', '<', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
 
-        $data = $data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray();
+        // $data = $data->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray();
 
-        return $model->updateOrCreate([
-            'group' => $group,
-            'fleet_id' => $this->id,
-            'terminal_time' => $date,
-        ], [
-            'data' => (array) $data,
-        ]);
+        // return $model->updateOrCreate([
+        //     'group' => $group,
+        //     'fleet_id' => $this->id,
+        //     'terminal_time' => $date,
+        // ], [
+        //     'data' => (array) $data,
+        // ]);
     }
 
     public function alarms()
