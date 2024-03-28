@@ -57,8 +57,7 @@ class MQTT1Processor extends AbstractProcess
                 } catch (\Throwable $th) {
                     $error = $th->getMessage();
                     var_dump($error);
-                    ErrorLog::where('created_at', '<=', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
-
+                    // ErrorLog::where('created_at', '<=', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
                     ErrorLog::create([
                         'fleet_id' => $device->fleet_id,
                         'topic' => $topic,
