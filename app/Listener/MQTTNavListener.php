@@ -59,7 +59,7 @@ class MQTTNavListener implements ListenerInterface
                 if ($fleet) {
                     // var_dump($data);
                     if (key_exists('nav', $data) && !is_null($data['nav'])) {
-                        var_dump('nav', $fleet->id);
+                        // var_dump('nav', $fleet->id);
                         $v = Fleet::find($fleet->id);
                         $v->setNav($data);
                     }
