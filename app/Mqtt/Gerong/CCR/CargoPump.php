@@ -29,7 +29,7 @@ class CargoPump
 
         return [
             'cargo_pump' => [
-                'terminal_time' => (string) Carbon::now()->format('Y-m-d H:i:s'),
+                'terminal_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'pump_non_drvend_c1' => (float) $data['pump_non_drvend_c1'],
                 'pump_casing_c1' => (float) $data['pump_casing_c1'],
                 'pump_drvend_c1' => (float) $data['pump_drvend_c1'],
@@ -53,7 +53,7 @@ class CargoPump
                 'pump_non_drvend_sp1' => (float) $data['pump_non_drvend_sp1'],
                 'pump_casing_sp1' => (float) $data['pump_casing_sp1'],
                 'pump_drvend_sp1' => (float) $data['pump_drvend_sp1'],
-                'transmission_sealing_sp1' => (float) $data['ttransmission_sealing_sp1'],
+                'ttransmission_sealing_sp1' => (float) $data['ttransmission_sealing_sp1'],
                 'pump_non_drvend_tcp' => (float) $data['pump_non_drvend_tcp'],
                 'pump_casing_tcp' => (float) $data['pump_casing_tcp'],
                 'pump_drvend_tcp' => (float) $data['pump_drvend_tcp'],
