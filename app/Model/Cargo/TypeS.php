@@ -18,6 +18,7 @@ use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
 use App\Model\Traits\CargoTankCalculate;
 use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
 
 class TypeS extends Model
 {
@@ -222,6 +223,18 @@ class TypeS extends Model
         return $model->setTable($tableName);
     }
 
+    public function updating(Updating $event) 
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+    
+        foreach($cargoData as $k => $v) {
+            $this->{$k} = $v;
+        }
+        
+    }
+
     // update & insert
     public function updated(Updated $event)
     {
@@ -231,10 +244,6 @@ class TypeS extends Model
         $last = TypeSLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
 
         $now = Carbon::parse($date);
-
-        // calculate cargo
-        $data = $this->calculate($model);
-        $model->update($data);
 
         // save interval 60 detik
         if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
