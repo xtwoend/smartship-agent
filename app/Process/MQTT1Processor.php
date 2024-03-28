@@ -43,6 +43,7 @@ class MQTT1Processor extends AbstractProcess
 
         foreach (Device::active()->where('mqtt_server', $server)->where('agent', $agent)->get() as $device) {
             $mqtt->subscribe($device->topic, function ($topic, $message) use ($logger, $event, $device) {
+                var_dump($topic);
                 // $device->update(['last_message' => $message, 'last_connected' => Carbon::now()]);
                     
                 // updated last connected
