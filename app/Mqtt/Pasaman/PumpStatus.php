@@ -37,9 +37,9 @@ class PumpStatus
                 'cargo_pump1_run' => $data['cargo_pump1_run'],
                 'cargo_pump2_run' => $data['cargo_pump2_run'],
                 'cargo_pump3_run' => $data['cargo_pump3_run'],
-                'wballast_pump1_run' => $data['wballast_pump1_run'],
-                'wballast_pump2_run' => $data['wballast_pump2_run'],
-                'tank_cleaning_pump_run' => $data['tank_cleaning_pump_run'],
+                'ballast_pump1_run' => $data['wballast_pump1_run'],
+                'ballast_pump2_run' => $data['wballast_pump2_run'],
+                'tk_cleanning_pump_run' => $data['tank_cleaning_pump_run'],
                 'stripping_pump_run' => $data['stripping_pump_run'],
             ],
         ];
