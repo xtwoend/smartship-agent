@@ -154,10 +154,10 @@ class Pasaman extends Model
                 $table->boolean('cargo_pump2_run')->default(false);
                 $table->boolean('cargo_pump3_run')->default(false);
                 $table->boolean('stripping_pump_run')->default(false);
-                $table->boolean('tk_cleanning_pump_run')->default(false);
-                $table->boolean('ballast_pump1_run')->default(false);
-                $table->boolean('ballast_pump2_run')->default(false);
-
+                $table->boolean('tank_cleaning_pump_run')->default(false);
+                $table->boolean('wballast_pump1_run')->default(false);
+                $table->boolean('wballast_pump2_run')->default(false);
+                
                 // Cargo operation
                 $table->datetime('cargo_timestamp')->nullable();
                 $table->float('bottom_gear_cp1', 10, 3)->default(0);
