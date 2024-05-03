@@ -21,7 +21,7 @@ class MQTTReceived
 
     public $topic;
 
-    public Model $model;
+    public ?Model $model;
 
     public function __construct($data, $message, $topic, $model)
     {

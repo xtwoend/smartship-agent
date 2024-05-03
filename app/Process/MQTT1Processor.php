@@ -60,7 +60,9 @@ class MQTT1Processor extends AbstractProcess
                         'fleet_id' => $device->fleet_id,
                         'topic' => $topic,
                         'message' => $message,
-                        'error' => $error,
+                        'file' => $th->getFile(),
+                        'error' => $th->getMessage(),
+                        'trace' => $th->getTraceAsString()
                     ]);
                 }
             }, 0);

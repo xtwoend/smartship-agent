@@ -50,18 +50,18 @@ class MQTTListener extends AbstractProcess
                         return;
                     }
                     $data = (new $class($message))->extract();
-                    var_dump($data);
                     $model = (new $model);
                     $event->dispatch(new MQTTReceived($data, $message, $topic, $model));
                 } catch (\Throwable $th) {
-                    $error = $th->getMessage();
                     if(! is_null($logger)) {
                         $logger->where('created_at', '<=', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
                         $logger->create([
                             'fleet_id' => $fleet_id,
                             'topic' => $topic,
                             'message' => $message,
-                            'error' => $error,
+                            'file' => $th->getFile(),
+                            'error' => $th->getMessage(),
+                            'trace' => $th->getTraceAsString()
                         ]);
                     }
                 }

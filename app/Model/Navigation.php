@@ -36,6 +36,7 @@ class Navigation extends Model
         'lng',
         'lng_dir',
         'gps_raw',
+        'gps_date',
         'datum_refrence',
         'sog',
         'cog',
