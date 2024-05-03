@@ -30,6 +30,7 @@
         "hyperf/redis": "^3.0",
         "hyperf/socketio-server": "^3.0",
         "ramsey/uuid": "^4.7",
+        "smartship/arafura": "dev-main",
         "smartship/seipakning": "^1.0",
         "xtwoend/hyperf-mqtt-client": "^3.0@dev"
     },
@@ -87,6 +88,10 @@
         {
             "type": "path",
             "url": "./fleets/seipakning"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/arafura"
         }
     ]
 }

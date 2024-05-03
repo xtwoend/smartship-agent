@@ -2,7 +2,6 @@
 
 namespace Smartship\Arafura;
 
-
 use Smartship\Arafura\Handler;
 use Psr\Container\ContainerInterface;
 

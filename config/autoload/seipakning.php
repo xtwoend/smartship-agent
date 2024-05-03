@@ -1,7 +1,9 @@
 <?php
 
+use function Hyperf\Support\env; 
+
 return [
-    'enable' => true,
+    'enable' => false,
     'fleet_id' => 3,
     'fleet_model' => App\Model\Fleet::class,
     'mqtt_connection' => [

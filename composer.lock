@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1aac7ad327d0c8ee4e44e7f07c0f099",
+    "content-hash": "fa2e9370f6613306e52b5aab23192d1a",
     "packages": [
         {
             "name": "brick/math",
@@ -4460,6 +4460,39 @@
                 }
             ],
             "time": "2023-04-15T23:01:58+00:00"
+        },
+        {
+            "name": "smartship/arafura",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/arafura",
+                "reference": "000a0300d8cfb9478856b0793c73621b5e27f11b"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Arafura\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Arafura\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina Arafura",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "smartship/seipakning",
