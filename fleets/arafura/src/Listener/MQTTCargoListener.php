@@ -37,12 +37,12 @@ class MQTTCargoListener implements ListenerInterface
         $fleet = $this->handler->fleet();
         $last = $this->redis->get('FLEET_CARGO_'.$fleetId);
         
-        if(! $last) {
-            $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-        }
+        // if(! $last) {
+        //     $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+        // }
         
-        if($last && Carbon::parse($last) < Carbon::now()->subSeconds(10)) {  
-            $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+        // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(10)) {  
+        //     $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
             
             if ($event instanceof MQTTReceived && $fleetId) {
                 $data = $event->data;
@@ -57,7 +57,7 @@ class MQTTCargoListener implements ListenerInterface
                     }
                 }
             }
-        }
+        // }
         
     }
 }
