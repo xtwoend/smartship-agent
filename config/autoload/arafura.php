@@ -18,5 +18,6 @@ return [
             'parser' => Smartship\Arafura\Parser\VDR::class,
             'model' => App\Model\Navigation::class,
         ],
+        
     ]
 ];

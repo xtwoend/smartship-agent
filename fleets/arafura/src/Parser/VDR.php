@@ -27,7 +27,7 @@ class VDR
     public function parse()
     {
         $parse = null;
-        if (str_contains($this->message, 'GPR')) {
+        if (str_contains($this->message, 'GPRMC')) {
             $parse = $this->parseGPS($this->message);
         } elseif (str_contains($this->message, 'HDT')) {
             $parse = $this->parseHeading($this->message);
@@ -43,6 +43,8 @@ class VDR
             $parse = $this->parseDPT($this->message);
         } elseif (str_contains($this->message, 'ROT')) {
             $parse = $this->parseROT($this->message);
+        } elseif (str_contains($this->message, 'GPRMB')) {
+            $parse = $this->parseGPSMB($this->message);
         }
 
         return $parse;
@@ -108,6 +110,27 @@ class VDR
     public function extract(): ?array
     {
         return ['nav' => $this->parse()];
+    }
+
+    protected function parseGPSMB(string $message) 
+    {
+        $aData = explode(',', $message);
+
+        $lat = $aData[6];
+        $latDir = $aData[7];
+        $lng = $aData[8];
+        $lngDir = $aData[9];
+      
+        $lng = $this->_longitude($lng, $lngDir);
+        $lat = $this->_latitude($lat, $latDir);
+
+        return [
+            'lat' => (float) $lat[0],
+            'lat_dir' => (string) $latDir,
+            'lng' => (float) $lng[0],
+            'lng_dir' => (string) $lngDir,
+            'gps_raw' => (string) $message,
+        ];
     }
 
     protected function parseGPS(string $message)
