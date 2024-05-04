@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Mqtt\Sambu\CCR;
 
 use Carbon\Carbon;
+use Hyperf\Codec\Json;
 
 class Cargo
 {

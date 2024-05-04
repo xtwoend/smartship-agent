@@ -18,6 +18,17 @@ return [
             'parser' => Smartship\Arafura\Parser\VDR::class,
             'model' => App\Model\Navigation::class,
         ],
-        
+        'data/arafura/hanla/ccr' => [
+            'parser' => Smartship\Arafura\Parser\Hanla::class,
+            'model' => Smartship\Arafura\Model\Cargo::class,
+        ],
+        'data/arafura/cargo/ccr' => [
+            'parser' => Smartship\Arafura\Parser\Cargo::class,
+            'model' => Smartship\Arafura\Model\Cargo::class,
+        ],
+        'data/arafura/pumpstatus/ccr' => [
+            'parser' => Smartship\Arafura\Parser\Pump::class,
+            'model' => Smartship\Arafura\Model\Cargo::class,
+        ]
     ]
 ];

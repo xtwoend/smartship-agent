@@ -34,13 +34,13 @@ class MQTTEngineListener implements ListenerInterface
 
     public function process(object $event): void
     {   
-        $fleetId = config('Arafura.fleet_id', null);
+        $fleetId = config('arafura.fleet_id', null);
         $fleet = $this->handler->fleet();
 
         $last = $this->redis->get('FLEET_ENGINE_'.$fleetId);
 
-        if(is_null($last)) {
-            $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+        if(! $last) {
+            $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
         }
         
         if($last && Carbon::parse($last) < Carbon::now()->subSeconds(30)) {  
