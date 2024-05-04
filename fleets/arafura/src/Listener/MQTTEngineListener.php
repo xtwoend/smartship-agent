@@ -40,7 +40,7 @@ class MQTTEngineListener implements ListenerInterface
         $last = $this->redis->get('FLEET_ENGINE_'.$fleetId);
 
         if(! $last) {
-            $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
         }
         
         if($last && Carbon::parse($last) < Carbon::now()->subSeconds(30)) {  

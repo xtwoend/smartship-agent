@@ -36,19 +36,21 @@ class MQTTCargoListener implements ListenerInterface
         $fleetId = config('arafura.fleet_id', null);
         $fleet = $this->handler->fleet();
         $last = $this->redis->get('FLEET_CARGO_'.$fleetId);
-
+        
         if(! $last) {
-            $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-        }
-
-        if($last && Carbon::parse($last) < Carbon::now()->subSeconds(30)) {  
             $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-
+        }
+        
+        if($last && Carbon::parse($last) < Carbon::now()->subSeconds(10)) {  
+            $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+            
             if ($event instanceof MQTTReceived && $fleetId) {
                 $data = $event->data;
+                
                 $model = $event->model;
-                // var_dump($data);
+                
                 $fleet = $fleet->find($fleetId);
+                
                 if ($fleet) {
                     if (key_exists('cargo', $data)) {
                         $fleet->setCargo($model, $data);
