@@ -69,7 +69,7 @@ class CargoLog extends Model
                 $table->float('level_cot_1p_mt')->nullable();
                 $table->float('level_cot_1s')->default(0);
                 $table->float('temp_cot_1s')->default(0);
-                $table->float('level_cot_12_mt')->nullable();
+                $table->float('level_cot_1s_mt')->nullable();
                 $table->float('level_cot_2p')->default(0);
                 $table->float('temp_cot_2p')->default(0);
                 $table->float('level_cot_2p_mt')->nullable();
