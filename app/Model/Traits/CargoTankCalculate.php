@@ -16,8 +16,10 @@ trait CargoTankCalculate
     {
         $fleetId = $model->fleet_id;
         $tabelTank = CargoTankTable::table($fleetId)->get();
+        // var_dump($fleetId);
         $tabelCorrection = CargoTankCorrection::table($fleetId)->get();
         $data = [];
+        
         foreach($this->tanks as $key => $tank) {
             $ullage = $model->{$tank[0]};
             $ullage = $ullage < 0 ? 0 : $ullage;

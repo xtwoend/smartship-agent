@@ -37,14 +37,14 @@ class MQTTEngineListener implements ListenerInterface
         $fleetId = config('arafura.fleet_id', null);
         $fleet = $this->handler->fleet();
 
-        $last = $this->redis->get('FLEET_ENGINE_'.$fleetId);
+        // $last = $this->redis->get('FLEET_ENGINE_'.$fleetId);
 
-        if(! $last) {
-            $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-        }
+        // if(! $last) {
+        //     $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+        // }
         
-        if($last && Carbon::parse($last) < Carbon::now()->subSeconds(30)) {  
-            $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+        // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(30)) {  
+        //     $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
             if ($event instanceof MQTTReceived && $fleetId) {
                 $data = $event->data;
                 $model = $event->model;
@@ -56,7 +56,7 @@ class MQTTEngineListener implements ListenerInterface
                     }
                 }
             }
-        }
+        // }
         
     }
 }
