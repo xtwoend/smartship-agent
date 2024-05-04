@@ -202,10 +202,13 @@ class CargoLog extends Model
         ];
 
         $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
+        
+
         $data = [];
         foreach ($cargoArray as $c) {
-            $max = $sensors[$c] ?? 0;
-            $value = $model->{$c} ?? 0;
+            if(! isset($sensors[$c])) continue;
+            $max = $sensors[$c];
+            $value = $model->{$c};
 
             $percentage = ($value <= $max) ? ($value / $max) : 0;
             $data[$c] = (1 - $percentage);
