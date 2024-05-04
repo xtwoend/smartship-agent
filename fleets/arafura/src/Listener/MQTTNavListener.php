@@ -36,15 +36,15 @@ class MQTTNavListener implements ListenerInterface
     {   
         $fleetId = config('arafura.fleet_id', null);
         $fleet = $this->handler->fleet();
-        $last = $this->redis->get('FLEET_NAV_'.$fleetId);
+        // $last = $this->redis->get('FLEET_NAV_'.$fleetId);
         
-        if(! $last) {
-            $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-        }
+        // if(! $last) {
+        //     $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+        // }
         
-        if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
+        // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
            
-            $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+        //     $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
 
             if ($event instanceof MQTTReceived && $fleetId) {
                 $data = $event->data;
@@ -56,6 +56,6 @@ class MQTTNavListener implements ListenerInterface
                     }
                 }
             }
-        }
+        // }
     }
 }
