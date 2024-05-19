@@ -18,7 +18,7 @@ use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Model\Events\Updated;
 
-use function config;
+use function Hyperf\Config\config;
 
 class Engine extends Model
 {
@@ -83,7 +83,7 @@ class Engine extends Model
         if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
             return;
         }
-
+    
         return EngineLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,

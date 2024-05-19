@@ -28,7 +28,7 @@ class MQTTEngineListener implements ListenerInterface
     public function listen(): array
     {
         return [
-            // MQTTReceived::class,
+            MQTTReceived::class,
         ];
     }
 

@@ -14,21 +14,21 @@ return [
         'password' => env('MQTT1_PASSWORD'),
     ],
     'topics' => [
-        'data/taurus/vdr/#' => [
-            'parser' => Smartship\Taurus\Parser\VDR::class,
-            'model' => App\Model\Navigation::class,
-        ],
-        'data/taurus/ccr/hanla' => [
-            'parser' => Smartship\Taurus\Parser\Hanla::class,
-            'model' => Smartship\Taurus\Model\Cargo::class,
-        ],
+        // 'data/taurus/vdr/#' => [
+        //     'parser' => Smartship\Taurus\Parser\VDR::class,
+        //     'model' => App\Model\Navigation::class,
+        // ],
+        // 'data/taurus/ccr/hanla' => [
+        //     'parser' => Smartship\Taurus\Parser\Hanla::class,
+        //     'model' => Smartship\Taurus\Model\Cargo::class,
+        // ],
         'data/taurus/ecr/engine' => [
             'parser' => Smartship\Taurus\Parser\Engine::class,
             'model' => Smartship\Taurus\Model\Engine::class,
         ],
-        'data/taurus/ccr/pump_status' => [
-            'parser' => Smartship\Taurus\Parser\Pump::class,
-            'model' => Smartship\Taurus\Model\Cargo::class,
-        ]
+        // 'data/taurus/ccr/pump_status' => [
+        //     'parser' => Smartship\Taurus\Parser\Pump::class,
+        //     'model' => Smartship\Taurus\Model\Cargo::class,
+        // ]
     ]
 ];

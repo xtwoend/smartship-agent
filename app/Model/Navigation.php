@@ -11,10 +11,11 @@ declare(strict_types=1);
  */
 namespace App\Model;
 
-use App\Event\NavigationUpdateEvent;
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
+use App\Model\NavigationLog;
+use App\Event\NavigationUpdateEvent;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Model\Events\Updated;
 
 class Navigation extends Model
 {
@@ -58,20 +59,21 @@ class Navigation extends Model
     {
         $model = $event->getModel();
         $date = $model->terminal_time->format('Y-m-d H:i:s');
-
+        
         $last = NavigationLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
         $now = Carbon::parse($date);
-    
+        
         // save interval 60 detik
         if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
             return;
         }
-
+        
         dispatch(new NavigationUpdateEvent($model));
-
-        return NavigationLog::table($model->fleet_id, $date)->updateOrCreate([
+        $data = $model->makeHidden(['id', 'fleet_id', 'gps_raw', 'gps_date', 'created_at','updated_at'])->toArray();
+        
+        NavigationLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], $data);
     }
 }

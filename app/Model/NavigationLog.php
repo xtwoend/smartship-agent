@@ -36,7 +36,26 @@ class NavigationLog extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected array $guarded = ['id', 'gps_raw', 'gps_date'];
+    protected array $fillable = [
+        'fleet_id',
+        'terminal_time',
+        'wind_speed',
+        'wind_direction',
+        'lat',
+        'lat_dir',
+        'lng',
+        'lng_dir',
+        'datum_refrence',
+        'sog',
+        'cog',
+        'total_distance',
+        'distance',
+        'heading',
+        'rot',
+        'depth',
+    ];
+
+
 
     /**
      * The attributes that should be cast to native types.
@@ -101,7 +120,7 @@ class NavigationLog extends Model
         ])->first();
 
         if (! $fdr) {
-            $fdr = FleetDailyReport::table($model->fleet_id);
+            $fdr = (new FleetDailyReport)->table($model->fleet_id);
             $fdr->fleet_id = $model->fleet_id;
             $fdr->date = $now->format('Y-m-d');
             $fdr->sensor = 'distance';

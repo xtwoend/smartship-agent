@@ -46,7 +46,7 @@ class MQTTListener extends AbstractProcess
                 try {
                     $class = $handler['parser'];
                     $model = $handler['model'];
-                   
+                    
                     if (! class_exists($class) || ! class_exists($model)) {
                         return;
                     }

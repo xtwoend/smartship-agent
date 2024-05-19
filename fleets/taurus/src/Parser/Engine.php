@@ -17,7 +17,7 @@ class Engine
     public function extract()
     {
         $data = Json::decode($this->message);
-
+        
         return [
             'engine' => [
                 'terminal_time' => (string) Carbon::now()->format('Y-m-d H:i:s'),
