@@ -32,6 +32,7 @@
         "ramsey/uuid": "^4.7",
         "smartship/arafura": "dev-main",
         "smartship/seipakning": "^1.0",
+        "smartship/taurus": "dev-main",
         "xtwoend/hyperf-mqtt-client": "^3.0@dev"
     },
     "require-dev": {
@@ -92,6 +93,10 @@
         {
             "type": "path",
             "url": "./fleets/arafura"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/taurus"
         }
     ]
 }

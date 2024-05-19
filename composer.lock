@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa2e9370f6613306e52b5aab23192d1a",
+    "content-hash": "fadc15f34719a03df79b4b6cbc3845e1",
     "packages": [
         {
             "name": "brick/math",
@@ -4528,6 +4528,39 @@
             }
         },
         {
+            "name": "smartship/taurus",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/taurus",
+                "reference": "65d933304833befaf2e96d6bddcabb9e824de898"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Taurus\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Taurus\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship taurus",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "symfony/console",
             "version": "v6.0.19",
             "source": {
@@ -8808,6 +8841,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "smartship/arafura": 20,
         "xtwoend/hyperf-mqtt-client": 20
     },
     "prefer-stable": true,
