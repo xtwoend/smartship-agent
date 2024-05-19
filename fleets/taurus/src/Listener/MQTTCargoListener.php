@@ -8,6 +8,7 @@ use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
 use Hyperf\Event\Contract\ListenerInterface;
 use Smartship\Taurus\Event\MQTTReceived;
+
 use function Hyperf\Config\config;
 
 #[Listener]
