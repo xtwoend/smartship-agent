@@ -20,15 +20,15 @@ use Smartship\Pg2\Event\MQTTReceived;
 
 use function Hyperf\Config\config;
 
-#[Process(name: 'smartship-Pg2', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
+#[Process(name: 'smartship-pg2', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
 class MQTTListener extends AbstractProcess
 {
     public function handle(): void
     {
-        $fleet_id = config('Pg2.fleet_id');
-        $config = config('Pg2.mqtt_connection');
+        $fleet_id = config('pg2.fleet_id');
+        $config = config('pg2.mqtt_connection');
         $clientId = Str::random(10);
-        $classLogger = config('Pg2.logger');
+        $classLogger = config('pg2.logger');
         
         $logger = class_exists($classLogger) ? new $classLogger : null;
         $event = $this->event;
@@ -40,7 +40,7 @@ class MQTTListener extends AbstractProcess
 
         $mqtt->connect($config, true);
 
-        $topics = config('Pg2.topics', []);
+        $topics = config('pg2.topics', []);
         foreach($topics as $topic => $handler) {
             $mqtt->subscribe($topic, function ($topic, $message) use ($logger, $event, $handler, $fleet_id) {
                 try {
@@ -75,6 +75,6 @@ class MQTTListener extends AbstractProcess
 
     public function isEnable($server): bool
     {
-        return (bool) config('Pg2.enable', false);
+        return (bool) config('pg2.enable', false);
     }
 }

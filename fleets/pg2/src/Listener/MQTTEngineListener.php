@@ -34,7 +34,7 @@ class MQTTEngineListener implements ListenerInterface
 
     public function process(object $event): void
     {   
-        $fleetId = config('Pg2.fleet_id', null);
+        $fleetId = config('pg2.fleet_id', null);
         $fleet = $this->handler->fleet();
         if ($event instanceof MQTTReceived && $fleetId) {
             $data = $event->data;
