@@ -1,0 +1,23 @@
+{
+    "name": "smartship/pg2",
+    "description": "Smartship pg2",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Smartship\\Pg2\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdul Hafidz Anshari",
+            "email": "aditans88@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "hyperf": {
+            "config": "Smartship\\Pg2\\ConfigProvider"
+        }
+    }
+}
