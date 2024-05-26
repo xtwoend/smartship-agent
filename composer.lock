@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "50e68135bd7224f2287b2a6be92f00ed",
+    "content-hash": "25da17d03881f7f7d28cc1796d7aebb0",
     "packages": [
         {
             "name": "brick/math",
@@ -4495,6 +4495,39 @@
             }
         },
         {
+            "name": "smartship/bima",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/bima",
+                "reference": "af5e71dea62db168e6cf8dd49312af61b5f3470b"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Bima\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Bima\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Transko Bima",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/pg2",
             "version": "dev-main",
             "dist": {
@@ -8875,6 +8908,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "smartship/arafura": 20,
+        "smartship/pg2": 20,
         "smartship/taurus": 20,
         "xtwoend/hyperf-mqtt-client": 20
     },

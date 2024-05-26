@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-namespace Smartship\Pg2\Parser;
+namespace Smartship\Bima\Parser;
 
 use Carbon\Carbon;
 
@@ -45,8 +45,6 @@ class VDR
             $parse = $this->parseROT($this->message);
         } elseif (str_contains($this->message, 'GPRMB')) {
             $parse = $this->parseGPSMB($this->message);
-        } elseif (str_contains($this->message, 'GPGGA')) {
-            $parse = $this->parseGPGGA($this->message);
         }
 
         return $parse;
@@ -123,27 +121,6 @@ class VDR
         $lng = $aData[8];
         $lngDir = $aData[9];
       
-        $lng = $this->_longitude($lng, $lngDir);
-        $lat = $this->_latitude($lat, $latDir);
-
-        return [
-            'lat' => (float) $lat[0],
-            'lat_dir' => (string) $latDir,
-            'lng' => (float) $lng[0],
-            'lng_dir' => (string) $lngDir,
-            'gps_raw' => (string) $message,
-        ];
-    }
-
-    protected function parseGPGGA(string $message)
-    {
-        $aData = explode(',', $message);
-
-        $lat = $aData[2];
-        $latDir = $aData[3];
-        $lng = $aData[4];
-        $lngDir = $aData[5]; // satellites count
-
         $lng = $this->_longitude($lng, $lngDir);
         $lat = $this->_latitude($lat, $latDir);
 

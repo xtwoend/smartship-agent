@@ -31,6 +31,7 @@
         "hyperf/socketio-server": "^3.0",
         "ramsey/uuid": "^4.7",
         "smartship/arafura": "dev-main",
+        "smartship/bima": "dev-main",
         "smartship/pg2": "dev-main",
         "smartship/seipakning": "^1.0",
         "smartship/taurus": "dev-main",
@@ -102,6 +103,10 @@
         {
             "type": "path",
             "url": "./fleets/pg2"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/bima"
         }
     ]
 }
