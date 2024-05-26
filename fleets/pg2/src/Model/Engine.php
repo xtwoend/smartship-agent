@@ -56,13 +56,12 @@ class Engine extends Model
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
 
-                $table->float('me_lo_press_last_bearing')->default(0);
-                $table->float('me_cooliing_water_heater_inlet_pressure')->default(0);
-                $table->float('gearbox_lo_pressure')->default(0);
-                $table->float('me_starting_air_pressure')->default(0);
                 $table->float('me_fo_inlet_pressure')->default(0);
-                $table->float('me_cooling_water_lt_inlet_pressure')->default(0);
-                $table->float('gearbox_working_oil_pressure')->default(0);
+                $table->float('me_scav_air_receiver_pressure')->default(0);
+                $table->float('me_lo_inlet_pressure')->default(0);
+                $table->float('me_starting_air_inlet_pressure')->default(0);
+                $table->float('me_jcw_inlet_pressure')->default(0);
+                $table->float('me_control_air_inlet_pressure')->default(0);
 
                 $table->timestamps();
             });
