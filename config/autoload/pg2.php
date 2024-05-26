@@ -18,6 +18,10 @@ return [
             'parser' => Smartship\Pg2\Parser\VDR::class,
             'model' => App\Model\Navigation::class,
         ],
+        'data/pg2/ecr/engine' => [
+            'parser' => Smartship\Pg2\Parser\Engine::class,
+            'model' => Smartship\Pg2\Model\Engine::class,
+        ],
         // 'data/arafura/hanla/ccr' => [
         //     'parser' => Smartship\Taurus\Parser\Hanla::class,
         //     'model' => Smartship\Taurus\Model\Cargo::class,
