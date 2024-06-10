@@ -11,8 +11,9 @@ declare(strict_types=1);
  */
 namespace App\Model\Alarm;
 
-use App\Model\Sensor;
 use Carbon\Carbon;
+use App\Model\Sensor;
+use App\Event\AlarmEvent;
 use Hyperf\Database\Model\Events\Created;
 use Hyperf\Database\Model\Relations\HasMany;
 
@@ -43,6 +44,9 @@ trait SensorAlarmTrait
             }
             
             $this->sensor_group = is_array($this->sensor_group)? $this->sensor_group : [];
+
+            // call event for calculate score
+            dispatch(new AlarmEvent($model, $this->sensor_group));
 
             foreach ($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
                 $val = $model->{$sensor->sensor_name};

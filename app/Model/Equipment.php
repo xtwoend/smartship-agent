@@ -26,4 +26,8 @@ class Equipment extends Model
      * The attributes that should be cast to native types.
      */
     protected array $casts = [];
+
+    public function sensors() {
+        $this->hasMany(EquipmentSensor::class, 'equipment_id');
+    }
 }

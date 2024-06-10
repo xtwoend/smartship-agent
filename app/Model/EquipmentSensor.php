@@ -26,4 +26,11 @@ class EquipmentSensor extends Model
      * The attributes that should be cast to native types.
      */
     protected array $casts = [];
+
+    /**
+     * treshold
+     */
+    public function treshold() {
+        $this->belongsTo(Sensor::class, 'sensor_id');
+    }
 }
