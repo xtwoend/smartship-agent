@@ -27,7 +27,10 @@ class Equipment extends Model
      */
     protected array $casts = [];
 
+    /**
+     * 
+     */
     public function sensors() {
-        $this->hasMany(EquipmentSensor::class, 'equipment_id');
+        return $this->hasMany(EquipmentSensor::class, 'equipment_id');
     }
 }
