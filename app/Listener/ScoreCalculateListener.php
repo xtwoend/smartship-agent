@@ -29,7 +29,7 @@ class ScoreCalculateListener implements ListenerInterface
         if($event instanceof AlarmEvent) {
             $model = $event->model;
             // $group = $event->group;
-            
+
             try {  
                 $equipments = Equipment::where('fleet_id', $model->fleet_id)->get();
                 foreach($equipments as $equipment) {
@@ -51,12 +51,10 @@ class ScoreCalculateListener implements ListenerInterface
                                 } 
                             }  
                             
-
                             $avg = ($count_value > 0  && $total_value > $count_value) ? ($total_value / $count_value): 0;
                             // rumus performance = 100 - (avg - normal) / (danger - normal) * 100
                             $performance = $avg > $treshold->normal ? (100 - (($avg - $treshold->normal) / ($treshold->danger - $treshold->normal))) : 100; 
                             $performance = $avg < $treshold->danger ? $performance : 0;
-
 
                             $sensor->update([
                                 'avg_value' => $avg,
