@@ -37,11 +37,11 @@ class ScoreCalculateListener implements ListenerInterface
                     foreach($sensors as $sensor) {
                         $treshold = $sensor->treshold;
                         if($treshold) {
-                            
+
                             $val = $model->{$treshold->sensor_name};
                             $val = number($val);
 
-                            if($treshold->normal >= $val) {
+                            if($val >= $treshold->normal) {
                                 
                                 $abnormal_count = $sensor->abnormal_count;
                                 $total_value = $sensor->total_value;
