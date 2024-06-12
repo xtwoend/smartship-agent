@@ -14,13 +14,13 @@ return [
         'password' => env('MQTT1_PASSWORD'),
     ],
     'topics' => [
-        'data/arafura/vdr/#' => [
+        'data/taurus/vdr/#' => [
             'parser' => Smartship\Taurus\Parser\VDR::class,
             'model' => App\Model\Navigation::class,
         ],
-        'data/arafura/hanla/ccr' => [
-            'parser' => Smartship\Taurus\Parser\Hanla::class,
-            'model' => Smartship\Taurus\Model\Cargo::class,
+        'data/taurus/ecr/engine' => [
+            'parser' => Smartship\Taurus\Parser\Engine::class,
+            'model' => Smartship\Taurus\Model\Engine::class,
         ],
         'data/arafura/cargo/ccr' => [
             'parser' => Smartship\Taurus\Parser\Cargo::class,

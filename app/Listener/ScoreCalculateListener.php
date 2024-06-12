@@ -35,34 +35,38 @@ class ScoreCalculateListener implements ListenerInterface
                 foreach($equipments as $equipment) {
                     $sensors = $equipment->sensors;
                     foreach($sensors as $sensor) {
-                        if($model->{$sensor->sensor_trigger} > 0) {
-                            $abnormal_count = $sensor->abnormal_count;
-                            $total_value = $sensor->total_value;
-                            $count_value = $sensor->count_value;
-                            $treshold = $sensor->treshold;
+                        $treshold = $sensor->treshold;
+                        if($treshold) {
+                            
+                            $val = $model->{$treshold->sensor_name};
+                            $val = number($val);
 
-                            if($treshold) {
-                                $val = $model->{$treshold->sensor_name};
-                                $val = number($val);
+                            if($treshold->normal >= $val) {
+                                
+                                $abnormal_count = $sensor->abnormal_count;
+                                $total_value = $sensor->total_value;
+                                $count_value = $sensor->count_value;
+                                
                                 $total_value += $val;
                                 $count_value += 1;
+
                                 if ($val >= $treshold->danger) {
                                     $abnormal_count += 1;
                                 } 
-                            }  
-                            
-                            $avg = ($count_value > 0  && $total_value > $count_value) ? ($total_value / $count_value): 0;
-                            // rumus performance = 100 - (avg - normal) / (danger - normal) * 100
-                            $performance = $avg > $treshold->normal ? (100 - (($avg - $treshold->normal) / ($treshold->danger - $treshold->normal))) : 100; 
-                            $performance = $avg < $treshold->danger ? $performance : 0;
+                                
+                                $avg = ($count_value > 0  && $total_value > $count_value) ? ($total_value / $count_value): 0;
+                                // rumus performance = 100 - (avg - normal) / (danger - normal) * 100
+                                $performance = $avg > $treshold->normal ? (100 - (($avg - $treshold->normal) / ($treshold->danger - $treshold->normal))) : 100; 
+                                $performance = $avg < $treshold->danger ? $performance : 0;
 
-                            $sensor->update([
-                                'avg_value' => $avg,
-                                'abnormal_count' => $abnormal_count,
-                                'total_value' => $total_value,
-                                'count_value' => $count_value,
-                                'performance' => $performance,
-                            ]);
+                                $sensor->update([
+                                    'avg_value' => $avg,
+                                    'abnormal_count' => $abnormal_count,
+                                    'total_value' => $total_value,
+                                    'count_value' => $count_value,
+                                    'performance' => $performance,
+                                ]);
+                            }
                         }
                     }
                 }
