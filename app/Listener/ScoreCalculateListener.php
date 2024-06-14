@@ -54,9 +54,10 @@ class ScoreCalculateListener implements ListenerInterface
                                     $abnormal_count += 1;
                                 } 
                                 
-                                $avg = ($count_value > 0  && $total_value > $count_value) ? ($total_value / $count_value): 0;
+                                $avg = ($count_value > 0 && $total_value > $count_value) ? ($total_value / $count_value): 0;
+                                
                                 // rumus performance = 100 - (avg - normal) / (danger - normal) * 100
-                                $performance = $avg > $treshold->normal ? (100 - (($avg - $treshold->normal) / ($treshold->danger - $treshold->normal))) : 100; 
+                                $performance = ($avg >= $treshold->max_normal) ? (100 - (($avg - $treshold->normal) / ($treshold->danger - $treshold->normal))) : 100; 
                                 $performance = $avg < $treshold->danger ? $performance : 0;
 
                                 $sensor->update([
