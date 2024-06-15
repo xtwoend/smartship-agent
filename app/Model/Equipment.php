@@ -19,13 +19,17 @@ class Equipment extends Model
      * The attributes that are mass assignable.
      */
     protected array $fillable = [
-        'fleet_id', 'name', 'group', 'last_maintenance', 'schedule_maintenance', 'next_maintenance', 'score', 'condition', 'degradation_factor', 'lifetime_hours', 'predicted_time_repair', 'difference_lifetime'
+        'fleet_id', 'name', 'group', 'last_maintenance', 'schedule_maintenance', 'next_maintenance', 'score', 'status', 'degradation_factor', 'lifetime_hours', 'predicted_time_repair', 'difference_lifetime'
     ];
 
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = [];
+    protected array $casts = [
+        'last_maintenance' => 'date',
+        'schedule_maintenance' => 'date',
+        'next_maintenance' => 'date'
+    ];
 
     /**
      * 

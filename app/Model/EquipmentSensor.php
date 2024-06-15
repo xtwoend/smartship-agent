@@ -31,6 +31,6 @@ class EquipmentSensor extends Model
      * treshold
      */
     public function treshold() {
-        $this->belongsTo(Sensor::class, 'sensor_id');
+        return $this->belongsTo(Sensor::class, 'sensor_id');
     }
 }
