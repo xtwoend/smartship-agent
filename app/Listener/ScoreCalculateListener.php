@@ -98,41 +98,42 @@ class ScoreCalculateListener implements ListenerInterface
                         }
                     }
                 }
-            }
-
-            $A40 = $equipment->sensors()->sum('abnormal_count');
-            $degradation_factor = exp(-0.1 * $A40);
-            $predicted_time_repair = 0;
-            $A38 = $equipment->sensors()->avg('performance');
-            $C41 = $equipment->lifetime_hours;
-            $B42 = $degradation_factor;
             
-            $M2 = 1;
-            $M3 = 0.75;
-            $M4 = 0.5;
 
-            if($A38 >= 80) {
-                $predicted_time_repair = $C41 * ($A38/100) * $B42 * $M2;
-                $status = 'normal';
-            }elseif($A38 >= 50 && $A38 < 80) {
-                $predicted_time_repair = $C41 * ($A38/100) * $B42 * $M3;
-                $status = 'attention';
-            }elseif($A38 < 50) {
-                $predicted_time_repair = $C41 * ($A38/100) * $B42 * $M4;
-                $status = 'warning';
+                $A40 = $equipment->sensors()->sum('abnormal_count');
+                $degradation_factor = exp(-0.1 * $A40);
+                $predicted_time_repair = 0;
+                $A38 = $equipment->sensors()->avg('performance');
+                $C41 = $equipment->lifetime_hours;
+                $B42 = $degradation_factor;
+                
+                $M2 = 1;
+                $M3 = 0.75;
+                $M4 = 0.5;
+
+                if($A38 >= 80) {
+                    $predicted_time_repair = $C41 * ($A38/100) * $B42 * $M2;
+                    $status = 'normal';
+                }elseif($A38 >= 50 && $A38 < 80) {
+                    $predicted_time_repair = $C41 * ($A38/100) * $B42 * $M3;
+                    $status = 'attention';
+                }elseif($A38 < 50) {
+                    $predicted_time_repair = $C41 * ($A38/100) * $B42 * $M4;
+                    $status = 'warning';
+                }
+
+                $B43 = $predicted_time_repair;
+                $difference_lifetime = ($B43 - $C41) / $C41;
+                $next_maintenance = $A40 > 0 ? $equipment->last_maintenance->addHours($predicted_time_repair) : ( ($status == 'normal')? $equipment->schedule_maintenance: null) ;
+
+                $equipment->update([
+                    'degradation_factor' => $degradation_factor,
+                    'predicted_time_repair' => $predicted_time_repair,
+                    'difference_lifetime' => $difference_lifetime,
+                    'status' => $status,
+                    'next_maintenance' => $next_maintenance
+                ]);
             }
-
-            $B43 = $predicted_time_repair;
-            $difference_lifetime = ($B43 - $C41) / $C41;
-            $next_maintenance = $A40 > 0 ? $equipment->last_maintenance->addHours($predicted_time_repair) : ( ($status == 'normal')? $equipment->schedule_maintenance: null) ;
-
-            $equipment->update([
-                'degradation_factor' => $degradation_factor,
-                'predicted_time_repair' => $predicted_time_repair,
-                'difference_lifetime' => $difference_lifetime,
-                'status' => $status,
-                'next_maintenance' => $next_maintenance
-            ]);
 
         } catch (\Throwable $th) {
             var_dump($th->getMessage());
