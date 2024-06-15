@@ -161,7 +161,8 @@ class ScoreCalculateListener implements ListenerInterface
                     'predicted_time_repair' => $predicted_time_repair,
                     'difference_lifetime' => $difference_lifetime,
                     'status' => $status,
-                    'next_maintenance' => $next_maintenance
+                    'next_maintenance' => $next_maintenance,
+                    'score' => $A38
                 ]);
             }
 
