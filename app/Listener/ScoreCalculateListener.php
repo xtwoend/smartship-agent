@@ -41,6 +41,49 @@ class ScoreCalculateListener implements ListenerInterface
 
     public function engine($model)
     {
+        try {
+            $equipments = Equipment::where('fleet_id', $model->fleet_id)->get();
+            foreach($equipments as $equipment) {
+                $sensors = $equipment->sensors()->with('treshold')->get();
+                foreach($sensors as $sensor) {
+                    $treshold = $sensor->treshold;
+                    if($treshold) {
+                        $val = $model->{$treshold->sensor_name};
+                        
+                        if(! is_null($val) && $val > $treshold->normal) {
+                            
+                            $abnormal_count = $sensor->abnormal_count;
+                            $total_value = $sensor->total_value;
+                            $count_value = $sensor->count_value;
+                            
+                            $total_value += $val;
+                            $count_value += 1;
+
+                            if ($val >= $treshold->danger) {
+                                $abnormal_count += 1;
+                            } 
+                            
+                            $avg = ($count_value > 0 && $total_value > $count_value) ? ($total_value / $count_value): 0;
+
+                            // rumus performance = 100 - (avg - normal) / (danger - normal) * 100
+                            $performance = ($avg >= $treshold->max_normal) ? (100 - (($avg - $treshold->normal) / ($treshold->danger - $treshold->normal))) : 100; 
+                            $performance = $avg < $treshold->danger ? $performance : 0;
+
+                            $sensor->update([
+                                'avg_value' => $avg,
+                                'abnormal_count' => $abnormal_count,
+                                'total_value' => $total_value,
+                                'count_value' => $count_value,
+                                'performance' => $performance,
+                            ]);
+                        }
+                    }
+                }
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
     }
 
@@ -48,20 +91,7 @@ class ScoreCalculateListener implements ListenerInterface
     {
         try {  
             $equipments = Equipment::where('fleet_id', $model->fleet_id)->get();
-            $performances = [
-                'normal' => [
-                    'range' => [80, 100],
-                    'bobot' => 1
-                ],
-                'attention' => [
-                    'range' => [50, 80],
-                    'bobot' => 0.75
-                ],
-                'warning' => [
-                    'range' => [0, 50],
-                    'bobot' => 0.5
-                ]
-            ];
+            
             foreach($equipments as $equipment) {
                 $sensors = $equipment->sensors()->with('treshold')->get();
                 foreach($sensors as $sensor) {
