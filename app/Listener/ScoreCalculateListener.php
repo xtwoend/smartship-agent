@@ -89,7 +89,7 @@ class ScoreCalculateListener implements ListenerInterface
 
     public function pump($model)
     {
-        try {  
+        // try {  
             $equipments = Equipment::where('fleet_id', $model->fleet_id)->get();
             
             foreach($equipments as $equipment) {
@@ -162,12 +162,12 @@ class ScoreCalculateListener implements ListenerInterface
                     'difference_lifetime' => $difference_lifetime,
                     'status' => $status,
                     'next_maintenance' => $next_maintenance,
-                    'score' => $A38
+                    'score' => $A38 ?: 0
                 ]);
             }
 
-        } catch (\Throwable $th) {
-            var_dump($th->getMessage());
-        }
+        // } catch (\Throwable $th) {
+        //     var_dump($th->getMessage());
+        // }
     }
 }

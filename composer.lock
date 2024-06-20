@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25da17d03881f7f7d28cc1796d7aebb0",
+    "content-hash": "c5a9fb52e6c3b0de2189951d6258513b",
     "packages": [
         {
             "name": "brick/math",
@@ -4528,6 +4528,72 @@
             }
         },
         {
+            "name": "smartship/krasak",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/krasak",
+                "reference": "914e8586baa4f55cc92958c4fa8ee35075344097"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Krasak\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Krasak\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship krasak",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "smartship/meditran",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/meditran",
+                "reference": "ed357f39d3a0f3a648b03e7aa34e3e05e13dd697"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Meditran\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Meditran\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship meditran",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/pg2",
             "version": "dev-main",
             "dist": {
@@ -8908,6 +8974,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "smartship/arafura": 20,
+        "smartship/bima": 20,
+        "smartship/meditran": 20,
         "smartship/pg2": 20,
         "smartship/taurus": 20,
         "xtwoend/hyperf-mqtt-client": 20

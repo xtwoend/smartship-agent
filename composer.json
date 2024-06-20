@@ -32,6 +32,8 @@
         "ramsey/uuid": "^4.7",
         "smartship/arafura": "dev-main",
         "smartship/bima": "dev-main",
+        "smartship/krasak": "dev-main",
+        "smartship/meditran": "dev-main",
         "smartship/pg2": "dev-main",
         "smartship/seipakning": "^1.0",
         "smartship/taurus": "dev-main",
@@ -107,6 +109,14 @@
         {
             "type": "path",
             "url": "./fleets/bima"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/krasak"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/meditran"
         }
     ]
 }
