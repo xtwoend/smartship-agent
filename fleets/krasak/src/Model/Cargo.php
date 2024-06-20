@@ -59,31 +59,41 @@ class Cargo extends Model
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
                 
-                // hanla
-                $table->float('no_1_cargo_tank_p')->default(0);
-                $table->float('temp_1ctp')->default(0);
-                $table->float('no_1_cargo_tank_s')->default(0);
-                $table->float('temp_1cts')->default(0);
-                $table->float('no_2_cargo_tank_p')->default(0);
-                $table->float('temp_2ctp')->default(0);
-                $table->float('no_2_cargo_tank_s')->default(0);
-                $table->float('temp_2cts')->default(0);
-                $table->float('no_3_cargo_tank_p')->default(0);
-                $table->float('temp_3ctp')->default(0);
-                $table->float('no_3_cargo_tank_s')->default(0);
-                $table->float('temp_3ctm')->default(0);
-                $table->float('no_4_cargo_tank_p')->default(0);
-                $table->float('temp_4ctp')->default(0);
-                $table->float('no_4_cargo_tank_s')->default(0);
-                $table->float('temp_4cts')->default(0);
-                $table->float('no_5_cargo_tank_p')->default(0);
-                $table->float('temp_5ctp')->default(0);
-                $table->float('no_5_cargo_tank_s')->default(0);
-                $table->float('temp_5cts')->default(0);
-                $table->float('slop_tank_p')->default(0);
-                $table->float('temp_stp')->default(0);
-                $table->float('slop_tank_s')->default(0);
-                $table->float('temp_sts')->default(0);
+                // cargo data
+                $table->datetime('cargo_timestamp')->nullable();
+                $table->float('temp_ballast1_driver_end_bearing_port')->default(0);
+                $table->float('temp_ballast1_trans_bearing_port')->default(0);
+                $table->float('temp_ballast2_driver_end_bearing_starboard')->default(0);
+                $table->float('temp_ballast2_trans_bearing_starboard')->default(0);
+                $table->float('temp_cargo2_pump_casing_center')->default(0);
+                $table->float('temp_cargo2_driver_end_bearing_center')->default(0);
+                $table->float('temp_cargo2_trans_bearing_center')->default(0);
+                $table->float('temp_cargo1_pump_casing_port')->default(0);
+                $table->float('temp_cargo1_driver_end_beearing_port')->default(0);
+                $table->float('temp_cargo1_trans_bearing_port')->default(0);
+                $table->float('temp_cargo3_pump_casing_starboard')->default(0);
+                $table->float('temp_cargo3_driver_end_bearing_startboard')->default(0);
+                $table->float('temp_cargo3_trans_bearing_port')->default(0);
+                $table->float('temp_stripping1_end_bearing_port')->default(0);
+                $table->float('temp_stripping1_driver_end_bearing_port')->default(0);
+                $table->float('temp_stripping1_trans_bearing_port')->default(0);
+                $table->float('temp_stripping2_end_bearing_startboard')->default(0);
+                $table->float('temp_stripping2_driver_end_bearing_startboard')->default(0);
+                $table->float('temp_stripping2_trans_bearing_startboard')->default(0);
+                $table->float('temp_cleanning_driver_end_bearing_port')->default(0);
+                $table->float('temp_cleanning_trans_bearing_port')->default(0);
+
+                // pump status
+                $table->datetime('cargo_pump_timestamp')->nullable();
+                $table->boolean('cleannig_pump_run')->default(false);
+                $table->boolean('stripping2_pump_port_run')->default(false);
+                $table->boolean('strriping1_pump_stbd_run')->default(false);
+                $table->boolean('cargo3_pump_port_run')->default(false);
+                $table->boolean('cargo2_pump_center_run')->default(false);
+                $table->boolean('cargo1_pump_stbd_run')->default(false);
+                $table->boolean('ballast2_pump_port_run')->default(false);
+                $table->boolean('ballast1_pump_stbd_run')->default(false);
+
 
                 $table->timestamps();
             });

@@ -21,7 +21,7 @@ class MQTTCargoListener implements ListenerInterface
 
     public function __construct(protected ContainerInterface $container)
     {
-        $this->redis = $container->get(\Redis::class);
+        // $this->redis = $container->get(\Redis::class);
     }
 
     public function listen(): array

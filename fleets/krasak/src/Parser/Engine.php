@@ -21,13 +21,15 @@ class Engine
         return [
             'engine' => [
                 'terminal_time' => (string) Carbon::now()->format('Y-m-d H:i:s'),
-                'me_lo_press_last_bearing' => (float) $data['me_lo_press_last_bearing'],
-                'me_cooliing_water_heater_inlet_pressure' => (float) $data['me_cooliing_water_heater_inlet_pressure'],
-                'gearbox_lo_pressure' => (float) $data['gearbox_lo_pressure'],
-                'me_starting_air_pressure' => (float) $data['me_starting_air_pressure'],
-                'me_fo_inlet_pressure' => (float) $data['me_fo_inlet_pressure'],
-                'me_cooling_water_lt_inlet_pressure' => (float) $data['me_cooling_water_lt_inlet_pressure'],
-                'gearbox_working_oil_pressure' => (float) $data['gearbox_working_oil_pressure'],
+                'me_fo_inlet_press' => (float) $data['me_fo_inlet_press'],
+                'no1_main_air_reservoir' => (float) $data['no1_main_air_reservoir'],
+                'no2_main_air_reservoir' => (float) $data['no2_main_air_reservoir'],
+                'me_lub_oil_inlet' => (float) $data['me_lub_oil_inlet'],
+                'me_control_air' => (float) $data['me_control_air'],
+                'me_starting_air' => (float) $data['me_starting_air'],
+                'me_charge_air_cylinder_inlet' => (float) $data['me_charge_air_cylinder_inlet'],
+                'me_cooling_sea_water_inlet' => (float) $data['me_cooling_sea_water_inlet'],
+                'me_cooling_fresh_water_inlet' => (float) $data['me_cooling_fresh_water_inlet'],
             ]
         ];
     }

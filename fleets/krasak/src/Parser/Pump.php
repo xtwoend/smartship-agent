@@ -21,13 +21,14 @@ class Pump
         return [
             'cargo' => [
                 'cargo_pump_timestamp' => (string) Carbon::now()->format('Y-m-d H:i:s'),
-                'cargo_pump1_run' => (float) $data['cargo_pump1_run'],
-                'cargo_pump2_run' => (float) $data['cargo_pump2_run'],
-                'cargo_pump3_run' => (float) $data['cargo_pump3_run'],
-                'wballast_pump1_run' => (float) $data['wballast_pump1_run'],
-                'wballast_pump2_run' => (float) $data['wballast_pump2_run'],
-                'tank_cleaning_pump1_run' => (float) $data['tank_cleaning_pump1_run'],
-                'tank_cleaning_pump2_run' => (float) $data['tank_cleaning_pump2_run'],
+                'cleannig_pump_run' => (int) $data['cleannig_pump_run'],
+                'stripping2_pump_port_run' => (int) $data['stripping2_pump_port_run'],
+                'strriping1_pump_stbd_run' => (int) $data['strriping1_pump_stbd_run'],
+                'cargo3_pump_port_run' => (int) $data['cargo3_pump_port_run'],
+                'cargo2_pump_center_run' => (int) $data['cargo2_pump_center_run'],
+                'cargo1_pump_stbd_run' => (int) $data['cargo1_pump_stbd_run'],
+                'ballast2_pump_port_run' => (int) $data['ballast2_pump_port_run'],
+                'ballast1_pump_stbd_run' => (int) $data['ballast1_pump_stbd_run'],
             ],
         ];
     }
