@@ -4,7 +4,7 @@ use function Hyperf\Support\env;
 
 return [
     'enable' => true,
-    'fleet_id' => 29,
+    'fleet_id' => 32,
     'fleet_model' => App\Model\Fleet::class,
     'logger' => App\Model\ErrorLog::class,
     'mqtt_connection' => [
@@ -18,10 +18,10 @@ return [
             'parser' => Smartship\Meditran\Parser\VDR::class,
             'model' => App\Model\Navigation::class,
         ],
-        // 'data/arafura/hanla/ccr' => [
-        //     'parser' => Smartship\Meditran\Parser\Hanla::class,
-        //     'model' => Smartship\Meditran\Model\Cargo::class,
-        // ],
+        'data/meditran/ccr/hanla' => [
+            'parser' => Smartship\Meditran\Parser\Hanla::class,
+            'model' => Smartship\Meditran\Model\Cargo::class,
+        ],
         // 'data/arafura/cargo/ccr' => [
         //     'parser' => Smartship\Meditran\Parser\Cargo::class,
         //     'model' => Smartship\Meditran\Model\Cargo::class,
