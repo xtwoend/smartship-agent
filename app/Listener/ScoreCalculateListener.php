@@ -89,7 +89,7 @@ class ScoreCalculateListener implements ListenerInterface
 
     public function pump($model)
     {
-        // try {  
+        try {  
             $equipments = Equipment::where('fleet_id', $model->fleet_id)->get();
             
             foreach($equipments as $equipment) {
@@ -99,7 +99,7 @@ class ScoreCalculateListener implements ListenerInterface
                     if($treshold) {
                         $val = $model->{$treshold->sensor_name};
                         
-                        if(! is_null($val) && $val > $treshold->normal) {
+                        if(! is_null($val) && $val >= $treshold->normal) {
                             
                             $abnormal_count = $sensor->abnormal_count;
                             $total_value = $sensor->total_value;
@@ -166,8 +166,8 @@ class ScoreCalculateListener implements ListenerInterface
                 ]);
             }
 
-        // } catch (\Throwable $th) {
-        //     var_dump($th->getMessage());
-        // }
+        } catch (\Throwable $th) {
+            var_dump($th->getMessage());
+        }
     }
 }
