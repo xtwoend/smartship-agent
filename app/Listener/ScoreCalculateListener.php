@@ -93,14 +93,16 @@ class ScoreCalculateListener implements ListenerInterface
             $equipments = Equipment::where('fleet_id', $model->fleet_id)->get();
             
             foreach($equipments as $equipment) {
+
+                // sensor di equipment
                 $sensors = $equipment->sensors()->with('treshold')->get();
                 foreach($sensors as $sensor) {
                     $treshold = $sensor->treshold;
                     if($treshold) {
                         $val = $model->{$treshold->sensor_name};
-                        
+                        // var_dump($treshold->normal);
                         if(! is_null($val) && $val >= $treshold->normal) {
-                            
+                            // var_dump('____ test ____');
                             $abnormal_count = $sensor->abnormal_count;
                             $total_value = $sensor->total_value;
                             $count_value = $sensor->count_value;
@@ -117,7 +119,7 @@ class ScoreCalculateListener implements ListenerInterface
                             // rumus performance = 100 - (avg - normal) / (danger - normal) * 100
                             $performance = ($avg >= $treshold->max_normal) ? (100 - (($avg - $treshold->normal) / ($treshold->danger - $treshold->normal))) : 100; 
                             $performance = $avg < $treshold->danger ? $performance : 0;
-
+                            
                             $sensor->update([
                                 'avg_value' => $avg,
                                 'abnormal_count' => $abnormal_count,
@@ -147,8 +149,8 @@ class ScoreCalculateListener implements ListenerInterface
                 }elseif($A38 >= 50 && $A38 < 80) {
                     $predicted_time_repair = $C41 * ($A38/100) * $B42 * $M3;
                     $status = 'attention';
-                }elseif($A38 < 50) {
-                    $predicted_time_repair = $C41 * ($A38/100) * $B42 * $M4;
+                }else{
+                    $predicted_time_repair = ($C41 * ($A38/100) * $B42 * $M4);
                     $status = 'warning';
                 }
 
