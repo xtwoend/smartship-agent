@@ -20,6 +20,7 @@ class Cargo
        
         return [
             'cargo' => [
+                'terminal_time' => (string) Carbon::now()->format('Y-m-d H:i:s'),
                 'cargo_timestamp' => (string) Carbon::now()->format('Y-m-d H:i:s'),
                 'pump_casing_temp_cop1' => (float) $data['pump_casing_temp_cop1'],
                 'pump_de_bearing_temp_cop1' => (float) $data['pump_de_bearing_temp_cop1'],
