@@ -23,7 +23,7 @@ use Hyperf\Database\Model\Events\Updating;
 class Cargo extends Model
 {
     use HasColumnTrait;
-    use CargoTankCalculate;
+    // use CargoTankCalculate;
 
     /**
      * The table associated with the model.
