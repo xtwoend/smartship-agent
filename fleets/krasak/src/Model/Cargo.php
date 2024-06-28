@@ -136,16 +136,16 @@ class Cargo extends Model
     }
 
     public ?array $tanks = [
-        'level_cot_1p_mt' => ['level_cot_1p', 'temp_cot_1p'],
-        'level_cot_1s_mt' => ['level_cot_1s', 'temp_cot_1s'],
-        'level_cot_2p_mt' => ['level_cot_2p', 'temp_cot_2p'],
-        'level_cot_2s_mt' => ['level_cot_2s', 'temp_cot_2s'],
-        'level_cot_3p_mt' => ['level_cot_3p', 'temp_cot_3p'],
-        'level_cot_3s_mt' => ['level_cot_3s', 'temp_cot_3s'],
-        'level_cot_4p_mt' => ['level_cot_4p', 'temp_cot_4p'],
-        'level_cot_4s_mt' => ['level_cot_4s', 'temp_cot_1s'],
-        'level_cot_5p_mt' => ['level_cot_5p', 'temp_cot_5p'],
-        'level_cot_5s_mt' => ['level_cot_5s', 'temp_cot_5s'],
+        // 'level_cot_1p_mt' => ['level_cot_1p', 'temp_cot_1p'],
+        // 'level_cot_1s_mt' => ['level_cot_1s', 'temp_cot_1s'],
+        // 'level_cot_2p_mt' => ['level_cot_2p', 'temp_cot_2p'],
+        // 'level_cot_2s_mt' => ['level_cot_2s', 'temp_cot_2s'],
+        // 'level_cot_3p_mt' => ['level_cot_3p', 'temp_cot_3p'],
+        // 'level_cot_3s_mt' => ['level_cot_3s', 'temp_cot_3s'],
+        // 'level_cot_4p_mt' => ['level_cot_4p', 'temp_cot_4p'],
+        // 'level_cot_4s_mt' => ['level_cot_4s', 'temp_cot_1s'],
+        // 'level_cot_5p_mt' => ['level_cot_5p', 'temp_cot_5p'],
+        // 'level_cot_5s_mt' => ['level_cot_5s', 'temp_cot_5s'],
     ];
 
 }
