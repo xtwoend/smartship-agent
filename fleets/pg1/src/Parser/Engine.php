@@ -23,7 +23,7 @@ class Engine
                 'terminal_time' => (string) Carbon::now()->format('Y-m-d H:i:s'),
                 // 
                 'me_fo_inlet_pressure' => (float) $data['me_fo_inlet_pressure'],
-                'me_scav_air_receiver_pressure' => (float) $data['me_scav_air_receiver_pressure'],
+                'me_scav_air_receiver_press' => (float) $data['me_scav_air_receiver_press'],
                 'me_lo_inlet_pressure' => (float) $data['me_lo_inlet_pressure'],
                 'me_starting_air_inlet_pressure' => (float) $data['me_starting_air_inlet_pressure'],
                 'me_jcw_inlet_pressure' => (float) $data['me_jcw_inlet_pressure'],
