@@ -34,6 +34,7 @@
         "smartship/bima": "dev-main",
         "smartship/krasak": "dev-main",
         "smartship/meditran": "dev-main",
+        "smartship/pg1": "dev-main",
         "smartship/pg2": "dev-main",
         "smartship/seipakning": "^1.0",
         "smartship/taurus": "dev-main",
@@ -105,6 +106,10 @@
         {
             "type": "path",
             "url": "./fleets/pg2"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/pg1"
         },
         {
             "type": "path",

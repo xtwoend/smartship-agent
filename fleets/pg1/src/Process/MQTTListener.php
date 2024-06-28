@@ -20,7 +20,7 @@ use Smartship\Pg1\Event\MQTTReceived;
 
 use function Hyperf\Config\config;
 
-#[Process(name: 'smartship-pg2', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
+#[Process(name: 'smartship-pg1', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
 class MQTTListener extends AbstractProcess
 {
     public function handle(): void
