@@ -1,0 +1,23 @@
+{
+    "name": "smartship/pg1",
+    "description": "Smartship Pertamina GAS I",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Smartship\\Pg1\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdul Hafidz Anshari",
+            "email": "aditans88@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "hyperf": {
+            "config": "Smartship\\Pg1\\ConfigProvider"
+        }
+    }
+}
