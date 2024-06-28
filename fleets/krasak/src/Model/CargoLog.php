@@ -108,57 +108,57 @@ class CargoLog extends Model
     // Calculate percentage cargo capacity
     public function cargoCapacity($model): void
     {
-        $cargoArray = [
-            'level_cot_1p',
-            'level_cot_1s',
-            'level_cot_2p',
-            'level_cot_2s',
-            'level_cot_3p',
-            'level_cot_3s',
-            'level_cot_4p',
-            'level_cot_4s',
-            'level_cot_5p',
-            'level_cot_5s',
-        ];
+        // $cargoArray = [
+        //     'level_cot_1p',
+        //     'level_cot_1s',
+        //     'level_cot_2p',
+        //     'level_cot_2s',
+        //     'level_cot_3p',
+        //     'level_cot_3s',
+        //     'level_cot_4p',
+        //     'level_cot_4s',
+        //     'level_cot_5p',
+        //     'level_cot_5s',
+        // ];
 
-        $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
+        // $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
         
 
-        $data = [];
-        foreach ($cargoArray as $c) {
-            if(! isset($sensors[$c])) continue;
-            $max = $sensors[$c];
-            $value = $model->{$c};
+        // $data = [];
+        // foreach ($cargoArray as $c) {
+        //     if(! isset($sensors[$c])) continue;
+        //     $max = $sensors[$c];
+        //     $value = $model->{$c};
 
-            $percentage = ($value <= $max) ? ($value / $max) : 0;
-            $data[$c] = (1 - $percentage);
-        }
+        //     $percentage = ($value <= $max) ? ($value / $max) : 0;
+        //     $data[$c] = (1 - $percentage);
+        // }
 
-        $totalPercentage = 0;
-        foreach ($data as $d) {
-            $totalPercentage += $d;
-        }
+        // $totalPercentage = 0;
+        // foreach ($data as $d) {
+        //     $totalPercentage += $d;
+        // }
 
-        $percentageCargo = $totalPercentage / count($cargoArray);
+        // $percentageCargo = $totalPercentage / count($cargoArray);
 
-        // save
-        $now = \Carbon\Carbon::now();
-        $fsr = \App\Model\FleetDailyReport::table($model->fleet_id)->where([
-            'fleet_id' => $model->fleet_id,
-            'date' => $now->format('Y-m-d'),
-            'sensor' => 'cargo_percentage',
-        ])->first();
+        // // save
+        // $now = \Carbon\Carbon::now();
+        // $fsr = \App\Model\FleetDailyReport::table($model->fleet_id)->where([
+        //     'fleet_id' => $model->fleet_id,
+        //     'date' => $now->format('Y-m-d'),
+        //     'sensor' => 'cargo_percentage',
+        // ])->first();
 
-        if (! $fsr) {
-            $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);
-            $fsr->fleet_id = $model->fleet_id;
-            $fsr->date = $now->format('Y-m-d');
-            $fsr->sensor = 'cargo_percentage';
-            $fsr->before = $percentageCargo;
-        }
+        // if (! $fsr) {
+        //     $fsr = \App\Model\FleetDailyReport::table($model->fleet_id);
+        //     $fsr->fleet_id = $model->fleet_id;
+        //     $fsr->date = $now->format('Y-m-d');
+        //     $fsr->sensor = 'cargo_percentage';
+        //     $fsr->before = $percentageCargo;
+        // }
 
-        $fsr->after = $percentageCargo;
-        $fsr->value = ($fsr->after - $fsr->before);
-        $fsr->save();
+        // $fsr->after = $percentageCargo;
+        // $fsr->value = ($fsr->after - $fsr->before);
+        // $fsr->save();
     }
 }
