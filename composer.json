@@ -33,6 +33,7 @@
         "smartship/arafura": "dev-main",
         "smartship/bima": "dev-main",
         "smartship/krasak": "dev-main",
+        "smartship/mauhau": "dev-main",
         "smartship/meditran": "dev-main",
         "smartship/pg1": "dev-main",
         "smartship/pg2": "dev-main",
@@ -122,6 +123,10 @@
         {
             "type": "path",
             "url": "./fleets/meditran"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/mauhau"
         }
     ]
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0367fe07ab9e19e2ce53ca95e42da271",
+    "content-hash": "6d3327a5c0f1523fc73f395ba63d73fc",
     "packages": [
         {
             "name": "brick/math",
@@ -4561,6 +4561,39 @@
             }
         },
         {
+            "name": "smartship/mauhau",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/mauhau",
+                "reference": "0cca046de465464dca810f5a5a091f54c235f22f"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Mauhau\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Mauhau\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina Mauhau",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/meditran",
             "version": "dev-main",
             "dist": {
@@ -9010,6 +9043,7 @@
         "smartship/bima": 20,
         "smartship/krasak": 20,
         "smartship/meditran": 20,
+        "smartship/pg1": 20,
         "smartship/pg2": 20,
         "smartship/taurus": 20,
         "xtwoend/hyperf-mqtt-client": 20
