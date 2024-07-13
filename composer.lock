@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1af772c472efd2a1d39f53009f3f4ffe",
+    "content-hash": "e1f53898b239ff7ebeb0d32513a054df",
     "packages": [
         {
             "name": "brick/math",
@@ -4693,6 +4693,39 @@
             }
         },
         {
+            "name": "smartship/merauke",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/merauke",
+                "reference": "bc3b37c2027e13b57d74a0905239f4ed97c84d8f"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Merauke\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Merauke\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina Merauke",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/musi",
             "version": "dev-main",
             "dist": {
@@ -9142,6 +9175,7 @@
         "smartship/arafura": 20,
         "smartship/bima": 20,
         "smartship/krasak": 20,
+        "smartship/matindok": 20,
         "smartship/mauhau": 20,
         "smartship/meditran": 20,
         "smartship/musi": 20,
