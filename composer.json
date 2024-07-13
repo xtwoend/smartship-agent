@@ -30,11 +30,14 @@
         "hyperf/redis": "^3.0",
         "hyperf/socketio-server": "^3.0",
         "ramsey/uuid": "^4.7",
+        "smartship/aquila": "dev-main",
         "smartship/arafura": "dev-main",
         "smartship/bima": "dev-main",
         "smartship/krasak": "dev-main",
+        "smartship/matindok": "dev-main",
         "smartship/mauhau": "dev-main",
         "smartship/meditran": "dev-main",
+        "smartship/musi": "dev-main",
         "smartship/pg1": "dev-main",
         "smartship/pg2": "dev-main",
         "smartship/seipakning": "^1.0",
@@ -127,6 +130,22 @@
         {
             "type": "path",
             "url": "./fleets/mauhau"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/aquila"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/musi"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/merauke"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/matindok"
         }
     ]
 }

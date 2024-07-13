@@ -1,0 +1,23 @@
+{
+    "name": "smartship/musi",
+    "description": "Smartship Pertamina MT Musi",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Smartship\\Musi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdul Hafidz Anshari",
+            "email": "aditans88@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "hyperf": {
+            "config": "Smartship\\Musi\\ConfigProvider"
+        }
+    }
+}

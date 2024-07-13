@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d3327a5c0f1523fc73f395ba63d73fc",
+    "content-hash": "1af772c472efd2a1d39f53009f3f4ffe",
     "packages": [
         {
             "name": "brick/math",
@@ -4462,6 +4462,39 @@
             "time": "2023-04-15T23:01:58+00:00"
         },
         {
+            "name": "smartship/aquila",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/aquila",
+                "reference": "2b19bc82b369b237d4efc5778d64cca94060d22f"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Aquila\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Aquila\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina Transko Aquila",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/arafura",
             "version": "dev-main",
             "dist": {
@@ -4561,6 +4594,39 @@
             }
         },
         {
+            "name": "smartship/matindok",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/matindok",
+                "reference": "ed666bb8000a91d31aa4f30a6c40178869ee24e5"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Matindok\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Matindok\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina MT Matindok",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/mauhau",
             "version": "dev-main",
             "dist": {
@@ -4622,6 +4688,39 @@
                 }
             ],
             "description": "Smartship meditran",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "smartship/musi",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/musi",
+                "reference": "6d35d42d45af11c908a2bfba6e9c8ddb0e7f7d94"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Musi\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Musi\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina MT Musi",
             "transport-options": {
                 "relative": true
             }
@@ -9039,10 +9138,13 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "smartship/aquila": 20,
         "smartship/arafura": 20,
         "smartship/bima": 20,
         "smartship/krasak": 20,
+        "smartship/mauhau": 20,
         "smartship/meditran": 20,
+        "smartship/musi": 20,
         "smartship/pg1": 20,
         "smartship/pg2": 20,
         "smartship/taurus": 20,

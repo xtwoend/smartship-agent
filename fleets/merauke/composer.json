@@ -1,0 +1,23 @@
+{
+    "name": "smartship/merauke",
+    "description": "Smartship Pertamina Merauke",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Smartship\\Merauke\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdul Hafidz Anshari",
+            "email": "aditans88@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "hyperf": {
+            "config": "Smartship\\Merauke\\ConfigProvider"
+        }
+    }
+}
