@@ -32,6 +32,7 @@
         "ramsey/uuid": "^4.7",
         "smartship/aquila": "dev-main",
         "smartship/arafura": "dev-main",
+        "smartship/aries": "dev-main",
         "smartship/bima": "dev-main",
         "smartship/krasak": "dev-main",
         "smartship/matindok": "dev-main",
@@ -147,6 +148,10 @@
         {
             "type": "path",
             "url": "./fleets/matindok"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/aries"
         }
     ]
 }

@@ -14,23 +14,23 @@ return [
         'password' => env('MQTT1_PASSWORD'),
     ],
     'topics' => [
-        'data/pg1/vdr/#' => [
+        'data/mauhau/vdr/#' => [
             'parser' => Smartship\Mauhau\Parser\VDR::class,
             'model' => App\Model\Navigation::class,
         ],
-        // 'data/pg1/ecr/engine' => [
+        // 'data/mauhau/ecr/engine' => [
         //     'parser' => Smartship\Mauhau\Parser\Engine::class,
         //     'model' => Smartship\Mauhau\Model\Engine::class,
         // ],
-        // 'data/arafura/hanla/ccr' => [
+        // 'data/mauhau/hanla/ccr' => [
         //     'parser' => Smartship\Pg2\Parser\Hanla::class,
         //     'model' => Smartship\Pg2\Model\Cargo::class,
         // ],
-        // 'data/arafura/cargo/ccr' => [
+        // 'data/mauhau/cargo/ccr' => [
         //     'parser' => Smartship\Pg2\Parser\Cargo::class,
         //     'model' => Smartship\Pg2\Model\Cargo::class,
         // ],
-        // 'data/arafura/pumpstatus/ccr' => [
+        // 'data/mauhau/pumpstatus/ccr' => [
         //     'parser' => Smartship\Pg2\Parser\Pump::class,
         //     'model' => Smartship\Pg2\Model\Cargo::class,
         // ]

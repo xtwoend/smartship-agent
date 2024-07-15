@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1f53898b239ff7ebeb0d32513a054df",
+    "content-hash": "6be3719661d56414944b5e153d46bab6",
     "packages": [
         {
             "name": "brick/math",
@@ -4523,6 +4523,39 @@
                 }
             ],
             "description": "Smartship Pertamina Arafura",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "smartship/aries",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/aries",
+                "reference": "39d450ca8aa30bea21e6c0f4f3557b83ebaa5afc"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Aries\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Aries\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina Transko Aries",
             "transport-options": {
                 "relative": true
             }
@@ -9178,6 +9211,7 @@
         "smartship/matindok": 20,
         "smartship/mauhau": 20,
         "smartship/meditran": 20,
+        "smartship/merauke": 20,
         "smartship/musi": 20,
         "smartship/pg1": 20,
         "smartship/pg2": 20,

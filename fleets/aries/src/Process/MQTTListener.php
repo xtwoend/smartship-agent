@@ -9,26 +9,26 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-namespace Smartship\Meditran\Process;
+namespace Smartship\Aries\Process;
 
 use Carbon\Carbon;
 use Hyperf\Stringable\Str;
 use PhpMqtt\Client\MqttClient;
 use Hyperf\Process\AbstractProcess;
 use Hyperf\Process\Annotation\Process;
-use Smartship\Meditran\Event\MQTTReceived;
+use Smartship\Aries\Event\MQTTReceived;
 
 use function Hyperf\Config\config;
 
-#[Process(name: 'smartship-meditran', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
+#[Process(name: 'smartship-aries', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
 class MQTTListener extends AbstractProcess
 {
     public function handle(): void
     {
-        $fleet_id = config('meditran.fleet_id');
-        $config = config('meditran.mqtt_connection');
+        $fleet_id = config('aries.fleet_id');
+        $config = config('aries.mqtt_connection');
         $clientId = Str::random(10);
-        $classLogger = config('meditran.logger');
+        $classLogger = config('aries.logger');
         
         $logger = class_exists($classLogger) ? new $classLogger : null;
         $event = $this->event;
@@ -40,13 +40,12 @@ class MQTTListener extends AbstractProcess
 
         $mqtt->connect($config, true);
 
-        $topics = config('meditran.topics', []);
+        $topics = config('aries.topics', []);
         foreach($topics as $topic => $handler) {
             $mqtt->subscribe($topic, function ($topic, $message) use ($logger, $event, $handler, $fleet_id) {
                 try {
                     $class = $handler['parser'];
                     $model = $handler['model'];
-                    
                     if (! class_exists($class) || ! class_exists($model)) {
                         return;
                     }
@@ -75,6 +74,6 @@ class MQTTListener extends AbstractProcess
 
     public function isEnable($server): bool
     {
-        return (bool) config('meditran.enable', false);
+        return (bool) config('aries.enable', false);
     }
 }

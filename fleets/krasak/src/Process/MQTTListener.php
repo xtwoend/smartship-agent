@@ -20,7 +20,7 @@ use Smartship\Krasak\Event\MQTTReceived;
 
 use function Hyperf\Config\config;
 
-#[Process(name: 'smartship-Meditran', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
+#[Process(name: 'smartship-krasak', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
 class MQTTListener extends AbstractProcess
 {
     public function handle(): void

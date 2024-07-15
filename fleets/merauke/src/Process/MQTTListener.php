@@ -20,7 +20,7 @@ use Smartship\Merauke\Event\MQTTReceived;
 
 use function Hyperf\Config\config;
 
-#[Process(name: 'smartship-arafura', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
+#[Process(name: 'smartship-merauke', redirectStdinStdout: false, pipeType: 1, nums: 1, enableCoroutine: false)]
 class MQTTListener extends AbstractProcess
 {
     public function handle(): void
