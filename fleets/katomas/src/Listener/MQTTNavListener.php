@@ -34,7 +34,7 @@ class MQTTNavListener implements ListenerInterface
     {   
         $fleetId = config('katomas.fleet_id', null);
         $fleet = $this->handler->fleet();
-
+        
         if ($event instanceof MQTTReceived && $fleetId) {
             $data = $event->data;
             $fleet = $fleet->find($fleetId);
