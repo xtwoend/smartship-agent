@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6be3719661d56414944b5e153d46bab6",
+    "content-hash": "a4722ac74b6f4518c8533155b28097f4",
     "packages": [
         {
             "name": "brick/math",
@@ -4589,6 +4589,39 @@
                 }
             ],
             "description": "Smartship Transko Bima",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "smartship/katomas",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/katomas",
+                "reference": "a4faa4a80db98f300d59f97edc1d0941a574d6bf"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Katomas\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Katomas\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina MT Katomas",
             "transport-options": {
                 "relative": true
             }
@@ -9206,6 +9239,7 @@
     "stability-flags": {
         "smartship/aquila": 20,
         "smartship/arafura": 20,
+        "smartship/aries": 20,
         "smartship/bima": 20,
         "smartship/krasak": 20,
         "smartship/matindok": 20,
