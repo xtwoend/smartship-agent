@@ -186,13 +186,14 @@ class Cargo extends Model
         $model = $event->getModel();
         // calculate cargo
         $cargoData = $this->calculate($model);
+        $this->terminal_time = Carbon::now()->format('Y-m-d H:i:s');
     
         foreach($cargoData as $k => $v) {
             $this->{$k} = $v;
         }
         
     }
-    
+
     // update & insert
     public function updated(Updated $event)
     {
