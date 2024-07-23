@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4722ac74b6f4518c8533155b28097f4",
+    "content-hash": "c79593a7a51bf784797fcde8aba33004",
     "packages": [
         {
             "name": "brick/math",
@@ -4891,6 +4891,39 @@
             }
         },
         {
+            "name": "smartship/plaju",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/plaju",
+                "reference": "0606e64783e27ff604c4c031b82e5320c6d7c470"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Plaju\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Plaju\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina MT. Plaju",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/seipakning",
             "version": "1.0.0",
             "dist": {
@@ -9241,6 +9274,7 @@
         "smartship/arafura": 20,
         "smartship/aries": 20,
         "smartship/bima": 20,
+        "smartship/katomas": 20,
         "smartship/krasak": 20,
         "smartship/matindok": 20,
         "smartship/mauhau": 20,

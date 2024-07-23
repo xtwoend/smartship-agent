@@ -1,0 +1,23 @@
+{
+    "name": "smartship/plaju",
+    "description": "Smartship Pertamina MT. Plaju",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Smartship\\Plaju\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdul Hafidz Anshari",
+            "email": "aditans88@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "hyperf": {
+            "config": "Smartship\\Plaju\\ConfigProvider"
+        }
+    }
+}
