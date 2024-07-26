@@ -12,10 +12,11 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
 
 class Pangkalanbrandan extends Model
 {
@@ -157,6 +158,12 @@ class Pangkalanbrandan extends Model
         }
 
         return $model->setTable($tableName);
+    }
+
+    public function updating(Updating $event) 
+    {
+        $this->terminal_time = Carbon::now()->format('Y-m-d H:i:s');
+        
     }
 
     // update & insert
