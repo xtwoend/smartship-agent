@@ -22,17 +22,17 @@ return [
             'parser' => Smartship\Pg1\Parser\Engine::class,
             'model' => Smartship\Pg1\Model\Engine::class,
         ],
-        // 'data/arafura/hanla/ccr' => [
-        //     'parser' => Smartship\Pg2\Parser\Hanla::class,
-        //     'model' => Smartship\Pg2\Model\Cargo::class,
+        // 'data/pg1/hanla/ccr' => [
+        //     'parser' => Smartship\Pg1\Parser\Hanla::class,
+        //     'model' => Smartship\Pg1\Model\Cargo::class,
         // ],
-        // 'data/arafura/cargo/ccr' => [
-        //     'parser' => Smartship\Pg2\Parser\Cargo::class,
-        //     'model' => Smartship\Pg2\Model\Cargo::class,
+        // 'data/pg1/cargo/ccr' => [
+        //     'parser' => Smartship\Pg1\Parser\Cargo::class,
+        //     'model' => Smartship\Pg1\Model\Cargo::class,
         // ],
-        // 'data/arafura/pumpstatus/ccr' => [
-        //     'parser' => Smartship\Pg2\Parser\Pump::class,
-        //     'model' => Smartship\Pg2\Model\Cargo::class,
+        // 'data/pg1/pumpstatus/ccr' => [
+        //     'parser' => Smartship\Pg1\Parser\Pump::class,
+        //     'model' => Smartship\Pg1\Model\Cargo::class,
         // ]
     ]
 ];

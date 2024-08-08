@@ -18,7 +18,7 @@ return [
             'parser' => Smartship\Krasak\Parser\VDR::class,
             'model' => App\Model\Navigation::class,
         ],
-        // 'data/meditran/ccr/hanla' => [
+        // 'data/krasak/ccr/hanla' => [
         //     'parser' => Smartship\Krasak\Parser\Hanla::class,
         //     'model' => Smartship\Krasak\Model\Cargo::class,
         // ],

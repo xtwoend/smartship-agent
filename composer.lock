@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bcd2cc8f88c939a505f93379a5cb37ea",
+    "content-hash": "31d5a989fa8754d41075825c5e770f52",
     "packages": [
         {
             "name": "brick/math",
@@ -4957,6 +4957,39 @@
             }
         },
         {
+            "name": "smartship/primaxp",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/primaxp",
+                "reference": "f99c1034ad9642374beaba108e2a97eb27dcc29b"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Primaxp\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Primaxp\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship primaxp",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/seipakning",
             "version": "1.0.0",
             "dist": {
@@ -9314,6 +9347,7 @@
         "smartship/meditran": 20,
         "smartship/merauke": 20,
         "smartship/musi": 20,
+        "smartship/pagaden": 20,
         "smartship/pg1": 20,
         "smartship/pg2": 20,
         "smartship/plaju": 20,

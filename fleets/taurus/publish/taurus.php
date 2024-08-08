@@ -22,11 +22,11 @@ return [
             'parser' => Smartship\Taurus\Parser\Engine::class,
             'model' => Smartship\Taurus\Model\Engine::class,
         ],
-        'data/arafura/cargo/ccr' => [
+        'data/taurus/cargo/ccr' => [
             'parser' => Smartship\Taurus\Parser\Cargo::class,
             'model' => Smartship\Taurus\Model\Cargo::class,
         ],
-        'data/arafura/pumpstatus/ccr' => [
+        'data/taurus/pumpstatus/ccr' => [
             'parser' => Smartship\Taurus\Parser\Pump::class,
             'model' => Smartship\Taurus\Model\Cargo::class,
         ]

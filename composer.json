@@ -45,6 +45,7 @@
         "smartship/pg1": "dev-main",
         "smartship/pg2": "dev-main",
         "smartship/plaju": "dev-main",
+        "smartship/primaxp": "dev-main",
         "smartship/seipakning": "^1.0",
         "smartship/taurus": "dev-main",
         "xtwoend/hyperf-mqtt-client": "^3.0@dev"
@@ -167,6 +168,10 @@
         {
             "type": "path",
             "url": "./fleets/pagaden"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/primaxp"
         }
     ]
 }

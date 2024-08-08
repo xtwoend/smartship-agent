@@ -22,11 +22,11 @@ return [
             'parser' => Smartship\Meditran\Parser\Hanla::class,
             'model' => Smartship\Meditran\Model\Cargo::class,
         ],
-        // 'data/arafura/cargo/ccr' => [
+        // 'data/meditran/cargo/ccr' => [
         //     'parser' => Smartship\Meditran\Parser\Cargo::class,
         //     'model' => Smartship\Meditran\Model\Cargo::class,
         // ],
-        // 'data/arafura/pumpstatus/ccr' => [
+        // 'data/meditran/pumpstatus/ccr' => [
         //     'parser' => Smartship\Meditran\Parser\Pump::class,
         //     'model' => Smartship\Meditran\Model\Cargo::class,
         // ]

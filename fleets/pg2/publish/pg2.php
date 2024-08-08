@@ -22,15 +22,15 @@ return [
             'parser' => Smartship\Pg2\Parser\Engine::class,
             'model' => Smartship\Pg2\Model\Engine::class,
         ],
-        // 'data/arafura/hanla/ccr' => [
+        // 'data/pg2/hanla/ccr' => [
         //     'parser' => Smartship\Pg2\Parser\Hanla::class,
         //     'model' => Smartship\Pg2\Model\Cargo::class,
         // ],
-        // 'data/arafura/cargo/ccr' => [
+        // 'data/pg2/cargo/ccr' => [
         //     'parser' => Smartship\Pg2\Parser\Cargo::class,
         //     'model' => Smartship\Pg2\Model\Cargo::class,
         // ],
-        // 'data/arafura/pumpstatus/ccr' => [
+        // 'data/pg2/pumpstatus/ccr' => [
         //     'parser' => Smartship\Pg2\Parser\Pump::class,
         //     'model' => Smartship\Pg2\Model\Cargo::class,
         // ]
