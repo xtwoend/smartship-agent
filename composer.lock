@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c79593a7a51bf784797fcde8aba33004",
+    "content-hash": "bcd2cc8f88c939a505f93379a5cb37ea",
     "packages": [
         {
             "name": "brick/math",
@@ -4825,6 +4825,39 @@
             }
         },
         {
+            "name": "smartship/pagaden",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/pagaden",
+                "reference": "5d64d37e6a7c04d2a74e23ca0dc550d3e55e3268"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Pagaden\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Pagaden\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship pagaden",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/pg1",
             "version": "dev-main",
             "dist": {
@@ -9283,6 +9316,7 @@
         "smartship/musi": 20,
         "smartship/pg1": 20,
         "smartship/pg2": 20,
+        "smartship/plaju": 20,
         "smartship/taurus": 20,
         "xtwoend/hyperf-mqtt-client": 20
     },
