@@ -14,19 +14,19 @@ return [
         'password' => env('MQTT1_PASSWORD'),
     ],
     'topics' => [
-        'data/meditran/vdr/#' => [
+        'data/pagaden/vdr/#' => [
             'parser' => Smartship\Pagaden\Parser\VDR::class,
             'model' => App\Model\Navigation::class,
         ],
-        'data/meditran/ccr/hanla' => [
-            'parser' => Smartship\Pagaden\Parser\Hanla::class,
-            'model' => Smartship\Pagaden\Model\Cargo::class,
-        ],
-        // 'data/arafura/cargo/ccr' => [
+        // 'data/pagaden/ccr/hanla' => [
+        //     'parser' => Smartship\Pagaden\Parser\Hanla::class,
+        //     'model' => Smartship\Pagaden\Model\Cargo::class,
+        // ],
+        // 'data/pagaden/cargo/ccr' => [
         //     'parser' => Smartship\Pagaden\Parser\Cargo::class,
         //     'model' => Smartship\Pagaden\Model\Cargo::class,
         // ],
-        // 'data/arafura/pumpstatus/ccr' => [
+        // 'data/pagaden/pumpstatus/ccr' => [
         //     'parser' => Smartship\Pagaden\Parser\Pump::class,
         //     'model' => Smartship\Pagaden\Model\Cargo::class,
         // ]

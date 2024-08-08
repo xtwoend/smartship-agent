@@ -18,17 +18,17 @@ return [
             'parser' => Smartship\Primaxp\Parser\VDR::class,
             'model' => App\Model\Navigation::class,
         ],
-        'data/primaxp/ecr/engine' => [
-            'parser' => Smartship\Primaxp\Parser\Engine::class,
-            'model' => Smartship\Primaxp\Model\Engine::class,
-        ],
-        'data/primaxp/cargo/ccr' => [
-            'parser' => Smartship\Primaxp\Parser\Cargo::class,
-            'model' => Smartship\Primaxp\Model\Cargo::class,
-        ],
-        'data/primaxp/pumpstatus/ccr' => [
-            'parser' => Smartship\Primaxp\Parser\Pump::class,
-            'model' => Smartship\Primaxp\Model\Cargo::class,
-        ]
+        // 'data/primaxp/ecr/engine' => [
+        //     'parser' => Smartship\Primaxp\Parser\Engine::class,
+        //     'model' => Smartship\Primaxp\Model\Engine::class,
+        // ],
+        // 'data/primaxp/cargo/ccr' => [
+        //     'parser' => Smartship\Primaxp\Parser\Cargo::class,
+        //     'model' => Smartship\Primaxp\Model\Cargo::class,
+        // ],
+        // 'data/primaxp/pumpstatus/ccr' => [
+        //     'parser' => Smartship\Primaxp\Parser\Pump::class,
+        //     'model' => Smartship\Primaxp\Model\Cargo::class,
+        // ]
     ]
 ];
