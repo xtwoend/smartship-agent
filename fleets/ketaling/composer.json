@@ -1,6 +1,6 @@
 {
-    "name": "smartship/primaxp",
-    "description": "Smartship primaxp",
+    "name": "smartship/ketaling",
+    "description": "Smartship ketaling",
     "type": "library",
     "license": "MIT",
     "autoload": {

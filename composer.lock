@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31d5a989fa8754d41075825c5e770f52",
+    "content-hash": "2ec526a78ba9b94bff2e7a387080a7cd",
     "packages": [
         {
             "name": "brick/math",
@@ -4622,6 +4622,39 @@
                 }
             ],
             "description": "Smartship Pertamina MT Katomas",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "smartship/ketaling",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/ketaling",
+                "reference": "dbf914be96a7d57e92e7d027bbaca986d03213d4"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Ketaling\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Ketaling\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship ketaling",
             "transport-options": {
                 "relative": true
             }
@@ -9351,6 +9384,7 @@
         "smartship/pg1": 20,
         "smartship/pg2": 20,
         "smartship/plaju": 20,
+        "smartship/primaxp": 20,
         "smartship/taurus": 20,
         "xtwoend/hyperf-mqtt-client": 20
     },

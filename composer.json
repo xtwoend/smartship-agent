@@ -35,6 +35,7 @@
         "smartship/aries": "dev-main",
         "smartship/bima": "dev-main",
         "smartship/katomas": "dev-main",
+        "smartship/ketaling": "dev-main",
         "smartship/krasak": "dev-main",
         "smartship/matindok": "dev-main",
         "smartship/mauhau": "dev-main",
@@ -172,6 +173,10 @@
         {
             "type": "path",
             "url": "./fleets/primaxp"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/ketaling"
         }
     ]
 }
