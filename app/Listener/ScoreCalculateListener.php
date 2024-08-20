@@ -49,8 +49,9 @@ class ScoreCalculateListener implements ListenerInterface
                     $treshold = $sensor->treshold;
                     if($treshold) {
                         $val = $model->{$treshold->sensor_name};
+                        $triggerSensor = $model->{$sensor->sensor_trigger};
                         
-                        if(! is_null($val) && $val >= $sensor->sensor_trigger_value) {
+                        if(! is_null($triggerSensor) && $triggerSensor >= $sensor->sensor_trigger_value) {
                             
                             $abnormal_count = $sensor->abnormal_count;
                             $total_value = $sensor->total_value;
