@@ -19,7 +19,7 @@ class EquipmentSensor extends Model
      * The attributes that are mass assignable.
      */
     protected array $fillable = [
-        'equipment_id', 'sensor_id', 'trigger_value', 'mode', 'avg_value', 'performance', 'abnormal_count', 'total_value', 'count_value', 'sensor_trigger', 'sensor_trigger_value'
+        'equipment_id', 'sensor_id', 'mode', 'avg_value', 'performance', 'abnormal_count', 'total_value', 'count_value', 'sensor_trigger', 'sensor_trigger_value'
     ];
 
     /**
