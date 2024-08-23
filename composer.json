@@ -34,6 +34,7 @@
         "smartship/arafura": "dev-main",
         "smartship/aries": "dev-main",
         "smartship/bima": "dev-main",
+        "smartship/gasparta2": "dev-main",
         "smartship/katomas": "dev-main",
         "smartship/ketaling": "dev-main",
         "smartship/krasak": "dev-main",
@@ -177,6 +178,10 @@
         {
             "type": "path",
             "url": "./fleets/ketaling"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/gasparta2"
         }
     ]
 }

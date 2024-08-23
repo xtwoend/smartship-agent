@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ec526a78ba9b94bff2e7a387080a7cd",
+    "content-hash": "96e8b69930076961b7781bf27ece664c",
     "packages": [
         {
             "name": "brick/math",
@@ -4589,6 +4589,39 @@
                 }
             ],
             "description": "Smartship Transko Bima",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "smartship/gasparta2",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/gasparta2",
+                "reference": "d4a314a7b3000efb51d91d56de3e92496bb0bab5"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Gasparta2\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Gasparta2\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina GAS Parta II",
             "transport-options": {
                 "relative": true
             }
@@ -9374,6 +9407,7 @@
         "smartship/aries": 20,
         "smartship/bima": 20,
         "smartship/katomas": 20,
+        "smartship/ketaling": 20,
         "smartship/krasak": 20,
         "smartship/matindok": 20,
         "smartship/mauhau": 20,
