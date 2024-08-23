@@ -1,0 +1,23 @@
+{
+    "name": "smartship/gasparta2",
+    "description": "Smartship Pertamina GAS Parta II",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Smartship\\Gasparta2\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdul Hafidz Anshari",
+            "email": "aditans88@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "hyperf": {
+            "config": "Smartship\\Gasparta2\\ConfigProvider"
+        }
+    }
+}
