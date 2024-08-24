@@ -14,7 +14,7 @@ return [
         'password' => env('MQTT1_PASSWORD'),
     ],
     'topics' => [
-        'data/gasparta2/vdr/#' => [
+        'data/gaspatra2/vdr/#' => [
             'parser' => Smartship\Gasparta2\Parser\VDR::class,
             'model' => App\Model\Navigation::class,
         ],

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-namespace Smartship\Gasparta2\Parser;
+namespace Smartship\Aquila\Parser;
 
 use Carbon\Carbon;
 
