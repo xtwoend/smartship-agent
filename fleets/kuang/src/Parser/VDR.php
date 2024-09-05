@@ -45,9 +45,34 @@ class VDR
             $parse = $this->parseROT($this->message);
         } elseif (str_contains($this->message, 'GPRMB')) {
             $parse = $this->parseGPSMB($this->message);
+        } elseif (str_contains($this->message, 'GGA')) {
+            $parse = $this->parseGPSGGA($this->message);
         }
 
         return $parse;
+    }
+
+    protected function parseGPSGGA(string $message, $header = 'GGA')
+    {
+        // $GPGGA,071231.06,0651.4135,S,11245.5021,E,1,11,01,+0033,M,+019,M,,*52
+
+        $aData = explode(',', $message);
+       
+        $lat = $aData[2];
+        $latDir = $aData[3];
+        $lng = $aData[4];
+        $lngDir = $aData[5];
+      
+        $lng = $this->_longitude($lng, $lngDir);
+        $lat = $this->_latitude($lat, $latDir);
+        
+        return [
+            'lat' => (float) $lat[0],
+            'lat_dir' => (string) $latDir,
+            'lng' => (float) $lng[0],
+            'lng_dir' => (string) $lngDir,
+            'gps_raw' => (string) $message,
+        ];
     }
 
     public function parseMWV(string $message)
