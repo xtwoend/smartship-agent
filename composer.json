@@ -37,7 +37,9 @@
         "smartship/gasparta2": "dev-main",
         "smartship/katomas": "dev-main",
         "smartship/ketaling": "dev-main",
+        "smartship/klasogun": "dev-main",
         "smartship/krasak": "dev-main",
+        "smartship/kuang": "dev-main",
         "smartship/matindok": "dev-main",
         "smartship/mauhau": "dev-main",
         "smartship/meditran": "dev-main",
@@ -182,6 +184,14 @@
         {
             "type": "path",
             "url": "./fleets/gasparta2"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/klasogun"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/kuang"
         }
     ]
 }

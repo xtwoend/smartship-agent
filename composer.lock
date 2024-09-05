@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "96e8b69930076961b7781bf27ece664c",
+    "content-hash": "b80107576966688bf45b3a51b0910d11",
     "packages": [
         {
             "name": "brick/math",
@@ -4693,6 +4693,39 @@
             }
         },
         {
+            "name": "smartship/klasogun",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/klasogun",
+                "reference": "0fcbb8ab39eb52b6617f92323749da1573d928af"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Klasogun\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Klasogun\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship klasogun",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/krasak",
             "version": "dev-main",
             "dist": {
@@ -4721,6 +4754,39 @@
                 }
             ],
             "description": "Smartship krasak",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "smartship/kuang",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/kuang",
+                "reference": "c1b2bc427192de15e1fb39a211dbfaa1e5a011bd"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Kuang\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Kuang\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Pertamina MT Kuang",
             "transport-options": {
                 "relative": true
             }
@@ -9406,8 +9472,10 @@
         "smartship/arafura": 20,
         "smartship/aries": 20,
         "smartship/bima": 20,
+        "smartship/gasparta2": 20,
         "smartship/katomas": 20,
         "smartship/ketaling": 20,
+        "smartship/klasogun": 20,
         "smartship/krasak": 20,
         "smartship/matindok": 20,
         "smartship/mauhau": 20,

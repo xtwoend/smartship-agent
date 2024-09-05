@@ -1,0 +1,23 @@
+{
+    "name": "smartship/kuang",
+    "description": "Smartship Pertamina MT Kuang",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Smartship\\Kuang\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdul Hafidz Anshari",
+            "email": "aditans88@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "hyperf": {
+            "config": "Smartship\\Kuang\\ConfigProvider"
+        }
+    }
+}
