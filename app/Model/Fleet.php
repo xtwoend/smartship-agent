@@ -18,6 +18,7 @@ use Hyperf\DbConnection\Db;
 use App\Model\Engine\Engine;
 use App\Model\Cargo\CargoTrait;
 use App\Model\Engine\EngineTrait;
+use App\Model\CargoPump\CargoPump;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use App\Model\CargoPump\CargoPumpTrait;
