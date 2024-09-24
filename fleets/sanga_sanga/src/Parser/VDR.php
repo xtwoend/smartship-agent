@@ -27,8 +27,8 @@ class VDR
     public function parse()
     {
         $parse = null;
-        if (str_contains($this->message, 'GPRMC')) {
-            $parse = $this->parseGPS($this->message);
+        if (str_contains($this->message, 'GPGGA')) {
+            $parse = $this->parseGGA($this->message);
         } elseif (str_contains($this->message, 'HDT')) {
             $parse = $this->parseHeading($this->message);
         } elseif (str_contains($this->message, 'MWV')) {
@@ -119,6 +119,27 @@ class VDR
         $lng = $aData[8];
         $lngDir = $aData[9];
       
+        $lng = $this->_longitude($lng, $lngDir);
+        $lat = $this->_latitude($lat, $latDir);
+
+        return [
+            'lat' => (float) $lat[0],
+            'lat_dir' => (string) $latDir,
+            'lng' => (float) $lng[0],
+            'lng_dir' => (string) $lngDir,
+            'gps_raw' => (string) $message,
+        ];
+    }
+
+    protected function parseGGA(string $message, $header = 'GGA')
+    {
+        $aData = explode(',', $message);
+
+        $lat = $aData[2];
+        $latDir = $aData[3];
+        $lng = $aData[4];
+        $lngDir = $aData[5];
+
         $lng = $this->_longitude($lng, $lngDir);
         $lat = $this->_latitude($lat, $latDir);
 

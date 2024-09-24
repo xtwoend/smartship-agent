@@ -11,15 +11,16 @@ declare(strict_types=1);
  */
 namespace App\Model;
 
+use Carbon\Carbon;
 use App\Model\Alarm\Alarm;
 use App\Model\Cargo\Cargo;
-use App\Model\Cargo\CargoTrait;
-use App\Model\CargoPump\CargoPumpTrait;
+use Hyperf\DbConnection\Db;
 use App\Model\Engine\Engine;
+use App\Model\Cargo\CargoTrait;
 use App\Model\Engine\EngineTrait;
-use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\CargoPump\CargoPumpTrait;
 
 class Fleet extends Model
 {
@@ -71,15 +72,23 @@ class Fleet extends Model
         return null;
     }
 
-    public function setNav(array $data)
+    public function setNav(array $data, $id = null)
     {
+        $id = is_null($id) ? $this->id : $id;
         if (isset($data['nav']) && is_array($data['nav'])) {
             $m = (array) $data['nav'];
             $m = array_merge($m, ['terminal_time' => Carbon::now()->format('Y-m-d H:i:s')]);
-            
+                
+            // Db::transaction(function () use ($id, $m) {
+            //     var_dump($id, $m[''])
+            //     Db::table('navigations')->updateOrInsert([
+            //         'fleet_id' => $id
+            //     ], $m);
+            // });
+
             if(is_array($m)) {
-                $log = $this->navigation()->updateOrCreate([
-                    'fleet_id' => $this->id,
+                $log = Navigation::updateOrCreate([
+                    'fleet_id' => $id,
                 ], $m);
 
                 return $log;
