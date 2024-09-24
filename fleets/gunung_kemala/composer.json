@@ -1,0 +1,23 @@
+{
+    "name": "smartship/gunung-kemala",
+    "description": "Smartship gunung kemala",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Smartship\\GunungKemala\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdul Hafidz Anshari",
+            "email": "aditans88@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "hyperf": {
+            "config": "Smartship\\GunungKemala\\ConfigProvider"
+        }
+    }
+}

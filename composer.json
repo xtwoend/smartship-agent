@@ -35,6 +35,7 @@
         "smartship/aries": "dev-main",
         "smartship/bima": "dev-main",
         "smartship/gasparta2": "dev-main",
+        "smartship/gunung-kemala": "dev-main",
         "smartship/katomas": "dev-main",
         "smartship/ketaling": "dev-main",
         "smartship/klasogun": "dev-main",
@@ -50,6 +51,7 @@
         "smartship/pg2": "dev-main",
         "smartship/plaju": "dev-main",
         "smartship/primaxp": "dev-main",
+        "smartship/sanga-sanga": "dev-main",
         "smartship/seipakning": "^1.0",
         "smartship/taurus": "dev-main",
         "xtwoend/hyperf-mqtt-client": "^3.0@dev"
@@ -192,6 +194,14 @@
         {
             "type": "path",
             "url": "./fleets/kuang"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/gunung_kemala"
+        },
+        {
+            "type": "path",
+            "url": "./fleets/sanga_sanga"
         }
     ]
 }

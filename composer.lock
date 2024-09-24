@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b80107576966688bf45b3a51b0910d11",
+    "content-hash": "526122f2de6b93b1ea3128db339cf214",
     "packages": [
         {
             "name": "brick/math",
@@ -4627,6 +4627,39 @@
             }
         },
         {
+            "name": "smartship/gunung-kemala",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/gunung_kemala",
+                "reference": "aa9df4496272a50896adec9a102cc48f2fc01efb"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\GunungKemala\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\GunungKemala\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship gunung kemala",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/katomas",
             "version": "dev-main",
             "dist": {
@@ -5117,6 +5150,39 @@
                 }
             ],
             "description": "Smartship primaxp",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "smartship/sanga-sanga",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/sanga_sanga",
+                "reference": "631a3b72ee605dd8271248d6046ab94cb8d48bf1"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\SangaSanga\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\SangaSanga\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Sanga Sanga",
             "transport-options": {
                 "relative": true
             }
@@ -9473,10 +9539,12 @@
         "smartship/aries": 20,
         "smartship/bima": 20,
         "smartship/gasparta2": 20,
+        "smartship/gunung-kemala": 20,
         "smartship/katomas": 20,
         "smartship/ketaling": 20,
         "smartship/klasogun": 20,
         "smartship/krasak": 20,
+        "smartship/kuang": 20,
         "smartship/matindok": 20,
         "smartship/mauhau": 20,
         "smartship/meditran": 20,
