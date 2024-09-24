@@ -1,0 +1,23 @@
+{
+    "name": "smartship/sengeti",
+    "description": "Smartship Sengeti",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Smartship\\Sengeti\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdul Hafidz Anshari",
+            "email": "aditans88@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "hyperf": {
+            "config": "Smartship\\Sengeti\\ConfigProvider"
+        }
+    }
+}

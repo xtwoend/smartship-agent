@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "526122f2de6b93b1ea3128db339cf214",
+    "content-hash": "95c77a41c522c28c1418b366be8a9018",
     "packages": [
         {
             "name": "brick/math",
@@ -5002,6 +5002,39 @@
             }
         },
         {
+            "name": "smartship/klawotong",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/klawotong",
+                "reference": "565078b22deb170446a845a541dea23ccf64e19a"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Klawotong\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Klawotong\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Klawotong",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "smartship/krasak",
             "version": "dev-main",
             "dist": {
@@ -5459,6 +5492,39 @@
                 }
             ],
             "description": "Agent Smartship For Sei Pakning",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "smartship/sengeti",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./fleets/sengeti",
+                "reference": "437878c3decd7b56cb3134b204a2e131942f3d9c"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Smartship\\Sengeti\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Smartship\\Sengeti\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul Hafidz Anshari",
+                    "email": "aditans88@gmail.com"
+                }
+            ],
+            "description": "Smartship Sengeti",
             "transport-options": {
                 "relative": true
             }
@@ -10322,6 +10388,7 @@
         "smartship/katomas": 20,
         "smartship/ketaling": 20,
         "smartship/klasogun": 20,
+        "smartship/klawotong": 20,
         "smartship/krasak": 20,
         "smartship/kuang": 20,
         "smartship/matindok": 20,

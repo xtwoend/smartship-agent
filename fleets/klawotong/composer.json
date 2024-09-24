@@ -1,0 +1,23 @@
+{
+    "name": "smartship/klawotong",
+    "description": "Smartship Klawotong",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Smartship\\Klawotong\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdul Hafidz Anshari",
+            "email": "aditans88@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "hyperf": {
+            "config": "Smartship\\Klawotong\\ConfigProvider"
+        }
+    }
+}

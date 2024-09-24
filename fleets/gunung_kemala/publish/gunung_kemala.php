@@ -4,7 +4,7 @@ use function Hyperf\Support\env;
 
 return [
     'enable' => true,
-    'fleet_id' => 43,
+    'fleet_id' => 48,
     'fleet_model' => App\Model\Fleet::class,
     'logger' => App\Model\ErrorLog::class,
     'mqtt_connection' => [
