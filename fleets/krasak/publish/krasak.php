@@ -26,7 +26,7 @@ return [
             'parser' => Smartship\Krasak\Parser\Cargo::class,
             'model' => Smartship\Krasak\Model\Cargo::class,
         ],
-        'data/krasak/ccr/pump_status' => [
+        'data/krasak/ccr/pumpstatus' => [
             'parser' => Smartship\Krasak\Parser\Pump::class,
             'model' => Smartship\Krasak\Model\Cargo::class,
         ],
