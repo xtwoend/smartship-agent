@@ -20,6 +20,7 @@ class Pump
 
         return [
             'cargo' => [
+                'terminal_time' => (string) Carbon::now()->format('Y-m-d H:i:s'),
                 'cargo_pump_timestamp' => (string) Carbon::now()->format('Y-m-d H:i:s'),
                 'cleannig_pump_run' => (int) $data['CLEANNIG_PUMP_RUN'],
                 'stripping2_pump_port_run' => (int) $data['STRIPPING2_PUMP_PORT_RUN'],
