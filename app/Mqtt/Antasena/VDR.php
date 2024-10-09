@@ -41,6 +41,8 @@ class VDR
             $parse = $this->parseDPT($this->message);
         } elseif (str_contains($this->message, 'ROT')) {
             $parse = $this->parseROT($this->message);
+        } elseif (str_contains($this->message, 'GLL')) {
+            $parse = $this->parseGLL($this->message);
         }
 
         return $parse;
@@ -116,6 +118,27 @@ class VDR
         $latDir = $aData[3];
         $lng = $aData[4];
         $lngDir = $aData[5]; // satellites count
+
+        $lng = $this->_longitude($lng, $lngDir);
+        $lat = $this->_latitude($lat, $latDir);
+
+        return [
+            'lat' => (float) $lat[0],
+            'lat_dir' => (string) $latDir,
+            'lng' => (float) $lng[0],
+            'lng_dir' => (string) $lngDir,
+            'gps_raw' => (string) $message,
+        ];
+    }
+
+    protected function parseGGL(string $message)
+    {
+        $aData = explode(',', $message);
+
+        $lat = $aData[1];
+        $latDir = $aData[2];
+        $lng = $aData[3];
+        $lngDir = $aData[4]; // satellites count
 
         $lng = $this->_longitude($lng, $lngDir);
         $lat = $this->_latitude($lat, $latDir);
