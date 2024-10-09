@@ -131,7 +131,7 @@ class VDR
         ];
     }
 
-    protected function parseGGL(string $message)
+    protected function parseGLL(string $message)
     {
         $aData = explode(',', $message);
 
