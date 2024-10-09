@@ -26,7 +26,7 @@ class VDR
     {
         $parse = null;
         if (str_contains($this->message, 'GGA')) {
-            $parse = $this->parseGPS($this->message);
+            // $parse = $this->parseGPS($this->message);
         } elseif (str_contains($this->message, 'HDT')) {
             $parse = $this->parseHeading($this->message);
         } elseif (str_contains($this->message, 'MWV')) {
