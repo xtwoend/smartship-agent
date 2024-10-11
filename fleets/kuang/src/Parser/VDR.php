@@ -28,7 +28,7 @@ class VDR
     {
         $parse = null;
         if (str_contains($this->message, 'GPRMC')) {
-            $parse = $this->parseGPS($this->message);
+            // $parse = $this->parseGPS($this->message);
         } elseif (str_contains($this->message, 'HDT')) {
             $parse = $this->parseHeading($this->message);
         } elseif (str_contains($this->message, 'MWV')) {
@@ -44,7 +44,7 @@ class VDR
         } elseif (str_contains($this->message, 'ROT')) {
             $parse = $this->parseROT($this->message);
         } elseif (str_contains($this->message, 'GPRMB')) {
-            $parse = $this->parseGPSMB($this->message);
+            // $parse = $this->parseGPSMB($this->message);
         } elseif (str_contains($this->message, 'GGA')) {
             $parse = $this->parseGPSGGA($this->message);
         }
