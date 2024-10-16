@@ -42,6 +42,7 @@ class AvgSpeedCalcCommand extends HyperfCommand
         foreach ($fleets as $fleet) {
             $avg = NavigationLog::table($fleet->id, $date)->where('sog', '>=', 2)->where('sog', '<=', 30)->avg('sog');
             $max_speed = NavigationLog::table($fleet->id, $date)->where('sog', '>=', 2)->where('sog', '<=', 30)->max('sog');
+            
             $fsr = FleetDailyReport::table($fleet->id)->where([
                 'fleet_id' => $fleet->id,
                 'date' => $date,
