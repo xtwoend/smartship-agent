@@ -72,6 +72,8 @@ class EngineLog extends Model
                 $table->timestamps();
             });
         }
+        
+        $model->addColumn($tableName);
 
         return $model->setTable($tableName);
     }

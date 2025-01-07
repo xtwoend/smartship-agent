@@ -122,6 +122,8 @@ class KakapLog extends Model
             });
         }
 
+        $model->addColumn($tableName);
+
         return $model->setTable($tableName);
     }
 }

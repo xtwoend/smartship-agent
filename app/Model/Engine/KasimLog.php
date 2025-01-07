@@ -92,6 +92,8 @@ class KasimLog extends Model
             });
         }
 
+        $model->addColumn($tableName);
+
         return $model->setTable($tableName);
     }
 }

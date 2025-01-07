@@ -73,6 +73,8 @@ class EngineLog extends Model
             });
         }
 
+        $model->addColumn($tableName);
+
         return $model->setTable($tableName);
     }
 }
