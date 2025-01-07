@@ -128,7 +128,7 @@ class AntasenaLog extends Model
             });
         }
 
-        $model->addColumn($tableName);
+        $model->addColumn($tableName, $model);
 
         return $model->setTable($tableName);
     }

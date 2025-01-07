@@ -122,7 +122,7 @@ class KamojangLog extends Model
             });
         }
 
-        $model->addColumn($tableName);
+        $model->addColumn($tableName, $model);
 
         return $model->setTable($tableName);
     }
