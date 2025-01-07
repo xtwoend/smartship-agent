@@ -131,7 +131,7 @@ trait EngineFormColumn
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
-                $table->tinyInteger('dg_count')->default(3);
+                
                 for($i=1; $i <= $count; $i++) {
                     foreach($model->fields() as $key => $val) {
                         $field = "{$key}_dg_{$i}";
@@ -151,7 +151,7 @@ trait EngineFormColumn
         
         if(Schema::hasTable($tableName) && ! Schema::hasColumn($tableName, 'kw_diesel_dg_1')) {
             Schema::table($tableName, function (Blueprint $table) use ($count, $model) {
-                $table->tinyInteger('dg_count')->default(3);
+                
                 for($i=1; $i <= $count; $i++) {
                     foreach($model->fields() as $key => $val) {
                         
