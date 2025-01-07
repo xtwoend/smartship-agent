@@ -117,5 +117,11 @@ trait EngineFormColumn
                 $table->string('lubricant_gearbox_grade')->nullable();
             });
         }
+
+        if(! Schema::hasColumn($tableName, 'dg_count')){
+            Schema::table($tableName, function (Blueprint $table) {
+                $table->tinyInteger('dg_count')->nullable();
+            });
+        }
     }
 }
