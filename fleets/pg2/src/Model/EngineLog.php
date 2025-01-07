@@ -11,15 +11,16 @@ declare(strict_types=1);
  */
 namespace Smartship\Pg2\Model;
 
-use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
+use Hyperf\Database\Schema\Blueprint;
+use App\Model\Engine\EngineFormColumn;
 
 class EngineLog extends Model
 {
-    use SensorAlarmTrait;
+    use SensorAlarmTrait, EngineFormColumn;
 
     /**
      * engine group sensor.

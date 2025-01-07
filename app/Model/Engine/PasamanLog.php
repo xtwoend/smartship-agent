@@ -19,7 +19,7 @@ use Hyperf\DbConnection\Model\Model;
 
 class PasamanLog extends Model
 {
-    use SensorAlarmTrait;
+    use SensorAlarmTrait, EngineFormColumn;
 
     /**
      * engine group sensor.

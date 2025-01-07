@@ -19,7 +19,7 @@ use Hyperf\DbConnection\Model\Model;
 
 class PatriotLog extends Model
 {
-    use SensorAlarmTrait;
+    use SensorAlarmTrait, EngineFormColumn;
 
     /**
      * engine group sensor.
