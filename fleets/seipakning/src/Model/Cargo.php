@@ -9,8 +9,10 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace Smartship\Seipakning\Model;
 
+use App\Model\Traits\BunkerCapacityCalculate;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
 use App\Model\Traits\HasColumnTrait;
@@ -23,6 +25,7 @@ class Cargo extends Model
 {
     use HasColumnTrait;
     use CargoTankCalculate;
+    use BunkerCapacityCalculate;
 
     /**
      * The table associated with the model.
@@ -234,6 +237,10 @@ class Cargo extends Model
 
         // calculate cargo
         $data = $this->calculate($model);
+
+        // calculate bunker
+        $data = array_merge($data, $this->bunkerCalculate($model));
+
         $model->update($data);
 
         // save interval 60 detik
@@ -262,4 +269,19 @@ class Cargo extends Model
         'tank_6_stb_mt' => ['tank_6_stb', 'tank_6_stb_temp'],
     ];
 
+    public ?array $bunkers = [
+        'fuel_oil_1_port_m3' => ['fuel_oil_1_port', 'port'],
+        'fuel_oil_1_stb_m3' => ['fuel_oil_1_stb', 'stb'],
+        'fuel_oil_2_port_m3' => ['fuel_oil_2_port', 'port'],
+        'fuel_oil_2_stb_m3' => ['fuel_oil_2_stb', 'stb'],
+        'muel_oil_1_port_m3' => ['muel_oil_1_port', 'port'],
+        'muel_oil_1_stb_m3' => ['muel_oil_1_stb', 'stb'],
+        'muel_oil_2_port_m3' => ['muel_oil_2_port', 'port'],
+        'do_fuel_oil_service_stb_m3' => ['do_fuel_oil_service_stb', 'stb'],
+        'do_fuel_oil_settling_stb_m3' => ['do_fuel_oil_settling_stb', 'stb'],
+        'fuel_oil_service_port_m3' => ['fuel_oil_service_port', 'port'],
+        'fuel_oil_settling_port_m3' => ['fuel_oil_settling_port', 'port'],
+        'ls_fuel_oil_service_port_m3' => ['ls_fuel_oil_service_port', 'port'],
+        'ls_fuel_oil_settling_port_m3' => ['ls_fuel_oil_settling_port', 'port'],
+    ];
 }

@@ -20,6 +20,8 @@ class PagerunganCargoAdd extends Migration
      */
     public function up(): void
     {
+        if( Schema::hasTable('cargo_12'))  {
+            
         Schema::table('cargo_12', function (Blueprint $table) {
             // panasia/hanla
             $table->float('cargo_tank1p_ullage', 10, 3)->default(0);
@@ -253,6 +255,7 @@ class PagerunganCargoAdd extends Migration
             $table->float('no2_do_service_tank_volume', 10, 3)->default(0);
             $table->float('do_setting_tank_volume', 10, 3)->default(0);
         });
+    }
     }
 
     /**
