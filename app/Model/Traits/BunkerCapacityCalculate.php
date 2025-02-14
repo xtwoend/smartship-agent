@@ -20,18 +20,20 @@ trait BunkerCapacityCalculate
         $fleetId = $model->fleet_id;
         $soundingModel = CargoTankSounding::table($fleetId);
         $data = [];
-        foreach($this->bunkers as $key => $bunker) {
-            $level = floor($model->{$key});
+        $bunkers = ($model->bunkers->count() < 1) ? $model->getBunkers($model) : $model->bunkers;
+        foreach($bunkers as $key => $bunker) {
+            $level = floor($model->{$bunker->tank_position});
             $level = $level < 0 ? 0 : $level;
+            
             $trim = 0;
-            if($bunker[1] == 'stb') {
+            if($bunker->tank_locator === 'S') {
                 $trim = ceil($model->draft_front - $model->draft_rear );
             }
-            $vol = $soundingModel->where('tank_position', $key)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
-            $vol = $volRow?->volume ?? 0;
-            $data[$key] = $vol->volume;
+            $vol = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
+            $vol = $vol?->volume ?? 0;
+            $data["{$bunker->tank_position}_m3"] = $vol;
+            
         }
-
         return $data;
     }
 }

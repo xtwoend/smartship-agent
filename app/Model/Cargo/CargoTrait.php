@@ -11,13 +11,14 @@ declare(strict_types=1);
  */
 namespace App\Model\Cargo;
 
+use App\Model\Tank;
+
 trait CargoTrait
 {
     public function setCargo($model, array $data)
     {
         if (isset($data['cargo'])) {
             $model = (new $model())->table($this->id);
-
             $log = $model->updateOrCreate([
                 'fleet_id' => $this->id,
             ], $data['cargo']);
@@ -26,5 +27,23 @@ trait CargoTrait
 
             return $log;
         }
+    }
+    public function bunkers()
+    {
+        return $this->hasMany(Tank::class, 'fleet_id', 'fleet_id')->where('type', Tank::TYPE_BUNKER);
+    }
+
+    public function getBunkers($model)
+    {
+        foreach($this->bunkerTanks as $k => $bunker) {
+            Tank::firstOrCreate([
+                'fleet_id' => $this->fleet_id,
+                'type' => Tank::TYPE_BUNKER,
+                'tank_position' => $bunker[0],
+            ], [
+                'tank_locator' => $bunker[1] === 'stb' ? 'P' : 'S',
+            ]);
+        }
+        return Tank::where('fleet_id', $this->fleet_id)->where('type', Tank::TYPE_BUNKER)->get();
     }
 }

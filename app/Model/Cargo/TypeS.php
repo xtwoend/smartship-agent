@@ -9,8 +9,11 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
+use App\Model\Tank;
+use App\Model\Traits\BunkerCapacityCalculate;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
 use App\Model\Traits\HasColumnTrait;
@@ -24,6 +27,8 @@ class TypeS extends Model
 {
     use HasColumnTrait;
     use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
 
     /**
      * The table associated with the model.
@@ -223,16 +228,16 @@ class TypeS extends Model
         return $model->setTable($tableName);
     }
 
-    public function updating(Updating $event) 
+    public function updating(Updating $event)
     {
         $model = $event->getModel();
         // calculate cargo
         $cargoData = $this->calculate($model);
-    
-        foreach($cargoData as $k => $v) {
+        $bunkerData = array_merge( $cargoData, $this->bunkerCalculate($model) );
+        // proses simpan data
+        foreach ($bunkerData as $k => $v) {
             $this->{$k} = $v;
         }
-        
     }
 
     // update & insert
@@ -255,6 +260,7 @@ class TypeS extends Model
             'terminal_time' => $date,
         ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
+    
 
     public ?array $tanks = [
         'tank_1_port_mt' => ['tank_1_port', 'tank_1_port_temp'],
@@ -271,4 +277,19 @@ class TypeS extends Model
         'tank_6_stb_mt' => ['tank_6_stb', 'tank_6_stb_temp'],
     ];
 
+    public ?array $bunkerTanks = [
+        'fuel_oil_1_port_m3' => ['fuel_oil_1_port', 'port'],
+        'fuel_oil_1_stb_m3' => ['fuel_oil_1_stb', 'stb'],
+        'fuel_oil_2_port_m3' => ['fuel_oil_2_port', 'port'],
+        'fuel_oil_2_stb_m3' => ['fuel_oil_2_stb', 'stb'],
+        'muel_oil_1_port_m3' => ['muel_oil_1_port', 'port'],
+        'muel_oil_1_stb_m3' => ['muel_oil_1_stb', 'stb'],
+        'muel_oil_2_port_m3' => ['muel_oil_2_port', 'port'],
+        'do_fuel_oil_service_stb_m3' => ['do_fuel_oil_service_stb', 'stb'],
+        'do_fuel_oil_settling_stb_m3' => ['do_fuel_oil_settling_stb', 'stb'],
+        'fuel_oil_service_port_m3' => ['fuel_oil_service_port', 'port'],
+        'fuel_oil_settling_port_m3' => ['fuel_oil_settling_port', 'port'],
+        'ls_fuel_oil_service_port_m3' => ['ls_fuel_oil_service_port', 'port'],
+        'ls_fuel_oil_settling_port_m3' => ['ls_fuel_oil_settling_port', 'port'],
+    ];
 }
