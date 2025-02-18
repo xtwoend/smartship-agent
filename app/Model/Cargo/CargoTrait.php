@@ -17,6 +17,8 @@ trait CargoTrait
 {
     public function setCargo($model, array $data)
     {
+        var_dump('CargoTrait->Model', $model);
+        var_dump('CargoTrait->data', $data);
         if (isset($data['cargo'])) {
             $model = (new $model())->table($this->id);
             $log = $model->updateOrCreate([
@@ -41,7 +43,7 @@ trait CargoTrait
                 'type' => Tank::TYPE_BUNKER,
                 'tank_position' => $bunker[0],
             ], [
-                'tank_locator' => $bunker[1] === 'stb' ? 'P' : 'S',
+                'tank_locator' => ($bunker[1] === 'stb') ? 'S' : 'P',
             ]);
         }
         return Tank::where('fleet_id', $this->fleet_id)->where('type', Tank::TYPE_BUNKER)->get();

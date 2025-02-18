@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Traits;
 
 use App\Model\CargoTankSounding;
@@ -20,19 +21,31 @@ trait BunkerCapacityCalculate
         $fleetId = $model->fleet_id;
         $soundingModel = CargoTankSounding::table($fleetId);
         $data = [];
+        // var_dump('BunkerCapacityCalculate', $model, $model->bunkers);
+
         $bunkers = ($model->bunkers->count() < 1) ? $model->getBunkers($model) : $model->bunkers;
-        foreach($bunkers as $key => $bunker) {
-            $level = floor($model->{$bunker->tank_position});
+        foreach ($bunkers as $key => $bunker) {
+            // levels are in M, convert to CM
+            $level = $model->{$bunker->tank_position} * 100;
+            $level = round($level, 3, PHP_ROUND_HALF_EVEN);
             $level = $level < 0 ? 0 : $level;
-            
             $trim = 0;
-            if($bunker->tank_locator === 'S') {
-                $trim = ceil($model->draft_front - $model->draft_rear );
+            if ($bunker->tank_locator === 'S') {
+                $trim = ceil($model->draft_front - $model->draft_rear);
             }
             $vol = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
+            if ($level === 100) {
+                var_dump([
+                    'tank_position' => $bunker->tank_position,
+                    'tank_id' => $bunker->id,
+                    'trim_index' => $trim,
+                    'sounding_cm' => $level,
+                    'vol' => $vol->toArray()
+                ]);
+            }
+            $volId = $vol->id ?? -1;
             $vol = $vol?->volume ?? 0;
             $data["{$bunker->tank_position}_m3"] = $vol;
-            
         }
         return $data;
     }

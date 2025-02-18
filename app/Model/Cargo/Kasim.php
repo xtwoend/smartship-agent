@@ -16,9 +16,11 @@ use Hyperf\Database\Model\Events\Updated;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Traits\HasColumnTrait;
 
 class Kasim extends Model
 {
+    use HasColumnTrait;
     /**
      * The table associated with the model.
      */

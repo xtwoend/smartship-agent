@@ -192,7 +192,48 @@ class PangrangoLog extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'no1_mdo_tank_p_m3',
+                'after' => 'no1_mdo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_mdo_tank_s_m3',
+                'after' => 'no2_mdo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_sett_tank_s_m3',
+                'after' => 'mdo_sett_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_hfo_tank_p_m3',
+                'after' => 'no1_hfo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_hfo_tank_s_m3',
+                'after' => 'no2_hfo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_sett_tank_p_m3',
+                'after' => 'hfo_sett_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_hfo_day_tank_p_m3',
+                'after' => 'no1_hfo_day_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_hfo_day_tank_s_m3',
+                'after' => 'no2_hfo_day_tank_s',
+            ],
+        ]);
         return $model->setTable($tableName);
     }
 

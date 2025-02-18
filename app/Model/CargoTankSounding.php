@@ -45,10 +45,12 @@ class CargoTankSounding extends Model
         if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
+                $table->unsignedBigInteger('fleet_id');
                 $table->unsignedBigInteger('tank_id')->index();
                 $table->integer('trim_index')->index();
                 $table->unsignedInteger('sounding_cm')->index();
-                $table->unsignedInteger('volume');
+                $table->float('volume', 10, 3)->nullable();
+                $table->timestamps();
             });
         }
 

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,6 +21,7 @@ use Hyperf\DbConnection\Model\Model;
 class PanjangLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -192,6 +194,60 @@ class PanjangLog extends Model
                 $table->timestamps();
             });
         }
+
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'no1_mdo_tank_p_m3',
+                'after' => 'no1_mdo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_mdo_tank_s_m3',
+                'after' => 'no2_mdo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_sett_tank_s_m3',
+                'after' => 'mdo_sett_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_mdo_day_tank_p_m3',
+                'after' => 'no1_mdo_day_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_mdo_day_tank_s_m3',
+                'after' => 'no2_mdo_day_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_hfo_tank_p_m3',
+                'after' => 'no1_hfo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_hfo_tank_s_m3',
+                'after' => 'no2_hfo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_sett_tank_p_m3',
+                'after' => 'hfo_sett_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_hfo_day_tank_p_m3',
+                'after' => 'no1_hfo_day_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_hfo_day_tank_s_m3',
+                'after' => 'no2_hfo_day_tank_s',
+            ],
+            
+        ]);
 
         return $model->setTable($tableName);
     }

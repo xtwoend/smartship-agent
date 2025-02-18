@@ -224,6 +224,59 @@ class TypeSLog extends Model
                 'name' => 'tank_6_stb_mt',
                 'after' => 'tank_6_stb',
             ],
+            [
+                'type' => 'float',
+                'name' => 'fuel_oil_1_port_m3',
+                'after' => 'fuel_oil_1_port',
+            ],[
+                'type' => 'float',
+                'name' => 'fuel_oil_1_stb_m3',
+                'after' => 'fuel_oil_1_stb',
+            ],[
+                'type' => 'float',
+                'name' => 'fuel_oil_2_port_m3',
+                'after' => 'fuel_oil_2_port',
+            ],[
+                'type' => 'float',
+                'name' => 'fuel_oil_2_stb_m3',
+                'after' => 'fuel_oil_2_stb',
+            ],[
+                'type' => 'float',
+                'name' => 'muel_oil_1_port_m3',
+                'after' => 'muel_oil_1_port',
+            ],[
+                'type' => 'float',
+                'name' => 'muel_oil_1_stb_m3',
+                'after' => 'muel_oil_1_stb',
+            ],[
+                'type' => 'float',
+                'name' => 'muel_oil_2_port_m3',
+                'after' => 'muel_oil_2_port',
+            ],[
+                'type' => 'float',
+                'name' => 'do_fuel_oil_service_stb_m3',
+                'after' => 'do_fuel_oil_service_stb',
+            ],[
+                'type' => 'float',
+                'name' => 'do_fuel_oil_settling_stb_m3',
+                'after' => 'do_fuel_oil_settling_stb',
+            ],[
+                'type' => 'float',
+                'name' => 'fuel_oil_service_port_m3',
+                'after' => 'fuel_oil_service_port',
+            ],[
+                'type' => 'float',
+                'name' => 'fuel_oil_settling_port_m3',
+                'after' => 'fuel_oil_settling_port',
+            ],[
+                'type' => 'float',
+                'name' => 'ls_fuel_oil_service_port_m3',
+                'after' => 'ls_fuel_oil_service_port',
+            ],[
+                'type' => 'float',
+                'name' => 'ls_fuel_oil_settling_port_m3',
+                'after' => 'ls_fuel_oil_settling_port',
+            ],
         ]);
 
         return $model->setTable($tableName);
