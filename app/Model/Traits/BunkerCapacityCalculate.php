@@ -45,7 +45,7 @@ trait BunkerCapacityCalculate
                 if($model->draft_after) {
                     $after = $model->draft_after;
                 }
-                $trim = $fore - $after;
+                $trim = round(($fore - $after), 3, PHP_ROUND_HALF_EVEN);
             }
             $vol = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
             if ($level === 100) {
