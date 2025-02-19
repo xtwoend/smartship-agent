@@ -31,7 +31,21 @@ trait BunkerCapacityCalculate
             $level = $level < 0 ? 0 : $level;
             $trim = 0;
             if ($bunker->tank_locator === 'S') {
-                $trim = ceil($model->draft_front - $model->draft_rear);
+                $fore = 0;
+                $after = 0;
+                if($model->draft_front) {
+                    $fore = $model->draft_front;
+                }
+                if($model->draft_rear) {
+                    $after = $model->draft_rear;
+                }
+                if($model->draft_fore) {
+                    $fore = $model->draft_fore;
+                }
+                if($model->draft_after) {
+                    $after = $model->draft_after;
+                }
+                $trim = $fore - $after;
             }
             $vol = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
             if ($level === 100) {
