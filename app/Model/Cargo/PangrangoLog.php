@@ -16,10 +16,12 @@ use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Traits\HasColumnTrait;
 
 class PangrangoLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -207,6 +209,16 @@ class PangrangoLog extends Model
                 'type' => 'float',
                 'name' => 'mdo_sett_tank_s_m3',
                 'after' => 'mdo_sett_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_mdo_day_tank_p_m3',
+                'after' => 'no1_mdo_day_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_mdo_day_tank_s_m3',
+                'after' => 'no2_mdo_day_tank_s',
             ],
             [
                 'type' => 'float',

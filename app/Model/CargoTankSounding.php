@@ -47,7 +47,7 @@ class CargoTankSounding extends Model
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id');
                 $table->unsignedBigInteger('tank_id')->index();
-                $table->integer('trim_index')->index();
+                $table->float('trim_index', 10, 3)->index();
                 $table->unsignedInteger('sounding_cm')->index();
                 $table->float('volume', 10, 3)->nullable();
                 $table->timestamps();

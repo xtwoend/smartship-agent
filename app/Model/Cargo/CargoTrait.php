@@ -17,8 +17,8 @@ trait CargoTrait
 {
     public function setCargo($model, array $data)
     {
-        var_dump('CargoTrait->Model', $model);
-        var_dump('CargoTrait->data', $data);
+        // var_dump('CargoTrait->Model', $model);
+        // var_dump('CargoTrait->data', $data);
         if (isset($data['cargo'])) {
             $model = (new $model())->table($this->id);
             $log = $model->updateOrCreate([
