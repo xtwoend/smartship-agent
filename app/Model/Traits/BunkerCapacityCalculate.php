@@ -12,18 +12,18 @@ declare(strict_types=1);
 
 namespace App\Model\Traits;
 
-use App\Model\CargoTankSounding;
+use App\Model\BunkerSounding;
 
 trait BunkerCapacityCalculate
 {
     public function bunkerCalculate($model): array
     {
         $fleetId = $model->fleet_id;
-        $soundingModel = CargoTankSounding::table($fleetId);
+        $soundingModel = BunkerSounding::table($fleetId);
         $data = [];
         // var_dump('BunkerCapacityCalculate', $model, $model->bunkers);
 
-        $bunkers = ($model->bunkers->count() < 1) ? $model->getBunkers($model) : $model->bunkers;
+        $bunkers = ($model->bunkers->count() < 1) ? $model->getBunkers() : $model->bunkers;
         foreach ($bunkers as $key => $bunker) {
             // levels are in M, convert to CM
             $level = $model->{$bunker->tank_position} * 100;
@@ -48,7 +48,6 @@ trait BunkerCapacityCalculate
                 $trim = round(($fore - $after), 1, PHP_ROUND_HALF_EVEN);
             }
             $vol = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
-            $volId = $vol->id ?? -1;
             $vol = $vol?->volume ?? 0;
             $data["{$bunker->tank_position}_m3"] = $vol;
         }

@@ -12,13 +12,20 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Pagerungan extends Model
 {
+
+    use BunkerCapacityCalculate;
+    use HasColumnTrait;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -39,6 +46,24 @@ class Pagerungan extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+    /**
+     * The attributes that should be hidden for serialization.
+     * 
+     */
+    public ?array $bunkerTanks = [
+        'no1_fo_tank_p_level_m3' => ['no1_fo_tank_p_level', 'port'],
+        'no1_fo_tank_s_level_m3' => ['no1_fo_tank_s_level', 'stb'],
+        'no2_fo_tank_p_level_m3' => ['no2_fo_tank_p_level', 'port'],
+        'no2_fo_tank_s_level_m3' => ['no2_fo_tank_s_level', 'stb'],
+        'no1_fo_service_tank_level_m3' => ['no1_fo_service_tank_level', 'port'],
+        'no2_fo_service_tank_level_m3' => ['no2_fo_service_tank_level', 'port'],
+        'fo_settling_tank_level_m3' => ['fo_settling_tank_level', 'port'],
+        'do_storage_tank_p_level_m3' => ['do_storage_tank_p_level', 'port'],
+        'do_storage_tank_s_level_m3' => ['do_storage_tank_s_level', 'stb'],
+        'no1_do_service_tank_level_m3' => ['no1_do_service_tank_level', 'port'],
+        'no2_do_service_tank_level_m3' => ['no2_do_service_tank_level', 'port'],
+        'do_setting_tank_level_m3' => ['do_setting_tank_level', 'port'],
     ];
 
     // create table cargo if not found table
@@ -215,8 +240,82 @@ class Pagerungan extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'no1_fo_tank_p_level_m3',
+                'after' => 'no1_fo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_fo_tank_s_level_m3',
+                'after' => 'no1_fo_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_fo_tank_p_level_m3',
+                'after' => 'no2_fo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_fo_tank_s_level_m3',
+                'after' => 'no2_fo_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_fo_service_tank_level_m3',
+                'after' => 'no1_fo_service_tank_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_fo_service_tank_level_m3',
+                'after' => 'no2_fo_service_tank_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fo_settling_tank_level_m3',
+                'after' => 'fo_settling_tank_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'do_storage_tank_p_level_m3',
+                'after' => 'do_storage_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'do_storage_tank_s_level_m3',
+                'after' => 'do_storage_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_do_service_tank_level_m3',
+                'after' => 'no1_do_service_tank_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_do_service_tank_level_m3',
+                'after' => 'no2_do_service_tank_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'do_setting_tank_level_m3',
+                'after' => 'do_setting_tank_level',
+            ],
+        ]);
         return $model->setTable($tableName);
+    }
+
+    // updating process
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        // $cargoData = $this->calculate($model);
+        $bunkerData = $this->bunkerCalculate($model);
+        // proses simpan data
+        foreach ($bunkerData as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert
@@ -237,6 +336,6 @@ class Pagerungan extends Model
         return PagerunganLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

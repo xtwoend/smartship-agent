@@ -64,6 +64,37 @@ class TypeS extends Model
         'stripping_pump_alarm' => 'boolean',
     ];
 
+    public ?array $tanks = [
+        'tank_1_port_mt' => ['tank_1_port', 'tank_1_port_temp'],
+        'tank_1_stb_mt' => ['tank_1_stb', 'tank_1_stb_temp'],
+        'tank_2_port_mt' => ['tank_2_port', 'tank_2_port_temp'],
+        'tank_2_stb_mt' => ['tank_2_stb', 'tank_2_stb_temp'],
+        'tank_3_port_mt' => ['tank_3_port', 'tank_3_port_temp'],
+        'tank_3_stb_mt' => ['tank_3_stb', 'tank_3_stb_temp'],
+        'tank_4_port_mt' => ['tank_4_port', 'tank_4_port_temp'],
+        'tank_4_stb_mt' => ['tank_4_stb', 'tank_4_stb_temp'],
+        'tank_5_port_mt' => ['tank_5_port', 'tank_5_port_temp'],
+        'tank_5_stb_mt' => ['tank_5_stb', 'tank_5_stb_temp'],
+        'tank_6_port_mt' => ['tank_6_port', 'tank_6_port_temp'],
+        'tank_6_stb_mt' => ['tank_6_stb', 'tank_6_stb_temp'],
+    ];
+
+    public ?array $bunkerTanks = [
+        'fuel_oil_1_port_m3' => ['fuel_oil_1_port', 'port'],
+        'fuel_oil_1_stb_m3' => ['fuel_oil_1_stb', 'stb'],
+        'fuel_oil_2_port_m3' => ['fuel_oil_2_port', 'port'],
+        'fuel_oil_2_stb_m3' => ['fuel_oil_2_stb', 'stb'],
+        'muel_oil_1_port_m3' => ['muel_oil_1_port', 'port'],
+        'muel_oil_1_stb_m3' => ['muel_oil_1_stb', 'stb'],
+        'muel_oil_2_port_m3' => ['muel_oil_2_port', 'port'],
+        'do_fuel_oil_service_stb_m3' => ['do_fuel_oil_service_stb', 'stb'],
+        'do_fuel_oil_settling_stb_m3' => ['do_fuel_oil_settling_stb', 'stb'],
+        'fuel_oil_service_port_m3' => ['fuel_oil_service_port', 'port'],
+        'fuel_oil_settling_port_m3' => ['fuel_oil_settling_port', 'port'],
+        'ls_fuel_oil_service_port_m3' => ['ls_fuel_oil_service_port', 'port'],
+        'ls_fuel_oil_settling_port_m3' => ['ls_fuel_oil_settling_port', 'port'],
+    ];
+
     // create table cargo if not found table
     public static function table($fleetId)
     {
@@ -310,38 +341,9 @@ class TypeS extends Model
         return TypeSLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'bunkers', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
     
 
-    public ?array $tanks = [
-        'tank_1_port_mt' => ['tank_1_port', 'tank_1_port_temp'],
-        'tank_1_stb_mt' => ['tank_1_stb', 'tank_1_stb_temp'],
-        'tank_2_port_mt' => ['tank_2_port', 'tank_2_port_temp'],
-        'tank_2_stb_mt' => ['tank_2_stb', 'tank_2_stb_temp'],
-        'tank_3_port_mt' => ['tank_3_port', 'tank_3_port_temp'],
-        'tank_3_stb_mt' => ['tank_3_stb', 'tank_3_stb_temp'],
-        'tank_4_port_mt' => ['tank_4_port', 'tank_4_port_temp'],
-        'tank_4_stb_mt' => ['tank_4_stb', 'tank_4_stb_temp'],
-        'tank_5_port_mt' => ['tank_5_port', 'tank_5_port_temp'],
-        'tank_5_stb_mt' => ['tank_5_stb', 'tank_5_stb_temp'],
-        'tank_6_port_mt' => ['tank_6_port', 'tank_6_port_temp'],
-        'tank_6_stb_mt' => ['tank_6_stb', 'tank_6_stb_temp'],
-    ];
-
-    public ?array $bunkerTanks = [
-        'fuel_oil_1_port_m3' => ['fuel_oil_1_port', 'port'],
-        'fuel_oil_1_stb_m3' => ['fuel_oil_1_stb', 'stb'],
-        'fuel_oil_2_port_m3' => ['fuel_oil_2_port', 'port'],
-        'fuel_oil_2_stb_m3' => ['fuel_oil_2_stb', 'stb'],
-        'muel_oil_1_port_m3' => ['muel_oil_1_port', 'port'],
-        'muel_oil_1_stb_m3' => ['muel_oil_1_stb', 'stb'],
-        'muel_oil_2_port_m3' => ['muel_oil_2_port', 'port'],
-        'do_fuel_oil_service_stb_m3' => ['do_fuel_oil_service_stb', 'stb'],
-        'do_fuel_oil_settling_stb_m3' => ['do_fuel_oil_settling_stb', 'stb'],
-        'fuel_oil_service_port_m3' => ['fuel_oil_service_port', 'port'],
-        'fuel_oil_settling_port_m3' => ['fuel_oil_settling_port', 'port'],
-        'ls_fuel_oil_service_port_m3' => ['ls_fuel_oil_service_port', 'port'],
-        'ls_fuel_oil_settling_port_m3' => ['ls_fuel_oil_settling_port', 'port'],
-    ];
+    
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use App\Model\Tank;
@@ -34,18 +35,30 @@ trait CargoTrait
     {
         return $this->hasMany(Tank::class, 'fleet_id', 'fleet_id')->where('type', Tank::TYPE_BUNKER);
     }
+    public function cargos()
+    {
+        return $this->hasMany(Tank::class, 'fleet_id', 'fleet_id')->where('type', Tank::TYPE_CARGO);
+    }
 
     public function getBunkers($model)
     {
-        foreach($this->bunkerTanks as $k => $bunker) {
+        return $this->getTanks($this->bunkerTanks, Tank::TYPE_BUNKER);
+    }
+    public function getCargos()
+    {
+        return $this->getTanks($this->cargoTanks, Tank::TYPE_CARGO);
+    }
+    private function getTanks($initialData = [], $type)
+    {
+        foreach ($initialData as $tank) {
             Tank::firstOrCreate([
                 'fleet_id' => $this->fleet_id,
-                'type' => Tank::TYPE_BUNKER,
-                'tank_position' => $bunker[0],
+                'type' => $type,
+                'tank_position' => $tank[0],
             ], [
-                'tank_locator' => ($bunker[1] === 'stb') ? 'S' : 'P',
+                'tank_locator' => ($tank[1] === 'stb') ? 'S' : 'P',
             ]);
         }
-        return Tank::where('fleet_id', $this->fleet_id)->where('type', Tank::TYPE_BUNKER)->get();
+        return Tank::where('fleet_id', $this->fleet_id)->where('type', $type)->get();
     }
 }

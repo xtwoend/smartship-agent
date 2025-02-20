@@ -15,7 +15,7 @@ use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 
-class CargoTankSounding extends Model
+class CargoSounding extends Model
 {
     /**
      * disable timestamps.
@@ -25,7 +25,7 @@ class CargoTankSounding extends Model
     /**
      * The table associated with the model.
      */
-    protected ?string $table = 'cargo_tank_sounding';
+    protected ?string $table = 'tank_sounding_cargo';
 
     /**
      * The attributes that are mass assignable.
@@ -48,8 +48,8 @@ class CargoTankSounding extends Model
                 $table->unsignedBigInteger('fleet_id');
                 $table->unsignedBigInteger('tank_id')->index();
                 $table->float('trim_index', 10, 3)->index();
-                $table->unsignedInteger('sounding_cm')->index();
-                $table->float('volume', 10, 3)->nullable();
+                $table->unsignedInteger('ullage')->index();
+                $table->float('mt', 10, 3)->nullable();
                 $table->timestamps();
             });
         }

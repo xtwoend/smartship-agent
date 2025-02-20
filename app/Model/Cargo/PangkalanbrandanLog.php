@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,6 +21,7 @@ use Hyperf\DbConnection\Model\Model;
 class PangkalanbrandanLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -163,7 +165,68 @@ class PangkalanbrandanLog extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'hfo_storage_tank_1p_m3',
+                'after' => 'hfo_storage_tank_1p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_storage_tank_1s_m3',
+                'after' => 'hfo_storage_tank_1s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_storage_tank_2p_m3',
+                'after' => 'hfo_storage_tank_2p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_storage_tank_2s_m3',
+                'after' => 'hfo_storage_tank_2s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_setting_tank_m3',
+                'after' => 'hfo_setting_tank',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_service_tank_1_m3',
+                'after' => 'hfo_service_tank_1',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_service_tank_2_m3',
+                'after' => 'hfo_service_tank_2',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_storage_tank_p_m3',
+                'after' => 'mdo_storage_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_storage_tank_s_m3',
+                'after' => 'mdo_storage_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_setting_tank_m3',
+                'after' => 'mdo_setting_tank',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_service_tank_1_m3',
+                'after' => 'mdo_service_tank_1',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_service_tank_2_m3',
+                'after' => 'mdo_service_tank_2',
+            ],
+            ]);
         return $model->setTable($tableName);
     }
 }

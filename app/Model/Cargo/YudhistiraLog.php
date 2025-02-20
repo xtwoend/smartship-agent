@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,6 +21,7 @@ use Hyperf\DbConnection\Model\Model;
 class YudhistiraLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -160,7 +162,48 @@ class YudhistiraLog extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'after_peak_tank_m3',
+                'after' => 'after_peak_tank',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_mgo_tank_p_m3',
+                'after' => 'mdo_mgo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_tank_s_m3',
+                'after' => 'mdo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fore_fw_tank_p_m3',
+                'after' => 'fore_fw_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fore_fw_tank_s_m3',
+                'after' => 'fore_fw_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fw_tank_p_m3',
+                'after' => 'fw_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fw_tank_s_m3',
+                'after' => 'fw_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fo_overflow_tank_m3',
+                'after' => 'fo_overflow_tank',
+            ],
+            ]);
         return $model->setTable($tableName);
     }
 

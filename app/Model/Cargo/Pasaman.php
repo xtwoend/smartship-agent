@@ -9,16 +9,23 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Pasaman extends Model
 {
+    use BunkerCapacityCalculate;
+    use HasColumnTrait;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -39,6 +46,19 @@ class Pasaman extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+
+    public ?array $bunkerTanks = [
+        'no1_mdo_tank_p' => ['no1_mdo_tank_p', 'port'],
+        'no2_mdo_tank_s' => ['no2_mdo_tank_s', 'stb'],
+        'mdo_sett_tank_s' => ['mdo_sett_tank_s', 'stb'],
+        'no1_mdo_day_tank_p' => ['no1_mdo_day_tank_p', 'port'],
+        'no2_mdo_day_tank_s' => ['no2_mdo_day_tank_s', 'stb'],
+        'no1_hfo_tank_p' => ['no1_hfo_tank_p', 'port'],
+        'no2_hfo_tank_s' => ['no2_hfo_tank_s', 'stb'],
+        'hfo_sett_tank_p' => ['hfo_sett_tank_p', 'port'],
+        'no1_hfo_day_tank_p' => ['no1_hfo_day_tank_p', 'port'],
+        'no2_hfo_day_tank_s' => ['no2_hfo_day_tank_s', 'stb'],
     ];
 
     // create table cargo if not found table
@@ -226,7 +246,72 @@ class Pasaman extends Model
             });
         }
 
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'no1_mdo_tank_p_m3',
+                'after' => 'no1_mdo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_mdo_tank_s_m3',
+                'after' => 'no2_mdo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_sett_tank_s_m3',
+                'after' => 'mdo_sett_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_mdo_day_tank_p_m3',
+                'after' => 'no1_mdo_day_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_mdo_day_tank_s_m3',
+                'after' => 'no2_mdo_day_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_hfo_tank_p_m3',
+                'after' => 'no1_hfo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_hfo_tank_s_m3',
+                'after' => 'no2_hfo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_sett_tank_p_m3',
+                'after' => 'hfo_sett_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_hfo_day_tank_p_m3',
+                'after' => 'no1_hfo_day_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_hfo_day_tank_s_m3',
+                'after' => 'no2_hfo_day_tank_s',
+            ],
+        ]);
         return $model->setTable($tableName);
+    }
+
+    // updating
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        // $cargoData = $this->calculate($model);
+        $bunkerData = $this->bunkerCalculate($model);
+        // proses simpan data
+        foreach ($bunkerData as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert
@@ -247,6 +332,6 @@ class Pasaman extends Model
         return PasamanLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

@@ -9,17 +9,24 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Model\Events\Updated;
 use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Pangkalanbrandan extends Model
 {
+
+    use BunkerCapacityCalculate;
+    use HasColumnTrait;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -40,6 +47,21 @@ class Pangkalanbrandan extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+
+    public ?array $bunkerTanks = [
+        'hfo_storage_tank_1p_m3' => ['hfo_storage_tank_1p', 'port'],
+        'hfo_storage_tank_1s_m3' => ['hfo_storage_tank_1s', 'stb'],
+        'hfo_storage_tank_2p_m3' => ['hfo_storage_tank_2p', 'port'],
+        'hfo_storage_tank_2s_m3' => ['hfo_storage_tank_2s', 'stb'],
+        'hfo_setting_tank_m3' => ['hfo_setting_tank', 'port'],
+        'hfo_service_tank_1_m3' => ['hfo_service_tank_1', 'port'],
+        'hfo_service_tank_2_m3' => ['hfo_service_tank_2', 'port'],
+        'mdo_storage_tank_p_m3' => ['mdo_storage_tank_p', 'port'],
+        'mdo_storage_tank_s_m3' => ['mdo_storage_tank_s', 'stb'],
+        'mdo_setting_tank_m3' => ['mdo_setting_tank', 'port'],
+        'mdo_service_tank_1_m3' => ['mdo_service_tank_1', 'port'],
+        'mdo_service_tank_2_m3' => ['mdo_service_tank_2', 'port'],
     ];
 
     // create table cargo if not found table
@@ -156,14 +178,82 @@ class Pangkalanbrandan extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'hfo_storage_tank_1p_m3',
+                'after' => 'hfo_storage_tank_1p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_storage_tank_1s_m3',
+                'after' => 'hfo_storage_tank_1s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_storage_tank_2p_m3',
+                'after' => 'hfo_storage_tank_2p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_storage_tank_2s_m3',
+                'after' => 'hfo_storage_tank_2s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_setting_tank_m3',
+                'after' => 'hfo_setting_tank',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_service_tank_1_m3',
+                'after' => 'hfo_service_tank_1',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_service_tank_2_m3',
+                'after' => 'hfo_service_tank_2',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_storage_tank_p_m3',
+                'after' => 'mdo_storage_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_storage_tank_s_m3',
+                'after' => 'mdo_storage_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_setting_tank_m3',
+                'after' => 'mdo_setting_tank',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_service_tank_1_m3',
+                'after' => 'mdo_service_tank_1',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_service_tank_2_m3',
+                'after' => 'mdo_service_tank_2',
+            ],
+        ]);
         return $model->setTable($tableName);
     }
 
-    public function updating(Updating $event) 
+    // updating
+    public function updating(Updating $event)
     {
-        $this->terminal_time = Carbon::now()->format('Y-m-d H:i:s');
-        
+        $model = $event->getModel();
+        // calculate cargo
+        // $cargoData = $this->calculate($model);
+        $bunkerData = $this->bunkerCalculate($model);
+        // proses simpan data
+        foreach ($bunkerData as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert
@@ -184,6 +274,6 @@ class Pangkalanbrandan extends Model
         return PangkalanbrandanLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

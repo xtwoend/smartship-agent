@@ -47,6 +47,22 @@ class Panjang extends Model
         'terminal_time' => 'datetime',
     ];
 
+    /**
+     * bunker tanks.
+     */
+    public ?array $bunkerTanks = [
+        'no1_mdo_tank_p_m3' => ['no1_mdo_tank_p', 'port'],
+        'no2_mdo_tank_s_m3' => ['no2_mdo_tank_s', 'stb'],
+        'mdo_sett_tank_s_m3' => ['mdo_sett_tank_s', 'stb'],
+        'no1_mdo_day_tank_p_m3' => ['no1_mdo_day_tank_p', 'port'],
+        'no2_mdo_day_tank_s_m3' => ['no2_mdo_day_tank_s', 'stb'],
+        'no1_hfo_tank_p_m3' => ['no1_hfo_tank_p', 'port'],
+        'no2_hfo_tank_s_m3' => ['no2_hfo_tank_s', 'stb'],
+        'hfo_sett_tank_p_m3' => ['hfo_sett_tank_p', 'port'],
+        'no1_hfo_day_tank_p_m3' => ['no1_hfo_day_tank_p', 'port'],
+        'no2_hfo_day_tank_s_m3' => ['no2_hfo_day_tank_s', 'stb'],
+    ];
+
     // create table cargo if not found table
     public static function table($fleetId)
     {
@@ -276,18 +292,6 @@ class Panjang extends Model
         return PanjangLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'bunkers', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
-    public ?array $bunkerTanks = [
-        'no1_mdo_tank_p_m3' => ['no1_mdo_tank_p', 'port'],
-        'no2_mdo_tank_s_m3' => ['no2_mdo_tank_s', 'stb'],
-        'mdo_sett_tank_s_m3' => ['mdo_sett_tank_s', 'stb'],
-        'no1_mdo_day_tank_p_m3' => ['no1_mdo_day_tank_p', 'port'],
-        'no2_mdo_day_tank_s_m3' => ['no2_mdo_day_tank_s', 'stb'],
-        'no1_hfo_tank_p_m3' => ['no1_hfo_tank_p', 'port'],
-        'no2_hfo_tank_s_m3' => ['no2_hfo_tank_s', 'stb'],
-        'hfo_sett_tank_p_m3' => ['hfo_sett_tank_p', 'port'],
-        'no1_hfo_day_tank_p_m3' => ['no1_hfo_day_tank_p', 'port'],
-        'no2_hfo_day_tank_s_m3' => ['no2_hfo_day_tank_s', 'stb'],
-    ];
 }

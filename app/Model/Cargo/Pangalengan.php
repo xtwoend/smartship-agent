@@ -12,13 +12,19 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Pangalengan extends Model
 {
+    use BunkerCapacityCalculate;
+    use HasColumnTrait;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -39,6 +45,20 @@ class Pangalengan extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+
+    // bunkers
+    public ?array $bunkerTanks = [
+        'no_1_hfo_p_m3' => ['no_1_hfo_p', 'port'],
+        'no_2_hfo_s_m3' => ['no_2_hfo_s', 'stb'],
+        'no_1_hfoday_p_m3' => ['no_1_hfoday_p', 'port'],
+        'no_2_hfoday_s_m3' => ['no_2_hfoday_s', 'stb'],
+        'hfo_sett_p_m3' => ['hfo_sett_p', 'port'],
+        'mdo_sett_s_m3' => ['mdo_sett_s', 'stb'],
+        'no_1_mdo_p_m3' => ['no_1_mdo_p', 'port'],
+        'no_2_mdo_s_m3' => ['no_2_mdo_s', 'stb'],
+        'no_1_mdoday_p_m3' => ['no_1_mdoday_p', 'port'],
+        'no_s_mdoday_s_m3' => ['no_s_mdoday_s', 'stb'],
     ];
 
     // create table cargo if not found table
@@ -187,7 +207,73 @@ class Pangalengan extends Model
             });
         }
 
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'no_1_hfo_p_m3',
+                'after' => 'no_1_hfo_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_hfo_s_m3',
+                'after' => 'no_2_hfo_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_hfoday_p_m3',
+                'after' => 'no_1_hfoday_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_hfoday_s_m3',
+                'after' => 'no_2_hfoday_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_sett_p_m3',
+                'after' => 'hfo_sett_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_sett_s_m3',
+                'after' => 'mdo_sett_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_mdo_p_m3',
+                'after' => 'no_1_mdo_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_mdo_s_m3',
+                'after' => 'no_2_mdo_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_mdoday_p_m3',
+                'after' => 'no_1_mdoday_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_s_mdoday_s_m3',
+                'after' => 'no_s_mdoday_s',
+            ],
+        ]);
+
         return $model->setTable($tableName);
+    }
+
+    // updating
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        // $cargoData = $this->calculate($model);
+        $bunkerData = $this->bunkerCalculate($model);
+        // proses simpan data
+        foreach ($bunkerData as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert
@@ -208,6 +294,6 @@ class Pangalengan extends Model
         return PangalenganLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

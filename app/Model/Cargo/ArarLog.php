@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,6 +21,7 @@ use Hyperf\DbConnection\Model\Model;
 class ArarLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.

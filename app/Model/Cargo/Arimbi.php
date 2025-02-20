@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
@@ -40,7 +41,7 @@ class Arimbi extends Model
     protected array $casts = [
         'terminal_time' => 'datetime',
     ];
-
+    public ?array $bunkerTanks = [];
     // create table cargo if not found table
     public static function table($fleetId)
     {
@@ -76,6 +77,10 @@ class Arimbi extends Model
             });
         }
 
+        $model->addColumn($tableName, [
+            []
+        ]);
+
         return $model->setTable($tableName);
     }
 
@@ -97,6 +102,6 @@ class Arimbi extends Model
         return ArimbiLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

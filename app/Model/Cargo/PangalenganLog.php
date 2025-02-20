@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,6 +21,7 @@ use Hyperf\DbConnection\Model\Model;
 class PangalenganLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -194,6 +196,59 @@ class PangalenganLog extends Model
                 $table->timestamps();
             });
         }
+
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'no_1_hfo_p_m3',
+                'after' => 'no_1_hfo_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_hfo_s_m3',
+                'after' => 'no_2_hfo_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_hfoday_p_m3',
+                'after' => 'no_1_hfoday_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_hfoday_s_m3',
+                'after' => 'no_2_hfoday_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'hfo_sett_p_m3',
+                'after' => 'hfo_sett_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_sett_s_m3',
+                'after' => 'mdo_sett_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_mdo_p_m3',
+                'after' => 'no_1_mdo_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_mdo_s_m3',
+                'after' => 'no_2_mdo_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_mdoday_p_m3',
+                'after' => 'no_1_mdoday_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_s_mdoday_s_m3',
+                'after' => 'no_s_mdoday_s',
+            ],
+        ]);
 
         return $model->setTable($tableName);
     }

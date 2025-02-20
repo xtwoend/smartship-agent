@@ -9,16 +9,22 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Yudhistira extends Model
 {
+    use BunkerCapacityCalculate;
+    use HasColumnTrait;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -39,6 +45,17 @@ class Yudhistira extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+
+    public ?array $bunkerTanks = [
+        'after_peak_tank_m3' => ['after_peak_tank', 'port'],
+        'mdo_mgo_tank_p_m3' => ['mdo_mgo_tank_p', 'port'],
+        'mdo_tank_s_m3' => ['mdo_tank_s', 'stb'],
+        'fore_fw_tank_p_m3' => ['fore_fw_tank_p', 'port'],
+        'fore_fw_tank_s_m3' => ['fore_fw_tank_s', 'stb'],
+        'fw_tank_p_m3' => ['fw_tank_p', 'port'],
+        'fw_tank_s_m3' => ['fw_tank_s', 'stb'],
+        'fo_overflow_tank_m3' => ['fo_overflow_tank', 'port'],
     ];
 
     // create table cargo if not found table
@@ -151,8 +168,62 @@ class Yudhistira extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'after_peak_tank_m3',
+                'after' => 'after_peak_tank',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_mgo_tank_p_m3',
+                'after' => 'mdo_mgo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'mdo_tank_s_m3',
+                'after' => 'mdo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fore_fw_tank_p_m3',
+                'after' => 'fore_fw_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fore_fw_tank_s_m3',
+                'after' => 'fore_fw_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fw_tank_p_m3',
+                'after' => 'fw_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fw_tank_s_m3',
+                'after' => 'fw_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fo_overflow_tank_m3',
+                'after' => 'fo_overflow_tank',
+            ],
+        ]);
         return $model->setTable($tableName);
+    }
+
+    // updating
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        // $cargoData = $this->calculate($model);
+        $bunkerData = $this->bunkerCalculate($model);
+        // proses simpan data
+        foreach ($bunkerData as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert
@@ -173,6 +244,6 @@ class Yudhistira extends Model
         return YudhistiraLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }
