@@ -42,13 +42,13 @@ trait CargoTrait
 
     public function getBunkers($model)
     {
-        return $this->getTanks($this->bunkerTanks, Tank::TYPE_BUNKER);
+        return $this->getTanks(Tank::TYPE_BUNKER, $this->bunkerTanks);
     }
     public function getCargos()
     {
-        return $this->getTanks($this->cargoTanks, Tank::TYPE_CARGO);
+        return $this->getTanks(Tank::TYPE_CARGO, $this->cargoTanks);
     }
-    private function getTanks($initialData = [], $type)
+    private function getTanks(string $type, array $initialData = [])
     {
         foreach ($initialData as $tank) {
             Tank::firstOrCreate([

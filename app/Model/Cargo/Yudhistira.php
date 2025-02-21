@@ -15,6 +15,7 @@ namespace App\Model\Cargo;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Model\Events\Updated;
 use Hyperf\Database\Model\Events\Updating;
