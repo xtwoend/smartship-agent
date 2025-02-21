@@ -40,7 +40,7 @@ trait CargoTrait
         return $this->hasMany(Tank::class, 'fleet_id', 'fleet_id')->where('type', Tank::TYPE_CARGO);
     }
 
-    public function getBunkers($model)
+    public function getBunkers()
     {
         return $this->getTanks(Tank::TYPE_BUNKER, $this->bunkerTanks);
     }

@@ -64,7 +64,7 @@ class TypeS extends Model
         'stripping_pump_alarm' => 'boolean',
     ];
 
-    public ?array $tanks = [
+    public ?array $cargoTanks = [
         'tank_1_port_mt' => ['tank_1_port', 'tank_1_port_temp'],
         'tank_1_stb_mt' => ['tank_1_stb', 'tank_1_stb_temp'],
         'tank_2_port_mt' => ['tank_2_port', 'tank_2_port_temp'],
