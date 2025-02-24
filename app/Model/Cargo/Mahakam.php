@@ -9,16 +9,25 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Mahakam extends Model
 {
+    use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -39,6 +48,19 @@ class Mahakam extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+
+    public ?array $cargoTanks = [
+        'level_cot_1p_mt' => ['level_cot_1p' => 'port'],
+        'level_cot_1s_mt' => ['level_cot_1s' => 'stb'],
+        'level_cot_2p_mt' => ['level_cot_2p' => 'port'],
+        'level_cot_2s_mt' => ['level_cot_2s' => 'stb'],
+        'level_cot_3p_mt' => ['level_cot_3p' => 'port'],
+        'level_cot_3s_mt' => ['level_cot_3s' => 'stb'],
+        'level_cot_4p_mt' => ['level_cot_4p' => 'port'],
+        'level_cot_4s_mt' => ['level_cot_4s' => 'stb'],
+        'level_cot_5p_mt' => ['level_cot_5p' => 'port'],
+        'level_cot_5s_mt' => ['level_cot_5s' => 'stb'],
     ];
 
     // create table cargo if not found table
@@ -96,8 +118,71 @@ class Mahakam extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'level_cot_1p_mt',
+                'after' => 'level_cot_1p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_1s_mt',
+                'after' => 'level_cot_1s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_2p_mt',
+                'after' => 'level_cot_2p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_2s_mt',
+                'after' => 'level_cot_2s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_3p_mt',
+                'after' => 'level_cot_3p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_3s_mt',
+                'after' => 'level_cot_3s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_4p_mt',
+                'after' => 'level_cot_4p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_4s_mt',
+                'after' => 'level_cot_4s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_5p_mt',
+                'after' => 'level_cot_5p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_5s_mt',
+                'after' => 'level_cot_5s',
+            ],
+        ]);
         return $model->setTable($tableName);
+    }
+
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model));
+        // proses simpan data
+        foreach ($updates as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert

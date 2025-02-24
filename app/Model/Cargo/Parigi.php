@@ -17,14 +17,16 @@ use Hyperf\Database\Schema\Schema;
 use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
 use Hyperf\Database\Model\Events\Updated;
 use Hyperf\Database\Model\Events\Updating;
 use App\Model\Traits\BunkerCapacityCalculate;
 
 class Parigi extends Model
 {
-    use BunkerCapacityCalculate;
     use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
     use CargoTrait;
     /**
      * The table associated with the model.
@@ -47,6 +49,20 @@ class Parigi extends Model
     protected array $casts = [
         'terminal_time' => 'datetime',
     ];
+
+    public ?array $cargoTanks = [
+        'no1_cargo_tank_p_level_mt' => ['no1_cargo_tank_p_level' => 'port'],
+        'no1_cargo_tank_s_level_mt' => ['no1_cargo_tank_s_level' => 'stb'],
+        'no2_cargo_tank_p_level_mt' => ['no2_cargo_tank_p_level' => 'port'],
+        'no2_cargo_tank_s_level_mt' => ['no2_cargo_tank_s_level' => 'stb'],
+        'no3_cargo_tank_p_level_mt' => ['no3_cargo_tank_p_level' => 'port'],
+        'no3_cargo_tank_s_level_mt' => ['no3_cargo_tank_s_level' => 'stb'],
+        'no4_cargo_tank_p_level_mt' => ['no4_cargo_tank_p_level' => 'port'],
+        'no4_cargo_tank_s_level_mt' => ['no4_cargo_tank_s_level' => 'stb'],
+        'no5_cargo_tank_p_level_mt' => ['no5_cargo_tank_p_level' => 'port'],
+        'no5_cargo_tank_s_level_mt' => ['no5_cargo_tank_s_level' => 'stb'],
+    ];
+
 
     public ?array $bunkerTanks = [
         'mdo_tank_1p_m3' => ['mdo_tank_1p', 'port'],
@@ -240,6 +256,57 @@ class Parigi extends Model
                 'name' => 'mdo_setting_tank_m3',
                 'after' => 'mdo_setting_tank',
             ],
+            
+            [
+                'type' => 'float',
+                'name' => 'no1_cargo_tank_p_level_mt',
+                'after' => 'no1_cargo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_cargo_tank_s_level_mt',
+                'after' => 'no1_cargo_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_cargo_tank_p_level_mt',
+                'after' => 'no2_cargo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_cargo_tank_s_level_mt',
+                'after' => 'no2_cargo_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no3_cargo_tank_p_level_mt',
+                'after' => 'no3_cargo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no3_cargo_tank_s_level_mt',
+                'after' => 'no3_cargo_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no4_cargo_tank_p_level_mt',
+                'after' => 'no4_cargo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no4_cargo_tank_s_level_mt',
+                'after' => 'no4_cargo_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no5_cargo_tank_p_level_mt',
+                'after' => 'no5_cargo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no5_cargo_tank_s_level_mt',
+                'after' => 'no5_cargo_tank_s_level',
+            ],
 
         ]);
         return $model->setTable($tableName);
@@ -251,10 +318,10 @@ class Parigi extends Model
     {
         $model = $event->getModel();
         // calculate cargo
-        // $cargoData = $this->calculate($model);
-        $bunkerData = $this->bunkerCalculate($model);
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model));
         // proses simpan data
-        foreach ($bunkerData as $k => $v) {
+        foreach ($updates as $k => $v) {
             $this->{$k} = $v;
         }
     }

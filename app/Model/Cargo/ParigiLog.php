@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
@@ -232,8 +233,59 @@ class ParigiLog extends Model
                 'name' => 'mdo_setting_tank_m3',
                 'after' => 'mdo_setting_tank',
             ],
-            
-            ]);
+
+
+            [
+                'type' => 'float',
+                'name' => 'no1_cargo_tank_p_level_mt',
+                'after' => 'no1_cargo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_cargo_tank_s_level_mt',
+                'after' => 'no1_cargo_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_cargo_tank_p_level_mt',
+                'after' => 'no2_cargo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_cargo_tank_s_level_mt',
+                'after' => 'no2_cargo_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no3_cargo_tank_p_level_mt',
+                'after' => 'no3_cargo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no3_cargo_tank_s_level_mt',
+                'after' => 'no3_cargo_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no4_cargo_tank_p_level_mt',
+                'after' => 'no4_cargo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no4_cargo_tank_s_level_mt',
+                'after' => 'no4_cargo_tank_s_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no5_cargo_tank_p_level_mt',
+                'after' => 'no5_cargo_tank_p_level',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no5_cargo_tank_s_level_mt',
+                'after' => 'no5_cargo_tank_s_level',
+            ],
+        ]);
         return $model->setTable($tableName);
     }
 

@@ -207,6 +207,67 @@ class AntasenaLog extends Model
                 'name' => 'fo_overflow_tank_m3',
                 'after' => 'fo_overflow_tank',
             ],
+
+            [
+                'type' => 'float',
+                'name' => 'level_cot_1p_mt_mt',
+                'after' => 'level_cot_1p_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_1s_mt_mt',
+                'after' => 'level_cot_1s_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_2p_mt_mt',
+                'after' => 'level_cot_2p_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_2s_mt_mt',
+                'after' => 'level_cot_2s_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_3p_mt_mt',
+                'after' => 'level_cot_3p_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_3s_mt_mt',
+                'after' => 'level_cot_3s_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_4p_mt_mt',
+                'after' => 'level_cot_4p_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_4s_mt_mt',
+                'after' => 'level_cot_4s_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_5p_mt_mt',
+                'after' => 'level_cot_5p_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_5s_mt_mt',
+                'after' => 'level_cot_5s_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_slop_p_mt_mt',
+                'after' => 'level_slop_p_mt',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_slop_s_mt_mt',
+                'after' => 'level_slop_s_mt',
+            ],
         ]);
         return $model->setTable($tableName);
     }

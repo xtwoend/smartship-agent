@@ -9,16 +9,25 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Kakap extends Model
 {
+    use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -39,6 +48,21 @@ class Kakap extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+
+    public ?array $cargoTanks = [
+        'no_1_cargo_tank_p_mt' => ['no_1_cargo_tank_p' => 'port'],
+        'no_1_cargo_tank_s_mt' => ['no_1_cargo_tank_s' => 'stb'],
+        'no_2_cargo_tank_p_mt' => ['no_2_cargo_tank_p' => 'port'],
+        'no_2_cargo_tank_s_mt' => ['no_2_cargo_tank_s' => 'stb'],
+        'no_3_cargo_tank_p_mt' => ['no_3_cargo_tank_p' => 'port'],
+        'no_3_cargo_tank_s_mt' => ['no_3_cargo_tank_s' => 'stb'],
+        'no_4_cargo_tank_p_mt' => ['no_4_cargo_tank_p' => 'port'],
+        'no_4_cargo_tank_s_mt' => ['no_4_cargo_tank_s' => 'stb'],
+        'no_5_cargo_tank_p_mt' => ['no_5_cargo_tank_p' => 'port'],
+        'no_5_cargo_tank_s_mt' => ['no_5_cargo_tank_s' => 'stb'],
+        'slop_tank_p_mt' => ['slop_tank_p' => 'port'],
+        'slop_tank_s_mt' => ['slop_tank_s' => 'port'],
     ];
 
     // create table cargo if not found table
@@ -82,7 +106,81 @@ class Kakap extends Model
             });
         }
 
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'no_1_cargo_tank_p_mt',
+                'after' => 'no_1_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_cargo_tank_s_mt',
+                'after' => 'no_1_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_cargo_tank_p_mt',
+                'after' => 'no_2_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_cargo_tank_s_mt',
+                'after' => 'no_2_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_3_cargo_tank_p_mt',
+                'after' => 'no_3_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_3_cargo_tank_s_mt',
+                'after' => 'no_3_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_4_cargo_tank_p_mt',
+                'after' => 'no_4_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_4_cargo_tank_s_mt',
+                'after' => 'no_4_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_5_cargo_tank_p_mt',
+                'after' => 'no_5_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_5_cargo_tank_s_mt',
+                'after' => 'no_5_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'slop_tank_p_mt',
+                'after' => 'slop_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'slop_tank_s_mt',
+                'after' => 'slop_tank_s',
+            ],
+        ]);
         return $model->setTable($tableName);
+    }
+
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model));
+        // proses simpan data
+        foreach ($updates as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert

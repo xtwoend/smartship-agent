@@ -288,6 +288,67 @@ class PagerunganLog extends Model
                 'name' => 'do_setting_tank_level_m3',
                 'after' => 'do_setting_tank_level',
             ],
+
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank1p_ullage_mt',
+                'after' => 'cargo_tank1p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank1s_ullage_mt',
+                'after' => 'cargo_tank1s_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank2p_ullage_mt',
+                'after' => 'cargo_tank2p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank2s_ullage_mt',
+                'after' => 'cargo_tank2s_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank3p_ullage_mt',
+                'after' => 'cargo_tank3p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank3s_ullage_mt',
+                'after' => 'cargo_tank3s_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank4p_ullage_mt',
+                'after' => 'cargo_tank4p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank4s_ullage_mt',
+                'after' => 'cargo_tank4s_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank5p_ullage_mt',
+                'after' => 'cargo_tank5p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank5s_ullage_mt',
+                'after' => 'cargo_tank5s_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'slop_tank_p_ullage_mt',
+                'after' => 'slop_tank_p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'slop_tank_s_ullage_mt',
+                'after' => 'slop_tank_s_ullage',
+            ],
         ]);
 
         return $model->setTable($tableName);

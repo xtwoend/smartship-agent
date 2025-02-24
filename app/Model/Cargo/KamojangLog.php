@@ -11,15 +11,17 @@ declare(strict_types=1);
  */
 namespace App\Model\Cargo;
 
-use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
+use Hyperf\Database\Schema\Blueprint;
 
 class KamojangLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -100,7 +102,59 @@ class KamojangLog extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'no_1_cargo_tank_p_mt',
+                'after' => 'no_1_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_cargo_tank_s_mt',
+                'after' => 'no_1_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_cargo_tank_p_mt',
+                'after' => 'no_2_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_cargo_tank_s_mt',
+                'after' => 'no_2_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_3_cargo_tank_p_mt',
+                'after' => 'no_3_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_3_cargo_tank_s_mt',
+                'after' => 'no_3_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_4_cargo_tank_p_mt',
+                'after' => 'no_4_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_4_cargo_tank_s_mt',
+                'after' => 'no_4_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_5_cargo_tank_p_mt',
+                'after' => 'no_5_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_5_cargo_tank_s_mt',
+                'after' => 'no_5_cargo_tank_s',
+            ],
+            
+        ]);
         return $model->setTable($tableName);
     }
 

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,6 +21,7 @@ use Hyperf\DbConnection\Model\Model;
 class AttakaLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -128,7 +130,48 @@ class AttakaLog extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'level_tank1_mt',
+                'after' => 'level_tank1',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'bottom_temp_tank1_mt',
+                'after' => 'bottom_temp_tank1',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'middle_temp_tank1_mt',
+                'after' => 'middle_temp_tank1',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'top_temp_tank1_mt',
+                'after' => 'top_temp_tank1',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_tank2_mt',
+                'after' => 'level_tank2',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'bottom_temp_tank2_mt',
+                'after' => 'bottom_temp_tank2',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'middle_temp_tank2_mt',
+                'after' => 'middle_temp_tank2',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'top_temp_tank2_mt',
+                'after' => 'top_temp_tank2',
+            ],
+            ]);
         return $model->setTable($tableName);
     }
 

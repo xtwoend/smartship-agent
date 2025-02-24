@@ -16,6 +16,7 @@ use Hyperf\Database\Schema\Schema;
 use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
 use Hyperf\Database\Model\Events\Updated;
 use Hyperf\Database\Model\Events\Updating;
 use App\Model\Traits\BunkerCapacityCalculate;
@@ -23,8 +24,9 @@ use App\Model\Traits\BunkerCapacityCalculate;
 class Pagerungan extends Model
 {
 
-    use BunkerCapacityCalculate;
     use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
     use CargoTrait;
     /**
      * The table associated with the model.
@@ -51,6 +53,22 @@ class Pagerungan extends Model
      * The attributes that should be hidden for serialization.
      * 
      */
+
+     public ?array $cargoTanks = [
+        'cargo_tank1p_ullage_mt' => ['cargo_tank1p_ullage' => 'port'],
+        'cargo_tank1s_ullage_mt' => ['cargo_tank1s_ullage' => 'stb'],
+        'cargo_tank2p_ullage_mt' => ['cargo_tank2p_ullage' => 'port'],
+        'cargo_tank2s_ullage_mt' => ['cargo_tank2s_ullage' => 'stb'],
+        'cargo_tank3p_ullage_mt' => ['cargo_tank3p_ullage' => 'port'],
+        'cargo_tank3s_ullage_mt' => ['cargo_tank3s_ullage' => 'stb'],
+        'cargo_tank4p_ullage_mt' => ['cargo_tank4p_ullage' => 'port'],
+        'cargo_tank4s_ullage_mt' => ['cargo_tank4s_ullage' => 'stb'],
+        'cargo_tank5p_ullage_mt' => ['cargo_tank5p_ullage' => 'port'],
+        'cargo_tank5s_ullage_mt' => ['cargo_tank5s_ullage' => 'stb'],
+        'slop_tank_p_ullage_mt' => ['slop_tank_p_ullage' => 'port'],
+        'slop_tank_s_ullage_mt' => ['slop_tank_s_ullage' => 'stb'],
+     ];
+     
     public ?array $bunkerTanks = [
         'no1_fo_tank_p_level_m3' => ['no1_fo_tank_p_level', 'port'],
         'no1_fo_tank_s_level_m3' => ['no1_fo_tank_s_level', 'stb'],
@@ -301,6 +319,69 @@ class Pagerungan extends Model
                 'name' => 'do_setting_tank_level_m3',
                 'after' => 'do_setting_tank_level',
             ],
+            
+            
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank1p_ullage_mt',
+                'after' => 'cargo_tank1p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank1s_ullage_mt',
+                'after' => 'cargo_tank1s_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank2p_ullage_mt',
+                'after' => 'cargo_tank2p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank2s_ullage_mt',
+                'after' => 'cargo_tank2s_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank3p_ullage_mt',
+                'after' => 'cargo_tank3p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank3s_ullage_mt',
+                'after' => 'cargo_tank3s_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank4p_ullage_mt',
+                'after' => 'cargo_tank4p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank4s_ullage_mt',
+                'after' => 'cargo_tank4s_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank5p_ullage_mt',
+                'after' => 'cargo_tank5p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'cargo_tank5s_ullage_mt',
+                'after' => 'cargo_tank5s_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'slop_tank_p_ullage_mt',
+                'after' => 'slop_tank_p_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'slop_tank_s_ullage_mt',
+                'after' => 'slop_tank_s_ullage',
+            ],
+            
         ]);
         return $model->setTable($tableName);
     }
@@ -310,10 +391,10 @@ class Pagerungan extends Model
     {
         $model = $event->getModel();
         // calculate cargo
-        // $cargoData = $this->calculate($model);
-        $bunkerData = $this->bunkerCalculate($model);
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model) );
         // proses simpan data
-        foreach ($bunkerData as $k => $v) {
+        foreach ($updates as $k => $v) {
             $this->{$k} = $v;
         }
     }

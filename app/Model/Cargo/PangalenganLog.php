@@ -248,6 +248,69 @@ class PangalenganLog extends Model
                 'name' => 'no_s_mdoday_s_m3',
                 'after' => 'no_s_mdoday_s',
             ],
+
+
+
+            [
+                'type' => 'float',
+                'name' => 'no_1_cargo_tank_p_mt',
+                'after' => 'no_1_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_cargo_tank_s_mt',
+                'after' => 'no_1_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_cargo_tank_p_mt',
+                'after' => 'no_2_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_cargo_tank_s_mt',
+                'after' => 'no_2_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_3_cargo_tank_p_mt',
+                'after' => 'no_3_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_3_cargo_tank_s_mt',
+                'after' => 'no_3_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_4_cargo_tank_p_mt',
+                'after' => 'no_4_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_4_cargo_tank_s_mt',
+                'after' => 'no_4_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_5_cargo_tank_p_mt',
+                'after' => 'no_5_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_5_cargo_tank_s_mt',
+                'after' => 'no_5_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'slop_cargo_tank_p_mt',
+                'after' => 'slop_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'slop_cargo_tank_s_mt',
+                'after' => 'slop_cargo_tank_s',
+            ],
         ]);
 
         return $model->setTable($tableName);

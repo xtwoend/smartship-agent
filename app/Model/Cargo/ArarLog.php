@@ -132,6 +132,48 @@ class ArarLog extends Model
             });
         }
 
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'level_tank1_mt',
+                'after' => 'level_tank1_m',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'bottom_temp_tank1_mt',
+                'after' => 'bottom_temp_tank1_m',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'middle_temp_tank1_mt',
+                'after' => 'middle_temp_tank1_m',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'top_temp_tank1_mt',
+                'after' => 'top_temp_tank1_m',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_tank2_mt',
+                'after' => 'level_tank2_m',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'bottom_temp_tank2_mt',
+                'after' => 'bottom_temp_tank2_m',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'middle_temp_tank2_mt',
+                'after' => 'middle_temp_tank2_m',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'top_temp_tank2_mt',
+                'after' => 'top_temp_tank2_m',
+            ],
+    ]);
         return $model->setTable($tableName);
     }
 

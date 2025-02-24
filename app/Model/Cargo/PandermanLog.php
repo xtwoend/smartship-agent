@@ -11,15 +11,17 @@ declare(strict_types=1);
  */
 namespace App\Model\Cargo;
 
-use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
+use Hyperf\Database\Schema\Blueprint;
 
 class PandermanLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -180,7 +182,58 @@ class PandermanLog extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'no_1_cot_p_mt',
+                'after' => 'no_1_cot_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_cot_s_mt',
+                'after' => 'no_1_cot_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_cot_p_mt',
+                'after' => 'no_2_cot_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_cot_s_mt',
+                'after' => 'no_2_cot_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_3_cot_p_mt',
+                'after' => 'no_3_cot_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_3_cot_s_mt',
+                'after' => 'no_3_cot_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_4_cot_p_mt',
+                'after' => 'no_4_cot_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_4_cot_s_mt',
+                'after' => 'no_4_cot_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_5_cot_p_mt',
+                'after' => 'no_5_cot_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_5_cot_s_mt',
+                'after' => 'no_5_cot_s',
+            ],
+        ]);
         return $model->setTable($tableName);
     }
 

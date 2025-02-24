@@ -288,6 +288,57 @@ class PasamanLog extends Model
                 'after' => 'no2_hfo_day_tank_s',
             ],
 
+            [
+                'type' => 'float',
+                'name' => 'no_1_cargo_tank_p_mt',
+                'after' => 'no_1_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_1_cargo_tank_s_mt',
+                'after' => 'no_1_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_cargo_tank_p_mt',
+                'after' => 'no_2_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_2_cargo_tank_s_mt',
+                'after' => 'no_2_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_3_cargo_tank_p_mt',
+                'after' => 'no_3_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_3_cargo_tank_s_mt',
+                'after' => 'no_3_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_4_cargo_tank_p_mt',
+                'after' => 'no_4_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_4_cargo_tank_s_mt',
+                'after' => 'no_4_cargo_tank_s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_5_cargo_tank_p_mt',
+                'after' => 'no_5_cargo_tank_p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no_5_cargo_tank_s_mt',
+                'after' => 'no_5_cargo_tank_s',
+            ],
+
         ]);
         return $model->setTable($tableName);
     }

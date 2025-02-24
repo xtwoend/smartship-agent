@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
@@ -226,7 +227,59 @@ class PangkalanbrandanLog extends Model
                 'name' => 'mdo_service_tank_2_m3',
                 'after' => 'mdo_service_tank_2',
             ],
-            ]);
+
+
+            [
+                'type' => 'float',
+                'name' => 'no1_cotp_ullage_mt',
+                'after' => 'no1_cotp_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_cots_ullage_mt',
+                'after' => 'no1_cots_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_cotp_ullage_mt',
+                'after' => 'no2_cotp_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_cots_ullage_mt',
+                'after' => 'no2_cots_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no3_cotp_ullage_mt',
+                'after' => 'no3_cotp_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no3_cots_ullage_mt',
+                'after' => 'no3_cots_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no4_cotp_ullage_mt',
+                'after' => 'no4_cotp_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no4_cots_ullage_mt',
+                'after' => 'no4_cots_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no5_cotp_ullage_mt',
+                'after' => 'no5_cotp_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no5_cots_ullage_mt',
+                'after' => 'no5_cots_ullage',
+            ],
+        ]);
         return $model->setTable($tableName);
     }
 }

@@ -11,15 +11,17 @@ declare(strict_types=1);
  */
 namespace App\Model\Cargo;
 
-use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
+use Hyperf\Database\Schema\Blueprint;
 
 class TypeALog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -83,7 +85,19 @@ class TypeALog extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'ullage_cargo_no1_mt',
+                'after' => 'ullage_cargo_no1',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'ullage_cargo_no2_mt',
+                'after' => 'ullage_cargo_no2',
+            ],
+            
+        ]);
         return $model->setTable($tableName);
     }
 }

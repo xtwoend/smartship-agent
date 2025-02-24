@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Model\Traits;
 
 use App\Model\BunkerSounding;
+use Hyperf\Database\Model\Events\Updating;
 
 trait BunkerCapacityCalculate
 {

@@ -17,6 +17,7 @@ use Hyperf\Database\Schema\Schema;
 use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
 use Hyperf\Database\Model\Events\Updated;
 use Hyperf\Database\Model\Events\Updating;
 use App\Model\Traits\BunkerCapacityCalculate;
@@ -24,8 +25,9 @@ use App\Model\Traits\BunkerCapacityCalculate;
 class Pangkalanbrandan extends Model
 {
 
-    use BunkerCapacityCalculate;
     use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
     use CargoTrait;
     /**
      * The table associated with the model.
@@ -47,6 +49,19 @@ class Pangkalanbrandan extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+
+    public ?array $cargoTanks = [
+        'no1_cotp_ullage_mt' => ['no1_cotp_ullage' => 'port'],
+        'no1_cots_ullage_mt' => ['no1_cots_ullage' => 'stb'],
+        'no2_cotp_ullage_mt' => ['no2_cotp_ullage' => 'port'],
+        'no2_cots_ullage_mt' => ['no2_cots_ullage' => 'stb'],
+        'no3_cotp_ullage_mt' => ['no3_cotp_ullage' => 'port'],
+        'no3_cots_ullage_mt' => ['no3_cots_ullage' => 'stb'],
+        'no4_cotp_ullage_mt' => ['no4_cotp_ullage' => 'port'],
+        'no4_cots_ullage_mt' => ['no4_cots_ullage' => 'stb'],
+        'no5_cotp_ullage_mt' => ['no5_cotp_ullage' => 'port'],
+        'no5_cots_ullage_mt' => ['no5_cots_ullage' => 'stb'],
     ];
 
     public ?array $bunkerTanks = [
@@ -239,6 +254,58 @@ class Pangkalanbrandan extends Model
                 'name' => 'mdo_service_tank_2_m3',
                 'after' => 'mdo_service_tank_2',
             ],
+
+
+            [
+                'type' => 'float',
+                'name' => 'no1_cotp_ullage_mt',
+                'after' => 'no1_cotp_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no1_cots_ullage_mt',
+                'after' => 'no1_cots_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_cotp_ullage_mt',
+                'after' => 'no2_cotp_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no2_cots_ullage_mt',
+                'after' => 'no2_cots_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no3_cotp_ullage_mt',
+                'after' => 'no3_cotp_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no3_cots_ullage_mt',
+                'after' => 'no3_cots_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no4_cotp_ullage_mt',
+                'after' => 'no4_cotp_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no4_cots_ullage_mt',
+                'after' => 'no4_cots_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no5_cotp_ullage_mt',
+                'after' => 'no5_cotp_ullage',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'no5_cots_ullage_mt',
+                'after' => 'no5_cots_ullage',
+            ],
         ]);
         return $model->setTable($tableName);
     }
@@ -248,10 +315,10 @@ class Pangkalanbrandan extends Model
     {
         $model = $event->getModel();
         // calculate cargo
-        // $cargoData = $this->calculate($model);
-        $bunkerData = $this->bunkerCalculate($model);
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model));
         // proses simpan data
-        foreach ($bunkerData as $k => $v) {
+        foreach ($updates as $k => $v) {
             $this->{$k} = $v;
         }
     }

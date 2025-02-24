@@ -11,15 +11,17 @@ declare(strict_types=1);
  */
 namespace App\Model\Cargo;
 
-use App\Model\Alarm\SensorAlarmTrait;
 use Carbon\Carbon;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
+use Hyperf\Database\Schema\Blueprint;
 
 class WalioLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -213,7 +215,18 @@ class WalioLog extends Model
                 $table->timestamps();
             });
         }
-
+        $model->addColumn($tableName, [
+            [
+                'type' => 'float',
+                'name' => 'level_cargo_1_stb_mt',
+                'after' => 'level_cargo_1_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cargo_1_port_mt',
+                'after' => 'level_cargo_1_port',
+            ],
+        ]);
         return $model->setTable($tableName);
     }
 

@@ -14,17 +14,19 @@ namespace App\Model\Cargo;
 
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
-use Hyperf\DbConnection\Model\Model;
 use App\Model\Traits\HasColumnTrait;
+use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
 use Hyperf\Database\Model\Events\Updated;
 use Hyperf\Database\Model\Events\Updating;
 use App\Model\Traits\BunkerCapacityCalculate;
 
 class Yudhistira extends Model
 {
-    use BunkerCapacityCalculate;
     use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
     use CargoTrait;
     /**
      * The table associated with the model.
@@ -46,6 +48,20 @@ class Yudhistira extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+
+
+    public ?array $cargoTanks = [
+        'level_cot_1p_mt' => ['level_cot_1p' => 'port'],
+        'level_cot_1s_mt' => ['level_cot_1s' => 'stb'],
+        'level_cot_2p_mt' => ['level_cot_2p' => 'port'],
+        'level_cot_2s_mt' => ['level_cot_2s' => 'stb'],
+        'level_cot_3p_mt' => ['level_cot_3p' => 'port'],
+        'level_cot_3s_mt' => ['level_cot_3s' => 'stb'],
+        'level_cot_4p_mt' => ['level_cot_4p' => 'port'],
+        'level_cot_4s_mt' => ['level_cot_4s' => 'stb'],
+        'level_cot_5p_mt' => ['level_cot_5p' => 'port'],
+        'level_cot_5s_mt' => ['level_cot_5s' => 'stb'],
     ];
 
     public ?array $bunkerTanks = [
@@ -210,6 +226,58 @@ class Yudhistira extends Model
                 'name' => 'fo_overflow_tank_m3',
                 'after' => 'fo_overflow_tank',
             ],
+
+
+            [
+                'type' => 'float',
+                'name' => 'level_cot_1p_mt',
+                'after' => 'level_cot_1p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_1s_mt',
+                'after' => 'level_cot_1s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_2p_mt',
+                'after' => 'level_cot_2p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_2s_mt',
+                'after' => 'level_cot_2s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_3p_mt',
+                'after' => 'level_cot_3p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_3s_mt',
+                'after' => 'level_cot_3s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_4p_mt',
+                'after' => 'level_cot_4p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_4s_mt',
+                'after' => 'level_cot_4s',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_5p_mt',
+                'after' => 'level_cot_5p',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'level_cot_5s_mt',
+                'after' => 'level_cot_5s',
+            ],
         ]);
         return $model->setTable($tableName);
     }
@@ -219,10 +287,10 @@ class Yudhistira extends Model
     {
         $model = $event->getModel();
         // calculate cargo
-        // $cargoData = $this->calculate($model);
-        $bunkerData = $this->bunkerCalculate($model);
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model));
         // proses simpan data
-        foreach ($bunkerData as $k => $v) {
+        foreach ($updates as $k => $v) {
             $this->{$k} = $v;
         }
     }

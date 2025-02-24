@@ -12,18 +12,22 @@ declare(strict_types=1);
 
 namespace App\Model\Cargo;
 
-use App\Model\Traits\BunkerCapacityCalculate;
-use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Arar extends Model
 {
     use HasColumnTrait;
+    use CargoTankCalculate;
     use BunkerCapacityCalculate;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -44,6 +48,17 @@ class Arar extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+
+    public ?array $cargoTanks = [
+        'level_tank1_mt' => ['level_tank1', 'port'],
+        'bottom_temp_tank1_mt' => ['bottom_temp_tank1', 'port'],
+        'middle_temp_tank1_mt' => ['middle_temp_tank1', 'port'],
+        'top_temp_tank1_mt' => ['top_temp_tank1', 'port'],
+        'level_tank2_mt' => ['level_tank2', 'port'],
+        'bottom_temp_tank2_mt' => ['bottom_temp_tank2', 'port'],
+        'middle_temp_tank2_mt' => ['middle_temp_tank2', 'port'],
+        'top_temp_tank2_mt' => ['top_temp_tank2', 'port'],
     ];
 
     public ?array $bunkerTanks = [];
@@ -129,8 +144,61 @@ class Arar extends Model
             });
         }
 
-        $model->addColumn($tableName, []);
+        $model->addColumn($tableName, [
+                [
+                    'type' => 'float',
+                    'name' => 'level_tank1_mt',
+                    'after' => 'level_tank1_m',
+                ],
+                [
+                    'type' => 'float',
+                    'name' => 'bottom_temp_tank1_mt',
+                    'after' => 'bottom_temp_tank1_m',
+                ],
+                [
+                    'type' => 'float',
+                    'name' => 'middle_temp_tank1_mt',
+                    'after' => 'middle_temp_tank1_m',
+                ],
+                [
+                    'type' => 'float',
+                    'name' => 'top_temp_tank1_mt',
+                    'after' => 'top_temp_tank1_m',
+                ],
+                [
+                    'type' => 'float',
+                    'name' => 'level_tank2_mt',
+                    'after' => 'level_tank2_m',
+                ],
+                [
+                    'type' => 'float',
+                    'name' => 'bottom_temp_tank2_mt',
+                    'after' => 'bottom_temp_tank2_m',
+                ],
+                [
+                    'type' => 'float',
+                    'name' => 'middle_temp_tank2_mt',
+                    'after' => 'middle_temp_tank2_m',
+                ],
+                [
+                    'type' => 'float',
+                    'name' => 'top_temp_tank2_mt',
+                    'after' => 'top_temp_tank2_m',
+                ],
+        ]);
         return $model->setTable($tableName);
+    }
+
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+        $updates = array_merge( $cargoData, $this->bunkerCalculate($model));
+        // proses simpan data
+        foreach ($updates as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert
