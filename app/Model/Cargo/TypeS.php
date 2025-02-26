@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Model\Cargo;
 
-use App\Model\Tank;
 use App\Model\Traits\BunkerCapacityCalculate;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
@@ -65,34 +64,34 @@ class TypeS extends Model
     ];
 
     public ?array $cargoTanks = [
-        'tank_1_port_mt' => ['tank_1_port', 'port'],
-        'tank_1_stb_mt' => ['tank_1_stb', 'stb'],
-        'tank_2_port_mt' => ['tank_2_port', 'port'],
-        'tank_2_stb_mt' => ['tank_2_stb', 'stb'],
-        'tank_3_port_mt' => ['tank_3_port', 'port'],
-        'tank_3_stb_mt' => ['tank_3_stb', 'stb'],
-        'tank_4_port_mt' => ['tank_4_port', 'port'],
-        'tank_4_stb_mt' => ['tank_4_stb', 'stb'],
-        'tank_5_port_mt' => ['tank_5_port', 'port'],
-        'tank_5_stb_mt' => ['tank_5_stb', 'stb'],
-        'tank_6_port_mt' => ['tank_6_port', 'port'],
-        'tank_6_stb_mt' => ['tank_6_stb', 'stb'],
+        'tank_1_port'   => ['port', ['tank_1_port_mt', 'tank_1_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_1_stb'    => ['stb',  ['tank_1_stb_mt', 'tank_1_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_2_port'   => ['port', ['tank_2_port_mt', 'tank_2_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_2_stb'    => ['stb',  ['tank_2_stb_mt', 'tank_2_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_3_port'   => ['port', ['tank_3_port_mt', 'tank_3_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_3_stb'    => ['stb',  ['tank_3_stb_mt', 'tank_3_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_4_port'   => ['port', ['tank_4_port_mt', 'tank_4_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_4_stb'    => ['stb',  ['tank_4_stb_mt', 'tank_4_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_5_port'   => ['port', ['tank_5_port_mt', 'tank_5_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_5_stb'    => ['stb',  ['tank_5_stb_mt', 'tank_5_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_6_port'   => ['port', ['tank_6_port_mt', 'tank_6_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_6_stb'    => ['stb',  ['tank_6_stb_mt', 'tank_6_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
     ];
 
     public ?array $bunkerTanks = [
-        'fuel_oil_1_port_m3' => ['fuel_oil_1_port', 'port'],
-        'fuel_oil_1_stb_m3' => ['fuel_oil_1_stb', 'stb'],
-        'fuel_oil_2_port_m3' => ['fuel_oil_2_port', 'port'],
-        'fuel_oil_2_stb_m3' => ['fuel_oil_2_stb', 'stb'],
-        'muel_oil_1_port_m3' => ['muel_oil_1_port', 'port'],
-        'muel_oil_1_stb_m3' => ['muel_oil_1_stb', 'stb'],
-        'muel_oil_2_port_m3' => ['muel_oil_2_port', 'port'],
-        'do_fuel_oil_service_stb_m3' => ['do_fuel_oil_service_stb', 'stb'],
-        'do_fuel_oil_settling_stb_m3' => ['do_fuel_oil_settling_stb', 'stb'],
-        'fuel_oil_service_port_m3' => ['fuel_oil_service_port', 'port'],
-        'fuel_oil_settling_port_m3' => ['fuel_oil_settling_port', 'port'],
-        'ls_fuel_oil_service_port_m3' => ['ls_fuel_oil_service_port', 'port'],
-        'ls_fuel_oil_settling_port_m3' => ['ls_fuel_oil_settling_port', 'port'],
+        'fuel_oil_1_port'           => ['port', ['fuel_oil_1_port_m3', 'fuel_oil_1_port_ltr', 'fuel_oil_1_port_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'fuel_oil_1_stb'            => ['stb', ['fuel_oil_1_stb_m3', 'fuel_oil_1_stb_ltr', 'fuel_oil_1_stb_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'fuel_oil_2_port'           => ['port', ['fuel_oil_2_port_m3', 'fuel_oil_2_port_ltr', 'fuel_oil_2_port_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'fuel_oil_2_stb'            => ['stb', ['fuel_oil_2_stb_m3', 'fuel_oil_2_stb_ltr', 'fuel_oil_2_stb_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'muel_oil_1_port'           => ['port', ['muel_oil_1_port_m3', 'muel_oil_1_port_ltr', 'muel_oil_1_port_mt'], ['mes_type' => 'level', 'content' => 'MDO']],
+        'muel_oil_1_stb'            => ['stb', ['muel_oil_1_stb_m3', 'muel_oil_1_stb_ltr', 'muel_oil_1_stb_mt'], ['mes_type' => 'level', 'content' => 'MDO']],
+        'muel_oil_2_port'           => ['port', ['muel_oil_2_port_m3', 'muel_oil_2_port_ltr', 'muel_oil_2_port_mt'], ['mes_type' => 'level', 'content' => 'MDO']],
+        'do_fuel_oil_service_stb'   => ['stb', ['do_fuel_oil_service_stb_m3', 'do_fuel_oil_service_stb_ltr', 'do_fuel_oil_service_stb_mt'], ['mes_type' => 'level', 'content' => 'MDO']],
+        'do_fuel_oil_settling_stb'  => ['stb', ['do_fuel_oil_settling_stb_m3', 'do_fuel_oil_settling_stb_ltr', 'do_fuel_oil_settling_stb_mt'], ['mes_type' => 'level', 'content' => 'MDO']],
+        'fuel_oil_service_port'     => ['port', ['fuel_oil_service_port_m3', 'fuel_oil_service_port_ltr', 'fuel_oil_service_port_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'fuel_oil_settling_port'    => ['port', ['fuel_oil_settling_port_m3', 'fuel_oil_settling_port_ltr', 'fuel_oil_settling_port_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'ls_fuel_oil_service_port'  => ['port', ['ls_fuel_oil_service_port_m3', 'ls_fuel_oil_service_port_ltr', 'ls_fuel_oil_service_port_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'ls_fuel_oil_settling_port' => ['port', ['ls_fuel_oil_settling_port_m3', 'ls_fuel_oil_settling_port_ltr', 'ls_fuel_oil_settling_port_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
     ];
 
     // create table cargo if not found table
@@ -192,122 +191,126 @@ class TypeS extends Model
                 $table->timestamps();
             });
         }
-
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'tank_1_port_mt',
-                'after' => 'tank_1_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_1_stb_mt',
-                'after' => 'tank_1_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_2_port_mt',
-                'after' => 'tank_2_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_2_stb_mt',
-                'after' => 'tank_2_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_3_port_mt',
-                'after' => 'tank_3_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_3_stb_mt',
-                'after' => 'tank_3_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_4_port_mt',
-                'after' => 'tank_4_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_4_stb_mt',
-                'after' => 'tank_4_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_5_port_mt',
-                'after' => 'tank_5_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_5_stb_mt',
-                'after' => 'tank_5_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_6_port_mt',
-                'after' => 'tank_6_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_6_stb_mt',
-                'after' => 'tank_6_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fuel_oil_1_port_m3',
-                'after' => 'fuel_oil_1_port',
-            ],[
-                'type' => 'float',
-                'name' => 'fuel_oil_1_stb_m3',
-                'after' => 'fuel_oil_1_stb',
-            ],[
-                'type' => 'float',
-                'name' => 'fuel_oil_2_port_m3',
-                'after' => 'fuel_oil_2_port',
-            ],[
-                'type' => 'float',
-                'name' => 'fuel_oil_2_stb_m3',
-                'after' => 'fuel_oil_2_stb',
-            ],[
-                'type' => 'float',
-                'name' => 'muel_oil_1_port_m3',
-                'after' => 'muel_oil_1_port',
-            ],[
-                'type' => 'float',
-                'name' => 'muel_oil_1_stb_m3',
-                'after' => 'muel_oil_1_stb',
-            ],[
-                'type' => 'float',
-                'name' => 'muel_oil_2_port_m3',
-                'after' => 'muel_oil_2_port',
-            ],[
-                'type' => 'float',
-                'name' => 'do_fuel_oil_service_stb_m3',
-                'after' => 'do_fuel_oil_service_stb',
-            ],[
-                'type' => 'float',
-                'name' => 'do_fuel_oil_settling_stb_m3',
-                'after' => 'do_fuel_oil_settling_stb',
-            ],[
-                'type' => 'float',
-                'name' => 'fuel_oil_service_port_m3',
-                'after' => 'fuel_oil_service_port',
-            ],[
-                'type' => 'float',
-                'name' => 'fuel_oil_settling_port_m3',
-                'after' => 'fuel_oil_settling_port',
-            ],[
-                'type' => 'float',
-                'name' => 'ls_fuel_oil_service_port_m3',
-                'after' => 'ls_fuel_oil_service_port',
-            ],[
-                'type' => 'float',
-                'name' => 'ls_fuel_oil_settling_port_m3',
-                'after' => 'ls_fuel_oil_settling_port',
-            ],
-        ]);
+        // $model->addColumn($tableName, $model->tablePayloadBuilder($model));
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new TypeSLog();
+        $logModel->table($fleetId, null, $tablePayload);
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_1_port_mt',
+        //         'after' => 'tank_1_port',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_1_stb_mt',
+        //         'after' => 'tank_1_stb',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_2_port_mt',
+        //         'after' => 'tank_2_port',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_2_stb_mt',
+        //         'after' => 'tank_2_stb',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_3_port_mt',
+        //         'after' => 'tank_3_port',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_3_stb_mt',
+        //         'after' => 'tank_3_stb',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_4_port_mt',
+        //         'after' => 'tank_4_port',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_4_stb_mt',
+        //         'after' => 'tank_4_stb',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_5_port_mt',
+        //         'after' => 'tank_5_port',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_5_stb_mt',
+        //         'after' => 'tank_5_stb',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_6_port_mt',
+        //         'after' => 'tank_6_port',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tank_6_stb_mt',
+        //         'after' => 'tank_6_stb',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fuel_oil_1_port_m3',
+        //         'after' => 'fuel_oil_1_port',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'fuel_oil_1_stb_m3',
+        //         'after' => 'fuel_oil_1_stb',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'fuel_oil_2_port_m3',
+        //         'after' => 'fuel_oil_2_port',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'fuel_oil_2_stb_m3',
+        //         'after' => 'fuel_oil_2_stb',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'muel_oil_1_port_m3',
+        //         'after' => 'muel_oil_1_port',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'muel_oil_1_stb_m3',
+        //         'after' => 'muel_oil_1_stb',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'muel_oil_2_port_m3',
+        //         'after' => 'muel_oil_2_port',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'do_fuel_oil_service_stb_m3',
+        //         'after' => 'do_fuel_oil_service_stb',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'do_fuel_oil_settling_stb_m3',
+        //         'after' => 'do_fuel_oil_settling_stb',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'fuel_oil_service_port_m3',
+        //         'after' => 'fuel_oil_service_port',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'fuel_oil_settling_port_m3',
+        //         'after' => 'fuel_oil_settling_port',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'ls_fuel_oil_service_port_m3',
+        //         'after' => 'ls_fuel_oil_service_port',
+        //     ],[
+        //         'type' => 'float',
+        //         'name' => 'ls_fuel_oil_settling_port_m3',
+        //         'after' => 'ls_fuel_oil_settling_port',
+        //     ],
+        // ]);
 
         return $model->setTable($tableName);
     }

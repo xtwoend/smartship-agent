@@ -52,14 +52,14 @@ class Arimbi extends Model
     ];
 
     public ?array $cargoTanks = [
-        'temp_tank_upper_no1_mt' => ['temp_tank_upper_no1' => 'port'],
-        'temp_tank_upper_no2_mt' => ['temp_tank_upper_no2' => 'port'],
-        'temp_comp_outlet_no1_mt' => ['temp_comp_outlet_no1' => 'port'],
-        'tamp_tank_middle_no1_mt' => ['tamp_tank_middle_no1' => 'port'],
-        'tamp_tank_middle_no2_mt' => ['tamp_tank_middle_no2' => 'port'],
-        'temp_comp_outlet_no2_mt' => ['temp_comp_outlet_no2' => 'port'],
-        'tamp_tank_bottom_no1_mt' => ['tamp_tank_bottom_no1' => 'port'],
-        'tamp_tank_bottom_no2_mt' => ['tamp_tank_bottom_no2' => 'port'],
+        'temp_tank_upper_no1' =>    ['port', ['temp_tank_upper_no1_mt', 'temp_tank_upper_no1_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'temp_tank_upper_no2' =>    ['port', ['temp_tank_upper_no2_mt', 'temp_tank_upper_no2_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'temp_comp_outlet_no1' =>   ['port', ['temp_comp_outlet_no1_mt', 'temp_comp_outlet_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'tamp_tank_middle_no1' =>   ['port', ['tamp_tank_middle_no1_mt', 'tamp_tank_middle_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'tamp_tank_middle_no2' =>   ['port', ['tamp_tank_middle_no2_mt', 'tamp_tank_middle_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'temp_comp_outlet_no2' =>   ['port', ['temp_comp_outlet_no2_mt', 'temp_comp_outlet_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'tamp_tank_bottom_no1' =>   ['port', ['tamp_tank_bottom_no1_mt', 'tamp_tank_bottom_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'tamp_tank_bottom_no2' =>   ['port', ['tamp_tank_bottom_no2_mt', 'tamp_tank_bottom_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
     ];
 
     public ?array $bunkerTanks = [];
@@ -98,48 +98,53 @@ class Arimbi extends Model
             });
         }
 
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'temp_tank_upper_no1_mt',
-                'after' => 'temp_tank_upper_no1',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'temp_tank_upper_no2_mt',
-                'after' => 'temp_tank_upper_no2',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'temp_comp_outlet_no1_mt',
-                'after' => 'temp_comp_outlet_no1',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tamp_tank_middle_no1_mt',
-                'after' => 'tamp_tank_middle_no1',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tamp_tank_middle_no2_mt',
-                'after' => 'tamp_tank_middle_no2',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'temp_comp_outlet_no2_mt',
-                'after' => 'temp_comp_outlet_no2',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tamp_tank_bottom_no1_mt',
-                'after' => 'tamp_tank_bottom_no1',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tamp_tank_bottom_no2_mt',
-                'after' => 'tamp_tank_bottom_no2',
-            ],
-        ]);
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new ArimbiLog();
+        $logModel->table($fleetId, null, $tablePayload);
+
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_tank_upper_no1_mt',
+        //         'after' => 'temp_tank_upper_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_tank_upper_no2_mt',
+        //         'after' => 'temp_tank_upper_no2',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_comp_outlet_no1_mt',
+        //         'after' => 'temp_comp_outlet_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_middle_no1_mt',
+        //         'after' => 'tamp_tank_middle_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_middle_no2_mt',
+        //         'after' => 'tamp_tank_middle_no2',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_comp_outlet_no2_mt',
+        //         'after' => 'temp_comp_outlet_no2',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_bottom_no1_mt',
+        //         'after' => 'tamp_tank_bottom_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_bottom_no2_mt',
+        //         'after' => 'tamp_tank_bottom_no2',
+        //     ],
+        // ]);
 
         return $model->setTable($tableName);
     }

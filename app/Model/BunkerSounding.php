@@ -21,6 +21,8 @@ class BunkerSounding extends Model
      * disable timestamps.
      */
     public bool $timestamps = false;
+    const DENSITY_HFO = 0.95;
+    const DENSITY_MDO = 0.85;
 
     /**
      * The table associated with the model.

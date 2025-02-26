@@ -50,8 +50,9 @@ class PandermanLog extends Model
         'terminal_time' => 'datetime',
     ];
 
+    
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -182,58 +183,61 @@ class PandermanLog extends Model
                 $table->timestamps();
             });
         }
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'no_1_cot_p_mt',
-                'after' => 'no_1_cot_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_1_cot_s_mt',
-                'after' => 'no_1_cot_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_2_cot_p_mt',
-                'after' => 'no_2_cot_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_2_cot_s_mt',
-                'after' => 'no_2_cot_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_3_cot_p_mt',
-                'after' => 'no_3_cot_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_3_cot_s_mt',
-                'after' => 'no_3_cot_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_4_cot_p_mt',
-                'after' => 'no_4_cot_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_4_cot_s_mt',
-                'after' => 'no_4_cot_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_5_cot_p_mt',
-                'after' => 'no_5_cot_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_5_cot_s_mt',
-                'after' => 'no_5_cot_s',
-            ],
-        ]);
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cot_p_mt',
+        //         'after' => 'no_1_cot_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cot_s_mt',
+        //         'after' => 'no_1_cot_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cot_p_mt',
+        //         'after' => 'no_2_cot_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cot_s_mt',
+        //         'after' => 'no_2_cot_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cot_p_mt',
+        //         'after' => 'no_3_cot_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cot_s_mt',
+        //         'after' => 'no_3_cot_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cot_p_mt',
+        //         'after' => 'no_4_cot_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cot_s_mt',
+        //         'after' => 'no_4_cot_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cot_p_mt',
+        //         'after' => 'no_5_cot_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cot_s_mt',
+        //         'after' => 'no_5_cot_s',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 

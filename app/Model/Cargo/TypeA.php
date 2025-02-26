@@ -50,9 +50,10 @@ class TypeA extends Model
     ];
 
     public ?array $cargoTanks = [
-        'ullage_cargo_no1_mt' => ['ullage_cargo_no1' => 'port'],
-        'ullage_cargo_no2_mt' => ['ullage_cargo_no2' => 'port'],
+        'ullage_cargo_no1' => ['port', ['ullage_cargo_no1_mt', 'ullage_cargo_no1_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'ullage_cargo_no2' => ['port', ['ullage_cargo_no2_mt', 'ullage_cargo_no2_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
     ];
+    public ?array $bunkerTanks = [];
     
     // create table cargo if not found table
     public static function table($fleetId)
@@ -88,19 +89,25 @@ class TypeA extends Model
                 $table->timestamps();
             });
         }
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'ullage_cargo_no1_mt',
-                'after' => 'ullage_cargo_no1',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'ullage_cargo_no2_mt',
-                'after' => 'ullage_cargo_no2',
-            ],
-            
-        ]);
+
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new TypeALog();
+        $logModel->table($fleetId, null, $tablePayload);
+
+        
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'ullage_cargo_no1_mt',
+        //         'after' => 'ullage_cargo_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'ullage_cargo_no2_mt',
+        //         'after' => 'ullage_cargo_no2',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 

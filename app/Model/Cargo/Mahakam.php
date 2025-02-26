@@ -51,18 +51,19 @@ class Mahakam extends Model
     ];
 
     public ?array $cargoTanks = [
-        'level_cot_1p_mt' => ['level_cot_1p' => 'port'],
-        'level_cot_1s_mt' => ['level_cot_1s' => 'stb'],
-        'level_cot_2p_mt' => ['level_cot_2p' => 'port'],
-        'level_cot_2s_mt' => ['level_cot_2s' => 'stb'],
-        'level_cot_3p_mt' => ['level_cot_3p' => 'port'],
-        'level_cot_3s_mt' => ['level_cot_3s' => 'stb'],
-        'level_cot_4p_mt' => ['level_cot_4p' => 'port'],
-        'level_cot_4s_mt' => ['level_cot_4s' => 'stb'],
-        'level_cot_5p_mt' => ['level_cot_5p' => 'port'],
-        'level_cot_5s_mt' => ['level_cot_5s' => 'stb'],
+        'level_cot_1p' => ['port',  ['level_cot_1p_mt', 'level_cot_1p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'level_cot_1s' => ['stb',   ['level_cot_1s_mt', 'level_cot_1s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'level_cot_2p' => ['port',  ['level_cot_2p_mt', 'level_cot_2p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'level_cot_2s' => ['stb',   ['level_cot_2s_mt', 'level_cot_2s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'level_cot_3p' => ['port',  ['level_cot_3p_mt', 'level_cot_3p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'level_cot_3s' => ['stb',   ['level_cot_3s_mt', 'level_cot_3s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'level_cot_4p' => ['port',  ['level_cot_4p_mt', 'level_cot_4p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'level_cot_4s' => ['stb',   ['level_cot_4s_mt', 'level_cot_4s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'level_cot_5p' => ['port',  ['level_cot_5p_mt', 'level_cot_5p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'level_cot_5s' => ['stb',   ['level_cot_5s_mt', 'level_cot_5s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
     ];
 
+    public ?array $bunkerTanks = [];
     // create table cargo if not found table
     public static function table($fleetId)
     {
@@ -118,58 +119,64 @@ class Mahakam extends Model
                 $table->timestamps();
             });
         }
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'level_cot_1p_mt',
-                'after' => 'level_cot_1p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_1s_mt',
-                'after' => 'level_cot_1s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_2p_mt',
-                'after' => 'level_cot_2p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_2s_mt',
-                'after' => 'level_cot_2s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_3p_mt',
-                'after' => 'level_cot_3p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_3s_mt',
-                'after' => 'level_cot_3s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_4p_mt',
-                'after' => 'level_cot_4p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_4s_mt',
-                'after' => 'level_cot_4s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_5p_mt',
-                'after' => 'level_cot_5p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_5s_mt',
-                'after' => 'level_cot_5s',
-            ],
-        ]);
+
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new MahakamLog();
+        $logModel->table($fleetId, null, $tablePayload);
+
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_1p_mt',
+        //         'after' => 'level_cot_1p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_1s_mt',
+        //         'after' => 'level_cot_1s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_2p_mt',
+        //         'after' => 'level_cot_2p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_2s_mt',
+        //         'after' => 'level_cot_2s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_3p_mt',
+        //         'after' => 'level_cot_3p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_3s_mt',
+        //         'after' => 'level_cot_3s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_4p_mt',
+        //         'after' => 'level_cot_4p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_4s_mt',
+        //         'after' => 'level_cot_4s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_5p_mt',
+        //         'after' => 'level_cot_5p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_5s_mt',
+        //         'after' => 'level_cot_5s',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 

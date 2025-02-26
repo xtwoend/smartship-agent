@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
@@ -50,8 +51,9 @@ class ArarLog extends Model
         'terminal_time' => 'datetime',
     ];
 
+
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -131,49 +133,51 @@ class ArarLog extends Model
                 $table->timestamps();
             });
         }
-
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'level_tank1_mt',
-                'after' => 'level_tank1_m',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'bottom_temp_tank1_mt',
-                'after' => 'bottom_temp_tank1_m',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'middle_temp_tank1_mt',
-                'after' => 'middle_temp_tank1_m',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'top_temp_tank1_mt',
-                'after' => 'top_temp_tank1_m',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_tank2_mt',
-                'after' => 'level_tank2_m',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'bottom_temp_tank2_mt',
-                'after' => 'bottom_temp_tank2_m',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'middle_temp_tank2_mt',
-                'after' => 'middle_temp_tank2_m',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'top_temp_tank2_mt',
-                'after' => 'top_temp_tank2_m',
-            ],
-    ]);
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_tank1_mt',
+        //         'after' => 'level_tank1_m',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'bottom_temp_tank1_mt',
+        //         'after' => 'bottom_temp_tank1_m',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'middle_temp_tank1_mt',
+        //         'after' => 'middle_temp_tank1_m',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'top_temp_tank1_mt',
+        //         'after' => 'top_temp_tank1_m',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_tank2_mt',
+        //         'after' => 'level_tank2_m',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'bottom_temp_tank2_mt',
+        //         'after' => 'bottom_temp_tank2_m',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'middle_temp_tank2_mt',
+        //         'after' => 'middle_temp_tank2_m',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'top_temp_tank2_mt',
+        //         'after' => 'top_temp_tank2_m',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 

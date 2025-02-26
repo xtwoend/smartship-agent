@@ -51,28 +51,28 @@ class Antasena extends Model
     ];
 
     public ?array $cargoTanks = [
-        'level_cot_1p_mt' => ['level_cot_1p', 'port'],
-        'level_cot_1s_mt' => ['level_cot_1s', 'stb'],
-        'level_cot_2p_mt' => ['level_cot_2p', 'port'],
-        'level_cot_2s_mt' => ['level_cot_2s', 'stb'],
-        'level_cot_3p_mt' => ['level_cot_3p', 'port'],
-        'level_cot_3s_mt' => ['level_cot_3s', 'stb'],
-        'level_cot_4p_mt' => ['level_cot_4p', 'port'],
-        'level_cot_4s_mt' => ['level_cot_4s', 'stb'],
-        'level_cot_5p_mt' => ['level_cot_5p', 'port'],
-        'level_cot_5s_mt' => ['level_cot_5s', 'stb'],
-        'level_slop_p_mt' => ['level_slop_p', 'port'],
-        'level_slop_s_mt' => ['level_slop_s', 'stb'],
+        'level_cot_1p' => ['port',  ['level_cot_1p_mt', 'level_cot_1p_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_cot_1s' => ['stb',   ['level_cot_1s_mt', 'level_cot_1s_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_cot_2p' => ['port',  ['level_cot_2p_mt', 'level_cot_2p_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_cot_2s' => ['stb',   ['level_cot_2s_mt', 'level_cot_2s_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_cot_3p' => ['port',  ['level_cot_3p_mt', 'level_cot_3p_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_cot_3s' => ['stb',   ['level_cot_3s_mt', 'level_cot_3s_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_cot_4p' => ['port',  ['level_cot_4p_mt', 'level_cot_4p_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_cot_4s' => ['stb',   ['level_cot_4s_mt', 'level_cot_4s_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_cot_5p' => ['port',  ['level_cot_5p_mt', 'level_cot_5p_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_cot_5s' => ['stb',   ['level_cot_5s_mt', 'level_cot_5s_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_slop_p' => ['port',  ['level_slop_p_mt', 'level_slop_p_ltr'],    ['mes_type' => 'level', 'content' => '']],
+        'level_slop_s' => ['stb',   ['level_slop_s_mt', 'level_slop_s_ltr'],    ['mes_type' => 'level', 'content' => '']],
     ];
 
     public ?array $bunkerTanks = [
-        'mdo_mgo_tank_p_m3' => ['mdo_mgo_tank_p', 'port'],
-        'mdo_tank_s_m3' => ['mdo_tank_s', 'stb'],
-        'fore_fw_tank_p_m3' => ['fore_fw_tank_p', 'port'],
-        'fore_fw_tank_s_m3' => ['fore_fw_tank_s', 'stb'],
-        'fw_tank_p_m3' => ['fw_tank_p', 'port'],
-        'fw_tank_s_m3' => ['fw_tank_s', 'stb'],
-        'fo_overflow_tank_m3' => ['fo_overflow_tank', 'port'],
+        'mdo_tank_p' =>         ['port', ['mdo_tank_p_m3',          'mdo_tank_p_ltr', 'mdo_tank_p_mt'],  ['mes_type' => 'level', 'content' => 'MDO']],
+        'mdo_tank_s' =>         ['stb', ['mdo_tank_s_m3',           'mdo_tank_s_ltr', 'mdo_tank_s_mt'],  ['mes_type' => 'level', 'content' => 'MDO']],
+        'fore_fw_tank_p' =>     ['port', ['fore_fw_tank_p_m3',      'fore_fw_tank_p_ltr', 'fore_fw_tank_p_mt'],  ['mes_type' => 'level', 'content' => '']],
+        'fore_fw_tank_s' =>     ['stb', ['fore_fw_tank_s_m3',       'fore_fw_tank_s_ltr', 'fore_fw_tank_s_mt'],  ['mes_type' => 'level', 'content' => '']],
+        'fw_tank_p' =>          ['port', ['fw_tank_p_m3',           'fw_tank_p_ltr', 'fw_tank_p_mt'],   ['mes_type' => 'level', 'content' => '']],
+        'fw_tank_s' =>          ['stb', ['fw_tank_s_m3',            'fw_tank_s_ltr', 'fw_tank_s_mt'],   ['mes_type' => 'level', 'content' => '']],
+        'fo_overflow_tank' =>   ['port', ['fo_overflow_tank_m3',    'fo_overflow_tank_ltr', 'fo_overflow_tank_mt'],    ['mes_type' => 'level', 'content' => '']],
     ];
 
     // create table cargo if not found table
@@ -195,105 +195,110 @@ class Antasena extends Model
             });
         }
 
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'mdo_mgo_tank_p_m3',
-                'after' => 'mdo_mgo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'mdo_tank_s_m3',
-                'after' => 'mdo_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fore_fw_tank_p_m3',
-                'after' => 'fore_fw_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fore_fw_tank_s_m3',
-                'after' => 'fore_fw_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fw_tank_p_m3',
-                'after' => 'fw_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fw_tank_s_m3',
-                'after' => 'fw_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fo_overflow_tank_m3',
-                'after' => 'fo_overflow_tank',
-            ],
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new AntasenaLog();
+        $logModel->table($fleetId, null, $tablePayload);
+
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_mgo_tank_p_m3',
+        //         'after' => 'mdo_mgo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_tank_s_m3',
+        //         'after' => 'mdo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fore_fw_tank_p_m3',
+        //         'after' => 'fore_fw_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fore_fw_tank_s_m3',
+        //         'after' => 'fore_fw_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fw_tank_p_m3',
+        //         'after' => 'fw_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fw_tank_s_m3',
+        //         'after' => 'fw_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fo_overflow_tank_m3',
+        //         'after' => 'fo_overflow_tank',
+        //     ],
 
 
-            [
-                'type' => 'float',
-                'name' => 'level_cot_1p_mt_mt',
-                'after' => 'level_cot_1p_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_1s_mt_mt',
-                'after' => 'level_cot_1s_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_2p_mt_mt',
-                'after' => 'level_cot_2p_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_2s_mt_mt',
-                'after' => 'level_cot_2s_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_3p_mt_mt',
-                'after' => 'level_cot_3p_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_3s_mt_mt',
-                'after' => 'level_cot_3s_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_4p_mt_mt',
-                'after' => 'level_cot_4p_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_4s_mt_mt',
-                'after' => 'level_cot_4s_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_5p_mt_mt',
-                'after' => 'level_cot_5p_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cot_5s_mt_mt',
-                'after' => 'level_cot_5s_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_slop_p_mt_mt',
-                'after' => 'level_slop_p_mt',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_slop_s_mt_mt',
-                'after' => 'level_slop_s_mt',
-            ],
-        ]);
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_1p_mt',
+        //         'after' => 'level_cot_1p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_1s_mt',
+        //         'after' => 'level_cot_1s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_2p_mt',
+        //         'after' => 'level_cot_2p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_2s_mt',
+        //         'after' => 'level_cot_2s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_3p_mt',
+        //         'after' => 'level_cot_3p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_3s_mt',
+        //         'after' => 'level_cot_3s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_4p_mt',
+        //         'after' => 'level_cot_4p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_4s_mt',
+        //         'after' => 'level_cot_4s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_5p_mt',
+        //         'after' => 'level_cot_5p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_5s_mt',
+        //         'after' => 'level_cot_5s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_slop_p_mt',
+        //         'after' => 'level_slop_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_slop_s_mt',
+        //         'after' => 'level_slop_s',
+        //     ],
+        // ]);
 
         return $model->setTable($tableName);
     }

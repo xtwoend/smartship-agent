@@ -52,7 +52,7 @@ class Widuri extends Model
     public ?array $cargoTanks = [
         
     ];
-    
+    public ?array $bunkerTanks = [];
 
     // create table cargo if not found table
     public static function table($fleetId)

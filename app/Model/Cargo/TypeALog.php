@@ -51,7 +51,7 @@ class TypeALog extends Model
     ];
 
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -85,19 +85,22 @@ class TypeALog extends Model
                 $table->timestamps();
             });
         }
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'ullage_cargo_no1_mt',
-                'after' => 'ullage_cargo_no1',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'ullage_cargo_no2_mt',
-                'after' => 'ullage_cargo_no2',
-            ],
-            
-        ]);
+
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'ullage_cargo_no1_mt',
+        //         'after' => 'ullage_cargo_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'ullage_cargo_no2_mt',
+        //         'after' => 'ullage_cargo_no2',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 }

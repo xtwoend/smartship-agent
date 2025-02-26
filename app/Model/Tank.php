@@ -29,7 +29,16 @@ class Tank extends Model
      * The attributes that are mass assignable.
      */
     protected array $fillable = [
-        'fleet_id', 'tank_position', 'tank_locator', 'contents', 'content_type', 'capacity', 'type',
+        'fleet_id',
+        'tank_position', // name from sensor
+        'tank_locator',
+        'contents',
+        'content_type', // (product) HFO, MDO, AVTUR
+        'capacity',
+        'type', // bunker, cargo
+        'mes_type', // ullage, level
+        'height', // tank height
+        'calc_type', // match, interpolate
     ];
 
 }

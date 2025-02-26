@@ -49,9 +49,9 @@ class PangalenganLog extends Model
     protected array $casts = [
         'terminal_time' => 'datetime',
     ];
-
+    
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -196,122 +196,124 @@ class PangalenganLog extends Model
                 $table->timestamps();
             });
         }
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_hfo_p_m3',
+        //         'after' => 'no_1_hfo_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_hfo_s_m3',
+        //         'after' => 'no_2_hfo_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_hfoday_p_m3',
+        //         'after' => 'no_1_hfoday_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_hfoday_s_m3',
+        //         'after' => 'no_2_hfoday_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_sett_p_m3',
+        //         'after' => 'hfo_sett_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_sett_s_m3',
+        //         'after' => 'mdo_sett_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_mdo_p_m3',
+        //         'after' => 'no_1_mdo_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_mdo_s_m3',
+        //         'after' => 'no_2_mdo_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_mdoday_p_m3',
+        //         'after' => 'no_1_mdoday_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_s_mdoday_s_m3',
+        //         'after' => 'no_s_mdoday_s',
+        //     ],
 
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'no_1_hfo_p_m3',
-                'after' => 'no_1_hfo_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_2_hfo_s_m3',
-                'after' => 'no_2_hfo_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_1_hfoday_p_m3',
-                'after' => 'no_1_hfoday_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_2_hfoday_s_m3',
-                'after' => 'no_2_hfoday_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'hfo_sett_p_m3',
-                'after' => 'hfo_sett_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'mdo_sett_s_m3',
-                'after' => 'mdo_sett_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_1_mdo_p_m3',
-                'after' => 'no_1_mdo_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_2_mdo_s_m3',
-                'after' => 'no_2_mdo_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_1_mdoday_p_m3',
-                'after' => 'no_1_mdoday_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_s_mdoday_s_m3',
-                'after' => 'no_s_mdoday_s',
-            ],
 
 
-
-            [
-                'type' => 'float',
-                'name' => 'no_1_cargo_tank_p_mt',
-                'after' => 'no_1_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_1_cargo_tank_s_mt',
-                'after' => 'no_1_cargo_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_2_cargo_tank_p_mt',
-                'after' => 'no_2_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_2_cargo_tank_s_mt',
-                'after' => 'no_2_cargo_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_3_cargo_tank_p_mt',
-                'after' => 'no_3_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_3_cargo_tank_s_mt',
-                'after' => 'no_3_cargo_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_4_cargo_tank_p_mt',
-                'after' => 'no_4_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_4_cargo_tank_s_mt',
-                'after' => 'no_4_cargo_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_5_cargo_tank_p_mt',
-                'after' => 'no_5_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_5_cargo_tank_s_mt',
-                'after' => 'no_5_cargo_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'slop_cargo_tank_p_mt',
-                'after' => 'slop_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'slop_cargo_tank_s_mt',
-                'after' => 'slop_cargo_tank_s',
-            ],
-        ]);
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cargo_tank_p_mt',
+        //         'after' => 'no_1_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cargo_tank_s_mt',
+        //         'after' => 'no_1_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cargo_tank_p_mt',
+        //         'after' => 'no_2_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cargo_tank_s_mt',
+        //         'after' => 'no_2_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cargo_tank_p_mt',
+        //         'after' => 'no_3_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cargo_tank_s_mt',
+        //         'after' => 'no_3_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cargo_tank_p_mt',
+        //         'after' => 'no_4_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cargo_tank_s_mt',
+        //         'after' => 'no_4_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cargo_tank_p_mt',
+        //         'after' => 'no_5_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cargo_tank_s_mt',
+        //         'after' => 'no_5_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'slop_cargo_tank_p_mt',
+        //         'after' => 'slop_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'slop_cargo_tank_s_mt',
+        //         'after' => 'slop_cargo_tank_s',
+        //     ],
+        // ]);
 
         return $model->setTable($tableName);
     }

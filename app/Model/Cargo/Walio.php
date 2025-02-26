@@ -50,10 +50,11 @@ class Walio extends Model
     ];
 
     public ?array $cargoTanks = [
-        'level_cargo_1_stb_mt' => ['level_cargo_1_stb' => 'port'],
-        'level_cargo_1_port_mt' => ['level_cargo_1_port' => 'port'],
+        'level_cargo_1_stb' => ['port', ['level_cargo_1_stb_mt', 'level_cargo_1_stb_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'level_cargo_1_port' => ['port', ['level_cargo_1_port_mt', 'level_cargo_1_port_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
     ];
     
+    public ?array $bunkerTanks = [];
 
     // create table cargo if not found table
     public static function table($fleetId)
@@ -220,18 +221,24 @@ class Walio extends Model
             });
         }
 
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'level_cargo_1_stb_mt',
-                'after' => 'level_cargo_1_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cargo_1_port_mt',
-                'after' => 'level_cargo_1_port',
-            ],
-        ]);
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new WalioLog();
+        $logModel->table($fleetId, null, $tablePayload);
+
+
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cargo_1_stb_mt',
+        //         'after' => 'level_cargo_1_stb',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cargo_1_port_mt',
+        //         'after' => 'level_cargo_1_port',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 

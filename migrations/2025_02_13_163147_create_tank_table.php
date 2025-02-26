@@ -20,6 +20,9 @@ class CreateTankTable extends Migration
             $table->string('content_type', 50)->nullable()->default(NULL);
             $table->float('capacity', 10, 3)->default(0);
             $table->string('type', 50)->nullable()->default(NULL);
+            $table->string('mes_type', 10)->nullable()->default(NULL);
+            $table->unsignedInteger('height')->nullable()->default(NULL);
+            $table->string('calc_type')->default('match'); // match, interpolate
             $table->datetimes();
         });
     }

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\Model\Traits;
 
 use App\Model\BunkerSounding;
-use Hyperf\Database\Model\Events\Updating;
 
 trait BunkerCapacityCalculate
 {
@@ -28,30 +27,34 @@ trait BunkerCapacityCalculate
         foreach ($bunkers as $key => $bunker) {
             // levels are in M, convert to CM
             $level = $model->{$bunker->tank_position} * 100;
-            $level = round($level, 3, PHP_ROUND_HALF_EVEN);
+            $level = round($level, 0, PHP_ROUND_HALF_EVEN);
             $level = $level < 0 ? 0 : $level;
             $trim = 0;
             if ($bunker->tank_locator === 'S') {
-                $fore = 0;
-                $after = 0;
-                if($model->draft_front) {
-                    $fore = $model->draft_front;
-                }
-                if($model->draft_rear) {
-                    $after = $model->draft_rear;
-                }
-                if($model->draft_fore) {
-                    $fore = $model->draft_fore;
-                }
-                if($model->draft_after) {
-                    $after = $model->draft_after;
-                }
-                $trim = round(($fore - $after), 1, PHP_ROUND_HALF_EVEN);
+                $fore = $model->draft_fore ?? $model->draft_front ?? 0;
+                $after = $model->draft_after ?? $model->draft_rear ?? 0;
+                $trim = $this->customRound($fore - $after);
             }
             $vol = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
             $vol = $vol?->volume ?? 0;
             $data["{$bunker->tank_position}_m3"] = $vol;
+            if ($bunker->tank_locator === 'S' || $bunker->tank_locator === 'P') {
+                $data["{$bunker->tank_position}_ltr"] = $vol * 1000;
+                $data["{$bunker->tank_position}_mt"] = $vol * ($bunker->content_type === 'MDO' ? BunkerSounding::DENSITY_MDO : BunkerSounding::DENSITY_HFO);
+            }
         }
         return $data;
+    }
+    private function customRound($value)
+    {
+        $decimalPart = $value - floor($value);
+
+        if ($decimalPart <= 0.4) {
+            return floor($value);
+        } elseif ($decimalPart == 0.5) {
+            return $value;
+        } else {
+            return ceil($value);
+        }
     }
 }

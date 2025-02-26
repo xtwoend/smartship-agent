@@ -49,9 +49,9 @@ class WalioLog extends Model
     protected array $casts = [
         'terminal_time' => 'datetime',
     ];
-
+    
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -215,18 +215,21 @@ class WalioLog extends Model
                 $table->timestamps();
             });
         }
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'level_cargo_1_stb_mt',
-                'after' => 'level_cargo_1_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'level_cargo_1_port_mt',
-                'after' => 'level_cargo_1_port',
-            ],
-        ]);
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cargo_1_stb_mt',
+        //         'after' => 'level_cargo_1_stb',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cargo_1_port_mt',
+        //         'after' => 'level_cargo_1_port',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 

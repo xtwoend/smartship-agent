@@ -50,15 +50,34 @@ trait CargoTrait
     }
     private function getTanks(string $type, array $initialData = [])
     {
-        foreach ($initialData as $tank) {
+        foreach ($initialData as $tank=>$payload) {
+            $meta = (isset($payload[2]) && is_array($payload[2])) ? $payload[2] : [];
             Tank::firstOrCreate([
                 'fleet_id' => $this->fleet_id,
                 'type' => $type,
-                'tank_position' => $tank[0],
+                'tank_position' => $tank,
             ], [
-                'tank_locator' => ($tank[1] === 'stb') ? 'S' : 'P',
+                'tank_locator' => ($payload[0] === 'stb') ? 'S' : 'P',
+                'content_type' => (isset($meta['content']) && !empty($meta['content'])) ? $meta['content'] : null,
+                'mes_type' => (isset($meta['mes_type']) && $meta['mes_type'] === 'ullage') ? 'ullage' : 'level',
             ]);
         }
         return Tank::where('fleet_id', $this->fleet_id)->where('type', $type)->get();
+    }
+    public function tablePayloadBuilder($model): array
+    {
+        $source = array_merge($model->cargoTanks, $model->bunkerTanks);
+        $payload = [];
+
+        foreach ($source as $tankField => $src) {
+            foreach ($src[1] ?? [] as $key => $newField) {
+                $payload[] = [
+                    'type' => 'float',
+                    'name' => $newField,
+                    'after' => $tankField,
+                ];
+            }
+        }
+        return $payload;
     }
 }

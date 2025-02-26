@@ -51,17 +51,18 @@ class Kasim extends Model
     ];
 
     public ?array $cargoTanks = [
-        'no_1_cargo_tank_p_mt' => ['no_1_cargo_tank_p' => 'port'],
-        'no_1_cargo_tank_s_mt' => ['no_1_cargo_tank_s' => 'stb'],
-        'no_2_cargo_tank_p_mt' => ['no_2_cargo_tank_p' => 'port'],
-        'no_2_cargo_tank_s_mt' => ['no_2_cargo_tank_s' => 'stb'],
-        'no_3_cargo_tank_p_mt' => ['no_3_cargo_tank_p' => 'port'],
-        'no_3_cargo_tank_s_mt' => ['no_3_cargo_tank_s' => 'stb'],
-        'no_4_cargo_tank_p_mt' => ['no_4_cargo_tank_p' => 'port'],
-        'no_4_cargo_tank_s_mt' => ['no_4_cargo_tank_s' => 'stb'],
-        'no_5_cargo_tank_p_mt' => ['no_5_cargo_tank_p' => 'port'],
-        'no_5_cargo_tank_s_mt' => ['no_5_cargo_tank_s' => 'stb'],
+        'no_1_cargo_tank_p' => ['port', ['no_1_cargo_tank_p_mt', 'no_1_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_1_cargo_tank_s' => ['stb',  ['no_1_cargo_tank_s_mt', 'no_1_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_2_cargo_tank_p' => ['port', ['no_2_cargo_tank_p_mt', 'no_2_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_2_cargo_tank_s' => ['stb',  ['no_2_cargo_tank_s_mt', 'no_2_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_3_cargo_tank_p' => ['port', ['no_3_cargo_tank_p_mt', 'no_3_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_3_cargo_tank_s' => ['stb',  ['no_3_cargo_tank_s_mt', 'no_3_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_4_cargo_tank_p' => ['port', ['no_4_cargo_tank_p_mt', 'no_4_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_4_cargo_tank_s' => ['stb',  ['no_4_cargo_tank_s_mt', 'no_4_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_5_cargo_tank_p' => ['port', ['no_5_cargo_tank_p_mt', 'no_5_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_5_cargo_tank_s' => ['stb',  ['no_5_cargo_tank_s_mt', 'no_5_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
     ];
+    public ?array $bunkerTanks = [];
 
     // create table cargo if not found table
     public static function table($fleetId)
@@ -160,58 +161,64 @@ class Kasim extends Model
                 $table->timestamps();
             });
         }
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'no_1_cargo_tank_p_mt',
-                'after' => 'no_1_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_1_cargo_tank_s_mt',
-                'after' => 'no_1_cargo_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_2_cargo_tank_p_mt',
-                'after' => 'no_2_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_2_cargo_tank_s_mt',
-                'after' => 'no_2_cargo_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_3_cargo_tank_p_mt',
-                'after' => 'no_3_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_3_cargo_tank_s_mt',
-                'after' => 'no_3_cargo_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_4_cargo_tank_p_mt',
-                'after' => 'no_4_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_4_cargo_tank_s_mt',
-                'after' => 'no_4_cargo_tank_s',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_5_cargo_tank_p_mt',
-                'after' => 'no_5_cargo_tank_p',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'no_5_cargo_tank_s_mt',
-                'after' => 'no_5_cargo_tank_s',
-            ],
-        ]);
+        
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new KasimLog();
+        $logModel->table($fleetId, null, $tablePayload);
+
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cargo_tank_p_mt',
+        //         'after' => 'no_1_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cargo_tank_s_mt',
+        //         'after' => 'no_1_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cargo_tank_p_mt',
+        //         'after' => 'no_2_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cargo_tank_s_mt',
+        //         'after' => 'no_2_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cargo_tank_p_mt',
+        //         'after' => 'no_3_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cargo_tank_s_mt',
+        //         'after' => 'no_3_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cargo_tank_p_mt',
+        //         'after' => 'no_4_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cargo_tank_s_mt',
+        //         'after' => 'no_4_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cargo_tank_p_mt',
+        //         'after' => 'no_5_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cargo_tank_s_mt',
+        //         'after' => 'no_5_cargo_tank_s',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 
