@@ -42,7 +42,9 @@ trait CargoTankCalculate
             // ullage are in M, convert to CM
             $unit = max(0, round($model->{$tank->tank_position} * 100, 1, PHP_ROUND_HALF_EVEN));
             $unitDecimal = round(fmod($unit, 1), 10);
+            $unit = round($unit);
             $trim = 0;
+            $temp = round($model->{"{$tank->tank_position}_temp"});
             if ($tank->tank_locator === 'S') {
                 $fore = $model->draft_fore ?? $model->draft_front ?? 0;
                 $after = $model->draft_after ?? $model->draft_rear ?? 0;
@@ -54,17 +56,17 @@ trait CargoTankCalculate
                 $unit = $tank->height - $unit;
             }
             $interpolatedVolume = 0;
-            $correctionRow = $correctionTable->where('temp', $model->{"{$tank->tank_position}_temp"})->first();
+            $correctionRow = $correctionTable->where('temp', $temp)->first();
             $correction = $correctionRow?->correction ?? 0;
 
-            if ($tank->calc_type == 'interpolate') {
-                $volRow = $soundingModel->where('unit', $unit)->first();
+            if ($tank->calc_type != 'match') {
+                $volRow = $soundingModel->where('trim_index', 0)->where('heel_index', 0)->where('ullage', $unit)->first();
                 $diff = $volRow?->diff ?? 0;
-                $vol = $volRow?->value ?? 0;
+                $vol = $volRow?->volume ?? 0;
                 $interpolatedVolume = ($diff * $unitDecimal);
             } else {
-                $vol = $soundingModel->where('tank_id', $tank->id)->where('trim_index', $trim)->where('heel_index', $heel)->where('unit', $unit)->first();
-                $vol = $vol?->value ?? 0;
+                $volRow = $soundingModel->where('tank_id', $tank->id)->where('trim_index', $trim)->where('heel_index', $heel)->where('ullage', $unit)->first();
+                $vol = $volRow?->volume ?? 0;
             }
 
             $totalObs = ($interpolatedVolume + $vol) * $correction;
@@ -72,7 +74,6 @@ trait CargoTankCalculate
             $densityRow = $densityModel->where('product', $tank->content_type)->first();
             $density = $densityRow?->density ?? 1;
             $tonnaseObs = ($density * $totalObs);
-
             $data["{$tank->tank_position}_ltr"] = ($totalObs * 1000);
             $data["{$tank->tank_position}_mt"] = $tonnaseObs;
         }
