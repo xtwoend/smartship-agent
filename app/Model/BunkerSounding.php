@@ -15,17 +15,19 @@ use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 
-class CargoTankTable extends Model
+class BunkerSounding extends Model
 {
     /**
      * disable timestamps.
      */
     public bool $timestamps = false;
+    const DENSITY_HFO = 0.95;
+    const DENSITY_MDO = 0.85;
 
     /**
      * The table associated with the model.
      */
-    protected ?string $table = 'cargo_tank_table';
+    protected ?string $table = 'tank_sounding_bunker';
 
     /**
      * The attributes that are mass assignable.
@@ -45,11 +47,12 @@ class CargoTankTable extends Model
         if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->unsignedBigInteger('fleet_id')->index();
-                $table->string('tank_position')->nullable();
-                $table->float('ullage', 8, 3)->default(0);
-                $table->float('level', 8, 3)->default(0);
-                $table->float('volume', 8, 3)->default(0);
+                $table->unsignedBigInteger('fleet_id');
+                $table->unsignedBigInteger('tank_id')->index();
+                $table->float('trim_index', 10, 3)->index();
+                $table->unsignedInteger('sounding_cm')->index();
+                $table->float('volume', 10, 3)->nullable();
+                $table->timestamps();
             });
         }
 

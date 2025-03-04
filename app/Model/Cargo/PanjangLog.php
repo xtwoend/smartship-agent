@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,6 +21,7 @@ use Hyperf\DbConnection\Model\Model;
 class PanjangLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -46,10 +48,9 @@ class PanjangLog extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
-    ];
-
+    ];    
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -192,6 +193,112 @@ class PanjangLog extends Model
                 $table->timestamps();
             });
         }
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_mdo_tank_p_m3',
+        //         'after' => 'no1_mdo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_mdo_tank_s_m3',
+        //         'after' => 'no2_mdo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_sett_tank_s_m3',
+        //         'after' => 'mdo_sett_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_mdo_day_tank_p_m3',
+        //         'after' => 'no1_mdo_day_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_mdo_day_tank_s_m3',
+        //         'after' => 'no2_mdo_day_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_hfo_tank_p_m3',
+        //         'after' => 'no1_hfo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_hfo_tank_s_m3',
+        //         'after' => 'no2_hfo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_sett_tank_p_m3',
+        //         'after' => 'hfo_sett_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_hfo_day_tank_p_m3',
+        //         'after' => 'no1_hfo_day_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_hfo_day_tank_s_m3',
+        //         'after' => 'no2_hfo_day_tank_s',
+        //     ],
+            
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cargo_tank_p_mt',
+        //         'after' => 'no_1_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cargo_tank_s_mt',
+        //         'after' => 'no_1_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cargo_tank_p_mt',
+        //         'after' => 'no_2_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cargo_tank_s_mt',
+        //         'after' => 'no_2_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cargo_tank_p_mt',
+        //         'after' => 'no_3_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cargo_tank_s_mt',
+        //         'after' => 'no_3_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cargo_tank_p_mt',
+        //         'after' => 'no_4_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cargo_tank_s_mt',
+        //         'after' => 'no_4_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cargo_tank_p_mt',
+        //         'after' => 'no_5_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cargo_tank_s_mt',
+        //         'after' => 'no_5_cargo_tank_s',
+        //     ],
+        // ]);
 
         return $model->setTable($tableName);
     }

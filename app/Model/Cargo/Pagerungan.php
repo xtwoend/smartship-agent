@@ -12,13 +12,22 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Pagerungan extends Model
 {
+
+    use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -39,6 +48,40 @@ class Pagerungan extends Model
      */
     protected array $casts = [
         'terminal_time' => 'datetime',
+    ];
+    /**
+     * The attributes that should be hidden for serialization.
+     * 
+     */
+
+     public ?array $cargoTanks = [
+        'cargo_tank1p_ullage' =>    ['port', ['cargo_tank1p_ullage_mt', 'cargo_tank1p_ullage_ltr'],        ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'cargo_tank1s_ullage' =>    ['stb', ['cargo_tank1s_ullage_mt', 'cargo_tank1s_ullage_ltr'],         ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'cargo_tank2p_ullage' =>    ['port', ['cargo_tank2p_ullage_mt', 'cargo_tank2p_ullage_ltr'],        ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'cargo_tank2s_ullage' =>    ['stb', ['cargo_tank2s_ullage_mt', 'cargo_tank2s_ullage_ltr'],         ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'cargo_tank3p_ullage' =>    ['port', ['cargo_tank3p_ullage_mt', 'cargo_tank3p_ullage_ltr'],        ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'cargo_tank3s_ullage' =>    ['stb', ['cargo_tank3s_ullage_mt', 'cargo_tank3s_ullage_ltr'],         ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'cargo_tank4p_ullage' =>    ['port', ['cargo_tank4p_ullage_mt', 'cargo_tank4p_ullage_ltr'],        ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'cargo_tank4s_ullage' =>    ['stb', ['cargo_tank4s_ullage_mt', 'cargo_tank4s_ullage_ltr'],         ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'cargo_tank5p_ullage' =>    ['port', ['cargo_tank5p_ullage_mt', 'cargo_tank5p_ullage_ltr'],        ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'cargo_tank5s_ullage' =>    ['stb', ['cargo_tank5s_ullage_mt', 'cargo_tank5s_ullage_ltr'],         ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'slop_tank_p_ullage' =>     ['port', ['slop_tank_p_ullage_mt', 'slop_tank_p_ullage_ltr'],         ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'slop_tank_s_ullage' =>     ['stb', ['slop_tank_s_ullage_mt', 'slop_tank_s_ullage_ltr'],          ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+     ];
+     
+    public ?array $bunkerTanks = [
+        'no1_fo_tank_p_level' =>        ['port', ['no1_fo_tank_p_level_m3', 'no1_fo_tank_p_level_ltr', 'no1_fo_tank_p_level_mt'],             ['mes_type' => 'level', 'content' => 'HFO']],
+        'no1_fo_tank_s_level' =>        ['stb', ['no1_fo_tank_s_level_m3', 'no1_fo_tank_s_level_ltr', 'no1_fo_tank_s_level_mt'],              ['mes_type' => 'level', 'content' => 'HFO']],
+        'no2_fo_tank_p_level' =>        ['port', ['no2_fo_tank_p_level_m3', 'no2_fo_tank_p_level_ltr', 'no2_fo_tank_p_level_mt'],             ['mes_type' => 'level', 'content' => 'HFO']],
+        'no2_fo_tank_s_level' =>        ['stb', ['no2_fo_tank_s_level_m3', 'no2_fo_tank_s_level_ltr', 'no2_fo_tank_s_level_mt'],              ['mes_type' => 'level', 'content' => 'HFO']],
+        'no1_fo_service_tank_level' =>  ['port', ['no1_fo_service_tank_level_m3', 'no1_fo_service_tank_level_ltr', 'no1_fo_service_tank_level_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'no2_fo_service_tank_level' =>  ['port', ['no2_fo_service_tank_level_m3', 'no2_fo_service_tank_level_ltr', 'no2_fo_service_tank_level_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'fo_settling_tank_level' =>     ['port', ['fo_settling_tank_level_m3', 'fo_settling_tank_level_ltr', 'fo_settling_tank_level_mt'],       ['mes_type' => 'level', 'content' => 'HFO']],
+        'do_storage_tank_p_level' =>    ['port', ['do_storage_tank_p_level_m3', 'do_storage_tank_p_level_ltr', 'do_storage_tank_p_level_mt'],     ['mes_type' => 'level', 'content' => 'HFO']],
+        'do_storage_tank_s_level' =>    ['stb', ['do_storage_tank_s_level_m3', 'do_storage_tank_s_level_ltr', 'do_storage_tank_s_level_mt'],      ['mes_type' => 'level', 'content' => 'HFO']],
+        'no1_do_service_tank_level' =>  ['port', ['no1_do_service_tank_level_m3', 'no1_do_service_tank_level_ltr', 'no1_do_service_tank_level_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'no2_do_service_tank_level' =>  ['port', ['no2_do_service_tank_level_m3', 'no2_do_service_tank_level_ltr', 'no2_do_service_tank_level_mt'], ['mes_type' => 'level', 'content' => 'HFO']],
+        'do_setting_tank_level' =>  ['port', ['do_setting_tank_level_m3', 'do_setting_tank_level_ltr', 'do_setting_tank_level_mt'],             ['mes_type' => 'level', 'content' => 'HFO']],
     ];
 
     // create table cargo if not found table
@@ -215,8 +258,151 @@ class Pagerungan extends Model
                 $table->timestamps();
             });
         }
+        
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new PagerunganLog();
+        $logModel->table($fleetId, null, $tablePayload);
 
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_fo_tank_p_level_m3',
+        //         'after' => 'no1_fo_tank_p_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_fo_tank_s_level_m3',
+        //         'after' => 'no1_fo_tank_s_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_fo_tank_p_level_m3',
+        //         'after' => 'no2_fo_tank_p_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_fo_tank_s_level_m3',
+        //         'after' => 'no2_fo_tank_s_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_fo_service_tank_level_m3',
+        //         'after' => 'no1_fo_service_tank_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_fo_service_tank_level_m3',
+        //         'after' => 'no2_fo_service_tank_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fo_settling_tank_level_m3',
+        //         'after' => 'fo_settling_tank_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'do_storage_tank_p_level_m3',
+        //         'after' => 'do_storage_tank_p_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'do_storage_tank_s_level_m3',
+        //         'after' => 'do_storage_tank_s_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_do_service_tank_level_m3',
+        //         'after' => 'no1_do_service_tank_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_do_service_tank_level_m3',
+        //         'after' => 'no2_do_service_tank_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'do_setting_tank_level_m3',
+        //         'after' => 'do_setting_tank_level',
+        //     ],
+            
+            
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'cargo_tank1p_ullage_mt',
+        //         'after' => 'cargo_tank1p_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'cargo_tank1s_ullage_mt',
+        //         'after' => 'cargo_tank1s_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'cargo_tank2p_ullage_mt',
+        //         'after' => 'cargo_tank2p_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'cargo_tank2s_ullage_mt',
+        //         'after' => 'cargo_tank2s_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'cargo_tank3p_ullage_mt',
+        //         'after' => 'cargo_tank3p_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'cargo_tank3s_ullage_mt',
+        //         'after' => 'cargo_tank3s_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'cargo_tank4p_ullage_mt',
+        //         'after' => 'cargo_tank4p_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'cargo_tank4s_ullage_mt',
+        //         'after' => 'cargo_tank4s_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'cargo_tank5p_ullage_mt',
+        //         'after' => 'cargo_tank5p_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'cargo_tank5s_ullage_mt',
+        //         'after' => 'cargo_tank5s_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'slop_tank_p_ullage_mt',
+        //         'after' => 'slop_tank_p_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'slop_tank_s_ullage_mt',
+        //         'after' => 'slop_tank_s_ullage',
+        //     ],
+            
+        // ]);
         return $model->setTable($tableName);
+    }
+
+    // updating process
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model) );
+        // proses simpan data
+        foreach ($updates as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert
@@ -237,6 +423,6 @@ class Pagerungan extends Model
         return PagerunganLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

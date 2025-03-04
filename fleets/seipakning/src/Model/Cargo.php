@@ -9,8 +9,12 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace Smartship\Seipakning\Model;
 
+use App\Model\Cargo\CargoTrait;
+use App\Model\Tank;
+use App\Model\Traits\BunkerCapacityCalculate;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Schema;
 use App\Model\Traits\HasColumnTrait;
@@ -23,6 +27,8 @@ class Cargo extends Model
 {
     use HasColumnTrait;
     use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
 
     /**
      * The table associated with the model.
@@ -217,6 +223,73 @@ class Cargo extends Model
                 'name' => 'tank_6_stb_mt',
                 'after' => 'tank_6_stb',
             ],
+            // bunker m3 fields
+            [
+                'type' => 'float',
+                'name' => 'fuel_oil_1_port_m3',
+                'after' => 'fuel_oil_1_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fuel_oil_1_stb_m3',
+                'after' => 'fuel_oil_1_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fuel_oil_2_port_m3',
+                'after' => 'fuel_oil_2_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fuel_oil_2_stb_m3',
+                'after' => 'fuel_oil_2_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'muel_oil_1_port_m3',
+                'after' => 'muel_oil_1_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'muel_oil_1_stb_m3',
+                'after' => 'muel_oil_1_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'muel_oil_2_port_m3',
+                'after' => 'muel_oil_2_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'do_fuel_oil_service_stb_m3',
+                'after' => 'do_fuel_oil_service_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'do_fuel_oil_settling_stb_m3',
+                'after' => 'do_fuel_oil_settling_stb',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fuel_oil_service_port_m3',
+                'after' => 'fuel_oil_service_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'fuel_oil_settling_port_m3',
+                'after' => 'fuel_oil_settling_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'ls_fuel_oil_service_port_m3',
+                'after' => 'ls_fuel_oil_service_port',
+            ],
+            [
+                'type' => 'float',
+                'name' => 'ls_fuel_oil_settling_port_m3',
+                'after' => 'ls_fuel_oil_settling_port',
+            ],
+            
         ]);
 
         return $model->setTable($tableName);
@@ -234,6 +307,12 @@ class Cargo extends Model
 
         // calculate cargo
         $data = $this->calculate($model);
+
+        // calculate bunker
+        $bunkers = $bunkers = $this->bunkers($model);
+        dd(['bbb' => $bunkers]);
+        $data = array_merge($data, $this->bunkerCalculate($model));
+
         $model->update($data);
 
         // save interval 60 detik
@@ -246,6 +325,7 @@ class Cargo extends Model
             'terminal_time' => $date,
         ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
+    
 
     public ?array $tanks = [
         'tank_1_port_mt' => ['tank_1_port', 'tank_1_port_temp'],
@@ -262,4 +342,19 @@ class Cargo extends Model
         'tank_6_stb_mt' => ['tank_6_stb', 'tank_6_stb_temp'],
     ];
 
+    public ?array $bunkers = [
+        'fuel_oil_1_port_m3' => ['fuel_oil_1_port', 'port'],
+        'fuel_oil_1_stb_m3' => ['fuel_oil_1_stb', 'stb'],
+        'fuel_oil_2_port_m3' => ['fuel_oil_2_port', 'port'],
+        'fuel_oil_2_stb_m3' => ['fuel_oil_2_stb', 'stb'],
+        'muel_oil_1_port_m3' => ['muel_oil_1_port', 'port'],
+        'muel_oil_1_stb_m3' => ['muel_oil_1_stb', 'stb'],
+        'muel_oil_2_port_m3' => ['muel_oil_2_port', 'port'],
+        'do_fuel_oil_service_stb_m3' => ['do_fuel_oil_service_stb', 'stb'],
+        'do_fuel_oil_settling_stb_m3' => ['do_fuel_oil_settling_stb', 'stb'],
+        'fuel_oil_service_port_m3' => ['fuel_oil_service_port', 'port'],
+        'fuel_oil_settling_port_m3' => ['fuel_oil_settling_port', 'port'],
+        'ls_fuel_oil_service_port_m3' => ['ls_fuel_oil_service_port', 'port'],
+        'ls_fuel_oil_settling_port_m3' => ['ls_fuel_oil_settling_port', 'port'],
+    ];
 }

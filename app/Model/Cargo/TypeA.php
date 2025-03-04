@@ -12,13 +12,21 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class TypeA extends Model
 {
+    use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -41,6 +49,12 @@ class TypeA extends Model
         'terminal_time' => 'datetime',
     ];
 
+    public ?array $cargoTanks = [
+        'ullage_cargo_no1' => ['port', ['ullage_cargo_no1_mt', 'ullage_cargo_no1_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'ullage_cargo_no2' => ['port', ['ullage_cargo_no2_mt', 'ullage_cargo_no2_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+    ];
+    public ?array $bunkerTanks = [];
+    
     // create table cargo if not found table
     public static function table($fleetId)
     {
@@ -76,9 +90,38 @@ class TypeA extends Model
             });
         }
 
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new TypeALog();
+        $logModel->table($fleetId, null, $tablePayload);
+
+        
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'ullage_cargo_no1_mt',
+        //         'after' => 'ullage_cargo_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'ullage_cargo_no2_mt',
+        //         'after' => 'ullage_cargo_no2',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model) );
+        // proses simpan data
+        foreach ($updates as $k => $v) {
+            $this->{$k} = $v;
+        }
+    }
     // update & insert
     public function updated(Updated $event)
     {
@@ -97,6 +140,6 @@ class TypeA extends Model
         return TypeALog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

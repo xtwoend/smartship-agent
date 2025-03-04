@@ -51,7 +51,7 @@ class MQTT1Processor extends AbstractProcess
                     }
 
                     $data = (new $class($message))->extract();
-                    
+                    // var_dump('MQTTProc', $data);
                     $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
                 } catch (\Throwable $th) {
                     $error = $th->getMessage();

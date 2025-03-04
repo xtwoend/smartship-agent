@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 use Hyperf\Database\Migrations\Migration;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,18 +21,24 @@ class AddFleetType extends Migration
      */
     public function up(): void
     {
-        Schema::table('fleets', function (Blueprint $table) {
-            $table->string('type', 1)->default('S')->after('imo_number');
-        });
+        if (Schema::hasColumn('fleets', 'type')) {
+            Schema::table('fleets', function (Blueprint $table) {
+                if (!Schema::hasColumn('fleets', 'type')) {
+                    $table->string('type', 1)->default('S')->after('imo_number');
+                }
+                // else {
+                //     $table->string('type', 1)->default('S')->change();
+                // }
+            });
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('fleets', function (Blueprint $table) {
-            $table->dropColumn('type');
+            if (Schema::hasColumn('fleets', 'type')) {
+                $table->dropColumn('type');
+            }
         });
     }
 }

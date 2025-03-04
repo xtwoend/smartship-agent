@@ -9,9 +9,11 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,6 +22,7 @@ use Hyperf\DbConnection\Model\Model;
 class PangkalanbrandanLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -48,8 +51,9 @@ class PangkalanbrandanLog extends Model
         'terminal_time' => 'datetime',
     ];
 
+    
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -164,6 +168,123 @@ class PangkalanbrandanLog extends Model
             });
         }
 
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_storage_tank_1p_m3',
+        //         'after' => 'hfo_storage_tank_1p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_storage_tank_1s_m3',
+        //         'after' => 'hfo_storage_tank_1s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_storage_tank_2p_m3',
+        //         'after' => 'hfo_storage_tank_2p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_storage_tank_2s_m3',
+        //         'after' => 'hfo_storage_tank_2s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_setting_tank_m3',
+        //         'after' => 'hfo_setting_tank',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_service_tank_1_m3',
+        //         'after' => 'hfo_service_tank_1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_service_tank_2_m3',
+        //         'after' => 'hfo_service_tank_2',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_storage_tank_p_m3',
+        //         'after' => 'mdo_storage_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_storage_tank_s_m3',
+        //         'after' => 'mdo_storage_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_setting_tank_m3',
+        //         'after' => 'mdo_setting_tank',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_service_tank_1_m3',
+        //         'after' => 'mdo_service_tank_1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_service_tank_2_m3',
+        //         'after' => 'mdo_service_tank_2',
+        //     ],
+
+
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_cotp_ullage_mt',
+        //         'after' => 'no1_cotp_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_cots_ullage_mt',
+        //         'after' => 'no1_cots_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_cotp_ullage_mt',
+        //         'after' => 'no2_cotp_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_cots_ullage_mt',
+        //         'after' => 'no2_cots_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no3_cotp_ullage_mt',
+        //         'after' => 'no3_cotp_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no3_cots_ullage_mt',
+        //         'after' => 'no3_cots_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no4_cotp_ullage_mt',
+        //         'after' => 'no4_cotp_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no4_cots_ullage_mt',
+        //         'after' => 'no4_cots_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no5_cotp_ullage_mt',
+        //         'after' => 'no5_cotp_ullage',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no5_cots_ullage_mt',
+        //         'after' => 'no5_cots_ullage',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 }

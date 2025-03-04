@@ -9,16 +9,26 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Arimbi extends Model
 {
+
+    use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -41,6 +51,18 @@ class Arimbi extends Model
         'terminal_time' => 'datetime',
     ];
 
+    public ?array $cargoTanks = [
+        'temp_tank_upper_no1' =>    ['port', ['temp_tank_upper_no1_mt', 'temp_tank_upper_no1_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'temp_tank_upper_no2' =>    ['port', ['temp_tank_upper_no2_mt', 'temp_tank_upper_no2_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'temp_comp_outlet_no1' =>   ['port', ['temp_comp_outlet_no1_mt', 'temp_comp_outlet_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'tamp_tank_middle_no1' =>   ['port', ['tamp_tank_middle_no1_mt', 'tamp_tank_middle_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'tamp_tank_middle_no2' =>   ['port', ['tamp_tank_middle_no2_mt', 'tamp_tank_middle_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'temp_comp_outlet_no2' =>   ['port', ['temp_comp_outlet_no2_mt', 'temp_comp_outlet_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'tamp_tank_bottom_no1' =>   ['port', ['tamp_tank_bottom_no1_mt', 'tamp_tank_bottom_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'tamp_tank_bottom_no2' =>   ['port', ['tamp_tank_bottom_no2_mt', 'tamp_tank_bottom_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+    ];
+
+    public ?array $bunkerTanks = [];
     // create table cargo if not found table
     public static function table($fleetId)
     {
@@ -76,9 +98,69 @@ class Arimbi extends Model
             });
         }
 
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new ArimbiLog();
+        $logModel->table($fleetId, null, $tablePayload);
+
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_tank_upper_no1_mt',
+        //         'after' => 'temp_tank_upper_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_tank_upper_no2_mt',
+        //         'after' => 'temp_tank_upper_no2',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_comp_outlet_no1_mt',
+        //         'after' => 'temp_comp_outlet_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_middle_no1_mt',
+        //         'after' => 'tamp_tank_middle_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_middle_no2_mt',
+        //         'after' => 'tamp_tank_middle_no2',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_comp_outlet_no2_mt',
+        //         'after' => 'temp_comp_outlet_no2',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_bottom_no1_mt',
+        //         'after' => 'tamp_tank_bottom_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_bottom_no2_mt',
+        //         'after' => 'tamp_tank_bottom_no2',
+        //     ],
+        // ]);
+
         return $model->setTable($tableName);
     }
 
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model) );
+        // proses simpan data
+        foreach ($updates as $k => $v) {
+            $this->{$k} = $v;
+        }
+    }
+    
     // update & insert
     public function updated(Updated $event)
     {
@@ -97,6 +179,6 @@ class Arimbi extends Model
         return ArimbiLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

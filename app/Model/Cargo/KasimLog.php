@@ -11,16 +11,18 @@ declare(strict_types=1);
  */
 namespace App\Model\Cargo;
 
-use App\Model\Alarm\SensorAlarmTrait;
-use App\Model\Sensor;
 use Carbon\Carbon;
-use Hyperf\Database\Schema\Blueprint;
+use App\Model\Sensor;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
+use Hyperf\Database\Schema\Blueprint;
 
 class KasimLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -49,8 +51,9 @@ class KasimLog extends Model
         'terminal_time' => 'datetime',
     ];
 
+    
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -148,6 +151,61 @@ class KasimLog extends Model
             });
         }
 
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cargo_tank_p_mt',
+        //         'after' => 'no_1_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cargo_tank_s_mt',
+        //         'after' => 'no_1_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cargo_tank_p_mt',
+        //         'after' => 'no_2_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cargo_tank_s_mt',
+        //         'after' => 'no_2_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cargo_tank_p_mt',
+        //         'after' => 'no_3_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cargo_tank_s_mt',
+        //         'after' => 'no_3_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cargo_tank_p_mt',
+        //         'after' => 'no_4_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cargo_tank_s_mt',
+        //         'after' => 'no_4_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cargo_tank_p_mt',
+        //         'after' => 'no_5_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cargo_tank_s_mt',
+        //         'after' => 'no_5_cargo_tank_s',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 

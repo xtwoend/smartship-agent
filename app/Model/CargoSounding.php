@@ -15,7 +15,7 @@ use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 
-class CargoTankTable extends Model
+class CargoSounding extends Model
 {
     /**
      * disable timestamps.
@@ -25,7 +25,7 @@ class CargoTankTable extends Model
     /**
      * The table associated with the model.
      */
-    protected ?string $table = 'cargo_tank_table';
+    protected ?string $table = 'tank_sounding_cargo';
 
     /**
      * The attributes that are mass assignable.
@@ -45,11 +45,17 @@ class CargoTankTable extends Model
         if (! Schema::hasTable($tableName)) {
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->unsignedBigInteger('fleet_id')->index();
-                $table->string('tank_position')->nullable();
-                $table->float('ullage', 8, 3)->default(0);
-                $table->float('level', 8, 3)->default(0);
-                $table->float('volume', 8, 3)->default(0);
+                $table->unsignedBigInteger('fleet_id');
+                $table->unsignedBigInteger('tank_id')->index();
+                $table->float('trim_index', 10, 3)->index()->nullable()->default(NULL);
+                $table->float('heel_index', 10, 3)->index()->nullable()->default(NULL); // (-) = port, 0 = no heel, (+) = stb
+                // $table->unsignedInteger('mes_type')->index(); // level and ullage
+                // $table->unsignedInteger('unit')->index(); // level or ullage value
+                $table->float('level', 10, 3)->nullable();
+                $table->float('ullage', 10, 3)->nullable();
+                $table->float('volume', 10, 3)->nullable(); // satuan m3
+                $table->float('diff', 10, 3)->nullable()->default(NULL);
+                $table->timestamps();
             });
         }
 

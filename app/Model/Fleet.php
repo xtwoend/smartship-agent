@@ -22,12 +22,16 @@ use App\Model\CargoPump\CargoPump;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Model\Model;
 use App\Model\CargoPump\CargoPumpTrait;
+use App\Model\Traits\BunkerCapacityCalculate;
+use App\Model\Traits\CargoTankCalculate;
 
 class Fleet extends Model
 {
     use CargoPumpTrait;
     use EngineTrait;
     use CargoTrait;
+    use BunkerCapacityCalculate;
+    use CargoTankCalculate;
 
     /**
      * The table associated with the model.

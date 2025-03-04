@@ -9,9 +9,11 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,7 +22,7 @@ use Hyperf\DbConnection\Model\Model;
 class ArimbiLog extends Model
 {
     use SensorAlarmTrait;
-
+    use HasColumnTrait;
     /**
      * engine group sensor.
      */
@@ -48,8 +50,9 @@ class ArimbiLog extends Model
         'terminal_time' => 'datetime',
     ];
 
+    
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -83,7 +86,51 @@ class ArimbiLog extends Model
                 $table->timestamps();
             });
         }
-
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_tank_upper_no1_mt',
+        //         'after' => 'temp_tank_upper_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_tank_upper_no2_mt',
+        //         'after' => 'temp_tank_upper_no2',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_comp_outlet_no1_mt',
+        //         'after' => 'temp_comp_outlet_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_middle_no1_mt',
+        //         'after' => 'tamp_tank_middle_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_middle_no2_mt',
+        //         'after' => 'tamp_tank_middle_no2',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'temp_comp_outlet_no2_mt',
+        //         'after' => 'temp_comp_outlet_no2',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_bottom_no1_mt',
+        //         'after' => 'tamp_tank_bottom_no1',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'tamp_tank_bottom_no2_mt',
+        //         'after' => 'tamp_tank_bottom_no2',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use App\Model\Alarm\SensorAlarmTrait;
+use App\Model\Traits\HasColumnTrait;
 use Carbon\Carbon;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -20,6 +21,7 @@ use Hyperf\DbConnection\Model\Model;
 class AntasenaLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -48,8 +50,9 @@ class AntasenaLog extends Model
         'terminal_time' => 'datetime',
     ];
 
+
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -169,6 +172,109 @@ class AntasenaLog extends Model
                 $table->timestamps();
             });
         }
+
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_mgo_tank_p_m3',
+        //         'after' => 'mdo_mgo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_tank_s_m3',
+        //         'after' => 'mdo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fore_fw_tank_p_m3',
+        //         'after' => 'fore_fw_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fore_fw_tank_s_m3',
+        //         'after' => 'fore_fw_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fw_tank_p_m3',
+        //         'after' => 'fw_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fw_tank_s_m3',
+        //         'after' => 'fw_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'fo_overflow_tank_m3',
+        //         'after' => 'fo_overflow_tank',
+        //     ],
+
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_1p_mt',
+        //         'after' => 'level_cot_1p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_1s_mt',
+        //         'after' => 'level_cot_1s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_2p_mt',
+        //         'after' => 'level_cot_2p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_2s_mt',
+        //         'after' => 'level_cot_2s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_3p_mt',
+        //         'after' => 'level_cot_3p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_3s_mt',
+        //         'after' => 'level_cot_3s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_4p_mt',
+        //         'after' => 'level_cot_4p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_4s_mt',
+        //         'after' => 'level_cot_4s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_5p_mt',
+        //         'after' => 'level_cot_5p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_5s_mt',
+        //         'after' => 'level_cot_5s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_slop_p_mt',
+        //         'after' => 'level_slop_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_slop_s_mt',
+        //         'after' => 'level_slop_s',
+        //     ],
+        // ]);
 
         return $model->setTable($tableName);
     }

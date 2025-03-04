@@ -11,16 +11,18 @@ declare(strict_types=1);
  */
 namespace App\Model\Cargo;
 
-use App\Model\Alarm\SensorAlarmTrait;
-use App\Model\Sensor;
 use Carbon\Carbon;
-use Hyperf\Database\Schema\Blueprint;
+use App\Model\Sensor;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use App\Model\Alarm\SensorAlarmTrait;
+use Hyperf\Database\Schema\Blueprint;
 
 class MahakamLog extends Model
 {
     use SensorAlarmTrait;
+    use HasColumnTrait;
 
     /**
      * engine group sensor.
@@ -48,9 +50,9 @@ class MahakamLog extends Model
     protected array $casts = [
         'terminal_time' => 'datetime',
     ];
-
+    
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -105,7 +107,61 @@ class MahakamLog extends Model
                 $table->timestamps();
             });
         }
-
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_1p_mt',
+        //         'after' => 'level_cot_1p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_1s_mt',
+        //         'after' => 'level_cot_1s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_2p_mt',
+        //         'after' => 'level_cot_2p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_2s_mt',
+        //         'after' => 'level_cot_2s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_3p_mt',
+        //         'after' => 'level_cot_3p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_3s_mt',
+        //         'after' => 'level_cot_3s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_4p_mt',
+        //         'after' => 'level_cot_4p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_4s_mt',
+        //         'after' => 'level_cot_4s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_5p_mt',
+        //         'after' => 'level_cot_5p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'level_cot_5s_mt',
+        //         'after' => 'level_cot_5s',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
     }
 

@@ -9,16 +9,25 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Kasim extends Model
 {
+    use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -40,6 +49,20 @@ class Kasim extends Model
     protected array $casts = [
         'terminal_time' => 'datetime',
     ];
+
+    public ?array $cargoTanks = [
+        'no_1_cargo_tank_p' => ['port', ['no_1_cargo_tank_p_mt', 'no_1_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_1_cargo_tank_s' => ['stb',  ['no_1_cargo_tank_s_mt', 'no_1_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_2_cargo_tank_p' => ['port', ['no_2_cargo_tank_p_mt', 'no_2_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_2_cargo_tank_s' => ['stb',  ['no_2_cargo_tank_s_mt', 'no_2_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_3_cargo_tank_p' => ['port', ['no_3_cargo_tank_p_mt', 'no_3_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_3_cargo_tank_s' => ['stb',  ['no_3_cargo_tank_s_mt', 'no_3_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_4_cargo_tank_p' => ['port', ['no_4_cargo_tank_p_mt', 'no_4_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_4_cargo_tank_s' => ['stb',  ['no_4_cargo_tank_s_mt', 'no_4_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_5_cargo_tank_p' => ['port', ['no_5_cargo_tank_p_mt', 'no_5_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_5_cargo_tank_s' => ['stb',  ['no_5_cargo_tank_s_mt', 'no_5_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+    ];
+    public ?array $bunkerTanks = [];
 
     // create table cargo if not found table
     public static function table($fleetId)
@@ -138,8 +161,77 @@ class Kasim extends Model
                 $table->timestamps();
             });
         }
+        
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new KasimLog();
+        $logModel->table($fleetId, null, $tablePayload);
 
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cargo_tank_p_mt',
+        //         'after' => 'no_1_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_1_cargo_tank_s_mt',
+        //         'after' => 'no_1_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cargo_tank_p_mt',
+        //         'after' => 'no_2_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_2_cargo_tank_s_mt',
+        //         'after' => 'no_2_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cargo_tank_p_mt',
+        //         'after' => 'no_3_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_3_cargo_tank_s_mt',
+        //         'after' => 'no_3_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cargo_tank_p_mt',
+        //         'after' => 'no_4_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_4_cargo_tank_s_mt',
+        //         'after' => 'no_4_cargo_tank_s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cargo_tank_p_mt',
+        //         'after' => 'no_5_cargo_tank_p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no_5_cargo_tank_s_mt',
+        //         'after' => 'no_5_cargo_tank_s',
+        //     ],
+        // ]);
         return $model->setTable($tableName);
+    }
+
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model));
+        // proses simpan data
+        foreach ($updates as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert
@@ -160,6 +252,6 @@ class Kasim extends Model
         return KasimLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

@@ -9,16 +9,25 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Updated;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Parigi extends Model
 {
+    use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -41,6 +50,32 @@ class Parigi extends Model
         'terminal_time' => 'datetime',
     ];
 
+    public ?array $cargoTanks = [
+        'no1_cargo_tank_p_level' => ['port' ,   ['no1_cargo_tank_p_level_mt', 'no1_cargo_tank_p_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'no1_cargo_tank_s_level' => ['stb'  ,   ['no1_cargo_tank_s_level_mt', 'no1_cargo_tank_s_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'no2_cargo_tank_p_level' => ['port' ,   ['no2_cargo_tank_p_level_mt', 'no2_cargo_tank_p_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'no2_cargo_tank_s_level' => ['stb'  ,   ['no2_cargo_tank_s_level_mt', 'no2_cargo_tank_s_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'no3_cargo_tank_p_level' => ['port' ,   ['no3_cargo_tank_p_level_mt', 'no3_cargo_tank_p_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'no3_cargo_tank_s_level' => ['stb'  ,   ['no3_cargo_tank_s_level_mt', 'no3_cargo_tank_s_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'no4_cargo_tank_p_level' => ['port' ,   ['no4_cargo_tank_p_level_mt', 'no4_cargo_tank_p_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'no4_cargo_tank_s_level' => ['stb'  ,   ['no4_cargo_tank_s_level_mt', 'no4_cargo_tank_s_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'no5_cargo_tank_p_level' => ['port' ,   ['no5_cargo_tank_p_level_mt', 'no5_cargo_tank_p_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'no5_cargo_tank_s_level' => ['stb'  ,   ['no5_cargo_tank_s_level_mt', 'no5_cargo_tank_s_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+    ];
+
+
+    public ?array $bunkerTanks = [
+        'mdo_tank_1p'        => ['port' , ['mdo_tank_1p_m3', 'mdo_tank_1p_ltr', 'mdo_tank_1p_mt'],            ['mes_type' => 'level', 'content' => 'MDO']],
+        'mdo_tank_2p'        => ['stb'  , ['mdo_tank_2p_m3', 'mdo_tank_2p_ltr', 'mdo_tank_2p_mt'],            ['mes_type' => 'level', 'content' => 'MDO']],
+        'mdo_day_tank_1p'    => ['port' , ['mdo_day_tank_1p_m3', 'mdo_day_tank_1p_ltr', 'mdo_day_tank_1p_mt'],    ['mes_type' => 'level', 'content' => 'MDO']],
+        'mdo_day_tank_2s'    => ['stb'  , ['mdo_day_tank_2s_m3', 'mdo_day_tank_2s_ltr', 'mdo_day_tank_2s_mt'],    ['mes_type' => 'level', 'content' => 'MDO']],
+        'hfo_tank_1p'        => ['port' , ['hfo_tank_1p_m3', 'hfo_tank_1p_ltr', 'hfo_tank_1p_mt'],            ['mes_type' => 'level', 'content' => 'HFO']],
+        'hfo_tank_2s'        => ['stb'  , ['hfo_tank_2s_m3', 'hfo_tank_2s_ltr', 'hfo_tank_2s_mt'],            ['mes_type' => 'level', 'content' => 'HFO']],
+        'hfo_day_tank_1p'    => ['port' , ['hfo_day_tank_1p_m3', 'hfo_day_tank_1p_ltr', 'hfo_day_tank_1p_mt'],    ['mes_type' => 'level', 'content' => 'HFO']],
+        'hfo_day_tank_2s'    => ['stb'  , ['hfo_day_tank_2s_m3', 'hfo_day_tank_2s_ltr', 'hfo_day_tank_2s_mt'],    ['mes_type' => 'level', 'content' => 'HFO']],
+        'hfo_setting_tank'   => ['port' , ['hfo_setting_tank_m3', 'hfo_setting_tank_ltr', 'hfo_setting_tank_mt'],  ['mes_type' => 'level', 'content' => 'HFO']],
+        'mdo_setting_tank'   => ['port' , ['mdo_setting_tank_m3', 'mdo_setting_tank_ltr', 'mdo_setting_tank_mt'],  ['mes_type' => 'level', 'content' => 'MDO']],
+    ];
     // create table cargo if not found table
     public static function table($fleetId)
     {
@@ -171,7 +206,131 @@ class Parigi extends Model
             });
         }
 
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new ParigiLog();
+        $logModel->table($fleetId, null, $tablePayload);
+
+
+        // $model->addColumn($tableName, [
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_tank_1p_m3',
+        //         'after' => 'mdo_tank_1p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_tank_2p_m3',
+        //         'after' => 'mdo_tank_2p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_day_tank_1p_m3',
+        //         'after' => 'mdo_day_tank_1p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_day_tank_2s_m3',
+        //         'after' => 'mdo_day_tank_2s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_tank_1p_m3',
+        //         'after' => 'hfo_tank_1p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_tank_2s_m3',
+        //         'after' => 'hfo_tank_2s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_day_tank_1p_m3',
+        //         'after' => 'hfo_day_tank_1p',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_day_tank_2s_m3',
+        //         'after' => 'hfo_day_tank_2s',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'hfo_setting_tank_m3',
+        //         'after' => 'hfo_setting_tank',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'mdo_setting_tank_m3',
+        //         'after' => 'mdo_setting_tank',
+        //     ],
+            
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_cargo_tank_p_level_mt',
+        //         'after' => 'no1_cargo_tank_p_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no1_cargo_tank_s_level_mt',
+        //         'after' => 'no1_cargo_tank_s_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_cargo_tank_p_level_mt',
+        //         'after' => 'no2_cargo_tank_p_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no2_cargo_tank_s_level_mt',
+        //         'after' => 'no2_cargo_tank_s_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no3_cargo_tank_p_level_mt',
+        //         'after' => 'no3_cargo_tank_p_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no3_cargo_tank_s_level_mt',
+        //         'after' => 'no3_cargo_tank_s_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no4_cargo_tank_p_level_mt',
+        //         'after' => 'no4_cargo_tank_p_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no4_cargo_tank_s_level_mt',
+        //         'after' => 'no4_cargo_tank_s_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no5_cargo_tank_p_level_mt',
+        //         'after' => 'no5_cargo_tank_p_level',
+        //     ],
+        //     [
+        //         'type' => 'float',
+        //         'name' => 'no5_cargo_tank_s_level_mt',
+        //         'after' => 'no5_cargo_tank_s_level',
+        //     ],
+
+        // ]);
         return $model->setTable($tableName);
+    }
+
+
+    // updating
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model));
+        // proses simpan data
+        foreach ($updates as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert
@@ -192,6 +351,6 @@ class Parigi extends Model
         return ParigiLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }

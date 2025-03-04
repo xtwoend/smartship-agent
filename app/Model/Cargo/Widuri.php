@@ -12,12 +12,21 @@ declare(strict_types=1);
 namespace App\Model\Cargo;
 
 use Carbon\Carbon;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
+use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Schema\Blueprint;
+use App\Model\Traits\CargoTankCalculate;
+use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Widuri extends Model
 {
+    use HasColumnTrait;
+    use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
     /**
      * The table associated with the model.
      */
@@ -39,6 +48,11 @@ class Widuri extends Model
     protected array $casts = [
         'terminal_time' => 'datetime',
     ];
+
+    public ?array $cargoTanks = [
+        
+    ];
+    public ?array $bunkerTanks = [];
 
     // create table cargo if not found table
     public static function table($fleetId)
@@ -114,22 +128,33 @@ class Widuri extends Model
         return $model->setTable($tableName);
     }
 
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model) );
+        // proses simpan data
+        foreach ($updates as $k => $v) {
+            $this->{$k} = $v;
+        }
+    }
     // update & insert
     public function updated(Updated $event)
     {
-        $model = $event->getModel();
-        $date = $model->terminal_time;
-        $last = GerongLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
-        $now = Carbon::parse($date);
+        // $model = $event->getModel();
+        // $date = $model->terminal_time;
+        // $last = WiduriLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
+        // $now = Carbon::parse($date);
 
-        // save interval 60 detik
-        if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
-            return;
-        }
+        // // save interval 60 detik
+        // if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
+        //     return;
+        // }
 
-        return GerongLog::table($model->fleet_id, $date)->updateOrCreate([
-            'fleet_id' => $model->fleet_id,
-            'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        // return GerongLog::table($model->fleet_id, $date)->updateOrCreate([
+        //     'fleet_id' => $model->fleet_id,
+        //     'terminal_time' => $date,
+        // ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 }
