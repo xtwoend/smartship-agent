@@ -43,8 +43,8 @@ class VDR
             $parse = $this->parseDPT($this->message);
         } elseif (str_contains($this->message, 'ROT')) {
             $parse = $this->parseROT($this->message);
-        } elseif (str_contains($this->message, 'GPRMB')) {
-            $parse = $this->parseGPSMB($this->message);
+        } elseif (str_contains($this->message, 'GPGGA')) {
+            $parse = $this->parseGPGGA($this->message);
         }
 
         return $parse;
@@ -112,15 +112,15 @@ class VDR
         return ['nav' => $this->parse()];
     }
 
-    protected function parseGPSMB(string $message) 
+    protected function parseGPGGA(string $message) 
     {
         $aData = explode(',', $message);
 
-        $lat = $aData[6];
-        $latDir = $aData[7];
-        $lng = $aData[8];
-        $lngDir = $aData[9];
-      
+        $lat = $aData[2];
+        $latDir = $aData[3];
+        $lng = $aData[4];
+        $lngDir = $aData[5];
+
         $lng = $this->_longitude($lng, $lngDir);
         $lat = $this->_latitude($lat, $latDir);
 
