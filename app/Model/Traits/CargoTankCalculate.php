@@ -23,6 +23,9 @@ trait CargoTankCalculate
         $soundingModel = CargoSounding::table($fleetId);
         $densityModel = new CargoDensity;
         $data = [];
+
+        if(is_null($model->cargos)) return [];
+
         $cargos = ($model->cargos->count() < 1) ? $model->getCargos() : $model->cargos;
         foreach ($cargos as $key => $tank) {
             // $ullage = $model->{$tank[0]};
