@@ -25,7 +25,7 @@ trait CargoTankCalculate
         $soundingModel = CargoSounding::table($fleetId);
         $densityModel = new CargoDensity;
         $data = [];
-        $cargos = $this->cargoTanks;
+        $cargos = $this->cargoTanks ?? [];
 
         foreach ($cargos as $tankName => $tank) {
             $unit = max(0, round($model->{$tankName} * 100, 1, PHP_ROUND_HALF_EVEN));
