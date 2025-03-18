@@ -31,7 +31,7 @@ class Tank extends Model
     protected array $fillable = [
         'fleet_id',
         'tank_position', // name from sensor
-        'tank_locator',
+        'tank_locator', // P|S
         'contents',
         'content_type', // (product) HFO, MDO, AVTUR
         'capacity',

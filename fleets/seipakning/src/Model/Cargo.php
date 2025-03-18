@@ -12,16 +12,17 @@ declare(strict_types=1);
 
 namespace Smartship\Seipakning\Model;
 
-use App\Model\Cargo\CargoTrait;
-use App\Model\Tank;
-use App\Model\Traits\BunkerCapacityCalculate;
 use Carbon\Carbon;
+use App\Model\Tank;
+use App\Model\Cargo\CargoTrait;
 use Hyperf\Database\Schema\Schema;
 use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Schema\Blueprint;
 use App\Model\Traits\CargoTankCalculate;
 use Hyperf\Database\Model\Events\Updated;
+use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Cargo extends Model
 {
@@ -64,6 +65,25 @@ class Cargo extends Model
         'stripping_pump_alarm' => 'boolean',
     ];
 
+    public array $cargoTanks = [
+        'tank_1_port' => ['port', ['tank_1_port_mt', 'tank_1_port_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_1_port_temp']]],
+        'tank_1_stb' => ['stb', ['tank_1_stb_mt', 'tank_1_stb_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_1_stb_temp']]],
+        'tank_2_port' => ['port', ['tank_2_port_mt', 'tank_2_port_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_2_port_temp']]],
+        'tank_2_stb' => ['stb', ['tank_2_stb_mt', 'tank_2_stb_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_2_stb_temp']]],
+        'tank_3_port' => ['port', ['tank_3_port_mt', 'tank_3_port_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_3_port_temp']]],
+        'tank_3_stb' => ['stb', ['tank_3_stb_mt', 'tank_3_stb_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_3_stb_temp']]],
+        'tank_4_port' => ['port', ['tank_4_port_mt', 'tank_4_port_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_4_port_temp']]],
+        'tank_4_stb' => ['stb', ['tank_4_stb_mt', 'tank_4_stb_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_4_stb_temp']]],
+        'tank_5_port' => ['port', ['tank_5_port_mt', 'tank_5_port_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_5_port_temp']]],
+        'tank_5_stb' => ['stb', ['tank_5_stb_mt', 'tank_5_stb_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_5_stb_temp']]],
+        'tank_6_port' => ['port', ['tank_6_port_mt', 'tank_6_port_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_6_port_temp']]],
+        'tank_6_stb' => ['stb', ['tank_6_stb_mt', 'tank_6_stb_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['tank_6_stb_temp']]],
+        'slop_port' => ['port', ['slop_port_mt', 'slop_port_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['slop_port_temp']]],
+        'slop_stb' => ['stb', ['slop_stb_mt', 'slop_stb_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['slop_stb_temp']]],
+    ];
+    
+
+    public ?array $bunkerTanks = [];
     // create table cargo if not found table
     public static function table($fleetId)
     {
@@ -161,138 +181,24 @@ class Cargo extends Model
                 $table->timestamps();
             });
         }
-
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'tank_1_port_mt',
-                'after' => 'tank_1_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_1_stb_mt',
-                'after' => 'tank_1_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_2_port_mt',
-                'after' => 'tank_2_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_2_stb_mt',
-                'after' => 'tank_2_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_3_port_mt',
-                'after' => 'tank_3_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_3_stb_mt',
-                'after' => 'tank_3_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_4_port_mt',
-                'after' => 'tank_4_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_4_stb_mt',
-                'after' => 'tank_4_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_5_port_mt',
-                'after' => 'tank_5_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_5_stb_mt',
-                'after' => 'tank_5_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_6_port_mt',
-                'after' => 'tank_6_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_6_stb_mt',
-                'after' => 'tank_6_stb',
-            ],
-            // bunker m3 fields
-            [
-                'type' => 'float',
-                'name' => 'fuel_oil_1_port_m3',
-                'after' => 'fuel_oil_1_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fuel_oil_1_stb_m3',
-                'after' => 'fuel_oil_1_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fuel_oil_2_port_m3',
-                'after' => 'fuel_oil_2_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fuel_oil_2_stb_m3',
-                'after' => 'fuel_oil_2_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'muel_oil_1_port_m3',
-                'after' => 'muel_oil_1_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'muel_oil_1_stb_m3',
-                'after' => 'muel_oil_1_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'muel_oil_2_port_m3',
-                'after' => 'muel_oil_2_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'do_fuel_oil_service_stb_m3',
-                'after' => 'do_fuel_oil_service_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'do_fuel_oil_settling_stb_m3',
-                'after' => 'do_fuel_oil_settling_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fuel_oil_service_port_m3',
-                'after' => 'fuel_oil_service_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'fuel_oil_settling_port_m3',
-                'after' => 'fuel_oil_settling_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'ls_fuel_oil_service_port_m3',
-                'after' => 'ls_fuel_oil_service_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'ls_fuel_oil_settling_port_m3',
-                'after' => 'ls_fuel_oil_settling_port',
-            ],
-            
-        ]);
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new CargoLog();
+        $logModel->table($fleetId, null, $tablePayload);
 
         return $model->setTable($tableName);
+    }
+    public function updating(Updating $event)
+    {
+        $model = $event->getModel();
+        $this->terminal_time = Carbon::now()->format('Y-m-d H:i:s');
+        // calculate cargo
+        $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model));
+        // proses simpan data
+        foreach ($updates as $k => $v) {
+            $this->{$k} = $v;
+        }
     }
 
     // update & insert
@@ -323,7 +229,7 @@ class Cargo extends Model
         return CargoLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
     
 

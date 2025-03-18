@@ -50,8 +50,12 @@ class Walio extends Model
     ];
 
     public ?array $cargoTanks = [
-        'level_cargo_1_stb' => ['port', ['level_cargo_1_stb_mt', 'level_cargo_1_stb_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'level_cargo_1_port' => ['port', ['level_cargo_1_port_mt', 'level_cargo_1_port_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'level_cargo_1_stb' => ['port', ['level_cargo_1_stb_mt', 'level_cargo_1_stb_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temperatur_at_50_cargo_tank_1_stb']]],
+        'level_cargo_1_port' => ['port', ['level_cargo_1_port_mt', 'level_cargo_1_port_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['tempertaure_at_50_cargo_tank_1_port']]],
+        'level_cargo_2_stb' => ['port', ['level_cargo_2_stb_mt', 'level_cargo_2_stb_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temperatur_at_50_cargo_tank_2_stb']]],
+        'level_cargo_2_port' => ['port', ['level_cargo_2_port_mt', 'level_cargo_2_port_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['tempertaure_at_50_cargo_tank_2_port']]],
+        'level_cargo_3_stb' => ['port', ['level_cargo_3_stb_mt', 'level_cargo_3_stb_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temperatur_at_50_cargo_tank_3_stb']]],
+        'level_cargo_3_port' => ['port', ['level_cargo_3_port_mt', 'level_cargo_3_port_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['tempertaure_at_50_cargo_tank_3_port']]],
     ];
     
     public ?array $bunkerTanks = [];

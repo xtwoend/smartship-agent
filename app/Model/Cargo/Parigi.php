@@ -51,18 +51,18 @@ class Parigi extends Model
     ];
 
     public ?array $cargoTanks = [
-        'no1_cargo_tank_p_level' => ['port' ,   ['no1_cargo_tank_p_level_mt', 'no1_cargo_tank_p_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'no1_cargo_tank_s_level' => ['stb'  ,   ['no1_cargo_tank_s_level_mt', 'no1_cargo_tank_s_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'no2_cargo_tank_p_level' => ['port' ,   ['no2_cargo_tank_p_level_mt', 'no2_cargo_tank_p_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'no2_cargo_tank_s_level' => ['stb'  ,   ['no2_cargo_tank_s_level_mt', 'no2_cargo_tank_s_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'no3_cargo_tank_p_level' => ['port' ,   ['no3_cargo_tank_p_level_mt', 'no3_cargo_tank_p_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'no3_cargo_tank_s_level' => ['stb'  ,   ['no3_cargo_tank_s_level_mt', 'no3_cargo_tank_s_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'no4_cargo_tank_p_level' => ['port' ,   ['no4_cargo_tank_p_level_mt', 'no4_cargo_tank_p_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'no4_cargo_tank_s_level' => ['stb'  ,   ['no4_cargo_tank_s_level_mt', 'no4_cargo_tank_s_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'no5_cargo_tank_p_level' => ['port' ,   ['no5_cargo_tank_p_level_mt', 'no5_cargo_tank_p_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'no5_cargo_tank_s_level' => ['stb'  ,   ['no5_cargo_tank_s_level_mt', 'no5_cargo_tank_s_level_ltr'],  ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'no1_cargo_tank_p_level' => ['port', ['no1_cargo_tank_p_level_mt', 'no1_cargo_tank_p_level_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['no1_cargo_tank_p_temp']]],
+        'no1_cargo_tank_s_level' => ['stb', ['no1_cargo_tank_s_level_mt', 'no1_cargo_tank_s_level_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['no1_cargo_tank_s_temp']]],
+        'no2_cargo_tank_p_level' => ['port', ['no2_cargo_tank_p_level_mt', 'no2_cargo_tank_p_level_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['no2_cargo_tank_p_temp']]],
+        'no2_cargo_tank_s_level' => ['stb', ['no2_cargo_tank_s_level_mt', 'no2_cargo_tank_s_level_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['no2_cargo_tank_s_temp']]],
+        'no3_cargo_tank_p_level' => ['port', ['no3_cargo_tank_p_level_mt', 'no3_cargo_tank_p_level_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['no3_cargo_tank_p_temp']]],
+        'no3_cargo_tank_s_level' => ['stb', ['no3_cargo_tank_s_level_mt', 'no3_cargo_tank_s_level_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['no3_cargo_tank_s_temp']]],
+        'no4_cargo_tank_p_level' => ['port', ['no4_cargo_tank_p_level_mt', 'no4_cargo_tank_p_level_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['no4_cargo_tank_p_temp']]],
+        'no4_cargo_tank_s_level' => ['stb', ['no4_cargo_tank_s_level_mt', 'no4_cargo_tank_s_level_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['no4_cargo_tank_s_temp']]],
+        'no5_cargo_tank_p_level' => ['port', ['no5_cargo_tank_p_level_mt', 'no5_cargo_tank_p_level_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['no5_cargo_tank_p_temp']]],
+        'no5_cargo_tank_s_level' => ['stb', ['no5_cargo_tank_s_level_mt', 'no5_cargo_tank_s_level_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['no5_cargo_tank_s_temp']]],
     ];
-
+    
 
     public ?array $bunkerTanks = [
         'mdo_tank_1p'        => ['port' , ['mdo_tank_1p_m3', 'mdo_tank_1p_ltr', 'mdo_tank_1p_mt'],            ['mes_type' => 'level', 'content' => 'MDO']],

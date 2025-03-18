@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace Smartship\Klasogun\Model;
 
 use Carbon\Carbon;
@@ -51,7 +52,7 @@ class CargoLog extends Model
     ];
 
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload = [])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -62,7 +63,7 @@ class CargoLog extends Model
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->unique();
-                
+
                 // cargo data
                 $table->datetime('cargo_timestamp')->nullable();
                 $table->float('temp_ballast1_driver_end_bearing_port')->default(0);
@@ -97,11 +98,13 @@ class CargoLog extends Model
                 $table->boolean('cargo1_pump_stbd_run')->default(false);
                 $table->boolean('ballast2_pump_port_run')->default(false);
                 $table->boolean('ballast1_pump_stbd_run')->default(false);
-                
+
                 $table->timestamps();
             });
         }
-
+        if (count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
         return $model->setTable($tableName);
     }
 
@@ -122,7 +125,7 @@ class CargoLog extends Model
         // ];
 
         // $sensors = \App\Model\Sensor::where('fleet_id', $model->fleet_id)->where('group', 'cargo')->pluck('danger', 'sensor_name')->toArray();
-        
+
 
         // $data = [];
         // foreach ($cargoArray as $c) {

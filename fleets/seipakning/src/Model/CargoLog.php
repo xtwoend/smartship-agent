@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace Smartship\Seipakning\Model;
 
 use Carbon\Carbon;
@@ -64,7 +65,7 @@ class CargoLog extends Model
     ];
 
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload = [])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -162,69 +163,9 @@ class CargoLog extends Model
                 $table->timestamps();
             });
         }
-
-        $model->addColumn($tableName, [
-            [
-                'type' => 'float',
-                'name' => 'tank_1_port_mt',
-                'after' => 'tank_1_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_1_stb_mt',
-                'after' => 'tank_1_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_2_port_mt',
-                'after' => 'tank_2_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_2_stb_mt',
-                'after' => 'tank_2_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_3_port_mt',
-                'after' => 'tank_3_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_3_stb_mt',
-                'after' => 'tank_3_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_4_port_mt',
-                'after' => 'tank_4_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_4_stb_mt',
-                'after' => 'tank_4_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_5_port_mt',
-                'after' => 'tank_5_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_5_stb_mt',
-                'after' => 'tank_5_stb',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_6_port_mt',
-                'after' => 'tank_6_port',
-            ],
-            [
-                'type' => 'float',
-                'name' => 'tank_6_stb_mt',
-                'after' => 'tank_6_stb',
-            ],
-        ]);
+        if (count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
 
         return $model->setTable($tableName);
     }

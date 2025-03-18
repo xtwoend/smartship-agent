@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Traits;
 
+use App\Model\ProcessLog;
 use App\Model\BunkerSounding;
 
 trait BunkerCapacityCalculate
@@ -35,13 +36,27 @@ trait BunkerCapacityCalculate
                 $after = $model->draft_after ?? $model->draft_rear ?? 0;
                 $trim = $this->customRound($fore - $after);
             }
-            $vol = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
-            $vol = $vol?->volume ?? 0;
+            $volRow = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
+            $vol = $volRow?->volume ?? 0;
             $data["{$bunker->tank_position}_m3"] = $vol;
             if ($bunker->tank_locator === 'S' || $bunker->tank_locator === 'P') {
                 $data["{$bunker->tank_position}_ltr"] = $vol * 1000;
                 $data["{$bunker->tank_position}_mt"] = $vol * ($bunker->content_type === 'MDO' ? BunkerSounding::DENSITY_MDO : BunkerSounding::DENSITY_HFO);
             }
+            $log = (new ProcessLog())->table('s');
+            $log->create([
+                'title' => 'BunkerCapacityCalculate_' . $fleetId . '_' . $bunker->id,
+                'data' => [
+                    'fleet' => $fleetId,
+                    'level' => $level,
+                    'trim' => $trim,
+                    'vol_row' => $volRow,
+                    'vol' => $vol,
+                    'data' => $data,
+                    'bunker' => $bunker,
+                    'cargo' => $model,
+                ]
+            ]);
         }
         return $data;
     }

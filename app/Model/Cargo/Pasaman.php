@@ -50,18 +50,22 @@ class Pasaman extends Model
         'terminal_time' => 'datetime',
     ];
 
+
     public ?array $cargoTanks = [
-        'no_1_cargo_tank_p' => ['port'  ,   ['no_1_cargo_tank_p_mt', 'no_1_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no_1_cargo_tank_s' => ['stb'   ,   ['no_1_cargo_tank_s_mt', 'no_1_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no_2_cargo_tank_p' => ['port'  ,   ['no_2_cargo_tank_p_mt', 'no_2_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no_2_cargo_tank_s' => ['stb'   ,   ['no_2_cargo_tank_s_mt', 'no_2_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no_3_cargo_tank_p' => ['port'  ,   ['no_3_cargo_tank_p_mt', 'no_3_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no_3_cargo_tank_s' => ['stb'   ,   ['no_3_cargo_tank_s_mt', 'no_3_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no_4_cargo_tank_p' => ['port'  ,   ['no_4_cargo_tank_p_mt', 'no_4_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no_4_cargo_tank_s' => ['stb'   ,   ['no_4_cargo_tank_s_mt', 'no_4_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no_5_cargo_tank_p' => ['port'  ,   ['no_5_cargo_tank_p_mt', 'no_5_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no_5_cargo_tank_s' => ['stb'   ,   ['no_5_cargo_tank_s_mt', 'no_5_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no_1_cargo_tank_p' => ['port', ['no_1_cargo_tank_p_mt', 'no_1_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_1ctp']]],
+        'no_1_cargo_tank_s' => ['stb', ['no_1_cargo_tank_s_mt', 'no_1_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_1cts']]],
+        'no_2_cargo_tank_p' => ['port', ['no_2_cargo_tank_p_mt', 'no_2_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_2ctp']]],
+        'no_2_cargo_tank_s' => ['stb', ['no_2_cargo_tank_s_mt', 'no_2_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_2cts']]],
+        'no_3_cargo_tank_p' => ['port', ['no_3_cargo_tank_p_mt', 'no_3_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_3ctp']]],
+        'no_3_cargo_tank_s' => ['stb', ['no_3_cargo_tank_s_mt', 'no_3_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_3cts']]],
+        'no_4_cargo_tank_p' => ['port', ['no_4_cargo_tank_p_mt', 'no_4_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_4ctp']]],
+        'no_4_cargo_tank_s' => ['stb', ['no_4_cargo_tank_s_mt', 'no_4_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_4cts']]],
+        'no_5_cargo_tank_p' => ['port', ['no_5_cargo_tank_p_mt', 'no_5_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_5ctp']]],
+        'no_5_cargo_tank_s' => ['stb', ['no_5_cargo_tank_s_mt', 'no_5_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_5cts']]],
+        'slop_cargo_tank_p' => ['port', ['slop_cargo_tank_p_mt', 'slop_cargo_tank_p_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_sctp']]],
+        'slop_cargo_tank_s' => ['stb', ['slop_cargo_tank_s_mt', 'slop_cargo_tank_s_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_scts']]],
     ];
+    
 
     public ?array $bunkerTanks = [
         'no1_mdo_tank_p'        => ['port'  ,   ['no1_mdo_tank_p_m3', 'no1_mdo_tank_p_ltr', 'no1_mdo_tank_p_mt'], ['mes_type' => 'level', 'content' => 'MDO']],

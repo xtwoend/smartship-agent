@@ -52,15 +52,16 @@ class Arimbi extends Model
     ];
 
     public ?array $cargoTanks = [
-        'temp_tank_upper_no1' =>    ['port', ['temp_tank_upper_no1_mt', 'temp_tank_upper_no1_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'temp_tank_upper_no2' =>    ['port', ['temp_tank_upper_no2_mt', 'temp_tank_upper_no2_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'temp_comp_outlet_no1' =>   ['port', ['temp_comp_outlet_no1_mt', 'temp_comp_outlet_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'tamp_tank_middle_no1' =>   ['port', ['tamp_tank_middle_no1_mt', 'tamp_tank_middle_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'tamp_tank_middle_no2' =>   ['port', ['tamp_tank_middle_no2_mt', 'tamp_tank_middle_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'temp_comp_outlet_no2' =>   ['port', ['temp_comp_outlet_no2_mt', 'temp_comp_outlet_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'tamp_tank_bottom_no1' =>   ['port', ['tamp_tank_bottom_no1_mt', 'tamp_tank_bottom_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'tamp_tank_bottom_no2' =>   ['port', ['tamp_tank_bottom_no2_mt', 'tamp_tank_bottom_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'temp_tank_upper_no1' =>    ['port', ['temp_tank_upper_no1_mt', 'temp_tank_upper_no1_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'temp_tank_upper_no2' =>    ['port', ['temp_tank_upper_no2_mt', 'temp_tank_upper_no2_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'temp_comp_outlet_no1' =>   ['port', ['temp_comp_outlet_no1_mt', 'temp_comp_outlet_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'tamp_tank_middle_no1' =>   ['port', ['tamp_tank_middle_no1_mt', 'tamp_tank_middle_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'tamp_tank_middle_no2' =>   ['port', ['tamp_tank_middle_no2_mt', 'tamp_tank_middle_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'temp_comp_outlet_no2' =>   ['port', ['temp_comp_outlet_no2_mt', 'temp_comp_outlet_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'tamp_tank_bottom_no1' =>   ['port', ['tamp_tank_bottom_no1_mt', 'tamp_tank_bottom_no1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'tamp_tank_bottom_no2' =>   ['port', ['tamp_tank_bottom_no2_mt', 'tamp_tank_bottom_no2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
     ];
+    
 
     public ?array $bunkerTanks = [];
     // create table cargo if not found table

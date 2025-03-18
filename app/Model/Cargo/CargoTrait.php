@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Cargo;
 
+use App\Model\ProcessLog;
 use App\Model\Tank;
 
 trait CargoTrait
@@ -21,7 +22,20 @@ trait CargoTrait
         // var_dump('CargoTrait->Model', $model);
         // var_dump('CargoTrait->data', $data);
         if (isset($data['cargo'])) {
+            // $log = ( new ProcessLog())->table('s');
+            // $log->create([
+            //     'title' => 'CargoTrait',
+            //     'data' => [
+            //         'fleet_id' => $this->id,
+            //         'cargo' => $data['cargo'],
+            //     ]
+            // ]);
             $model = (new $model())->table($this->id);
+            // var_dump([
+            //     'CargoTrait' => get_class($model),
+            //     'fleet_id' => $this->id,
+            //     'cargo' => $data['cargo'],
+            // ]);
             $log = $model->updateOrCreate([
                 'fleet_id' => $this->id,
             ], $data['cargo']);
@@ -71,11 +85,21 @@ trait CargoTrait
 
         foreach ($source as $tankField => $src) {
             foreach ($src[1] ?? [] as $key => $newField) {
-                $payload[] = [
-                    'type' => 'float',
-                    'name' => $newField,
-                    'after' => $tankField,
-                ];
+                if (is_array($newField)) {
+                    foreach($newField as $nf => $nfItem) {
+                        $payload[] = [
+                            'type' => 'float',
+                            'name' => $nf,
+                            'after' => $tankField,
+                        ];
+                    }
+                } else {
+                    $payload[] = [
+                        'type' => 'float',
+                        'name' => $newField,
+                        'after' => $tankField,
+                    ];
+                }
             }
         }
         return $payload;

@@ -51,15 +51,18 @@ class Attaka extends Model
     ];
 
     public ?array $cargoTanks = [
-        'level_tank1' =>         ['port', ['level_tank1_mt', 'level_tank1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'bottom_temp_tank1' =>   ['port', ['bottom_temp_tank1_mt', 'bottom_temp_tank1_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'middle_temp_tank1' =>   ['port', ['middle_temp_tank1_mt', 'middle_temp_tank1_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'top_temp_tank1' =>      ['port', ['top_temp_tank1_mt', 'top_temp_tank1_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'level_tank2' =>         ['port', ['level_tank2_mt', 'level_tank2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'bottom_temp_tank2' =>   ['port', ['bottom_temp_tank2_mt', 'bottom_temp_tank2_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'middle_temp_tank2' =>   ['port', ['middle_temp_tank2_mt', 'middle_temp_tank2_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'top_temp_tank2' =>      ['port', ['top_temp_tank2_mt', 'top_temp_tank2_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'level_tank1' =>         ['port', ['level_tank1_mt', 'level_tank1_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'bottom_temp_tank1' =>   ['port', ['bottom_temp_tank1_mt', 'bottom_temp_tank1_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'middle_temp_tank1' =>   ['port', ['middle_temp_tank1_mt', 'middle_temp_tank1_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'top_temp_tank1' =>      ['port', ['top_temp_tank1_mt', 'top_temp_tank1_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'level_tank2' =>         ['port', ['level_tank2_mt', 'level_tank2_ltr'],   ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'bottom_temp_tank2' =>   ['port', ['bottom_temp_tank2_mt', 'bottom_temp_tank2_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'middle_temp_tank2' =>   ['port', ['middle_temp_tank2_mt', 'middle_temp_tank2_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
+        'top_temp_tank2' =>      ['port', ['top_temp_tank2_mt', 'top_temp_tank2_ltr'],    ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => [0]]],
     ];
+
+    
+    
     public ?array $bunkerTanks = [];
     // create table cargo if not found table
     public static function table($fleetId)

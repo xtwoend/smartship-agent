@@ -50,19 +50,20 @@ class Pangkalanbrandan extends Model
     protected array $casts = [
         'terminal_time' => 'datetime',
     ];
-
+    
     public ?array $cargoTanks = [
-        'no1_cotp_ullage' => ['port',   ['no1_cotp_ullage_mt', 'no1_cotp_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no1_cots_ullage' => ['stb',    ['no1_cots_ullage_mt', 'no1_cots_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no2_cotp_ullage' => ['port',   ['no2_cotp_ullage_mt', 'no2_cotp_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no2_cots_ullage' => ['stb',    ['no2_cots_ullage_mt', 'no2_cots_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no3_cotp_ullage' => ['port',   ['no3_cotp_ullage_mt', 'no3_cotp_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no3_cots_ullage' => ['stb',    ['no3_cots_ullage_mt', 'no3_cots_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no4_cotp_ullage' => ['port',   ['no4_cotp_ullage_mt', 'no4_cotp_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no4_cots_ullage' => ['stb',    ['no4_cots_ullage_mt', 'no4_cots_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no5_cotp_ullage' => ['port',   ['no5_cotp_ullage_mt', 'no5_cotp_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'no5_cots_ullage' => ['stb',    ['no5_cots_ullage_mt', 'no5_cots_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'no1_cotp_ullage' => ['port',   ['no1_cotp_ullage_mt', 'no1_cotp_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['no1_cotp_temp']]], // Updated compare
+        'no1_cots_ullage' => ['stb',    ['no1_cots_ullage_mt', 'no1_cots_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['no1_cots_temp']]], // Updated compare
+        'no2_cotp_ullage' => ['port',   ['no2_cotp_ullage_mt', 'no2_cotp_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['no2_cotp_temp']]], // Updated compare
+        'no2_cots_ullage' => ['stb',    ['no2_cots_ullage_mt', 'no2_cots_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['no2_cots_temp']]], // Updated compare
+        'no3_cotp_ullage' => ['port',   ['no3_cotp_ullage_mt', 'no3_cotp_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['no3_cotp_temp']]], // Updated compare
+        'no3_cots_ullage' => ['stb',    ['no3_cots_ullage_mt', 'no3_cots_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['no3_cots_temp']]], // Updated compare
+        'no4_cotp_ullage' => ['port',   ['no4_cotp_ullage_mt', 'no4_cotp_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['no4_cotp_temp']]], // Updated compare
+        'no4_cots_ullage' => ['stb',    ['no4_cots_ullage_mt', 'no4_cots_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['no4_cots_temp']]], // Updated compare
+        'no5_cotp_ullage' => ['port',   ['no5_cotp_ullage_mt', 'no5_cotp_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['no5_cotp_temp']]], // Updated compare
+        'no5_cots_ullage' => ['stb',    ['no5_cots_ullage_mt', 'no5_cots_ullage_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['no5_cots_temp']]], // Updated compare
     ];
+    
 
     public ?array $bunkerTanks = [
         'hfo_storage_tank_1p' =>  ['port'   , ['hfo_storage_tank_1p_m3', 'hfo_storage_tank_1p_ltr', 'hfo_storage_tank_1p_mt'],    ['mes_type' => 'level', 'content' => 'HFO']],

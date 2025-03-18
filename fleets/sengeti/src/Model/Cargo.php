@@ -9,9 +9,11 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace Smartship\Sengeti\Model;
 
 use Carbon\Carbon;
+use App\Model\Cargo\CargoTrait;
 use Hyperf\Database\Schema\Schema;
 use App\Model\Traits\HasColumnTrait;
 use Hyperf\DbConnection\Model\Model;
@@ -19,11 +21,14 @@ use Hyperf\Database\Schema\Blueprint;
 use App\Model\Traits\CargoTankCalculate;
 use Hyperf\Database\Model\Events\Updated;
 use Hyperf\Database\Model\Events\Updating;
+use App\Model\Traits\BunkerCapacityCalculate;
 
 class Cargo extends Model
 {
     use HasColumnTrait;
     use CargoTankCalculate;
+    use BunkerCapacityCalculate;
+    use CargoTrait;
 
     /**
      * The table associated with the model.
@@ -47,6 +52,22 @@ class Cargo extends Model
         'terminal_time' => 'datetime',
     ];
 
+    public array $cargoTanks = [
+        'level_cot_1p' => ['port', ['level_cot_1p_mt', 'level_cot_1p_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_cot_1p']]],
+        'level_cot_1s' => ['stb', ['level_cot_1s_mt', 'level_cot_1s_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_cot_1s']]],
+        'level_cot_2p' => ['port', ['level_cot_2p_mt', 'level_cot_2p_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_cot_2p']]],
+        'level_cot_2s' => ['stb', ['level_cot_2s_mt', 'level_cot_2s_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_cot_2s']]],
+        'level_cot_3p' => ['port', ['level_cot_3p_mt', 'level_cot_3p_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_cot_3p']]],
+        'level_cot_3s' => ['stb', ['level_cot_3s_mt', 'level_cot_3s_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_cot_3s']]],
+        'level_cot_4p' => ['port', ['level_cot_4p_mt', 'level_cot_4p_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_cot_4p']]],
+        'level_cot_4s' => ['stb', ['level_cot_4s_mt', 'level_cot_4s_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_cot_4s']]],
+        'level_cot_5p' => ['port', ['level_cot_5p_mt', 'level_cot_5p_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_cot_5p']]],
+        'level_cot_5s' => ['stb', ['level_cot_5s_mt', 'level_cot_5s_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_cot_5s']]],
+        'level_slop_p' => ['port', ['level_slop_p_mt', 'level_slop_p_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_slop_p']]],
+        'level_slop_s' => ['stb', ['level_slop_s_mt', 'level_slop_s_ltr'], ['mes_type' => 'level', 'content' => '', 'compare' => ['temp_slop_s']]],
+    ];
+
+    public ?array $bunkerTanks = [];
     // create table cargo if not found table
     public static function table($fleetId)
     {
@@ -58,7 +79,7 @@ class Cargo extends Model
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
-                
+
                 // hanla
                 $table->float('level_cot_1p')->default(0);
                 $table->float('temp_cot_1p')->default(0);
@@ -129,23 +150,26 @@ class Cargo extends Model
                 $table->timestamps();
             });
         }
-
+        $tablePayload = $model->tablePayloadBuilder($model);
+        $model->addColumn($tableName, $tablePayload);
+        $logModel = new CargoLog();
+        $logModel->table($fleetId, null, $tablePayload);
         return $model->setTable($tableName);
     }
 
-    public function updating(Updating $event) 
+    public function updating(Updating $event)
     {
         $model = $event->getModel();
         $this->terminal_time = Carbon::now()->format('Y-m-d H:i:s');
         // calculate cargo
         $cargoData = $this->calculate($model);
-        
-        foreach($cargoData as $k => $v) {
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model));
+        // proses simpan data
+        foreach ($updates as $k => $v) {
             $this->{$k} = $v;
         }
-        
     }
-    
+
     // update & insert
     public function updated(Updated $event)
     {
@@ -155,16 +179,16 @@ class Cargo extends Model
         $last = CargoLog::table($model->fleet_id, $date)->orderBy('terminal_time', 'desc')->first();
 
         $now = Carbon::parse($date);
-       
+
         // save interval 60 detik
         if ($last && $now->diffInSeconds($last->terminal_time) < config('mqtt.interval_save', 60)) {
             return;
         }
-       
+
         return CargoLog::table($model->fleet_id, $date)->updateOrCreate([
             'fleet_id' => $model->fleet_id,
             'terminal_time' => $date,
-        ], (array) $model->makeHidden(['id', 'fleet_id', 'created_at', 'updated_at'])->toArray());
+        ], (array) $model->makeHidden(['id', 'bunkers', 'cargos', 'fleet_id', 'created_at', 'updated_at'])->toArray());
     }
 
     public ?array $tanks = [
@@ -179,5 +203,4 @@ class Cargo extends Model
         'level_cot_5p_mt' => ['level_cot_5p', 'temp_cot_5p'],
         'level_cot_5s_mt' => ['level_cot_5s', 'temp_cot_5s'],
     ];
-
 }

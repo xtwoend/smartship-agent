@@ -50,8 +50,8 @@ class TypeA extends Model
     ];
 
     public ?array $cargoTanks = [
-        'ullage_cargo_no1' => ['port', ['ullage_cargo_no1_mt', 'ullage_cargo_no1_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
-        'ullage_cargo_no2' => ['port', ['ullage_cargo_no2_mt', 'ullage_cargo_no2_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '']],
+        'ullage_cargo_no1' => ['port', ['ullage_cargo_no1_mt', 'ullage_cargo_no1_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_tank_upper_no1']]],
+        'ullage_cargo_no2' => ['port', ['ullage_cargo_no2_mt', 'ullage_cargo_no2_ltr'], ['mes_type' => 'ullage', 'height' => 0, 'content' => '', 'compare' => ['temp_tank_upper_no2']]],
     ];
     public ?array $bunkerTanks = [];
     

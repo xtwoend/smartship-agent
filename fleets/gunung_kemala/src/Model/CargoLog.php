@@ -51,7 +51,7 @@ class CargoLog extends Model
     ];
 
     // create table cargo if not found table
-    public static function table($fleetId, $date = null)
+    public static function table($fleetId, $date = null, $payload=[])
     {
         $date = is_null($date) ? date('Ym') : Carbon::parse($date)->format('Ym');
         $model = new self();
@@ -129,11 +129,12 @@ class CargoLog extends Model
                 $table->float('wballast_pump2_run')->default(0);
                 $table->float('tank_cleaning_pump1_run')->default(0);
                 $table->float('tank_cleaning_pump2_run')->default(0);
-                
                 $table->timestamps();
             });
         }
-
+        if(count($payload) > 0) {
+            $model->addColumn($tableName, $payload);
+        }
         return $model->setTable($tableName);
     }
 

@@ -64,18 +64,18 @@ class TypeS extends Model
     ];
 
     public ?array $cargoTanks = [
-        'tank_1_port'   => ['port', ['tank_1_port_mt', 'tank_1_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_1_stb'    => ['stb',  ['tank_1_stb_mt', 'tank_1_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_2_port'   => ['port', ['tank_2_port_mt', 'tank_2_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_2_stb'    => ['stb',  ['tank_2_stb_mt', 'tank_2_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_3_port'   => ['port', ['tank_3_port_mt', 'tank_3_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_3_stb'    => ['stb',  ['tank_3_stb_mt', 'tank_3_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_4_port'   => ['port', ['tank_4_port_mt', 'tank_4_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_4_stb'    => ['stb',  ['tank_4_stb_mt', 'tank_4_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_5_port'   => ['port', ['tank_5_port_mt', 'tank_5_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_5_stb'    => ['stb',  ['tank_5_stb_mt', 'tank_5_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_6_port'   => ['port', ['tank_6_port_mt', 'tank_6_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'tank_6_stb'    => ['stb',  ['tank_6_stb_mt', 'tank_6_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'tank_1_port'   => ['port', ['tank_1_port_mt', 'tank_1_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_1_port_temp']]],
+        'tank_1_stb'    => ['stb',  ['tank_1_stb_mt', 'tank_1_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_1_stb_temp']]],
+        'tank_2_port'   => ['port', ['tank_2_port_mt', 'tank_2_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_2_port_temp']]],
+        'tank_2_stb'    => ['stb',  ['tank_2_stb_mt', 'tank_2_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_2_stb_temp']]],
+        'tank_3_port'   => ['port', ['tank_3_port_mt', 'tank_3_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_3_port_temp']]],
+        'tank_3_stb'    => ['stb',  ['tank_3_stb_mt', 'tank_3_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_3_stb_temp']]],
+        'tank_4_port'   => ['port', ['tank_4_port_mt', 'tank_4_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_4_port_temp']]],
+        'tank_4_stb'    => ['stb',  ['tank_4_stb_mt', 'tank_4_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_4_stb_temp']]],
+        'tank_5_port'   => ['port', ['tank_5_port_mt', 'tank_5_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_5_port_temp']]],
+        'tank_5_stb'    => ['stb',  ['tank_5_stb_mt', 'tank_5_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_5_stb_temp']]],
+        'tank_6_port'   => ['port', ['tank_6_port_mt', 'tank_6_port_ltr'], ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_6_port_temp']]],
+        'tank_6_stb'    => ['stb',  ['tank_6_stb_mt', 'tank_6_stb_ltr'],  ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['tank_6_stb_temp']]],
     ];
 
     public ?array $bunkerTanks = [
@@ -318,6 +318,7 @@ class TypeS extends Model
     public function updating(Updating $event)
     {
         $model = $event->getModel();
+        $this->terminal_time = Carbon::now()->format('Y-m-d H:i:s');
         // calculate cargo
         $cargoData = $this->calculate($model);
         $updates = array_merge($cargoData, $this->bunkerCalculate($model) );

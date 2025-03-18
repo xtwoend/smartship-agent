@@ -51,17 +51,20 @@ class Mahakam extends Model
     ];
 
     public ?array $cargoTanks = [
-        'level_cot_1p' => ['port',  ['level_cot_1p_mt', 'level_cot_1p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'level_cot_1s' => ['stb',   ['level_cot_1s_mt', 'level_cot_1s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'level_cot_2p' => ['port',  ['level_cot_2p_mt', 'level_cot_2p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'level_cot_2s' => ['stb',   ['level_cot_2s_mt', 'level_cot_2s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'level_cot_3p' => ['port',  ['level_cot_3p_mt', 'level_cot_3p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'level_cot_3s' => ['stb',   ['level_cot_3s_mt', 'level_cot_3s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'level_cot_4p' => ['port',  ['level_cot_4p_mt', 'level_cot_4p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'level_cot_4s' => ['stb',   ['level_cot_4s_mt', 'level_cot_4s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'level_cot_5p' => ['port',  ['level_cot_5p_mt', 'level_cot_5p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
-        'level_cot_5s' => ['stb',   ['level_cot_5s_mt', 'level_cot_5s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '']],
+        'level_cot_1p' => ['port',  ['level_cot_1p_mt', 'level_cot_1p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_cot_1p']]],
+        'level_cot_1s' => ['stb',   ['level_cot_1s_mt', 'level_cot_1s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_cot_1s']]],
+        'level_cot_2p' => ['port',  ['level_cot_2p_mt', 'level_cot_2p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_cot_2p']]],
+        'level_cot_2s' => ['stb',   ['level_cot_2s_mt', 'level_cot_2s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_cot_2s']]],
+        'level_cot_3p' => ['port',  ['level_cot_3p_mt', 'level_cot_3p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_cot_3p']]],
+        'level_cot_3s' => ['stb',   ['level_cot_3s_mt', 'level_cot_3s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_cot_3s']]],
+        'level_cot_4p' => ['port',  ['level_cot_4p_mt', 'level_cot_4p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_cot_4p']]],
+        'level_cot_4s' => ['stb',   ['level_cot_4s_mt', 'level_cot_4s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_cot_4s']]],
+        'level_cot_5p' => ['port',  ['level_cot_5p_mt', 'level_cot_5p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_cot_5p']]],
+        'level_cot_5s' => ['stb',   ['level_cot_5s_mt', 'level_cot_5s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_cot_5s']]],
+        'level_slop_p' => ['port',  ['level_slop_p_mt', 'level_slop_p_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_slop_p']]],
+        'level_slop_s' => ['stb',   ['level_slop_s_mt', 'level_slop_s_ltr'], ['mes_type' => 'level', 'height' => 0, 'content' => '', 'compare' => ['temp_slop_s']]],
     ];
+    
 
     public ?array $bunkerTanks = [];
     // create table cargo if not found table

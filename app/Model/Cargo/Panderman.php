@@ -51,17 +51,18 @@ class Panderman extends Model
     ];
 
     public ?array $cargoTanks = [
-        'no_1_cot_p' =>  ['port' ,['no_1_cot_p_mt', 'no_1_cot_p_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'no_1_cot_s' =>  ['stb'  ,['no_1_cot_s_mt', 'no_1_cot_s_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'no_2_cot_p' =>  ['port' ,['no_2_cot_p_mt', 'no_2_cot_p_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'no_2_cot_s' =>  ['stb'  ,['no_2_cot_s_mt', 'no_2_cot_s_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'no_3_cot_p' =>  ['port' ,['no_3_cot_p_mt', 'no_3_cot_p_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'no_3_cot_s' =>  ['stb'  ,['no_3_cot_s_mt', 'no_3_cot_s_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'no_4_cot_p' =>  ['port' ,['no_4_cot_p_mt', 'no_4_cot_p_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'no_4_cot_s' =>  ['stb'  ,['no_4_cot_s_mt', 'no_4_cot_s_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'no_5_cot_p' =>  ['port' ,['no_5_cot_p_mt', 'no_5_cot_p_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
-        'no_5_cot_s' =>  ['stb'  ,['no_5_cot_s_mt', 'no_5_cot_s_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '']],
+        'no_1_cot_p' =>  ['port' ,['no_1_cot_p_mt', 'no_1_cot_p_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['no_1_p_m_temp']]], // Updated compare
+        'no_1_cot_s' =>  ['stb'  ,['no_1_cot_s_mt', 'no_1_cot_s_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['no_1_s_m_temp']]], // Updated compare
+        'no_2_cot_p' =>  ['port' ,['no_2_cot_p_mt', 'no_2_cot_p_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['no_2_p_m_temp']]], // Updated compare
+        'no_2_cot_s' =>  ['stb'  ,['no_2_cot_s_mt', 'no_2_cot_s_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['no_2_s_m_temp']]], // Updated compare
+        'no_3_cot_p' =>  ['port' ,['no_3_cot_p_mt', 'no_3_cot_p_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['no_3_p_m_temp']]], // Updated compare
+        'no_3_cot_s' =>  ['stb'  ,['no_3_cot_s_mt', 'no_3_cot_s_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['no_3_s_m_temp']]], // Updated compare
+        'no_4_cot_p' =>  ['port' ,['no_4_cot_p_mt', 'no_4_cot_p_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['no_4_p_m_temp']]], // Updated compare
+        'no_4_cot_s' =>  ['stb'  ,['no_4_cot_s_mt', 'no_4_cot_s_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['no_4_s_m_temp']]], // Updated compare
+        'no_5_cot_p' =>  ['port' ,['no_5_cot_p_mt', 'no_5_cot_p_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['no_5_p_m_temp']]], // Updated compare
+        'no_5_cot_s' =>  ['stb'  ,['no_5_cot_s_mt', 'no_5_cot_s_ltr'],     ['mes_type' => 'ullage', 'heigh' => 0, 'content' => '', 'compare' => ['no_5_s_m_temp']]], // Updated compare
     ];
+    
 
     public ?array $bunkerTanks = [];
 
