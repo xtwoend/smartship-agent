@@ -31,12 +31,36 @@ trait BunkerCapacityCalculate
             $level = round($level, 0, PHP_ROUND_HALF_EVEN);
             $level = $level < 0 ? 0 : $level;
             $trim = 0;
+            $volRow = null;
             if ($bunker->tank_locator === 'S') {
                 $fore = $model->draft_fore ?? $model->draft_front ?? 0;
                 $after = $model->draft_after ?? $model->draft_rear ?? 0;
                 $trim = $this->customRound($fore - $after);
+                if (!$volRow = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first()) {
+                    $closestTrims = $soundingModel->select('trim', 'volume', 'diff')
+                        ->where('sounding_cm', $level)
+                        ->orderByRaw('ABS(trim - ?) ASC', [$trim])
+                        ->limit(2)
+                        ->get();
+                    if ($closestTrims->count() == 2) {
+                        $diff1 = abs($trim - $closestTrims[0]->trim);
+                        $diff2 = abs($trim - $closestTrims[1]->trim);
+                        if ($diff1 < $diff2) {
+                            // Round the first closest trim to the nearest integer using round half down
+                            $trim = round($closestTrims[0]->trim, 0, PHP_ROUND_HALF_DOWN);
+                        } else {
+                            // Round the second closest trim to the nearest integer using round half down
+                            $trim = round($closestTrims[1]->trim, 0, PHP_ROUND_HALF_DOWN);
+                        }
+                    }
+                    if ($closestTrims->count() == 1) {
+                        $trim = $closestTrims[0]->trim;
+                    }
+                }
             }
-            $volRow = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
+            if(!$volRow) {
+                $volRow = $soundingModel->where('tank_id', $bunker->id)->where('trim_index', $trim)->where('sounding_cm', $level)->first();
+            }
             $vol = $volRow?->volume ?? 0;
             $data["{$bunker->tank_position}_m3"] = $vol;
             if ($bunker->tank_locator === 'S' || $bunker->tank_locator === 'P') {

@@ -38,7 +38,7 @@ class ProcessLog extends Model
             Schema::create($tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('title')->index();
-                $table->longtext('data')->unique();
+                $table->longtext('data');
                 $table->timestamps();
             });
         }

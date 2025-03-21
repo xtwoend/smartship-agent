@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Cargo;
 
-use App\Model\ProcessLog;
+use Carbon\Carbon;
 use App\Model\Tank;
 
 trait CargoTrait
@@ -36,6 +36,9 @@ trait CargoTrait
             //     'fleet_id' => $this->id,
             //     'cargo' => $data['cargo'],
             // ]);
+            if(!isset($data['cargo']['terminal_time'])) {
+                $data['cargo']['terminal_time'] = Carbon::now()->format('Y-m-d H:i:s');
+            }
             $log = $model->updateOrCreate([
                 'fleet_id' => $this->id,
             ], $data['cargo']);

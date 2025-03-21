@@ -165,8 +165,9 @@ class Cargo extends Model
         $this->terminal_time = Carbon::now()->format('Y-m-d H:i:s');
         // calculate cargo
         $cargoData = $this->calculate($model);
+        $updates = array_merge($cargoData, $this->bunkerCalculate($model));
 
-        foreach ($cargoData as $k => $v) {
+        foreach ($updates as $k => $v) {
             $this->{$k} = $v;
         }
     }

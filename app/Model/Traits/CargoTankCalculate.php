@@ -28,15 +28,32 @@ trait CargoTankCalculate
         $cargos = $this->cargoTanks ?? [];
 
         foreach ($cargos as $tankName => $tank) {
-            $unit = max(0, round($model->{$tankName} * 100, 1, PHP_ROUND_HALF_EVEN));
             $tempField = $tank[2]['compare'][0] ?? null;
+            if (!$tempField) {
+                (new ProcessLog())->table('s')->create([
+                    'title' => "Field_Missing_{$fleetId}",
+                    'data' => [
+                        'tempField' => "Temp field {$tempField} not found for tank: {$fleetId}_{$tankName}"
+                    ]
+                ]);
+            }
+
+            $unit = max(0, round($model->{$tankName} * 100, 1, PHP_ROUND_HALF_EVEN));
             $unitDecimal = round(fmod($unit, 1), 10);
             $unit = round($unit);
             $trim = 0;
             $heel = 0;
             $volCmDiff = 0;
             $temp = round($model->{$tempField} ?? 0);
-            $cargoTank = Tank::where('fleet_id', $fleetId)->where('tank_position', $tankName)->first();
+            $cargoTank = Tank::firstOrCreate(
+                ['fleet_id' => $fleetId, 'tank_position' => $tankName],
+                [
+                    'tank_locator' => $tank[0] == 'port' ? 'P' : 'S', // P|S
+                    'type' => 'cargo', // bunker, cargo
+                    'mes_type' => $tank[2]['mes_type'], // ullage, level
+                    'calc_type' => 'interpolate', // match, interpolate
+                ]
+            );
 
             if ($cargoTank->tank_locator === 'S') {
                 $fore = $model->draft_fore ?? $model->draft_front ?? 0;
@@ -49,6 +66,14 @@ trait CargoTankCalculate
 
             // Fetch temperature correction factor (default to 1)
             $correctionRow = $correctionTable->where('temp', $temp)->first();
+            if (!$correctionRow) {
+                (new ProcessLog())->table('s')->create([
+                    'title' => "CorrectionRow_Missing_{$fleetId}",
+                    'data' => [
+                        'tempField' => "correctionRow not found for tank: {$fleetId}_{$tankName}"
+                    ]
+                ]);
+            }
             $correction = $correctionRow?->correction ?? 1;
 
             // Get volume from sounding table
@@ -56,13 +81,62 @@ trait CargoTankCalculate
                 ->where('heel_index', $heel)
                 ->where($soundingType, $unit)
                 ->first();
+            if (!$volRow) {
+                $closestTrims = $soundingModel->select('trim_index', 'volume', 'diff')
+                    ->where($soundingType, $unit)
+                    ->orderByRaw('ABS(trim_index - ?) ASC', [$trim])
+                    ->limit(2)
+                    ->get();
 
-            $volCmDiff = $volRow?->diff ?? 0;
-            $vol = $volRow?->volume ?? 0;
-            $interpolatedVol = ($volCmDiff * $unitDecimal);
+                // Check if we found two values
+                if ($closestTrims->count() < 2) {
+                    (new ProcessLog())->table('s')->create([
+                        'title' => "CantInterpolate_{$fleetId}",
+                        'data' => [
+                            'tempField' => "Not enough data points found for interpolation." . json_encode(['closests' => $closestTrims, 'trim' => $trim])
+                        ]
+                    ]);
+                }
+
+                // Sort the trims in ascending order
+                $closestTrims = $closestTrims->sortBy('trim');
+
+                // Extract values
+                $t1 = $closestTrims[0]->trim_index;
+                $v1 = $closestTrims[0]->volume;
+                $t2 = $closestTrims[1]->trim_index;
+                $v2 = $closestTrims[1]->volume;
+                $d2 = $closestTrims[1]->diff;
+                if ($t2 !== $t1) {
+                    // Perform linear interpolation
+                    $volCmDiff = $d2;
+                    $vol = $v1 + (($v2 - $v1) / ($t2 - $t1)) * ($trim - $t1);
+                    $interpolatedVol = ($volCmDiff * $unitDecimal);
+                } else {
+                    (new ProcessLog())->table('s')->create([
+                        'title' => "CantInterpolate_{$fleetId}",
+                        'data' => [
+                            'tempField' => "Trim values are the same, cannot interpolate." . json_encode(['closests' => $closestTrims, 'trim' => $trim])
+                        ]
+                    ]);
+                }
+            } else {
+                $volCmDiff = $volRow?->diff ?? 0;
+                $vol = $volRow?->volume ?? 0;
+                $interpolatedVol = ($volCmDiff * $unitDecimal);
+            }
+
 
             // Fetch density (default 1 if missing)
             $densityRow = $densityModel->where('product', $cargoTank->content_type)->first();
+            if (!$densityRow) {
+                (new ProcessLog())->table('s')->create([
+                    'title' => "Density_Row_Missing_{$fleetId}",
+                    'data' => [
+                        'tempField' => "densityRow not found for tank: {$fleetId}_{$tankName}"
+                    ]
+                ]);
+            }
             $density = $densityRow?->density ?? 1;
 
             // Calculate observed values
@@ -124,7 +198,7 @@ trait CargoTankCalculate
         $densityModel = new CargoDensity;
         $data = [];
 
-        if(is_null($model->cargos)) return [];
+        if (is_null($model->cargos)) return [];
 
         $cargos = ($model->cargos->count() < 1) ? $model->getCargos() : $model->cargos;
         foreach ($cargos as $key => $tank) {
