@@ -81,6 +81,7 @@ trait CargoTankCalculate
                 ->where('heel_index', $heel)
                 ->where($soundingType, $unit)
                 ->first();
+            $interpolatedVol = 0;
             if (!$volRow) {
                 $closestTrims = $soundingModel->select('trim_index', 'volume', 'diff')
                     ->where($soundingType, $unit)
@@ -99,7 +100,7 @@ trait CargoTankCalculate
                 } else {
 
                     // Sort the trims in ascending order
-                    $closestTrims = $closestTrims->sortBy('trim');
+                    $closestTrims = $closestTrims->sortBy('trim_index');
 
                     // Extract values
                     $t1 = $closestTrims[0]->trim_index;
