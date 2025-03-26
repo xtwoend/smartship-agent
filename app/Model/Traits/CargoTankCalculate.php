@@ -81,6 +81,7 @@ trait CargoTankCalculate
                 ->where('heel_index', $heel)
                 ->where($soundingType, $unit)
                 ->first();
+            $vol = $volRow?->volume ?? 0;
             $interpolatedVol = 0;
             if (!$volRow) {
                 $closestTrims = $soundingModel->select('trim_index', 'volume', 'diff')
