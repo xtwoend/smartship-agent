@@ -96,29 +96,31 @@ trait CargoTankCalculate
                             'tempField' => "Not enough data points found for interpolation." . json_encode(['closests' => $closestTrims, 'trim' => $trim])
                         ]
                     ]);
-                }
-
-                // Sort the trims in ascending order
-                $closestTrims = $closestTrims->sortBy('trim');
-
-                // Extract values
-                $t1 = $closestTrims[0]->trim_index;
-                $v1 = $closestTrims[0]->volume;
-                $t2 = $closestTrims[1]->trim_index;
-                $v2 = $closestTrims[1]->volume;
-                $d2 = $closestTrims[1]->diff;
-                if ($t2 !== $t1) {
-                    // Perform linear interpolation
-                    $volCmDiff = $d2;
-                    $vol = $v1 + (($v2 - $v1) / ($t2 - $t1)) * ($trim - $t1);
-                    $interpolatedVol = ($volCmDiff * $unitDecimal);
                 } else {
-                    (new ProcessLog())->table('s')->create([
-                        'title' => "CantInterpolate_{$fleetId}",
-                        'data' => [
-                            'tempField' => "Trim values are the same, cannot interpolate." . json_encode(['closests' => $closestTrims, 'trim' => $trim])
-                        ]
-                    ]);
+
+                    // Sort the trims in ascending order
+                    $closestTrims = $closestTrims->sortBy('trim');
+
+                    // Extract values
+                    $t1 = $closestTrims[0]->trim_index;
+                    $v1 = $closestTrims[0]->volume;
+                    $t2 = $closestTrims[1]->trim_index;
+                    $v2 = $closestTrims[1]->volume;
+                    $d2 = $closestTrims[1]->diff;
+
+                    if ($t2 !== $t1) {
+                        // Perform linear interpolation
+                        $volCmDiff = $d2;
+                        $vol = $v1 + (($v2 - $v1) / ($t2 - $t1)) * ($trim - $t1);
+                        $interpolatedVol = ($volCmDiff * $unitDecimal);
+                    } else {
+                        (new ProcessLog())->table('s')->create([
+                            'title' => "CantInterpolate_{$fleetId}",
+                            'data' => [
+                                'tempField' => "Trim values are the same, cannot interpolate." . json_encode(['closests' => $closestTrims, 'trim' => $trim])
+                            ]
+                        ]);
+                    }
                 }
             } else {
                 $volCmDiff = $volRow?->diff ?? 0;
