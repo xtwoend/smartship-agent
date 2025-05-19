@@ -50,14 +50,14 @@ class MQTTAlarmListener implements ListenerInterface
             if(! $this->redis->get($lockerKey)) { 
                 
                 $this->redis->set($lockerKey, 1);
-                $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
+                $this->redis->expire($lockerKey, (60 * 15)); // set per 5 menit
 
                 if ($fleet) {
                     if (key_exists('alarm', $data)) {
                         $alarmModel = $device->log_model;
                         if (class_exists($alarmModel)) {
-                            $model = new $alarmModel();
-                            $model->setAlarm($data['alarm'], $fleet->id);
+                            // $model = new $alarmModel();
+                            // $model->setAlarm($data['alarm'], $fleet->id);
                         }
                     }
                 }
