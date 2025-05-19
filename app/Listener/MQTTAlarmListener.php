@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Listener;
 
 use Carbon\Carbon;
+use Hyperf\Redis\Redis;
 use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
@@ -24,7 +25,7 @@ class MQTTAlarmListener implements ListenerInterface
 
     public function __construct(protected ContainerInterface $container)
     {
-        $this->redis = $container->get(\Redis::class);
+        $this->redis = $container->get(Redis::class);
     }
 
     public function listen(): array
@@ -36,23 +37,21 @@ class MQTTAlarmListener implements ListenerInterface
 
     public function process(object $event): void
     {
+        
         if ($event instanceof MQTTReceived) {
             $data = $event->data;
             $fleet = $event->device?->fleet;
             $device = $event->device;
 
-            // $fleetId = $fleet->id;
-
-            // $last = $this->redis->get('FLEET_ALARM_'.$fleetId);
+            $fleetId = $fleet->id;
             
-            // if(!$last) {
-            //     $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-            // }
+            $lockerKey = 'FLEET_ALARM_' . $fleetId;
 
-            // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
+            if(! $this->redis->get($lockerKey)) { 
                 
-            //     $this->redis->set('FLEET_ALARM_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-                // var_dump($data);
+                $this->redis->set($lockerKey, 1);
+                $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
+
                 if ($fleet) {
                     if (key_exists('alarm', $data)) {
                         $alarmModel = $device->log_model;
@@ -62,7 +61,7 @@ class MQTTAlarmListener implements ListenerInterface
                         }
                     }
                 }
-            // }
+            }
         }
     }
 }

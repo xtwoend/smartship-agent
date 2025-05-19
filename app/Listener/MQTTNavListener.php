@@ -25,7 +25,7 @@ class MQTTNavListener implements ListenerInterface
 
     public function __construct(protected ContainerInterface $container)
     {
-        $this->redis = $container->get(\Redis::class);
+        $this->redis = $container->get(\Hyperf\Redis\Redis::class);
     }
 
     public function listen(): array
@@ -41,20 +41,13 @@ class MQTTNavListener implements ListenerInterface
             $data = $event->data;
             $fleet = $event->device?->fleet;
             
-            // $fleetId = $fleet->id;
+            $fleetId = $fleet->id;
+            $lockerKey = 'FLEET_NAV_' . $fleetId;
 
-            // $last = $this->redis->get('FLEET_NAV_'.$fleetId);
-            
-            // if(! $last) {
-            //     $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-            //     var_dump('init set');
-            // }
-
-            // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
+            if(! $this->redis->get($lockerKey)) { 
                 
-            //     var_dump($fleetId, $last, Carbon::now()->format('Y-m-d H:i:s'));
-
-            //     $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+                $this->redis->set($lockerKey, 1);
+                $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
                
                 if ($fleet) {
                     // var_dump($data);
@@ -64,7 +57,7 @@ class MQTTNavListener implements ListenerInterface
                         $v->setNav($data);
                     }
                 }
-            // }
+            }
         }
     }
 }

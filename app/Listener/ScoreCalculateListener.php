@@ -14,8 +14,11 @@ use Hyperf\Event\Contract\ListenerInterface;
 #[Listener]
 class ScoreCalculateListener implements ListenerInterface
 {
+    protected $redis;
+
     public function __construct(protected ContainerInterface $container)
     {
+        $this->redis = $container->get(\Hyperf\Redis\Redis::class);
     }
 
     public function listen(): array
@@ -30,10 +33,21 @@ class ScoreCalculateListener implements ListenerInterface
         if($event instanceof AlarmEvent) {
             $model = $event->model;
             $group = $event->group;
-            if(in_array('engine', $group)) {
-                $this->engine($model);
-            }elseif(in_array('cargo_pump', $group) || in_array('cargo', $group)) {
-                $this->pump($model);
+            $fleetId = $model->fleet_id;
+            
+            $lockerKey = 'FLEET_SCORE_' . $fleetId;
+
+            if(! $this->redis->get($lockerKey)) { 
+                
+                $this->redis->set($lockerKey, 1);
+                $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
+            
+                if(in_array('engine', $group)) {
+                    $this->engine($model);
+                }elseif(in_array('cargo_pump', $group) || in_array('cargo', $group)) {
+                    $this->pump($model);
+                }
+
             }
         }
     }

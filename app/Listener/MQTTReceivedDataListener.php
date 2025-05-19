@@ -24,7 +24,7 @@ class MQTTReceivedDataListener implements ListenerInterface
 
     public function __construct(protected ContainerInterface $container)
     {
-        $this->redis = $container->get(\Redis::class);
+        $this->redis = $container->get(\Hyperf\Redis\Redis::class);
     }
 
     public function listen(): array
@@ -39,17 +39,13 @@ class MQTTReceivedDataListener implements ListenerInterface
         if ($event instanceof MQTTReceived) {
             $fleet = $event->device?->fleet;
             $fleetId = $fleet->id;
+            $lockerKey = 'FLEET_NAV_' . $fleetId;
 
-            // $last = $this->redis->get('FLEET_CONN_'.$fleetId);
-            
-            // if(!$last) {
-            //     $this->redis->set('FLEET_CONN_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-            // }
-
-            // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
+            if(! $this->redis->get($lockerKey)) { 
                 
-            //     $this->redis->set('FLEET_CONN_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-                // var_dump($data);
+                $this->redis->set($lockerKey, 1);
+                $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
+               
                 if ($fleet) {
                     $fleet->connected = 1;
                     $fleet->last_connection = Carbon::now();
@@ -60,7 +56,7 @@ class MQTTReceivedDataListener implements ListenerInterface
 
                     $fleet->save();
                 }
-            // }
+            }
         }
     }
 }

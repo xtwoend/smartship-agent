@@ -13,6 +13,7 @@ namespace App\Listener;
 
 use Carbon\Carbon;
 use App\Model\Fleet;
+use Hyperf\Redis\Redis;
 use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
@@ -25,7 +26,7 @@ class MQTTCargoListener implements ListenerInterface
 
     public function __construct(protected ContainerInterface $container)
     {
-        $this->redis = $container->get(\Redis::class);
+        $this->redis = $container->get(Redis::class);
     }
 
     public function listen(): array
@@ -42,18 +43,15 @@ class MQTTCargoListener implements ListenerInterface
             $fleet = $event->device?->fleet;
             $device = $event->device;
 
-            // $fleetId = $fleet->id;
+            $fleetId = $fleet->id;
 
-            // $last = $this->redis->get('FLEET_CARGO_'.$fleetId);
-            
-            // if(!$last) {
-            //     $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-            // }
+            $lockerKey = 'FLEET_CARGO_' . $fleetId;
 
-            // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
+            if(! $this->redis->get($lockerKey)) { 
                 
-            //     $this->redis->set('FLEET_CARGO_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-                // var_dump('MQTTCargoListener', $data);
+                $this->redis->set($lockerKey, 1);
+                $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
+
                 if ($fleet) {
                     if (key_exists('cargo', $data)) {
                         // var_dump('cargo', $data);
@@ -65,7 +63,7 @@ class MQTTCargoListener implements ListenerInterface
                         }
                     }
                 }
-            // }
+            }
         }
     }
 }

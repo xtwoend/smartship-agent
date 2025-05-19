@@ -20,8 +20,11 @@ use Psr\Container\ContainerInterface;
 #[Listener]
 class MQTTCargoPumpListener implements ListenerInterface
 {
+    protected $redis;
+
     public function __construct(protected ContainerInterface $container)
     {
+        $this->redis = $container->get(\Hyperf\Redis\Redis::class);
     }
 
     public function listen(): array
@@ -38,13 +41,24 @@ class MQTTCargoPumpListener implements ListenerInterface
             $fleet = $event->device?->fleet;
             $device = $event->device;
 
-            if ($fleet) {
-                if (key_exists('cargo_pump', $data)) {
-                    $model = $device->log_model;
+            $fleetId = $fleet->id;
 
-                    if (class_exists($model)) {
-                        $v = Fleet::find($fleet->id);
-                        $v->setCargoPump($model, $data);
+            $lockerKey = 'FLEET_CARGO_PUMP_' . $fleetId;
+
+            if(! $this->redis->get($lockerKey)) { 
+                
+                $this->redis->set($lockerKey, 1);
+                $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
+
+
+                if ($fleet) {
+                    if (key_exists('cargo_pump', $data)) {
+                        $model = $device->log_model;
+
+                        if (class_exists($model)) {
+                            $v = Fleet::find($fleet->id);
+                            $v->setCargoPump($model, $data);
+                        }
                     }
                 }
             }

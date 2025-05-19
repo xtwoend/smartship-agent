@@ -23,8 +23,11 @@ use Psr\Container\ContainerInterface;
 #[Listener]
 class NavigationUpdateListener implements ListenerInterface
 {
+    protected $redis;
+
     public function __construct(protected ContainerInterface $container)
     {
+        $this->redis = $container->get(\Hyperf\Redis\Redis::class);
     }
 
     public function listen(): array

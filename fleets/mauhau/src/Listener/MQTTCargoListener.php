@@ -21,7 +21,7 @@ class MQTTCargoListener implements ListenerInterface
 
     public function __construct(protected ContainerInterface $container)
     {
-        $this->redis = $container->get(\Redis::class);
+        $this->redis = $container->get(\Hyperf\Redis\Redis::class);
     }
 
     public function listen(): array
@@ -34,18 +34,24 @@ class MQTTCargoListener implements ListenerInterface
     public function process(object $event): void
     {   
         $fleetId = config('mauhau.fleet_id', null);
-        $fleet = $this->handler->fleet();
+        $lockerKey = 'FLEET_CARGO_' . $fleetId;
 
-        if ($event instanceof MQTTReceived && $fleetId) {
-            $data = $event->data;
+        if(! $this->redis->get($lockerKey)) { 
+            $this->redis->set($lockerKey, 1);
+            $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
 
-            $model = $event->model;
+            $fleet = $this->handler->fleet();
             
-            $fleet = $fleet->find($fleetId);
-            
-            if ($fleet) {
-                if (key_exists('cargo', $data)) {
-                    $fleet->setCargo($model, $data);
+            if ($event instanceof MQTTReceived && $fleetId) {
+                $data = $event->data;
+                $model = $event->model;
+                
+                $fleet = $fleet->find($fleetId);
+                
+                if ($fleet) {
+                    if (key_exists('cargo', $data)) {
+                        $fleet->setCargo($model, $data);
+                    }
                 }
             }
         }

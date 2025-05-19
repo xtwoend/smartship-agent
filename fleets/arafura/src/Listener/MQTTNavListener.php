@@ -22,7 +22,7 @@ class MQTTNavListener implements ListenerInterface
 
     public function __construct(protected ContainerInterface $container)
     {
-        $this->redis = $container->get(\Redis::class);
+        $this->redis = $container->get(\Hyperf\Redis\Redis::class);
     }
 
     public function listen(): array
@@ -35,17 +35,13 @@ class MQTTNavListener implements ListenerInterface
     public function process(object $event): void
     {   
         $fleetId = config('arafura.fleet_id', null);
-        $fleet = $this->handler->fleet();
-        // $last = $this->redis->get('FLEET_NAV_'.$fleetId);
-        
-        // if(! $last) {
-        //     $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-        // }
-        
-        // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
-           
-            // $this->redis->set('FLEET_NAV_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+        $lockerKey = 'FLEET_NAV_' . $fleetId;
 
+        if(! $this->redis->get($lockerKey)) { 
+            $this->redis->set($lockerKey, 1);
+            $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
+            $fleet = $this->handler->fleet();
+        
             if ($event instanceof MQTTReceived && $fleetId) {
                 $data = $event->data;
                 $fleet = $fleet->find($fleetId);
@@ -55,6 +51,6 @@ class MQTTNavListener implements ListenerInterface
                     }
                 }
             }
-        // }
+        }
     }
 }

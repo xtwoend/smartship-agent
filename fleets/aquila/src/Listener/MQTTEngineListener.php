@@ -19,9 +19,11 @@ class MQTTEngineListener implements ListenerInterface
     protected ?Handler $handler;
 
 
+    protected $redis;
+
     public function __construct(protected ContainerInterface $container)
     {
-        // 
+        $this->redis = $container->get(\Hyperf\Redis\Redis::class);
     }
 
     public function listen(): array

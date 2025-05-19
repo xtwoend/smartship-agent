@@ -25,7 +25,7 @@ class MQTTEngineListener implements ListenerInterface
 
     public function __construct(protected ContainerInterface $container)
     {
-        $this->redis = $container->get(\Redis::class);
+        $this->redis = $container->get(\Hyperf\Redis\Redis::class);
     }
 
     public function listen(): array
@@ -42,17 +42,13 @@ class MQTTEngineListener implements ListenerInterface
             $fleet = $event->device?->fleet;
             $device = $event->device;
 
-            // $fleetId = $fleet->id;
+            $fleetId = $fleet->id;
+            $lockerKey = 'FLEET_ENGINE_' . $fleetId;
 
-            // $last = $this->redis->get('FLEET_ENGINE_'.$fleetId);
-            
-            // if(!$last) {
-            //     $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
-            // }
-
-            // if($last && Carbon::parse($last) < Carbon::now()->subSeconds(2)) { 
+            if(! $this->redis->get($lockerKey)) { 
                 
-            //     $this->redis->set('FLEET_ENGINE_'.$fleetId, Carbon::now()->format('Y-m-d H:i:s'));
+                $this->redis->set($lockerKey, 1);
+                $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
 
                 if ($fleet) {
                     // var_dump('engine', $data);
@@ -64,7 +60,7 @@ class MQTTEngineListener implements ListenerInterface
                         }
                     }
                 }
-            // }
+            }
         }
     }
 }

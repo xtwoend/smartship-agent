@@ -22,7 +22,7 @@ class MQTTEngineListener implements ListenerInterface
 
     public function __construct(protected ContainerInterface $container)
     {
-        $this->redis = $container->get(\Redis::class);
+        $this->redis = $container->get(\Hyperf\Redis\Redis::class);
     }
 
     public function listen(): array
@@ -35,15 +35,22 @@ class MQTTEngineListener implements ListenerInterface
     public function process(object $event): void
     {   
         $fleetId = config('primaxp.fleet_id', null);
-        $fleet = $this->handler->fleet();
-        if ($event instanceof MQTTReceived && $fleetId) {
-            $data = $event->data;
-            $model = $event->model;
-            // var_dump($data);
-            $fleet = $fleet->find($fleetId);
-            if ($fleet) {
-                if (key_exists('engine', $data)) {
-                    $fleet->setEngine($model, $data);
+        $lockerKey = 'FLEET_ENGINE_' . $fleetId;
+
+        if(! $this->redis->get($lockerKey)) { 
+            $this->redis->set($lockerKey, 1);
+            $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
+
+            $fleet = $this->handler->fleet();
+            if ($event instanceof MQTTReceived && $fleetId) {
+                $data = $event->data;
+                $model = $event->model;
+                // var_dump($data);
+                $fleet = $fleet->find($fleetId);
+                if ($fleet) {
+                    if (key_exists('engine', $data)) {
+                        $fleet->setEngine($model, $data);
+                    }
                 }
             }
         }
