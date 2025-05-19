@@ -18,7 +18,7 @@ use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Crontab\Annotation\Crontab;
 use Hyperf\Di\Annotation\Inject;
 
-#[Crontab(name: 'CloseAlarm', rule: '*\\/5 * * * * *', callback: 'execute', memo: 'Close alarm if opened until 1 minutes')]
+#[Crontab(name: 'CloseAlarm', rule: '*/10 * * * *', callback: 'execute', memo: 'Close alarm if opened until 1 minutes')]
 class CloseAlarm
 {
     #[Inject]

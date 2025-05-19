@@ -26,69 +26,69 @@ trait SensorAlarmTrait
 
     public function created(Created $event)
     {
-        // try {   
-        //     $model = $event->getModel();
-        //     $fleetId = $model->fleet_id;
+        try {   
+            $model = $event->getModel();
+            $fleetId = $model->fleet_id;
             
-        //     // todo: 10/10/2023 15:12 add condition sensor by min & max value
-        //     $this->conditionSensor($model);
+            // todo: 10/10/2023 15:12 add condition sensor by min & max value
+            $this->conditionSensor($model);
 
-        //     // added cargo percantage calculate
-        //     // $this->calculateCargo($model);
-        //     if (\method_exists($this, 'cargoCapacity')) {
-        //         $this->cargoCapacity($model);
-        //     }
+            // added cargo percantage calculate
+            // $this->calculateCargo($model);
+            if (\method_exists($this, 'cargoCapacity')) {
+                $this->cargoCapacity($model);
+            }
 
-        //     if (\method_exists($this, 'navigationDailyReport')) {
-        //         $this->navigationDailyReport($model);
-        //     }
+            if (\method_exists($this, 'navigationDailyReport')) {
+                $this->navigationDailyReport($model);
+            }
             
-        //     $this->sensor_group = is_array($this->sensor_group)? $this->sensor_group : [];
+            $this->sensor_group = is_array($this->sensor_group)? $this->sensor_group : [];
 
-        //     // call event for calculate score
-        //     dispatch(new AlarmEvent($model, $this->sensor_group));
+            // call event for calculate score
+            dispatch(new AlarmEvent($model, $this->sensor_group));
 
-        //     foreach ($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
-        //         $val = $model->{$sensor->sensor_name};
+            foreach ($this->sensor()->whereIn('group', $this->sensor_group)->where('is_ams', 1)->get() as $sensor) {
+                $val = $model->{$sensor->sensor_name};
                 
-        //         if ($model->{$sensor->sensor_name} < $sensor->normal) {
-        //             $lo = Alarm::table($fleetId)
-        //                 ->firstOrCreate([
-        //                     'fleet_id' => $fleetId,
-        //                     'property' => 'sensor',
-        //                     'property_key' => $sensor->sensor_name,
-        //                     'status' => 1,
-        //                 ], [
-        //                     'message' => \strtoupper($sensor->name) . " VALUE {$val} " . 'IS VERY LOW',
-        //                 ]);
-        //             if (is_null($lo->started_at)) {
-        //                 $lo->started_at = Carbon::now()->format('Y-m-d H:i:s');
-        //             }
-        //             $lo->finished_at = Carbon::now()->format('Y-m-d H:i:s');
-        //             $lo->save();
-        //         }
-        //         if ($model->{$sensor->sensor_name} > $sensor->danger) {
-        //             $hi = Alarm::table($fleetId)
-        //                 ->firstOrCreate([
-        //                     'fleet_id' => $fleetId,
-        //                     'property' => 'sensor',
-        //                     'property_key' => $sensor->sensor_name,
-        //                     'status' => 1,
-        //                 ], [
-        //                     'message' => \strtoupper($sensor->name) . " VALUE {$val} " . 'IS VERY HIGH',
-        //                 ]);
-        //             if (is_null($hi->started_at)) {
-        //                 $hi->started_at = Carbon::now()->format('Y-m-d H:i:s');
-        //             }
-        //             $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
-        //             $hi->save();
-        //         }
-        //     }
-        //     //code...
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        //     // var_dump($th->getMessage());
-        // }
+                if ($model->{$sensor->sensor_name} < $sensor->normal) {
+                    $lo = Alarm::table($fleetId)
+                        ->firstOrCreate([
+                            'fleet_id' => $fleetId,
+                            'property' => 'sensor',
+                            'property_key' => $sensor->sensor_name,
+                            'status' => 1,
+                        ], [
+                            'message' => \strtoupper($sensor->name) . " VALUE {$val} " . 'IS VERY LOW',
+                        ]);
+                    if (is_null($lo->started_at)) {
+                        $lo->started_at = Carbon::now()->format('Y-m-d H:i:s');
+                    }
+                    $lo->finished_at = Carbon::now()->format('Y-m-d H:i:s');
+                    $lo->save();
+                }
+                if ($model->{$sensor->sensor_name} > $sensor->danger) {
+                    $hi = Alarm::table($fleetId)
+                        ->firstOrCreate([
+                            'fleet_id' => $fleetId,
+                            'property' => 'sensor',
+                            'property_key' => $sensor->sensor_name,
+                            'status' => 1,
+                        ], [
+                            'message' => \strtoupper($sensor->name) . " VALUE {$val} " . 'IS VERY HIGH',
+                        ]);
+                    if (is_null($hi->started_at)) {
+                        $hi->started_at = Carbon::now()->format('Y-m-d H:i:s');
+                    }
+                    $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
+                    $hi->save();
+                }
+            }
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+            // var_dump($th->getMessage());
+        }
     }
 
     /**
