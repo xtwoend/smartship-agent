@@ -47,7 +47,7 @@ class MQTTNavListener implements ListenerInterface
             if(! $this->redis->get($lockerKey)) { 
                 
                 $this->redis->set($lockerKey, 1);
-                $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
+                $this->redis->expire($lockerKey, 30); // set per 5 menit
                
                 if ($fleet) {
                     // var_dump($data);
