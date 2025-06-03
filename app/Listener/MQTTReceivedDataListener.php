@@ -39,7 +39,7 @@ class MQTTReceivedDataListener implements ListenerInterface
         if ($event instanceof MQTTReceived) {
             $fleet = $event->device?->fleet;
             $fleetId = $fleet->id;
-            $lockerKey = 'FLEET_NAV_' . $fleetId;
+            $lockerKey = 'FLEET_NAV_STATUS_' . $fleetId;
 
             if(! $this->redis->get($lockerKey)) { 
                 
