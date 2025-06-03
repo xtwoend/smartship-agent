@@ -41,53 +41,61 @@ class NavigationUpdateListener implements ListenerInterface
     {
         $data = $event->data;
 
-        [$distance_km, $portId] = $this->toRadius($data->lat, $data->lng);
-        $fleet = Fleet::find($data->fleet_id);
-        
-        $p = Port::find($portId);
+        $fleetId = $data->fleet_id;
+        $lockerKey = 'FLEET_NAV_' . $fleetId;
 
-        if ($distance_km < 1 && $data->sog <= 0.5) {
-            $fleet->update([
-                'fleet_status' => 'at_port',
-                'last_port' => $p->name . ', ' . $p->location,
-            ]);
-        } elseif ($distance_km >= 1 && $distance_km <= 15 && $data->sog <= 0.5) {
-            $fleet->update([
-                'fleet_status' => 'at_anchorage',
-                'last_port' => $p->location,
-            ]);
-        } elseif ($distance_km >= 15 && $data->sog <= 0.5) {
-            $fleet->update([
-                'fleet_status' => 'other',
-                'last_port' => null,
-            ]);
-        } else {
-            $fleet->update([
-                'fleet_status' => 'underway',
-                'last_port' => null,
-            ]);
-        }
+        if(! $this->redis->get($lockerKey)) { 
+            
+            $this->redis->set($lockerKey, 1);
+            $this->redis->expire($lockerKey, 15); // set per 5 menit
+            [$distance_km, $portId] = $this->toRadius($data->lat, $data->lng);
+            $fleet = Fleet::find($data->fleet_id);
+            
+            $p = Port::find($portId);
 
-        // save duration fleet status
-        $hi = FleetStatusDuration::where([
-            'fleet_id' => $fleet->id,
-            'fleet_status' => $fleet->fleet_status,
-            'port' => $fleet->last_port,
-            'status' => 1,
-        ])->first();
+            if ($distance_km < 1 && $data->sog <= 0.5) {
+                $fleet->update([
+                    'fleet_status' => 'at_port',
+                    'last_port' => $p->name . ', ' . $p->location,
+                ]);
+            } elseif ($distance_km >= 1 && $distance_km <= 15 && $data->sog <= 0.5) {
+                $fleet->update([
+                    'fleet_status' => 'at_anchorage',
+                    'last_port' => $p->location,
+                ]);
+            } elseif ($distance_km >= 15 && $data->sog <= 0.5) {
+                $fleet->update([
+                    'fleet_status' => 'other',
+                    'last_port' => null,
+                ]);
+            } else {
+                $fleet->update([
+                    'fleet_status' => 'underway',
+                    'last_port' => null,
+                ]);
+            }
 
-        if ($hi) {
-            $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
-            $hi->save();
-        } else {
-            FleetStatusDuration::where('fleet_id', $fleet->id)->update(['status' => 0]);
-            FleetStatusDuration::create([
+            // save duration fleet status
+            $hi = FleetStatusDuration::where([
                 'fleet_id' => $fleet->id,
                 'fleet_status' => $fleet->fleet_status,
                 'port' => $fleet->last_port,
                 'status' => 1,
-                'started_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ]);
+            ])->first();
+
+            if ($hi) {
+                $hi->finished_at = Carbon::now()->format('Y-m-d H:i:s');
+                $hi->save();
+            } else {
+                FleetStatusDuration::where('fleet_id', $fleet->id)->update(['status' => 0]);
+                FleetStatusDuration::create([
+                    'fleet_id' => $fleet->id,
+                    'fleet_status' => $fleet->fleet_status,
+                    'port' => $fleet->last_port,
+                    'status' => 1,
+                    'started_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                ]);
+            }
         }
     }
 
