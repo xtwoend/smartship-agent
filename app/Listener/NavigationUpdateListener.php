@@ -42,7 +42,7 @@ class NavigationUpdateListener implements ListenerInterface
         $data = $event->data;
 
         $fleetId = $data->fleet_id;
-        $lockerKey = 'FLEET_NAV_' . $fleetId;
+        $lockerKey = 'FLEET_NAV_PORT_' . $fleetId;
 
         if(! $this->redis->get($lockerKey)) { 
             
