@@ -42,13 +42,6 @@ class CheckConnectionListener implements ListenerInterface
             $this->redis->set($lockerKey, 1);
             $this->redis->expire($lockerKey, 5); // set per 5 detik
             
-            $last_connection = $fleet->last_connection;
-
-        // save interval 60 detik
-        // if ($now->diffInSeconds($last_connection) < config('mqtt.interval_save', 60)) {
-        //     return;
-        // }
-        
             $fleet->update([
                 'connected' => 1,
                 'last_connection' => $now->format('Y-m-d H:i:s'),
