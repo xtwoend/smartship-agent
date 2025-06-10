@@ -44,7 +44,7 @@ class MQTTReceivedDataListener implements ListenerInterface
             if(! $this->redis->get($lockerKey)) { 
                 
                 $this->redis->set($lockerKey, 1);
-                $this->redis->expire($lockerKey, 5); // set per 5 menit
+                $this->redis->expire($lockerKey, 5); // set per 5 detik
                
                 if ($fleet) {
                     $fleet->connected = 1;
