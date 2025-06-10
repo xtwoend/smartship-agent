@@ -45,7 +45,7 @@ class CargoPump
                 'pump_non_drvend_bp1' => (float) $data['pump_non_drvend_bp1'] ?: 0,
                 'pump_casing_bp1' => (float) $data['pump_casing_bp1'] ?: 0,
                 'pump_drvend_bp1' => (float) $data['pump_drvend_bp1'] ?: 0,
-                'transmission_sealing_bp1' => (float) $data['transmission_sealing_bp1'] ?: 0,
+                // 'transmission_sealing_bp1' => (float) $data['transmission_sealing_bp1'] ?: 0,
                 'pump_non_drvend_bp2' => (float) $data['pump_non_drvend_bp2'] ?: 0,
                 'pump_casing_bp2' => (float) $data['pump_casing_bp2'] ?: 0,
                 'pump_drvend_bp2' => (float) $data['pump_drvend_bp2'] ?: 0,
