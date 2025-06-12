@@ -16,7 +16,7 @@ use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Crontab\Annotation\Crontab;
 use Hyperf\Di\Annotation\Inject;
 
-#[Crontab(name: 'ResetSensorLatestUpdate', rule: '0 * * * *', callback: 'execute', memo: 'ResetSensorLatestUpdate')]
+#[Crontab(name: 'ResetSensorLatestUpdate', rule: '*/5 * * * *', callback: 'execute', memo: 'ResetSensorLatestUpdate')]
 class ResetSensorLatestUpdate
 {
     #[Inject]
