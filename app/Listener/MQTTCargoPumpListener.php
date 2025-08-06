@@ -45,7 +45,7 @@ class MQTTCargoPumpListener implements ListenerInterface
 
             $lockerKey = 'FLEET_CARGO_PUMP_' . $fleetId;
            
-            if(! $this->redis->get($lockerKey)) { 
+            // if(! $this->redis->get($lockerKey)) { 
                 
                 $this->redis->set($lockerKey, 1);
                 $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
@@ -62,7 +62,7 @@ class MQTTCargoPumpListener implements ListenerInterface
                         }
                     }
                 }
-            }
+            // }
         }
     }
 }
