@@ -49,10 +49,11 @@ class MQTTEngineListener implements ListenerInterface
                 
                 $this->redis->set($lockerKey, 1);
                 $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
-
+               
                 if ($fleet) {
-                    // var_dump('engine', $data);
+
                     if (key_exists('engine', $data)) {
+                        
                         $model = $device->log_model;
                         if (class_exists($model)) {
                             $v = Fleet::find($fleet->id);
