@@ -143,7 +143,7 @@ class Ams
     public function extract()
     {
         $data = Json::decode($this->message);
-        $arrayAms = $data['values'];
+        $arrayAms = $data['values'] ?? [];
         $alarms = [];
         $keys = [
             'arar_engine.arar_me.New PLC 1.21' => 'channel21',
