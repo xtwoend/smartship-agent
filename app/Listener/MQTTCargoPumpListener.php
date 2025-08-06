@@ -44,14 +44,15 @@ class MQTTCargoPumpListener implements ListenerInterface
             $fleetId = $fleet->id;
 
             $lockerKey = 'FLEET_CARGO_PUMP_' . $fleetId;
-
+           
             if(! $this->redis->get($lockerKey)) { 
                 
                 $this->redis->set($lockerKey, 1);
                 $this->redis->expire($lockerKey, (60 * 5)); // set per 5 menit
-
+                
 
                 if ($fleet) {
+                     
                     if (key_exists('cargo_pump', $data)) {
                         $model = $device->log_model;
 

@@ -80,13 +80,17 @@ class MQTT1Processor extends AbstractProcess
                 if (! $device) {
                     return;
                 }
-
+               
                 $class = $device->extractor;
                 if (! class_exists($class)) {
                     return;
                 }
 
                 $data = (new $class($message))->extract();
+
+                // if($device->fleet_id == 1 && $device->topic == 'data/sambu/ccr/cargo') {
+                //     var_dump('MQTTProc', $topic, $data);
+                // }
                 // var_dump('MQTTProc', $data);
                 $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
             } catch (\Throwable $th) {
