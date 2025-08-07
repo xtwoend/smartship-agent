@@ -42,68 +42,68 @@ class MQTT1Processor extends AbstractProcess
 
         $mqtt->connect($config, true);
 
-        // foreach (Device::active()->where('mqtt_server', $server)->where('agent', $agent)->get() as $device) {
-        //     $mqtt->subscribe($device->topic, function ($topic, $message) use ($logger, $event, $device) {
-        //         try {
-        //             $class = $device->extractor;
-        //             if (! class_exists($class)) {
-        //                 return;
-        //             }
+        foreach (Device::active()->where('mqtt_server', $server)->where('agent', $agent)->get() as $device) {
+            $mqtt->subscribe($device->topic, function ($topic, $message) use ($logger, $event, $device) {
+                try {
+                    $class = $device->extractor;
+                    if (! class_exists($class)) {
+                        return;
+                    }
 
-        //             $data = (new $class($message))->extract();
-        //             // var_dump('MQTTProc', $data);
-        //             $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
-        //         } catch (\Throwable $th) {
-        //             $error = $th->getMessage();
-        //             ErrorLog::where('created_at', '<=', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
-        //             ErrorLog::create([
-        //                 'fleet_id' => $device->fleet_id,
-        //                 'topic' => $topic,
-        //                 'message' => $message,
-        //                 'file' => $th->getFile(),
-        //                 'error' => $th->getMessage(),
-        //                 'trace' => $th->getTraceAsString()
-        //             ]);
-        //         }
-        //     }, 0);
-        // }
+                    $data = (new $class($message))->extract();
+                    // var_dump('MQTTProc', $data);
+                    $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
+                } catch (\Throwable $th) {
+                    $error = $th->getMessage();
+                    ErrorLog::where('created_at', '<=', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
+                    ErrorLog::create([
+                        'fleet_id' => $device->fleet_id,
+                        'topic' => $topic,
+                        'message' => $message,
+                        'file' => $th->getFile(),
+                        'error' => $th->getMessage(),
+                        'trace' => $th->getTraceAsString()
+                    ]);
+                }
+            }, 0);
+        }
 
-        $devices = Device::active()->where('mqtt_server', $server)->where('agent', $agent)->get();
+        // $devices = Device::active()->where('mqtt_server', $server)->where('agent', $agent)->get();
 
-        $mqtt->subscribe('data/#', function ($topic, $message) use ($logger, $event, $devices) {
+        // $mqtt->subscribe('data/#', function ($topic, $message) use ($logger, $event, $devices) {
 
-            try {
-                $device = $devices->first(function ($device) use ($topic) {
-                    return Str::startsWith($topic, $device->topic);
-                });
+        //     try {
+        //         $device = $devices->first(function ($device) use ($topic) {
+        //             return Str::startsWith($topic, $device->topic);
+        //         });
                 
-                if (! $device) {
-                    return;
-                }
+        //         if (! $device) {
+        //             return;
+        //         }
                
-                $class = $device->extractor;
-                if (! class_exists($class)) {
-                    return;
-                }
+        //         $class = $device->extractor;
+        //         if (! class_exists($class)) {
+        //             return;
+        //         }
 
-                $data = (new $class($message))->extract();
+        //         $data = (new $class($message))->extract();
 
-                // if($device->fleet_id == 1 && $device->topic == 'data/sambu/ccr/cargo') {
-                //     var_dump('MQTTProc', $topic, $data);
-                // }
-                // var_dump('MQTTProc', $data);
-                $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
-            } catch (\Throwable $th) {
-                ErrorLog::where('created_at', '<=', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
-                ErrorLog::create([
-                    'topic' => $topic,
-                    'message' => $message,
-                    'file' => $th->getFile(),
-                    'error' => $th->getMessage(),
-                    'trace' => $th->getTraceAsString()
-                ]);
-            }
-        }, 0);
+        //         // if($device->fleet_id == 1 && $device->topic == 'data/sambu/ccr/cargo') {
+        //         //     var_dump('MQTTProc', $topic, $data);
+        //         // }
+        //         // var_dump('MQTTProc', $data);
+        //         $event->dispatch(new MQTTReceived($data, $message, $topic, $device));
+        //     } catch (\Throwable $th) {
+        //         ErrorLog::where('created_at', '<=', Carbon::now()->subHours(2)->format('Y-m-d H:i:s'))->delete();
+        //         ErrorLog::create([
+        //             'topic' => $topic,
+        //             'message' => $message,
+        //             'file' => $th->getFile(),
+        //             'error' => $th->getMessage(),
+        //             'trace' => $th->getTraceAsString()
+        //         ]);
+        //     }
+        // }, 0);
 
         $mqtt->loop(true);
         $mqtt->disconnect();
