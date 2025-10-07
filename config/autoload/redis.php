@@ -42,9 +42,5 @@ return [
             'heartbeat' => 30,
             'max_idle_time' => (float) env('REDIS_MAX_IDLE_TIME', 30),
         ],
-        'options' => [
-            'tcp_keepalive' => (int) 1,
-            'tcp_nodelay' => (int) 1,
-        ],
     ],
 ];
