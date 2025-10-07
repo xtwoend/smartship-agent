@@ -12,9 +12,10 @@ declare(strict_types=1);
 namespace App\Task;
 
 use App\Model\Sensor;
-use Hyperf\Contract\StdoutLoggerInterface;
-use Hyperf\Crontab\Annotation\Crontab;
+use Hyperf\DbConnection\Db;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\Crontab\Annotation\Crontab;
+use Hyperf\Contract\StdoutLoggerInterface;
 
 #[Crontab(name: 'ResetSensorLatestUpdate', rule: '*/5 * * * *', callback: 'execute', memo: 'ResetSensorLatestUpdate')]
 class ResetSensorLatestUpdate
@@ -26,7 +27,12 @@ class ResetSensorLatestUpdate
     {
         $this->logger->info('Crontab reset sensor runing ' . date('Y-m-d H:i:s', time()));
 
-        Sensor::update([
+        // Sensor::update([
+        //     'condition' => null,
+        //     'value' => null,
+        // ]);
+
+        Db::table('sensors')->update([
             'condition' => null,
             'value' => null,
         ]);
