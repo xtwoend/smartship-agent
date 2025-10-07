@@ -14,11 +14,16 @@ namespace App\Model\Alarm;
 use Carbon\Carbon;
 use App\Model\Sensor;
 use App\Event\AlarmEvent;
+use Psr\Log\LoggerInterface;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\Database\Model\Events\Created;
 use Hyperf\Database\Model\Relations\HasMany;
 
 trait SensorAlarmTrait
 {
+    #[Inject]
+    private LoggerInterface $logger;
+
     public function sensor(): HasMany
     {
         return $this->HasMany(Sensor::class, 'fleet_id', 'fleet_id');
@@ -84,10 +89,13 @@ trait SensorAlarmTrait
                     $hi->save();
                 }
             }
+
+            $this->logger->info('SensorAlarmTrait created for fleet ' . $fleetId);
             //code...
         } catch (\Throwable $th) {
             //throw $th;
             // var_dump($th->getMessage());
+            $this->logger->error('SensorAlarmTrait created error ' . $th->getMessage());
         }
     }
 
