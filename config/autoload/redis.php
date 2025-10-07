@@ -43,8 +43,8 @@ return [
             'max_idle_time' => (float) env('REDIS_MAX_IDLE_TIME', 30),
         ],
         'options' => [
-            'tcp_keepalive' => 1,
-            'tcp_nodelay' => true,
+            'tcp_keepalive' => (int) 1,
+            'tcp_nodelay' => (int) 1,
         ],
     ],
 ];
