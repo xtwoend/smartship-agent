@@ -25,6 +25,18 @@ class CheckLastConnection
 
     public function execute()
     {
+        try {
+            $this->logger->info('Crontab check last connection runing ' . date('Y-m-d H:i:s', time()));
+            $this->checkConnection();
+        } catch (\Throwable $th) {
+            //throw $th;
+            // var_dump($th->getMessage());
+            $this->logger->error($th->getMessage());
+        }
+    }   
+    
+    public function checkConnection()
+    {
         $now = Carbon::now();
 
         Fleet::where('connected', 1)
