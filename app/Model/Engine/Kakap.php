@@ -52,6 +52,7 @@ class Kakap extends Model
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
+                $table->integer('rpm')->default(0);
                 $table->float('fuel_oil_inlet_pressure', 10, 3)->default(0);
                 $table->float('fuel_oil_inlet_temperature', 10, 3)->default(0);
                 $table->float('lube_oil_inlet_pressure', 10, 3)->default(0);

@@ -52,6 +52,7 @@ class TypeS extends Model
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
+                $table->integer('rpm')->default(0);
                 $table->float('control_air_inlet', 12, 6)->default(0);
                 $table->float('me_ac_cw_inlet_cooler', 12, 6)->default(0);
                 $table->float('jcw_inlet', 12, 6)->default(0);

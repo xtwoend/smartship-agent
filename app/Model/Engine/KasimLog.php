@@ -61,6 +61,7 @@ class KasimLog extends Model
                 $table->unsignedBigInteger('fleet_id')->index();
                 $table->datetime('terminal_time')->index();
 
+                $table->integer('rpm')->default(0);
                 $table->float('me_ht_water_temp_air_cooler_inlet', 10, 3)->default(0);
                 $table->float('me_ht_water_temp_cyl_row_inlet', 10, 3)->default(0);
                 $table->float('me_lube_oil_temp_cooler_inlet', 10, 3)->default(0);

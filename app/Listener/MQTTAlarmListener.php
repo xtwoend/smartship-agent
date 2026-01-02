@@ -11,7 +11,6 @@ declare(strict_types=1);
  */
 namespace App\Listener;
 
-use Carbon\Carbon;
 use Hyperf\Redis\Redis;
 use App\Event\MQTTReceived;
 use Hyperf\Event\Annotation\Listener;
